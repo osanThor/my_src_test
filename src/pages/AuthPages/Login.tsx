@@ -1,9 +1,10 @@
 import React from "react";
+import Button from "../../components/common/Button";
 
 const Login = () => {
   return (
     <div>
-      <h1>퀀트로 Login 페이지</h1>
+      <Button blue>로그인</Button>
     </div>
   );
 };
