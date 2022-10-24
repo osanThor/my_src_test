@@ -91,7 +91,7 @@ const AuthHead = styled.div`
       }
     }
   }
-
+  //react
   @media (max-width: 768px) {
     padding: 1rem 34px;
     .logo {
