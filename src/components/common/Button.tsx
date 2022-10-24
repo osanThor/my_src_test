@@ -4,19 +4,23 @@ import Link from "next/link";
 import { css } from "styled-components";
 import colors from "../../assets/Colors";
 
+const Button = (props: any) => {
+  return props.href ? <StyledLink {...props} /> : <StyledButton {...props} />;
+};
+
 const buttonStyle = css`
   border: none;
-  border-radius: 4px;
+  border-radius: 14px;
+  height: 76px;
   font-size: 1rem;
-  font-weight: bold;
-  padding: 0.25rem 1rem;
-  color: white;
+  padding: 0.25rem 36px;
+  color: ${colors.gray[5]};
   outline: none;
   cursor: pointer;
   transition: all 0.2s;
-  background: ${colors.gray[2]};
+  background: ${colors.gray[1]};
   &:hover {
-    background: ${colors.gray[1]};
+    background: ${colors.gray[2]};
   }
   ${(props: any) =>
     props.fullWidth &&
@@ -30,6 +34,7 @@ const buttonStyle = css`
     props.blue &&
     css`
       background: ${colors.blue[2]};
+      color: white;
       &:hover {
         background: ${colors.blue[1]};
       }
@@ -47,13 +52,5 @@ const StyledButton = styled.button`
 const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
-
-const Button = (props: any) => {
-  return props.to ? (
-    <StyledLink {...props} cyan={props.cyan ? 1 : 0} />
-  ) : (
-    <StyledButton {...props} />
-  );
-};
 
 export default Button;

@@ -1,12 +1,11 @@
 import React from "react";
 import AuthLayout from "../../components/auth/AuthLayout";
-import Button from "../../components/common/Button";
+import LoginForm from "../../components/auth/LoginForm";
 
 const Login = () => {
   return (
     <AuthLayout>
-      <div>softlabs</div>
-      <Button blue>로그인</Button>
+      <LoginForm />
     </AuthLayout>
   );
 };
