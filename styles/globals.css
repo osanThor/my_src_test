@@ -51,6 +51,13 @@ aside {
   display: block;
 }
 
+@media (max-width: 768px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

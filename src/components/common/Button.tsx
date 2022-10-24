@@ -22,6 +22,7 @@ const buttonStyle = css`
   &:hover {
     background: ${colors.gray[2]};
   }
+
   ${(props: any) =>
     props.fullWidth &&
     css`
@@ -43,6 +44,10 @@ const buttonStyle = css`
     background: ${colors.gray[2]};
     color: ${colors.gray[3]};
     cursor: not-allowed;
+  }
+  @media (max-width: 768px) {
+    height: 56px;
+    font-size: 14px;
   }
 `;
 

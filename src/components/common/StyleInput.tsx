@@ -29,6 +29,9 @@ const StyledInputBlock = styled.div`
     right: 36px;
     transform: translateY(-50%);
   }
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -49,6 +52,10 @@ const StyledInput = styled.input`
 
   &::placeholder {
     color: ${colors.blue[2]};
+  }
+  @media (max-width: 768px) {
+    height: 56px;
+    font-size: 14px;
   }
 `;
 

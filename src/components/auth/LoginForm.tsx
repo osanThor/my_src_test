@@ -7,10 +7,16 @@ import { Email, Google, Lock } from "../../assets/Images";
 import Button from "../common/Button";
 import StyledCheckBox from "../common/StyledCheckBox";
 import StyleInput from "../common/StyleInput";
+import { Logo } from "../../assets/Images";
 
 const LoginForm = () => {
   return (
     <LoginFormBlock>
+      <h1 className="logo">
+        <Link href="/">
+          <Image src={Logo} alt="main_logo" />
+        </Link>
+      </h1>
       <GoogleLoginButon>
         구글 계정을 사용할래요{" "}
         <div className="icon">
@@ -47,6 +53,15 @@ const LoginFormBlock = styled.form`
   flex-direction: column;
   align-items: center;
 
+  h1.logo {
+    width: 170px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    img {
+      width: 100%;
+    }
+  }
+
   span.or {
     font-family: "GmarketSansBold";
     font-size: 24px;
@@ -65,6 +80,16 @@ const LoginFormBlock = styled.form`
       margin-right: 1rem;
     }
   }
+  @media (max-width: 768px) {
+    width: calc(100% - 64px);
+    span.or {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .check {
+      margin-bottom: 20px;
+    }
+  }
 `;
 
 const GoogleLoginButon = styled(Button)`
@@ -80,6 +105,10 @@ const GoogleLoginButon = styled(Button)`
     right: 36px;
     transform: translateY(-50%);
     display: flex;
+  }
+  @media (max-width: 768px) {
+    height: 56px;
+    margin-bottom: 20px;
   }
 `;
 

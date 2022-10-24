@@ -1,10 +1,13 @@
 import React from "react";
+import AuthLayout from "../../components/auth/AuthLayout";
 
 const AuthTerms = () => {
   return (
-    <div>
-      <h1>퀀트로 약관동의 페이지</h1>
-    </div>
+    <AuthLayout type="register">
+      <div>
+        <h1>퀀트로 약관동의 페이지</h1>
+      </div>
+    </AuthLayout>
   );
 };
 

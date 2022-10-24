@@ -6,18 +6,32 @@ import colors from "../../assets/Colors";
 import { Logo } from "../../assets/Images";
 import Button from "../common/Button";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = ({
+  type,
+  children,
+}: {
+  type: string;
+  children: React.ReactNode;
+}) => {
   return (
     <AuthLayoutBlock>
       <AuthHead>
         <h1 className="logo">
-          <Link href="/">
-            <Image src={Logo} alt="main Logo" />
-          </Link>
+          {type === "forgot-password" && (
+            <Link href="/">
+              <Image src={Logo} alt="main Logo" />
+            </Link>
+          )}
         </h1>
         <div className="auth_Btn">
-          <span>계정이 없다구요?</span>
-          <Button href="/auth/register">회원가입</Button>
+          {type === "login" ? (
+            <div className="onlyPc">
+              <span>계정이 없다구요?</span>
+              <Button href="/auth/terms">회원가입</Button>
+            </div>
+          ) : (
+            <Button href="/auth/login">로그인 하기</Button>
+          )}
         </div>
       </AuthHead>
       {children}
@@ -75,6 +89,23 @@ const AuthHead = styled.div`
       &:hover {
         opacity: 0.7;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 34px;
+    .logo {
+      width: 100px;
+    }
+    .auth_Btn {
+      a {
+        color: ${colors.dark[1]};
+        width: auto;
+        background: white;
+      }
+    }
+    .onlyPc {
+      display: none;
     }
   }
 `;
