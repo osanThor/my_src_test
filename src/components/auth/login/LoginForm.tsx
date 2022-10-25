@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import colors from "../../assets/Colors";
-import { CloseRed, Email, Google, Lock } from "../../assets/Images";
-import Button from "../common/Button";
-import StyledCheckBox from "../common/StyledCheckBox";
-import { Logo } from "../../assets/Images";
+import colors from "../../../assets/Colors";
+import { CloseRed, Email, Google, Lock } from "../../../assets/Images";
+import Button from "../../common/Button";
+import StyledCheckBox from "../../common/StyledCheckBox";
+import { Logo } from "../../../assets/Images";
 
 const LoginForm = () => {
   const [idError, setIdError] = useState(false);
@@ -55,7 +55,7 @@ const LoginForm = () => {
       </Button>
       <div className="bottom">
         <Link href="/auth/terms">회원가입</Link>
-        <Link href="/auth/forgot-password">이메일 or 비밀번호 몰라요</Link>
+        <Link href="/auth/forgot-password">이메일 or 비밀번호 모르겠어요</Link>
       </div>
     </LoginFormBlock>
   );
