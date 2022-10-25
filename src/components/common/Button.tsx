@@ -41,8 +41,8 @@ const buttonStyle = css`
       }
     `}
     &:disabled {
-    background: ${colors.gray[2]};
-    color: ${colors.gray[3]};
+    background: ${colors.gray[3]};
+    color: ${colors.gray[0]};
     cursor: not-allowed;
   }
   @media (max-width: 768px) {
