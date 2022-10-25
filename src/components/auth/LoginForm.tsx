@@ -1,20 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
+import React, { useRef, useState } from "react";
+import styled, { css } from "styled-components";
 import colors from "../../assets/Colors";
-import { Email, Google, Lock } from "../../assets/Images";
+import { CloseRed, Email, Google, Lock } from "../../assets/Images";
 import Button from "../common/Button";
 import StyledCheckBox from "../common/StyledCheckBox";
-import StyleInput from "../common/StyleInput";
 import { Logo } from "../../assets/Images";
 
 const LoginForm = () => {
+  const [idError, setIdError] = useState(false);
+  const [pwError, setPwError] = useState(false);
+  const ref = useRef(null);
+  const onChange = (e: any) => {
+    console.log(e.target.value);
+  };
+
   return (
     <LoginFormBlock>
       <h1 className="logo">
         <Link href="/">
-          <Image src={Logo} alt="main_logo" />
+          <a>
+            <Image src={Logo} alt="main_logo" />
+          </a>
         </Link>
       </h1>
       <GoogleLoginButon>
@@ -24,11 +32,19 @@ const LoginForm = () => {
         </div>
       </GoogleLoginButon>
       <span className="or">or</span>
-      <StyleInput type="text" placeholder="이메일 입력해요" icon={Email} />
+      <StyleInput
+        type="text"
+        onChange={onChange}
+        placeholder="이메일 입력해요"
+        icon={idError ? CloseRed : Email}
+        error={idError ? true : false}
+      />
       <StyleInput
         type="password"
+        onChange={onChange}
         placeholder="비밀번호를 입력해요"
-        icon={Lock}
+        icon={pwError ? CloseRed : Lock}
+        error={pwError ? true : false}
       />
       <div className="check">
         <StyledCheckBox style="round" />
@@ -114,4 +130,78 @@ const GoogleLoginButon = styled(Button)`
   }
 `;
 
+const StyleInput = (props) => {
+  const { icon, onChange } = props;
+  return (
+    <StyledInputBlock>
+      <StyledInput onChange={onChange} {...props} />
+      {icon && (
+        <div className="inputIcon">
+          <Image src={icon} alt="icon" />
+        </div>
+      )}
+    </StyledInputBlock>
+  );
+};
+
+const StyledInputBlock = styled.div`
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+
+  .inputIcon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 50%;
+    right: 36px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: text;
+  }
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  height: 72px;
+  border-radius: 14px;
+  border: none;
+  background: ${colors.blue[0]};
+  color: ${colors.blue[2]};
+  padding: 0 36px;
+  font-size: 1rem;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border: 1px solid ${colors.blue[2]};
+  }
+
+  &::placeholder {
+    color: ${colors.blue[2]};
+  }
+  @media (max-width: 768px) {
+    height: 56px;
+    font-size: 14px;
+  }
+  ${(props: any) =>
+    props.error &&
+    css`
+      color: ${colors.red[2]};
+      background: ${colors.red[0]};
+      border: 1px solid ${colors.red[1]};
+      &::placeholder {
+        color: ${colors.red[2]};
+      }
+      &:focus {
+        outline: none;
+        border: 1px solid ${colors.red[1]};
+      }
+    `}
+`;
 export default LoginForm;

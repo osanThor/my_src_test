@@ -19,7 +19,9 @@ const AuthLayout = ({
         <h1 className="logo">
           {type === "forgot-password" && (
             <Link href="/">
-              <Image src={Logo} alt="main Logo" />
+              <a>
+                <Image src={Logo} alt="main Logo" />
+              </a>
             </Link>
           )}
         </h1>
