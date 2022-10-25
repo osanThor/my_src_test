@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "styled-components";
 import "../styles/globals.css";
 import { theme } from "../styles/theme";
+import wrapper from "../src/store/configureStore";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,4 +21,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

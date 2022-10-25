@@ -38,7 +38,7 @@ const LoginForm = () => {
         로그인
       </Button>
       <div className="bottom">
-        <Link href="/auth/register">회원가입</Link>
+        <Link href="/auth/terms">회원가입</Link>
         <Link href="/auth/forgot-password">이메일 or 비밀번호 몰라요</Link>
       </div>
     </LoginFormBlock>
@@ -76,6 +76,8 @@ const LoginFormBlock = styled.form`
   .bottom {
     width: 100%;
     text-align: right;
+    display: flex;
+    justify-content: space-between;
     a:first-child {
       margin-right: 1rem;
     }
