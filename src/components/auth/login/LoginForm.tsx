@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
-import React, { useRef, useState } from "react";
-import styled, { css } from "styled-components";
-import colors from "../../../assets/Colors";
-import { CloseRed, Email, Google, Lock } from "../../../assets/Images";
-import Button from "../../common/Button";
-import StyledCheckBox from "../../common/StyledCheckBox";
-import { Logo } from "../../../assets/Images";
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useRef, useState } from 'react';
+import styled, { css } from 'styled-components';
+import colors from '../../../assets/Colors';
+import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
+import Button from '../../common/Button';
+import StyledCheckBox from '../../common/StyledCheckBox';
+import { Logo } from '../../../assets/Images';
 
 const LoginForm = () => {
   const [idError, setIdError] = useState(false);
@@ -26,7 +26,7 @@ const LoginForm = () => {
         </Link>
       </h1>
       <GoogleLoginButon>
-        구글 계정을 사용할래요{" "}
+        구글 계정을 사용할래요{' '}
         <div className="icon">
           <Image src={Google} alt="google" />
         </div>
@@ -50,7 +50,7 @@ const LoginForm = () => {
         <StyledCheckBox style="round" />
         편리한 자동 로그인
       </div>
-      <Button blue fullWidth style={{ marginBottom: "1rem" }}>
+      <Button blue fullWidth style={{ marginBottom: '1rem' }}>
         로그인
       </Button>
       <div className="bottom">
@@ -79,7 +79,7 @@ const LoginFormBlock = styled.form`
   }
 
   span.or {
-    font-family: "GmarketSansBold";
+    font-family: 'GmarketSansBold';
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;
@@ -130,7 +130,7 @@ const GoogleLoginButon = styled(Button)`
   }
 `;
 
-const StyleInput = (props) => {
+const StyleInput = (props: any) => {
   const { icon, onChange } = props;
   return (
     <StyledInputBlock>

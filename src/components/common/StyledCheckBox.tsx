@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
-type CheckStyle = "round" | "switch" | "squar";
+type CheckStyle = 'round' | 'switch' | 'squar';
 
 const StyledCheckBox = ({ style }: { style: CheckStyle }) => {
-  if (style === "round") {
+  if (style === 'round') {
     return <RoundCheckBox />;
   } else {
     return <input type="checkBox" />;
@@ -47,11 +47,7 @@ const RoundCheckBox = () => {
     <RoundCheckBoxBlock>
       <label>
         <input onClick={() => setIsChecked(!isChecked)} type="checkBox" />
-        {isChecked ? (
-          <RadioButtonCheckedIcon color="primary" />
-        ) : (
-          <RadioButtonUncheckedIcon />
-        )}
+        {isChecked ? <RadioButtonCheckedIcon color="primary" /> : <RadioButtonUncheckedIcon />}
       </label>
     </RoundCheckBoxBlock>
   );

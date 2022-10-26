@@ -14,5 +14,5 @@ export type ResponseFailure = {
   data: { message: string };
 };
 
-export type { LoadPostsBody, LoadPostsResponse } from "./post";
-export type { LoadTestBody, LoadTestResponse } from "./test";
+export type { LoadPostsBody, LoadPostsResponse } from './post';
+export type { LoadTermBody, LoadTermResponse } from './term';
