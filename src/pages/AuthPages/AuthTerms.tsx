@@ -1,11 +1,11 @@
-import React from "react";
-import AuthLayout from "../../components/auth/AuthLayout";
-import Terms from "../../components/auth/terms/Terms";
+import AuthLayout from '@/src/components/auth/AuthLayout';
+import TermsLayOut from '@/src/components/auth/terms/TermLayout';
+import React from 'react';
 
 const AuthTerms = () => {
   return (
     <AuthLayout type="terms">
-      <Terms />
+      <TermsLayOut />
     </AuthLayout>
   );
 };
