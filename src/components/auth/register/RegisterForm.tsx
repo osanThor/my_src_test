@@ -5,49 +5,62 @@ import Link from 'next/link';
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
+import ImageModal from './ImageModal';
 
 const RegisterForm = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <RegisterFormBlock>
-      <h1 className="logo">
-        <Link href="/">
-          <a>
-            <Image src={Logo} alt="main_logo" />
-          </a>
-        </Link>
-      </h1>
-      <form>
-        <div className="register_top">
-          <div className="selectImage">
-            <Image src={Camera} alt="previewImage" />
-            <span className="txt">사진 바꾸기</span>
-          </div>
-          <div className="reguster_auth">
-            <div>
-              <StyleInput placeholder="닉네임을 입력해요" icon={Profile} />
-              <Button disabled>중복확인</Button>
+    <>
+      <RegisterFormBlock>
+        <h1 className="logo">
+          <Link href="/">
+            <a>
+              <Image src={Logo} alt="main_logo" />
+            </a>
+          </Link>
+        </h1>
+        <form>
+          <div className="register_top">
+            <div className="selectImage" onClick={handleClickOpen}>
+              <Image src={Camera} alt="previewImage" />
+              <span className="txt">사진 바꾸기</span>
             </div>
-            <div>
-              <StyleInput placeholder="이메일을 입력해요" icon={Email} />
-              <Button disabled>메일전송</Button>
-              <div className="notice">
-                <div>
-                  <Image src={Notice} alt="notice" />
+            <div className="reguster_auth">
+              <div>
+                <StyleInput placeholder="닉네임을 입력해요" icon={Profile} />
+                <Button disabled>중복확인</Button>
+              </div>
+              <div>
+                <StyleInput placeholder="이메일을 입력해요" icon={Email} />
+                <Button disabled>메일전송</Button>
+                <div className="notice">
+                  <div>
+                    <Image src={Notice} alt="notice" />
+                  </div>
+                  <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
                 </div>
-                <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
               </div>
             </div>
           </div>
-        </div>
-        <div className="register_bottom">
-          <StyleInput type="password" placeholder="비밀번호를 설정해요" icon={Lock} />
-          <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
-        </div>
-      </form>
-      <Button fullWidth blue disabled>
-        회원가입
-      </Button>
-    </RegisterFormBlock>
+          <div className="register_bottom">
+            <StyleInput type="password" placeholder="비밀번호를 설정해요" icon={Lock} />
+            <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
+          </div>
+        </form>
+        <Button fullWidth blue disabled>
+          회원가입
+        </Button>
+      </RegisterFormBlock>
+      <ImageModal onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} />
+    </>
   );
 };
 
