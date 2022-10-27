@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { css } from "styled-components";
-import colors from "../../assets/Colors";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { css } from 'styled-components';
+import colors from '../../assets/Colors';
 
 const Button = (props: any) => {
   return props.href ? <StyledLink {...props} /> : <StyledButton {...props} />;
@@ -41,8 +41,8 @@ const buttonStyle = css`
       }
     `}
     &:disabled {
-    background: ${colors.gray[3]};
-    color: ${colors.gray[0]};
+    background: ${colors.gray[0]};
+    color: ${colors.gray[3]};
     cursor: not-allowed;
   }
   @media (max-width: 768px) {

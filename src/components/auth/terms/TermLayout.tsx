@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -63,6 +64,12 @@ const TermsLayOut = () => {
     }
   }, [canOpen]);
 
+  const router = useRouter();
+
+  const handleMoveRegister = () => {
+    router.push('/auth/register');
+  };
+
   return (
     <TermsBlock>
       <h1 className="logo">
@@ -96,7 +103,7 @@ const TermsLayOut = () => {
           전체동의
         </label>
       </div>
-      <Button blue fullWidth disabled={allCheck ? false : true}>
+      <Button blue fullWidth disabled={allCheck ? false : true} onClick={handleMoveRegister}>
         다음
       </Button>
     </TermsBlock>
@@ -166,7 +173,7 @@ const TermItem = ({
 
 const TermsBlock = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 616px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
@@ -183,7 +190,7 @@ const TermsBlock = styled.div`
 
   .termBox {
     width: 100%;
-    max-height: 70%;
+    max-height: 59%;
     overflow-y: auto;
     margin-bottom: 20px;
 
@@ -297,6 +304,7 @@ const TermsBlock = styled.div`
   @media (max-width: 768px) {
     width: calc(100% - 64px);
     max-height: 87vh;
+    justify-content: center;
   }
 `;
 

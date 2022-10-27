@@ -1,23 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import styled from "styled-components";
-import colors from "../../assets/Colors";
-import { Logo } from "../../assets/Images";
-import Button from "../common/Button";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
+import colors from '../../assets/Colors';
+import { Logo } from '../../assets/Images';
+import Button from '../common/Button';
 
-const AuthLayout = ({
-  type,
-  children,
-}: {
-  type: string;
-  children: React.ReactNode;
-}) => {
+const AuthLayout = ({ type, children }: { type: string; children: React.ReactNode }) => {
   return (
     <AuthLayoutBlock>
       <AuthHead>
         <h1 className="logo">
-          {type === "forgot-password" && (
+          {type === 'forgot-password' && (
             <Link href="/">
               <a>
                 <Image src={Logo} alt="main Logo" />
@@ -26,7 +20,7 @@ const AuthLayout = ({
           )}
         </h1>
         <div className="auth_Btn">
-          {type === "login" ? (
+          {type === 'login' ? (
             <div className="onlyPc">
               <span>계정이 없다구요?</span>
               <Button href="/auth/terms">회원가입</Button>
@@ -55,7 +49,7 @@ const AuthLayoutBlock = styled.div`
 
 const AuthHead = styled.div`
   width: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
