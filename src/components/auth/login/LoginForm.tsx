@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import colors from '../../../assets/Colors';
 import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
@@ -190,6 +190,9 @@ const StyledInputBlock = styled.div`
   }
   @media (max-width: 768px) {
     margin-bottom: 1rem;
+    .inputIcon {
+      right: 1rem;
+    }
   }
 `;
 
@@ -210,11 +213,12 @@ const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: ${colors.blue[2]};
+    color: ${colors.blue[1]};
   }
   @media (max-width: 768px) {
     height: 56px;
     font-size: 14px;
+    padding: 0 1rem;
   }
   ${(props: any) =>
     props.error &&

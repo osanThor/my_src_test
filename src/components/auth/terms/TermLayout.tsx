@@ -173,7 +173,7 @@ const TermItem = ({
 
 const TermsBlock = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 616px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
@@ -190,7 +190,7 @@ const TermsBlock = styled.div`
 
   .termBox {
     width: 100%;
-    max-height: 70%;
+    max-height: 59%;
     overflow-y: auto;
     margin-bottom: 20px;
 
@@ -304,6 +304,7 @@ const TermsBlock = styled.div`
   @media (max-width: 768px) {
     width: calc(100% - 64px);
     max-height: 87vh;
+    justify-content: center;
   }
 `;
 

@@ -5,7 +5,6 @@ import type { AnyAction, CombinedState } from '@reduxjs/toolkit';
 // reducers ( 나머지 리듀서도 있다고 가정 )
 import authReducer, { AuthStateType } from './authReducer';
 import postReducer, { PostStateType } from './postReducer';
-import termReducer, { TermStateType } from './termReducer';
 
 // actions ( 하나의 파일에서 import 해주기 위해서 export ~ from 사용 )
 export { authActions } from './authReducer';
