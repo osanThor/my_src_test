@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -63,6 +64,12 @@ const TermsLayOut = () => {
     }
   }, [canOpen]);
 
+  const router = useRouter();
+
+  const handleMoveRegister = () => {
+    router.push('/auth/register');
+  };
+
   return (
     <TermsBlock>
       <h1 className="logo">
@@ -96,7 +103,7 @@ const TermsLayOut = () => {
           전체동의
         </label>
       </div>
-      <Button blue fullWidth disabled={allCheck ? false : true}>
+      <Button blue fullWidth disabled={allCheck ? false : true} onClick={handleMoveRegister}>
         다음
       </Button>
     </TermsBlock>
