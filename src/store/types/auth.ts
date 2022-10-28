@@ -20,5 +20,5 @@ export type RegisterPayload = {
   photoUrl: string | null;
 };
 export type LoadAuthResponse = ResponseStatus & {
-  data: ResponseData;
+  data: string;
 };

@@ -47,6 +47,11 @@ const authSlice = createSlice({
     initializeAuthForm(state) {
       Object.assign(state, initialState);
     },
+    // login
+    userLogin(state, action: PayloadAction<LoginPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+    },
     // 모든 auth API 패치
     loadAuthRequest(state, action: PayloadAction<LoadAuthBody>) {
       state.loadAuthLoading = true;
@@ -55,7 +60,7 @@ const authSlice = createSlice({
     },
     loadAuthSuccess(state, action: PayloadAction<LoadAuthResponse>) {
       state.loadAuthLoading = false;
-      state.loadAuthDone = action.payload.data.message;
+      state.loadAuthDone = action.payload.data;
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadAuthLoading = false;

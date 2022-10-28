@@ -1,9 +1,9 @@
-import createSagaMiddleware from "redux-saga";
-import { createWrapper } from "next-redux-wrapper";
-import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleware from 'redux-saga';
+import { createWrapper } from 'next-redux-wrapper';
+import { configureStore } from '@reduxjs/toolkit';
 
-import rootReducer from "./reducers";
-import rootSaga from "./sagas";
+import rootReducer from './reducers';
+import rootSaga from './sagas';
 
 const createStore = () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -11,7 +11,7 @@ const createStore = () => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: middlewares,
-    devTools: process.env.NEXT_PUBLIC_NODE_ENV === "development",
+    devTools: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
   });
   store.sagaTask = sagaMiddleware.run(rootSaga);
 
@@ -19,7 +19,7 @@ const createStore = () => {
 };
 
 const wrapper = createWrapper(createStore, {
-  debug: process.env.NEXT_PUBLIC_NODE_ENV === "development",
+  debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
 });
 
 const store = createStore();

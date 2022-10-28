@@ -11,7 +11,7 @@ export type UserStateType = {
 };
 
 const initialState: UserStateType = {
-  isDark: false,
+  isDark: true,
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
