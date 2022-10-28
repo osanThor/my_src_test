@@ -7,35 +7,9 @@ import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
 import Button from '../../common/Button';
 import StyledCheckBox from '../../common/StyledCheckBox';
 import { Logo } from '../../../assets/Images';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/src/store/configureStore';
-import { authActions } from '@/src/store/reducers';
+import { ILoginSubmit, ILoginType } from '@/src/interfaces/iAuth/iLogin';
 
-const LoginForm = () => {
-  const dispatch = useDispatch();
-  const { email, pw } = useSelector(({ auth }: RootState) => ({
-    email: auth.email,
-    pw: auth.pw,
-  }));
-  const onChange = (e: any) => {
-    const { name, value } = e.target;
-    let emailVal = email;
-    let pwVal = pw;
-    if (name === 'email') {
-      emailVal = value;
-    } else {
-      pwVal = value;
-    }
-    dispatch(
-      authActions.changeLoginField({
-        email: emailVal,
-        pw: pwVal,
-      }),
-    );
-    console.log(`email: ${emailVal} + pw: ${pwVal}`);
-  };
-
+const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
 
@@ -77,7 +51,7 @@ const LoginForm = () => {
         <StyledCheckBox style="round" />
         편리한 자동 로그인
       </div>
-      <Button blue fullWidth style={{ marginBottom: '1rem' }}>
+      <Button blue fullWidth style={{ marginBottom: '1rem' }} onClick={onSubmit}>
         로그인
       </Button>
       <div className="bottom">

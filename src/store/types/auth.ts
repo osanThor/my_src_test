@@ -13,6 +13,12 @@ export type LoginPayload = {
   email: string | null;
   pw: string | null;
 };
+export type RegisterPayload = {
+  email: string | null;
+  pw: string | null;
+  nickname: string | null;
+  photoUrl: string | null;
+};
 export type LoadAuthResponse = ResponseStatus & {
-  data: ResponseData;
+  data: string;
 };

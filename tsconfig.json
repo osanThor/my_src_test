@@ -4,6 +4,7 @@
     "allowJs": true,
     "alwaysStrict": true,
     "baseUrl": ".",
+    "strictNullChecks": false,
     "esModuleInterop": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
