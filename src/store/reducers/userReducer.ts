@@ -1,0 +1,46 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { LoadUserBody, LoadUserResponse, ResponseFailure, ThemePayload } from '../types';
+
+export type UserStateType = {
+  isDark: boolean;
+  loadUserLoading: boolean;
+  loadUserDone: null | string;
+  loadUserError: null | string;
+};
+
+const initialState: UserStateType = {
+  isDark: false,
+  loadUserLoading: false,
+  loadUserDone: '',
+  loadUserError: '',
+};
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    changeTheme(state, action: PayloadAction<ThemePayload>) {
+      state.isDark = action.payload.isDark;
+    },
+    loadUserRequest(state, action: PayloadAction<LoadUserBody>) {
+      state.loadUserLoading = true;
+      state.loadUserDone = null;
+      state.loadUserError = null;
+    },
+    loadUserSuccess(state, action: PayloadAction<LoadUserResponse>) {
+      state.loadUserLoading = false;
+      state.loadUserDone = action.payload.data.message;
+    },
+    loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
+      state.loadUserLoading = false;
+      state.loadUserError = action.payload.data.message;
+    },
+  },
+});
+
+// 액션 타입과 액션 크리에이터 대신 사용 ( "dispatch()"에서 사용 => ex) dispatch(postActions.loadPostsRequest({ lastId: 0, limit: 10 })) )
+export const userActions = userSlice.actions;
+// RootReducer 생성 시 사용
+export default userSlice.reducer;

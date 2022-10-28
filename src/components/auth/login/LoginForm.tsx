@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import colors from '../../../assets/Colors';
 import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
@@ -38,6 +38,10 @@ const LoginForm = () => {
 
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
+
+  useEffect(() => {
+    dispatch(authActions.initializeAuthForm());
+  }, [dispatch]);
 
   return (
     <LoginFormBlock>

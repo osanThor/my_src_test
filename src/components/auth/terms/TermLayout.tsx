@@ -292,7 +292,7 @@ const TermsBlock = styled.div`
         position: absolute;
         top: 0;
         left: 24px;
-        border: 1px solid ${colors.gray[3]};
+        border: 1px solid ${colors.gray[2]};
         background-color: ${colors.gray[1]};
       }
     }

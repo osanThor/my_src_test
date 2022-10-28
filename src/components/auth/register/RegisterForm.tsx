@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
-import { Camera, Email, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
+import { CameraBlue, Email, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -30,7 +31,7 @@ const RegisterForm = () => {
         <form>
           <div className="register_top">
             <div className="selectImage" onClick={handleClickOpen}>
-              <Image src={Camera} alt="previewImage" />
+              <Image src={CameraBlue} alt="previewImage" />
               <span className="txt">사진 바꾸기</span>
             </div>
             <div className="reguster_auth">
@@ -93,7 +94,7 @@ const RegisterFormBlock = styled.div`
       .selectImage {
         width: 30%;
         max-width: 160px;
-        height: 164px;
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -154,7 +155,7 @@ const RegisterFormBlock = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     width: calc(100% - 64px);
     justify-content: center;
     padding: 60px 0;

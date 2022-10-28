@@ -14,6 +14,6 @@ export type ResponseFailure = {
   data: { message: string };
 };
 
-export type { LoginPayload, LoadAuthBody, LoadAuthResponse } from './auth';
+export type { LoginPayload, RegisterPayload, LoadAuthBody, LoadAuthResponse } from './auth';
+export type { LoadUserBody, LoadUserResponse, ThemePayload } from './user';
 export type { LoadPostsBody, LoadPostsResponse } from './post';
-export type { LoadTermBody, LoadTermResponse } from './term';

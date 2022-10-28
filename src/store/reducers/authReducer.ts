@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { LoginPayload, LoadAuthBody, LoadAuthResponse, ResponseFailure } from '../types';
+import type { LoginPayload, LoadAuthBody, LoadAuthResponse, ResponseFailure, RegisterPayload } from '../types';
 
 export type AuthStateType = {
   email: string | null;
@@ -38,8 +38,14 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
+    changeRegisterFiled(state, action: PayloadAction<RegisterPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+    },
     initializeAuthForm(state) {
-      state = initialState;
+      Object.assign(state, initialState);
     },
     // 모든 auth API 패치
     loadAuthRequest(state, action: PayloadAction<LoadAuthBody>) {
@@ -50,10 +56,6 @@ const authSlice = createSlice({
     loadAuthSuccess(state, action: PayloadAction<LoadAuthResponse>) {
       state.loadAuthLoading = false;
       state.loadAuthDone = action.payload.data.message;
-      // 여기서는 "immer"가 적용되기 때문에 불변성을 지키지 않아도 됨
-      // 하지만 아래처럼 불변성 지키는게 코드가 더 간단해보여서 이렇게 작성함
-      // state.hasMorePosts =
-      //   action.payload.data.posts.length === action.payload.data.limit;
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadAuthLoading = false;

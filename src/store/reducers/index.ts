@@ -4,14 +4,17 @@ import type { AnyAction, CombinedState } from '@reduxjs/toolkit';
 
 // reducers ( 나머지 리듀서도 있다고 가정 )
 import authReducer, { AuthStateType } from './authReducer';
+import userReducer, { UserStateType } from './userReducer';
 import postReducer, { PostStateType } from './postReducer';
 
 // actions ( 하나의 파일에서 import 해주기 위해서 export ~ from 사용 )
 export { authActions } from './authReducer';
+export { userActions } from './userReducer';
 export { postActions } from './postReducer';
 
 type ReducerState = {
   auth: AuthStateType;
+  user: UserStateType;
   post: PostStateType;
 };
 
@@ -28,6 +31,7 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
     default:
       return combineReducers({
         auth: authReducer,
+        user: userReducer,
         post: postReducer,
       })(state, action);
   }
