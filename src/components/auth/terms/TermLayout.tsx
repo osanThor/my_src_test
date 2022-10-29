@@ -14,7 +14,7 @@ const TermsLayOut = () => {
     { id: 0, type: 'privacy' },
     { id: 1, type: 'service' },
   ];
-  const [checkItems, setCheckItems] = useState(Array<number>);
+  const [checkItems, setCheckItems] = useState([]);
   const [openItems, setOpenItems] = useState([false, false]);
   const [allCheck, setAllCheck] = useState(false);
   const [checkAble, setCheckAble] = useState(false);
@@ -42,6 +42,7 @@ const TermsLayOut = () => {
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
       setCheckItems([]);
+      setAllCheck(false);
     }
   };
 
