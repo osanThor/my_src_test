@@ -100,7 +100,9 @@ const ModalCon = styled(DialogContent)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 80px 48px;
+  &.MuiDialogContent-root {
+    padding: 80px 80px 48px;
+  }
 
   .modalTopCon {
     width: 100%;
