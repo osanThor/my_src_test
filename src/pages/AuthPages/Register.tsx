@@ -11,10 +11,11 @@ const Register: NextPage = () => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState('');
 
-  const { email, pw, nickname, photoUrl } = useSelector(({ user }: RootState) => ({
+  const { email, pw, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
     email: user.email,
     pw: user.pw,
     nickname: user.nickname,
+    checkNicknameResult: user.checkNicknameResult,
     photoUrl: user.photoUrl,
   }));
 
@@ -43,7 +44,7 @@ const Register: NextPage = () => {
     );
   };
 
-  const handleSubmitRegisterForm = (e: any) => {
+  const handleSubmitRegisterForm = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
@@ -65,6 +66,7 @@ const Register: NextPage = () => {
         email={email}
         pw={pw}
         nickname={nickname}
+        checkNicknameResult={checkNicknameResult}
         profileImg={profileImg}
         photoUrl={photoUrl}
         handleClickOpen={handleClickOpen}

@@ -18,7 +18,7 @@ const ImageModal = ({
   open: boolean;
   photoUrl: string;
   setProfileImg: Dispatch<SetStateAction<string>>;
-  handleChangeRegisterForm: (e: any) => void;
+  handleChangeRegisterForm: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const handleClickIcon = (e: any) => {
     e.currentTarget.children[0].checked = true;

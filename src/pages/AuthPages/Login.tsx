@@ -15,7 +15,7 @@ const Login: NextPage = () => {
     email: auth.email,
     pw: auth.pw,
   }));
-  const handleChangeLoginForm = (e: any) => {
+  const handleChangeLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let emailVal = email;
     let pwVal = pw;
@@ -32,7 +32,7 @@ const Login: NextPage = () => {
     );
   };
 
-  const handleLoginSubmit = (e: any) => {
+  const handleLoginSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     dispatch(authActions.userLogin({ email, pw }));
   };

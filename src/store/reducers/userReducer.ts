@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   CheckNicknamePayload,
-  CheckNicknameRes,
   LoadUserBody,
   LoadUserResponse,
   RegisterPayload,

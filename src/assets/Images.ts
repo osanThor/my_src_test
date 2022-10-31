@@ -14,7 +14,9 @@ import ProfileBLueIcon4 from 'public/assets/common/profile/profile_icon4_blue.sv
 
 import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
+
 import NoticeIcon from 'public/assets/common/notice.svg';
+import NoticeErrIcon from 'public/assets/common/notice_err.svg';
 import CameraIcon from 'public/assets/common/camera.svg';
 import CameraBlueIcon from 'public/assets/common/cameraIcon.svg';
 import ProfileIcon from 'public/assets/common/name.svg';
@@ -22,6 +24,7 @@ import previewBgImage from 'public/assets/common/profile/preview_bg.png';
 
 import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
+import KeyIcon from 'public/assets/common/key.svg';
 
 //로고
 export const Logo = LogoImage;
@@ -41,9 +44,10 @@ export const CheckedSqquare = CheckedSquareIcon;
 export const PreviewBg = previewBgImage;
 
 //기능X Icon
-export const Notice = NoticeIcon;
+export const Notice = [NoticeIcon, NoticeErrIcon];
 export const Camera = CameraIcon;
 export const CameraBlue = CameraBlueIcon;
 export const Profile = ProfileIcon;
 export const Email = EmailIcon;
 export const Lock = LockIcon;
+export const Key = KeyIcon;

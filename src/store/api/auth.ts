@@ -15,6 +15,13 @@ export const userLogin = ({ email, pw }: LoadAuthBody) =>
     },
   );
 
-// 이메일 인증
+// 이메일 인증요청
 export const verifyEmial = ({ email, isExistTrigger }: LoadAuthBody) =>
-  axiosInstance.post<LoadAuthResponse>(`auth/email/verify/?${email}`);
+  axiosInstance.post<LoadAuthResponse>(`/auth/email/verify/${email}?isExistTrigger=${isExistTrigger}`);
+
+//이메일 인증번호
+export const verifyCode = ({ email, verifyCode }: LoadAuthBody) =>
+  axiosInstance.post<LoadAuthResponse>(`/auth/email/verify`, {
+    email,
+    verifyCode,
+  });
