@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { CameraBlue, Email, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
+import { IRegisterType } from '@/src/interfaces/iAuth/iRegister';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +9,7 @@ import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
 import ImageModal from './ImageModal';
 
-const RegisterForm = () => {
+const RegisterForm = ({ email, pw, nickname, photoUrl, onChange, onSubmit }: IRegisterType) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -28,7 +29,7 @@ const RegisterForm = () => {
             </a>
           </Link>
         </h1>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="register_top">
             <div className="selectImage" onClick={handleClickOpen}>
               <Image src={CameraBlue} alt="previewImage" />
@@ -36,8 +37,10 @@ const RegisterForm = () => {
             </div>
             <div className="reguster_auth">
               <div>
-                <StyleInput placeholder="닉네임을 입력해요" icon={Profile} />
-                <Button disabled>중복확인</Button>
+                <StyleInput name="nickname" placeholder="닉네임을 입력해요" icon={Profile} onChange={onChange} />
+                <Button blue disabled={nickname ? false : true}>
+                  중복확인
+                </Button>
               </div>
               <div>
                 <StyleInput placeholder="이메일을 입력해요" icon={Email} />
@@ -56,7 +59,7 @@ const RegisterForm = () => {
             <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
           </div>
         </form>
-        <Button fullWidth blue disabled>
+        <Button fullWidth blue disabled onClick={onSubmit}>
           회원가입
         </Button>
       </RegisterFormBlock>
@@ -68,8 +71,10 @@ const RegisterForm = () => {
 const RegisterFormBlock = styled.div`
   width: 100%;
   max-width: 616px;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   h1.logo {
     width: 170px;
@@ -157,11 +162,9 @@ const RegisterFormBlock = styled.div`
 
   ${media.tablet} {
     width: calc(100% - 64px);
-    justify-content: center;
-    padding: 60px 0;
+    overflow-y: auto;
+    justify-content: flex-start;
     form {
-      max-height: 60vh;
-      overflow-y: auto;
       margin-bottom: 1rem;
 
       .register_top {

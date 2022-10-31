@@ -19,7 +19,7 @@ function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
 
     yield put(userActions.loadUserSuccess(data));
   } catch (error: any) {
-    console.error('userSaga loadPosts >> ', error);
+    console.error('userSaga changeTheme >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';

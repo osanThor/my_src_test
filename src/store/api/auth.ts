@@ -1,10 +1,10 @@
 import { axiosInstance } from '.';
 
-import type { LoadAuthBody, LoadUserResponse } from '../types';
+import type { LoadAuthBody, LoadAuthResponse, LoadUserResponse } from '../types';
 
-// 모든 게시글들 요청
+// 로그인 요청
 export const userLogin = ({ email, pw }: LoadAuthBody) =>
-  axiosInstance.post<LoadUserResponse>(
+  axiosInstance.post<LoadAuthResponse>(
     `/auth/login/email`,
     { email, pw },
     {
@@ -14,3 +14,7 @@ export const userLogin = ({ email, pw }: LoadAuthBody) =>
       },
     },
   );
+
+// 이메일 인증
+export const verifyEmial = ({ email, isExistTrigger }: LoadAuthBody) =>
+  axiosInstance.post<LoadAuthResponse>(`auth/email/verify/?${email}`);

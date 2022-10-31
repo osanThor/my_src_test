@@ -175,9 +175,10 @@ const TermItem = ({
 const TermsBlock = styled.div`
   width: 100%;
   max-width: 616px;
-  max-height: 80vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   h1.logo {
@@ -191,8 +192,6 @@ const TermsBlock = styled.div`
 
   .termBox {
     width: 100%;
-    max-height: 59%;
-    overflow-y: auto;
     margin-bottom: 20px;
 
     .termItem {
@@ -219,7 +218,7 @@ const TermsBlock = styled.div`
         padding: 0 23px;
       }
       .term_bottom_open {
-        height: 200px;
+        height: 160px;
         transition: all 0.2s;
         overflow-y: auto;
         border-top: 1px solid ${colors.gray[2]};
@@ -304,8 +303,8 @@ const TermsBlock = styled.div`
 
   @media (max-width: 768px) {
     width: calc(100% - 64px);
-    max-height: 87vh;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-y: auto;
   }
 `;
 

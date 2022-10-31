@@ -20,10 +20,9 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
 
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
-    console.error('authSaga loadPosts >> ', error);
+    console.error('authSaga login >> ', error);
 
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
     yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));

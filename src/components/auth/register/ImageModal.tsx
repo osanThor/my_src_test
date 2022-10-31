@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Camera, Close, PreviewBg, Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
 import Button from '../../common/Button';
 import colors from '@/src/assets/Colors';
+import { media } from '@/styles/theme';
 
 const ImageModal = ({ onClose, open }: { onClose: () => void; open: boolean }) => {
   const handleClickIcon = (e: any) => {
@@ -245,6 +246,77 @@ const ModalCon = styled(DialogContent)`
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+  ${media.tablet} {
+    &.MuiDialogContent-root {
+      padding: 60px 40px 40px;
+    }
+    .modalTopCon {
+      padding: 12px;
+    }
+    .imageTypes {
+      & > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 2rem;
+        span {
+          color: ${colors.gray[4]};
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+      .charIcon {
+        width: 104px;
+        ul {
+          width: 100%;
+          height: 104px;
+          li {
+            width: 48px;
+            height: 48px;
+          }
+        }
+      }
+      .fileImage {
+        width: 104px;
+        .preview {
+          width: 100%;
+          height: 104px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid ${colors.gray[2]};
+          border-radius: 14px;
+          background-color: ${colors.gray[0]};
+          margin-bottom: 1rem;
+          transition: all 0.2s;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 364px) {
+    .imageTypes {
+      & > div {
+        margin-right: 1rem;
+      }
+      .charIcon {
+        width: 104px;
+        ul {
+          width: 100%;
+          height: 104px;
+          li {
+            width: 49%;
+            height: 48px;
+          }
         }
       }
     }
