@@ -1,22 +1,19 @@
 import colors from '@/src/assets/Colors';
 import { CameraBlue, Email, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
 import { IRegisterType } from '@/src/interfaces/iAuth/iRegister';
+import { userActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
-import ImageModal from './ImageModal';
 
-const RegisterForm = ({ email, pw, nickname, photoUrl, onChange, onSubmit }: IRegisterType) => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
+const RegisterForm = ({ email, pw, nickname, profileImg, handleClickOpen, onChange, onSubmit }: IRegisterType) => {
+  const dispatch = useDispatch();
+  const handleCheckNickname = () => {
+    dispatch(userActions.checkNickName({ nickname }));
   };
 
   return (
@@ -31,14 +28,23 @@ const RegisterForm = ({ email, pw, nickname, photoUrl, onChange, onSubmit }: IRe
         </h1>
         <form onSubmit={onSubmit}>
           <div className="register_top">
-            <div className="selectImage" onClick={handleClickOpen}>
-              <Image src={CameraBlue} alt="previewImage" />
-              <span className="txt">사진 바꾸기</span>
+            <div className={`${profileImg ? 'selectImage blue' : 'selectImage'}`} onClick={handleClickOpen}>
+              {profileImg ? (
+                <>
+                  <Image src={profileImg} alt="preview" layout="fill" />
+                  <span className="txt white">사진 바꾸기</span>
+                </>
+              ) : (
+                <>
+                  <Image src={CameraBlue} alt="previewImage" />
+                  <span className="txt">사진 바꾸기</span>
+                </>
+              )}
             </div>
             <div className="reguster_auth">
               <div>
                 <StyleInput name="nickname" placeholder="닉네임을 입력해요" icon={Profile} onChange={onChange} />
-                <Button blue disabled={nickname ? false : true}>
+                <Button blue disabled={nickname ? false : true} onClick={handleCheckNickname}>
                   중복확인
                 </Button>
               </div>
@@ -63,7 +69,6 @@ const RegisterForm = ({ email, pw, nickname, photoUrl, onChange, onSubmit }: IRe
           회원가입
         </Button>
       </RegisterFormBlock>
-      <ImageModal onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} />
     </>
   );
 };
@@ -97,8 +102,12 @@ const RegisterFormBlock = styled.div`
       cursor: pointer;
 
       .selectImage {
+        &.blue {
+          background-color: ${colors.blue[2]};
+        }
         width: 30%;
         max-width: 160px;
+        position: relative;
         height: 160px;
         display: flex;
         flex-direction: column;
@@ -109,6 +118,13 @@ const RegisterFormBlock = styled.div`
         color: ${colors.blue[2]};
         span.txt {
           margin-top: 12px;
+          position: relative;
+          z-index: 7;
+        }
+        span.white {
+          position: absolute;
+          bottom: 5px;
+          color: white;
         }
       }
 

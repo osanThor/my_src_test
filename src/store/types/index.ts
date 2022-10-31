@@ -15,5 +15,13 @@ export type ResponseFailure = {
 };
 
 export type { LoginPayload, LoadAuthBody, LoadAuthResponse, VerifyEmail } from './auth';
-export type { LoadUserBody, RegisterPayload, LoadUserResponse, ThemePayload } from './user';
+export type {
+  CheckNicknameRes,
+  LoadUserBody,
+  RegisterPayload,
+  CheckNicknamePayload,
+  LoadUserResponse,
+  ThemePayload,
+} from './user';
 export type { LoadPostsBody, LoadPostsResponse } from './post';
+export type { LoadFileBody, LoadFileResponse } from './file';

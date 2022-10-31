@@ -11,6 +11,10 @@ export type LoadUserBody = {
 export type ThemePayload = {
   isDark: boolean;
 };
+export type CheckNicknamePayload = {
+  nickname: string | null;
+};
+export type CheckNicknameRes = {};
 export type RegisterPayload = {
   email: string | null;
   pw: string | null;
@@ -18,5 +22,5 @@ export type RegisterPayload = {
   photoUrl: string | null;
 };
 export type LoadUserResponse = ResponseStatus & {
-  data: string;
+  data: boolean | string;
 };

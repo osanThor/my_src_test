@@ -1,13 +1,16 @@
 import RegisterForm from '@/src/components/auth/register/RegisterForm';
 import { NextPage } from 'next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootState } from '@/src/store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { userActions } from '@/src/store/reducers';
+import ImageModal from '@/src/components/auth/register/ImageModal';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();
+  const [profileImg, setProfileImg] = useState('');
+
   const { email, pw, nickname, photoUrl } = useSelector(({ user }: RootState) => ({
     email: user.email,
     pw: user.pw,
@@ -47,6 +50,14 @@ const Register: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <AuthLayout type="register">
@@ -54,9 +65,19 @@ const Register: NextPage = () => {
         email={email}
         pw={pw}
         nickname={nickname}
+        profileImg={profileImg}
         photoUrl={photoUrl}
+        handleClickOpen={handleClickOpen}
         onChange={handleChangeRegisterForm}
         onSubmit={handleSubmitRegisterForm}
+      />
+      <ImageModal
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        photoUrl={photoUrl}
+        open={open}
+        setProfileImg={setProfileImg}
+        handleChangeRegisterForm={handleChangeRegisterForm}
       />
     </AuthLayout>
   );

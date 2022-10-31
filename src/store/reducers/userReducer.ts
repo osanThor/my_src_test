@@ -1,16 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { LoadUserBody, LoadUserResponse, RegisterPayload, ResponseFailure, ThemePayload } from '../types';
+import {
+  CheckNicknamePayload,
+  CheckNicknameRes,
+  LoadUserBody,
+  LoadUserResponse,
+  RegisterPayload,
+  ResponseFailure,
+  ThemePayload,
+} from '../types';
 
 export type UserStateType = {
   email: string | null;
   pw: string | null;
   nickname: string | null;
+  checkNicknameResult: boolean;
   photoUrl: string | null;
   isDark: boolean;
   loadUserLoading: boolean;
-  loadUserDone: null | string;
+  loadUserDone: boolean | string | null;
   loadUserError: null | string;
 };
 
@@ -18,6 +27,7 @@ const initialState: UserStateType = {
   email: '',
   pw: '',
   nickname: '',
+  checkNicknameResult: false,
   photoUrl: '',
   isDark: true,
   loadUserLoading: false,
@@ -37,6 +47,12 @@ const userSlice = createSlice({
       state.pw = action.payload.pw;
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
+    },
+    checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
+      state.nickname = action.payload.nickname;
+    },
+    loadCheckNickNameResult(state, action: PayloadAction<boolean>) {
+      state.checkNicknameResult = action.payload;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);
