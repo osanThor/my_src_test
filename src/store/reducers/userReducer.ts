@@ -1,16 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { LoadUserBody, LoadUserResponse, ResponseFailure, ThemePayload } from '../types';
+import {
+  CheckNicknamePayload,
+  LoadUserBody,
+  LoadUserResponse,
+  RegisterPayload,
+  ResponseFailure,
+  ThemePayload,
+} from '../types';
 
 export type UserStateType = {
+  email: string | null;
+  pw: string | null;
+  nickname: string | null;
+  checkNicknameResult: boolean;
+  photoUrl: string | null;
   isDark: boolean;
   loadUserLoading: boolean;
-  loadUserDone: null | string;
+  loadUserDone: boolean | string | null;
   loadUserError: null | string;
 };
 
 const initialState: UserStateType = {
+  email: '',
+  pw: '',
+  nickname: '',
+  checkNicknameResult: false,
+  photoUrl: '',
   isDark: true,
   loadUserLoading: false,
   loadUserDone: '',
@@ -24,6 +41,21 @@ const userSlice = createSlice({
     changeTheme(state, action: PayloadAction<ThemePayload>) {
       state.isDark = action.payload.isDark;
     },
+    changeRegisterFiled(state, action: PayloadAction<RegisterPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+    },
+    checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
+      state.nickname = action.payload.nickname;
+    },
+    loadCheckNickNameResult(state, action: PayloadAction<boolean>) {
+      state.checkNicknameResult = action.payload;
+    },
+    initializeUserForm(state) {
+      Object.assign(state, initialState);
+    },
     loadUserRequest(state, action: PayloadAction<LoadUserBody>) {
       state.loadUserLoading = true;
       state.loadUserDone = null;
@@ -31,7 +63,7 @@ const userSlice = createSlice({
     },
     loadUserSuccess(state, action: PayloadAction<LoadUserResponse>) {
       state.loadUserLoading = false;
-      state.loadUserDone = action.payload.data.message;
+      state.loadUserDone = action.payload.data;
     },
     loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadUserLoading = false;

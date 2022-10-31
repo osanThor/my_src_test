@@ -65,9 +65,11 @@ const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
 const LoginFormBlock = styled.form`
   width: 100%;
   max-width: 400px;
+  height: 100%;
   color: ${colors.gray[4]};
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   h1.logo {

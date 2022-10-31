@@ -8,6 +8,6 @@ export interface ILoginSate {
 export interface ILoginSubmit {
   email: string | null;
   pw: string | null;
-  onChange: (e: any) => void;
-  onSubmit: (e: any) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

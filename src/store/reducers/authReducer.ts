@@ -1,23 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { LoginPayload, LoadAuthBody, LoadAuthResponse, ResponseFailure, RegisterPayload } from '../types';
+import type { LoginPayload, LoadAuthBody, LoadAuthResponse, ResponseFailure } from '../types';
 
 export type AuthStateType = {
   email: string | null;
   pw: string | null;
-  nickname: string | null;
-  photoUrl: string | null;
+  isExistTrigger: boolean;
   loadAuthLoading: boolean;
-  loadAuthDone: null | string;
-  loadAuthError: null | string;
+  loadAuthDone: {} | null;
+  loadAuthError: string | null;
 };
 
 const initialState: AuthStateType = {
   email: '',
   pw: '',
-  nickname: '',
-  photoUrl: '',
+  isExistTrigger: false,
   loadAuthLoading: false,
   loadAuthDone: '',
   loadAuthError: '',
@@ -38,12 +36,7 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
-    changeRegisterFiled(state, action: PayloadAction<RegisterPayload>) {
-      state.email = action.payload.email;
-      state.pw = action.payload.pw;
-      state.photoUrl = action.payload.photoUrl;
-      state.nickname = action.payload.nickname;
-    },
+
     initializeAuthForm(state) {
       Object.assign(state, initialState);
     },
@@ -60,7 +53,7 @@ const authSlice = createSlice({
     },
     loadAuthSuccess(state, action: PayloadAction<LoadAuthResponse>) {
       state.loadAuthLoading = false;
-      state.loadAuthDone = action.payload.data;
+      state.loadAuthDone = action.payload;
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadAuthLoading = false;

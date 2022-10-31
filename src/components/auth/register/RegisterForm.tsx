@@ -1,21 +1,56 @@
 import colors from '@/src/assets/Colors';
-import { CameraBlue, Email, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
+import { CameraBlue, Email, Key, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
+import { IRegisterType } from '@/src/interfaces/iAuth/iRegister';
+import { userActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
-import ImageModal from './ImageModal';
 
-const RegisterForm = () => {
-  const [open, setOpen] = React.useState(false);
+const RegisterForm = ({
+  email,
+  pw,
+  nickname,
+  checkNicknameResult,
+  profileImg,
+  handleClickOpen,
+  onChange,
+  onSubmit,
+}: IRegisterType) => {
+  const [emailError, setEmailError] = useState<boolean>(Boolean);
+  const [verify, setVerify] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  // 닉네임 체크
+  const handleCheckNickname = () => {
+    dispatch(userActions.checkNickName({ nickname }));
+    if (checkNicknameResult) {
+      alert('사용불가능');
+    } else {
+      alert('사용가능');
+    }
   };
-  const handleClose = () => {
-    setOpen(false);
+
+  // 이메일 실시간 유효성검사
+  useEffect(() => {
+    if (email.length <= 0) {
+      setEmailError(true);
+    }
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if (!emailRegex.test(email)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }, [email]);
+
+  // 인증번호 요청하기
+  const handleReqVerify = () => {
+    setVerify(true);
   };
 
   return (
@@ -28,39 +63,89 @@ const RegisterForm = () => {
             </a>
           </Link>
         </h1>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="register_top">
-            <div className="selectImage" onClick={handleClickOpen}>
-              <Image src={CameraBlue} alt="previewImage" />
-              <span className="txt">사진 바꾸기</span>
+            <div className={`${profileImg ? 'selectImage blue' : 'selectImage'}`} onClick={handleClickOpen}>
+              {profileImg ? (
+                <>
+                  <Image src={profileImg} alt="preview" layout="fill" />
+                  <span className="txt white">사진 바꾸기</span>
+                </>
+              ) : (
+                <>
+                  <Image src={CameraBlue} alt="previewImage" />
+                  <span className="txt">사진 바꾸기</span>
+                </>
+              )}
             </div>
             <div className="reguster_auth">
               <div>
-                <StyleInput placeholder="닉네임을 입력해요" icon={Profile} />
-                <Button disabled>중복확인</Button>
+                <StyleInput
+                  name="nickname"
+                  placeholder="닉네임을 입력해요"
+                  icon={Profile}
+                  value={nickname}
+                  onChange={onChange}
+                />
+                <StyledButton blue disabled={nickname ? false : true} onClick={handleCheckNickname}>
+                  중복확인
+                </StyledButton>
               </div>
               <div>
-                <StyleInput placeholder="이메일을 입력해요" icon={Email} />
-                <Button disabled>메일전송</Button>
-                <div className="notice">
-                  <div>
-                    <Image src={Notice} alt="notice" />
+                <StyleInput
+                  name="email"
+                  placeholder="이메일을 입력해요"
+                  icon={Email}
+                  value={email}
+                  onChange={onChange}
+                />
+                <StyledButton blue disabled={emailError ? true : false} onClick={handleReqVerify}>
+                  메일전송
+                </StyledButton>
+                {!verify && (
+                  <div className="notice">
+                    {email.length <= 0 ? (
+                      <>
+                        <div>
+                          <Image src={Notice[0]} alt="notice" />
+                        </div>
+                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                      </>
+                    ) : emailError ? (
+                      <>
+                        <div>
+                          <Image src={Notice[1]} alt="notice" />
+                        </div>
+                        <span className="error">이메일 형식이 잘못 되었어요</span>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <Image src={Notice[0]} alt="notice" />
+                        </div>
+                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                      </>
+                    )}
                   </div>
-                  <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
-                </div>
+                )}
               </div>
             </div>
           </div>
           <div className="register_bottom">
+            {verify && (
+              <div className="emailVerify">
+                <StyleInput type="text" placeholder="인증번호를 입력해요" icon={Key} />
+                <StyledButton blue>인증확인</StyledButton>
+              </div>
+            )}
             <StyleInput type="password" placeholder="비밀번호를 설정해요" icon={Lock} />
             <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
           </div>
         </form>
-        <Button fullWidth blue disabled>
+        <Button fullWidth blue disabled onClick={onSubmit}>
           회원가입
         </Button>
       </RegisterFormBlock>
-      <ImageModal onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} />
     </>
   );
 };
@@ -68,8 +153,10 @@ const RegisterForm = () => {
 const RegisterFormBlock = styled.div`
   width: 100%;
   max-width: 616px;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   h1.logo {
     width: 170px;
@@ -89,11 +176,15 @@ const RegisterFormBlock = styled.div`
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 1rem;
-      cursor: pointer;
 
       .selectImage {
+        cursor: pointer;
+        &.blue {
+          background-color: ${colors.blue[2]};
+        }
         width: 30%;
         max-width: 160px;
+        position: relative;
         height: 160px;
         display: flex;
         flex-direction: column;
@@ -104,6 +195,13 @@ const RegisterFormBlock = styled.div`
         color: ${colors.blue[2]};
         span.txt {
           margin-top: 12px;
+          position: relative;
+          z-index: 7;
+        }
+        span.white {
+          position: absolute;
+          bottom: 5px;
+          color: white;
         }
       }
 
@@ -122,6 +220,7 @@ const RegisterFormBlock = styled.div`
           }
           &:last-child > div:first-child {
             margin-bottom: 0.5rem;
+            margin-right: 1rem;
           }
 
           .notice {
@@ -134,6 +233,10 @@ const RegisterFormBlock = styled.div`
             & > div {
               margin-right: 0.5rem;
               transform: translateY(2px);
+            }
+
+            span.error {
+              color: ${colors.red[2]};
             }
           }
         }
@@ -152,16 +255,30 @@ const RegisterFormBlock = styled.div`
       & > div:last-child {
         margin-bottom: 0;
       }
+      .emailVerify {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        & > div {
+          width: 81%;
+          max-width: 496px;
+          margin-bottom: 0;
+        }
+
+        button {
+          width: 17%;
+          padding: 0 21px;
+        }
+      }
     }
   }
 
   ${media.tablet} {
     width: calc(100% - 64px);
-    justify-content: center;
-    padding: 60px 0;
+    overflow-y: auto;
+    justify-content: flex-start;
     form {
-      max-height: 60vh;
-      overflow-y: auto;
       margin-bottom: 1rem;
 
       .register_top {
@@ -196,6 +313,23 @@ const RegisterFormBlock = styled.div`
             }
           }
         }
+      }
+      .register_bottom {
+        .emailVerify {
+          & > div {
+            width: auto;
+            max-width: none;
+            flex: 1;
+            margin-right: 0.5rem;
+          }
+          button {
+            width: 95.88px;
+          }
+        }
+      }
+      button {
+        height: 56px;
+        min-height: 56px;
       }
     }
   }
@@ -248,6 +382,7 @@ const StyledInput = styled.input`
   background: ${colors.blue[0]};
   color: ${colors.blue[2]};
   padding: 0 36px;
+  padding-right: 80px;
   font-size: 1rem;
   transition: all 0.2s;
 
@@ -263,6 +398,7 @@ const StyledInput = styled.input`
     height: 56px;
     font-size: 14px;
     padding: 0 1rem;
+    padding-right: 2.9rem;
   }
   ${(props: any) =>
     props.error &&
@@ -278,6 +414,10 @@ const StyledInput = styled.input`
         border: 1px solid ${colors.red[1]};
       }
     `}
+`;
+
+const StyledButton = styled(Button)`
+  height: 72px;
 `;
 
 export default RegisterForm;

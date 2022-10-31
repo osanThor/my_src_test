@@ -2,6 +2,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+#__next{
+  width: 100%;
+  height: 100%;
+}
 @font-face {
   font-family: "GmarketSansLight";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff")

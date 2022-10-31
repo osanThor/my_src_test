@@ -47,6 +47,7 @@ const buttonStyle = css`
   }
   @media (max-width: 768px) {
     height: 56px;
+    min-height: 56px;
     font-size: 14px;
   }
 `;

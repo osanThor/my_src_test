@@ -1,3 +1,4 @@
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -36,15 +37,16 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
 };
 
 const AuthLayoutBlock = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
+  ${media.tablet} {
+    padding: 72px 0;
+  }
 `;
 
 const AuthHead = styled.div`
@@ -103,6 +105,13 @@ const AuthHead = styled.div`
     .onlyPc {
       display: none;
     }
+  }
+`;
+const Spacer = styled.div`
+  width: 100%;
+  height: 128px;
+  ${media.tablet} {
+    height: 72px;
   }
 `;
 

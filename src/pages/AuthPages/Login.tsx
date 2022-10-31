@@ -7,8 +7,7 @@ import { END } from 'redux-saga';
 import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import { authActions } from '@/src/store/reducers';
 import wrapper, { RootState } from '@/src/store/configureStore';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ const Login: NextPage = () => {
     email: auth.email,
     pw: auth.pw,
   }));
-  const onChange = (e: any) => {
+  const handleChangeLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let emailVal = email;
     let pwVal = pw;
@@ -33,7 +32,7 @@ const Login: NextPage = () => {
     );
   };
 
-  const onSubmit = (e: any) => {
+  const handleLoginSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     dispatch(authActions.userLogin({ email, pw }));
   };
@@ -44,7 +43,7 @@ const Login: NextPage = () => {
 
   return (
     <AuthLayout type="login">
-      <LoginForm email={email} pw={pw} onChange={onChange} onSubmit={onSubmit} />
+      <LoginForm email={email} pw={pw} onChange={handleChangeLoginForm} onSubmit={handleLoginSubmit} />
     </AuthLayout>
   );
 };

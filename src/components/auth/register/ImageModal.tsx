@@ -1,42 +1,41 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { Camera, Close, PreviewBg, Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
+import { Close, Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
 import Button from '../../common/Button';
 import colors from '@/src/assets/Colors';
+import { media } from '@/styles/theme';
 
-const ImageModal = ({ onClose, open }: { onClose: () => void; open: boolean }) => {
+const ImageModal = ({
+  onClose,
+  open,
+  photoUrl,
+  setProfileImg,
+  handleChangeRegisterForm,
+}: {
+  onClose: () => void;
+  open: boolean;
+  photoUrl: string;
+  setProfileImg: Dispatch<SetStateAction<string>>;
+  handleChangeRegisterForm: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const handleClickIcon = (e: any) => {
     e.currentTarget.children[0].checked = true;
-  };
-  const handleClickImage = (e: any) => {
-    e.currentTarget.children[1].click();
-  };
-
-  const [imageSrc, setImageSrc] = useState(null);
-
-  const handleChangeImage = (fileBlob: Blob | null) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise<void>((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
+    console.log(e.currentTarget.children[0].value.src);
+    console.log(Profile1[1]);
   };
 
-  const handleNoImageClose = () => {
-    setImageSrc(null);
+  const handleSelectImage = () => {
+    setProfileImg(photoUrl);
     onClose();
   };
 
   return (
-    <DialogBlock onClose={handleNoImageClose} open={open}>
+    <DialogBlock onClose={handleSelectImage} open={open}>
       <ModalCon>
         <div className="modalTopCon">
-          <span className="closeBtn" onClick={handleNoImageClose}>
+          <span className="closeBtn" onClick={handleSelectImage}>
             <Image src={Close} alt="closeBtn" />
           </span>
         </div>
@@ -44,46 +43,54 @@ const ImageModal = ({ onClose, open }: { onClose: () => void; open: boolean }) =
           <div className="charIcon">
             <ul>
               <li onClick={handleClickIcon}>
-                <input className="checkIcon" type="radio" name="profile" value={Profile1[1]} />
+                <input
+                  className="checkIcon"
+                  type="radio"
+                  name="photoUrl"
+                  value={Profile1[1].src}
+                  onChange={handleChangeRegisterForm}
+                  checked={photoUrl === Profile1[1].src ? true : false}
+                />
                 <label />
               </li>
               <li onClick={handleClickIcon}>
-                <input className="checkIcon" type="radio" name="profile" value={Profile2[1]} />
+                <input
+                  className="checkIcon"
+                  type="radio"
+                  name="photoUrl"
+                  value={Profile2[1].src}
+                  onChange={handleChangeRegisterForm}
+                  checked={photoUrl === Profile2[1].src ? true : false}
+                />
                 <label />
               </li>
               <li onClick={handleClickIcon}>
-                <input className="checkIcon" type="radio" name="profile" value={Profile3[1]} />
+                <input
+                  className="checkIcon"
+                  type="radio"
+                  name="photoUrl"
+                  value={Profile3[1].src}
+                  onChange={handleChangeRegisterForm}
+                  checked={photoUrl === Profile3[1].src ? true : false}
+                />
                 <label />
               </li>
               <li onClick={handleClickIcon}>
-                <input className="checkIcon" type="radio" name="profile" value={Profile4[1]} />
+                <input
+                  className="checkIcon"
+                  type="radio"
+                  name="photoUrl"
+                  value={Profile4[1].src}
+                  onChange={handleChangeRegisterForm}
+                  checked={photoUrl === Profile4[1].src ? true : false}
+                />
                 <label />
               </li>
             </ul>
             <span>기본 제공</span>
           </div>
-          <div className="fileImage">
-            <div className="preview" onClick={(e) => handleClickImage(e)}>
-              {!imageSrc ? (
-                <>
-                  <div>
-                    <Image src={Camera} alt="preview" />
-                  </div>
-                  <input type="file" accept="image/*" onChange={(e) => handleChangeImage(e.target.files[0])} />
-                </>
-              ) : (
-                <>
-                  <div className="preview_layout">
-                    <Image src={imageSrc} alt="preview" layout="fill" />
-                  </div>
-                  <input type="file" accept="image/*" onChange={(e) => handleChangeImage(e.target.files[0])} />
-                </>
-              )}
-            </div>
-            <span>이미지 업로드</span>
-          </div>
         </div>
-        <StyledButton>확인</StyledButton>
+        <StyledButton onClick={handleSelectImage}>확인</StyledButton>
       </ModalCon>
     </DialogBlock>
   );
@@ -138,11 +145,11 @@ const ModalCon = styled(DialogContent)`
       }
     }
     .charIcon {
-      width: 188px;
+      width: 190px;
       ul {
         width: 100%;
         list-style: none;
-        height: 188px;
+        height: 190px;
         margin-bottom: 1rem;
         display: flex;
         flex-wrap: wrap;
@@ -150,8 +157,8 @@ const ModalCon = styled(DialogContent)`
         align-content: space-between;
 
         li {
-          width: 84px;
-          height: 84px;
+          width: 90px;
+          height: 90px;
           cursor: pointer;
           position: relative;
           input {
@@ -211,40 +218,40 @@ const ModalCon = styled(DialogContent)`
         }
       }
     }
-    .fileImage {
-      width: 160px;
-      .preview {
-        width: 100%;
-        height: 188px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid ${colors.gray[2]};
-        border-radius: 14px;
-        background-color: ${colors.gray[0]};
-        margin-bottom: 1rem;
-        transition: all 0.2s;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
+  }
 
-        &:hover {
-          border-color: ${colors.blue[2]};
+  ${media.tablet} {
+    &.MuiDialogContent-root {
+      padding: 60px 40px 40px;
+    }
+    .modalTopCon {
+      padding: 12px;
+    }
+    .imageTypes {
+      .charIcon {
+        ul {
+          width: 100%;
+          height: 190px;
+          li {
+            width: 50%;
+            max-width: 85px;
+            height: 85px;
+          }
         }
+      }
+    }
+  }
 
-        input {
-          display: none;
-        }
-
-        .preview_layout::after {
-          content: '';
-          width: 101%;
-          height: 101%;
-          background: url(${PreviewBg.src}) no-repeat 50% / cover;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+  @media (max-width: 364px) {
+    .imageTypes {
+      & > div {
+        margin-right: 1rem;
+      }
+      .charIcon {
+        ul {
+          width: 100%;
+          li {
+          }
         }
       }
     }
