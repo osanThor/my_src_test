@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
+import FuncModal from '@/src/components/common/FuncModal';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Register: NextPage = () => {
     photoUrl: user.photoUrl,
   }));
 
+  // 회원가입 실시간 상태관리
   const handleChangeRegisterForm = (e: any) => {
     const { name, value } = e.target;
     let emailVal = email;
@@ -44,13 +46,7 @@ const Register: NextPage = () => {
     );
   };
 
-  const handleSubmitRegisterForm = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
-
-  useEffect(() => {
-    dispatch(userActions.initializeUserForm());
-  }, [dispatch]);
+  //이미지 모달
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -59,6 +55,30 @@ const Register: NextPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // 이메일 인증
+  const [verify, setVerify] = useState(false);
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  // 인증번호 요청하기
+  const handleReqVerify = () => {
+    setVerify(true);
+    setModalOpen(true);
+  };
+
+  // 회원가입
+  const handleSubmitRegisterForm = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  // 회원가입폼 상태 초기화
+  useEffect(() => {
+    dispatch(userActions.initializeUserForm());
+  }, [dispatch]);
 
   return (
     <AuthLayout type="register">
@@ -69,6 +89,8 @@ const Register: NextPage = () => {
         checkNicknameResult={checkNicknameResult}
         profileImg={profileImg}
         photoUrl={photoUrl}
+        verify={verify}
+        handleReqVerify={handleReqVerify}
         handleClickOpen={handleClickOpen}
         onChange={handleChangeRegisterForm}
         onSubmit={handleSubmitRegisterForm}
@@ -81,6 +103,7 @@ const Register: NextPage = () => {
         setProfileImg={setProfileImg}
         handleChangeRegisterForm={handleChangeRegisterForm}
       />
+      <FuncModal open={modalOpen} close={handleModalClose} message="테스트 입니다." error={true} />
     </AuthLayout>
   );
 };

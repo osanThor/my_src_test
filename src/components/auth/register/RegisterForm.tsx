@@ -16,12 +16,13 @@ const RegisterForm = ({
   nickname,
   checkNicknameResult,
   profileImg,
+  verify,
+  handleReqVerify,
   handleClickOpen,
   onChange,
   onSubmit,
 }: IRegisterType) => {
   const [emailError, setEmailError] = useState<boolean>(Boolean);
-  const [verify, setVerify] = useState(false);
   const dispatch = useDispatch();
 
   // 닉네임 체크
@@ -47,11 +48,6 @@ const RegisterForm = ({
       setEmailError(false);
     }
   }, [email]);
-
-  // 인증번호 요청하기
-  const handleReqVerify = () => {
-    setVerify(true);
-  };
 
   return (
     <>

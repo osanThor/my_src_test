@@ -9,6 +9,8 @@ export interface IRegisterState {
   photoUrl: string | null;
   profileImg: string | null;
   checkNicknameResult: boolean;
+  verify: boolean;
+  handleReqVerify: () => void;
   handleClickOpen: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
