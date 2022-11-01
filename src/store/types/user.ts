@@ -17,6 +17,7 @@ export type RegisterBody = {
   nickname: string | null;
   photoUrl: string | null;
 };
+
 export type ThemePayload = {
   isDark: boolean;
 };

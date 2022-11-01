@@ -6,6 +6,7 @@ import {
   LoadUserBody,
   LoadUserResponse,
   RegisterBody,
+  RegisterPayload,
   ResponseFailure,
   ThemePayload,
 } from '../types';
@@ -58,6 +59,12 @@ const userSlice = createSlice({
     },
     loadCheckNickNameResult(state, action: PayloadAction<boolean>) {
       state.checkNicknameResult = action.payload;
+    },
+    userRegister(state, action: PayloadAction<RegisterPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+      state.nickname = action.payload.nickname;
+      state.photoUrl = action.payload.photoUrl;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

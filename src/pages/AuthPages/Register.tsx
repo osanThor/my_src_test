@@ -26,11 +26,10 @@ const Register: NextPage = () => {
   );
 
   // auth 상태관리
-  const { isExistTrigger, loadAuthLoading, loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
+  const { isExistTrigger, loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
     isExistTrigger: auth.isExistTrigger,
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
-    loadAuthError: auth.loadAuthError,
   }));
 
   // 회원가입 form 실시간 변화 상태관리
@@ -122,7 +121,7 @@ const Register: NextPage = () => {
 
   // 인증코드 타이머
   const [veriAble, setVeriAble] = useState(false);
-  const [ReadOnltVerify, setReadOnltVerify] = useState(false);
+  const [readOnltVerify, setReadOnltVerify] = useState(false);
   const [timerErr, setTimerErr] = useState(false);
 
   // 시간이 초과되면 코드인증 버튼 비활성화
@@ -168,6 +167,32 @@ const Register: NextPage = () => {
   // 회원가입
   const handleSubmitRegisterForm = (e: React.FormEvent) => {
     e.preventDefault();
+    if (photoUrl === '') {
+      setModalOpen(true);
+      setMessage('프로필 사진을 선택해주세요.');
+      setModalSt(true);
+      return;
+    } else if (nickname === '') {
+      setModalOpen(true);
+      setMessage('닉네임을 확인해주세요.');
+      setModalSt(true);
+      return;
+    } else if (checkNicknameResult === true) {
+      setModalOpen(true);
+      setMessage('닉네임 중복을 확인해주세요.');
+      setModalSt(true);
+      return;
+    } else if (email === '') {
+      setModalOpen(true);
+      setMessage('이메일을 확인해주세요.');
+      setModalSt(true);
+      return;
+    } else if (readOnltVerify) {
+      setModalOpen(true);
+      setMessage('인증확인을 확인해주세요.');
+      setModalSt(true);
+      return;
+    }
   };
 
   // 회원가입폼 상태 초기화
@@ -186,7 +211,7 @@ const Register: NextPage = () => {
         onChange={handleChangeRegisterForm}
         onSubmit={handleSubmitRegisterForm}
         veriAble={veriAble}
-        ReadOnltVerify={ReadOnltVerify}
+        ReadOnltVerify={readOnltVerify}
         timerErr={timerErr}
         setTimerErr={setTimerErr}
         timerVisible={timerVisible}

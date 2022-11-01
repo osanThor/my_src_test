@@ -6,5 +6,5 @@ export const axiosInstance = axios.create({
 });
 
 export { userLogin, apiVerifyEmial, apiVerifyCode } from './auth';
-export { apiChangeTheme } from './user';
+export { apiCheckNickname, apiRegister, apiChangeTheme } from './user';
 export { apiLoadPosts } from './post';

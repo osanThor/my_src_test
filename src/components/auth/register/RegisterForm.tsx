@@ -34,9 +34,8 @@ const RegisterForm = ({
     nickname: user.nickname,
   }));
 
-  const [emailError, setEmailError] = useState<boolean>(Boolean);
-
   // 이메일 실시간 유효성검사
+  const [emailError, setEmailError] = useState<boolean>(Boolean);
   useEffect(() => {
     if (email.length <= 0) {
       setEmailError(true);
@@ -50,6 +49,50 @@ const RegisterForm = ({
     }
   }, [email]);
 
+  // 비밀번호 실시간 유효성 검사
+  const [pwError, setPwError] = useState<boolean>(Boolean);
+  const [pwErrMessage, setPwErrMessage] = useState<string>('');
+
+  useEffect(() => {
+    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    if (pw.length != 0) {
+      if (pw.length < 8 || pw.length > 20) {
+        setPwError(true);
+        setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
+      } else if (reg.test(pw) === false) {
+        setPwError(true);
+        setPwErrMessage('비밀번호 형식이 잘못되었어요');
+      } else {
+        setPwError(false);
+        setPwErrMessage('');
+      }
+    } else {
+      setPwError(false);
+      setPwErrMessage('');
+    }
+    if (pwConfirm.length != 0) {
+      if (pw != pwConfirm) {
+        setPwError(true);
+        setPwErrMessage('비밀번호가 일치하지 않아요.');
+      } else {
+        setPwError(false);
+        setPwErrMessage('');
+      }
+    }
+  }, [pw, pwConfirm, pwError]);
+  console.log(pwError);
+
+  // 회원가입 버튼 활성화
+  const [registerAble, setRegisterAble] = useState(false);
+
+  useEffect(() => {
+    if (profileImg && nickname && email && verifyCode && pw && pwConfirm && pwError === false) {
+      setRegisterAble(true);
+    } else {
+      setRegisterAble(false);
+    }
+  }, [profileImg, nickname, email, verifyCode, pwError]);
+
   return (
     <>
       <RegisterFormBlock>
@@ -60,7 +103,7 @@ const RegisterForm = ({
             </a>
           </Link>
         </h1>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={(e: React.FormEvent) => e.preventDefault()}>
           <div className="register_top">
             <div className={`${profileImg ? 'selectImage blue' : 'selectImage'}`} onClick={handleClickOpen}>
               {profileImg ? (
@@ -162,9 +205,17 @@ const RegisterForm = ({
               icon={Lock}
               onChange={onChange}
             />
+            {pwError && (
+              <div className="pwErr">
+                <div>
+                  <Image src={Notice[1]} alt="notice" />
+                </div>
+                <span className="error">{pwErrMessage}</span>
+              </div>
+            )}
           </div>
         </form>
-        <Button fullWidth blue disabled onClick={onSubmit}>
+        <Button fullWidth blue disabled={registerAble ? false : true} onClick={onSubmit}>
           회원가입
         </Button>
       </RegisterFormBlock>
@@ -297,6 +348,15 @@ const RegisterFormBlock = styled.div`
           width: 17%;
           padding: 0 21px;
         }
+      }
+    }
+    .pwErr {
+      width: 100%;
+      display: flex;
+      font-size: 14px;
+      color: ${colors.red[2]};
+      & > div {
+        margin-right: 0.5rem;
       }
     }
   }
