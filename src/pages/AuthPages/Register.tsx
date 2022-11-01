@@ -1,6 +1,6 @@
 import RegisterForm from '@/src/components/auth/register/RegisterForm';
 import { NextPage } from 'next';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootState } from '@/src/store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
@@ -187,7 +187,7 @@ const Register: NextPage = () => {
       setMessage('이메일을 확인해주세요.');
       setModalSt(true);
       return;
-    } else if (readOnltVerify) {
+    } else if (readOnltVerify != true) {
       setModalOpen(true);
       setMessage('인증확인을 확인해주세요.');
       setModalSt(true);
