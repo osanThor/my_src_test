@@ -6,7 +6,6 @@ import {
   LoadUserBody,
   LoadUserResponse,
   RegisterBody,
-  RegisterPayload,
   ResponseFailure,
   ThemePayload,
 } from '../types';
@@ -18,6 +17,7 @@ export type UserStateType = {
   nickname: string | null;
   checkNicknameResult: boolean;
   photoUrl: string | null;
+  verifyCode: number | string | null;
   isDark: boolean;
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
@@ -31,6 +31,7 @@ const initialState: UserStateType = {
   nickname: '',
   checkNicknameResult: false,
   photoUrl: '',
+  verifyCode: '',
   isDark: true,
   loadUserLoading: false,
   loadUserDone: '',
@@ -48,6 +49,7 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
       state.pwConfirm = action.payload.pwConfirm;
+      state.verifyCode = action.payload.verifyCode;
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
     },

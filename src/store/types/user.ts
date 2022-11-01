@@ -13,6 +13,7 @@ export type RegisterBody = {
   email: string | null;
   pw: string | null;
   pwConfirm: string | null;
+  verifyCode: number | string | null;
   nickname: string | null;
   photoUrl: string | null;
 };

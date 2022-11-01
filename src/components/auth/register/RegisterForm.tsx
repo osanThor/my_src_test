@@ -20,13 +20,12 @@ const RegisterForm = ({
   onChange,
   onSubmit,
 }: IRegisterType) => {
-  const { email, pw, pwConfirm, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
+  const { email, pw, pwConfirm, nickname, verifyCode } = useSelector(({ user }: RootState) => ({
     email: user.email,
     pw: user.pw,
     pwConfirm: user.pwConfirm,
+    verifyCode: user.verifyCode,
     nickname: user.nickname,
-    checkNicknameResult: user.checkNicknameResult,
-    photoUrl: user.photoUrl,
   }));
 
   const [emailError, setEmailError] = useState<boolean>(Boolean);
@@ -46,7 +45,20 @@ const RegisterForm = ({
   }, [email]);
 
   // 인증코드 타이머
+  const [veriAble, setVeriAble] = useState(false);
   const [timerErr, setTimerErr] = useState(false);
+
+  useEffect(() => {
+    if (timerErr === true) {
+      setVeriAble(false);
+    } else {
+      if (verifyCode.toString().length === 4) {
+        setVeriAble(true);
+      } else {
+        setVeriAble(false);
+      }
+    }
+  }, [verifyCode]);
 
   return (
     <>
@@ -130,8 +142,17 @@ const RegisterForm = ({
             {verify && (
               <div className="emailVerify">
                 <Timer error={timerErr} setError={setTimerErr} />
-                <StyleInput type="text" placeholder="인증번호를 입력해요" icon={Key} />
-                <StyledButton blue>인증확인</StyledButton>
+                <StyleInput
+                  name="verifyCode"
+                  type="number"
+                  placeholder="인증번호를 입력해요"
+                  value={verifyCode}
+                  icon={Key}
+                  onChange={onChange}
+                />
+                <StyledButton blue disabled={veriAble ? false : true}>
+                  인증확인
+                </StyledButton>
               </div>
             )}
             <StyleInput

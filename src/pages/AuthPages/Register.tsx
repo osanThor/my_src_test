@@ -13,23 +13,27 @@ const Register: NextPage = () => {
   const [profileImg, setProfileImg] = useState('');
 
   // user 상태 관리
-  const { email, pw, pwConfirm, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
-    email: user.email,
-    pw: user.pw,
-    pwConfirm: user.pwConfirm,
-    nickname: user.nickname,
-    checkNicknameResult: user.checkNicknameResult,
-    photoUrl: user.photoUrl,
-  }));
+  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl } = useSelector(
+    ({ user }: RootState) => ({
+      email: user.email,
+      pw: user.pw,
+      pwConfirm: user.pwConfirm,
+      verifyCode: user.verifyCode,
+      nickname: user.nickname,
+      checkNicknameResult: user.checkNicknameResult,
+      photoUrl: user.photoUrl,
+    }),
+  );
 
   // auth 상태관리
 
   // 회원가입 실시간 상태관리
-  const handleChangeRegisterForm = (e: any) => {
-    const { name, value } = e.target;
+  const handleChangeRegisterForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value }: { name: string; value: any } = e.target;
     let emailVal = email;
     let pwVal = pw;
     let pwConVal = pwConfirm;
+    let verVal = verifyCode;
     let nickVal = nickname;
     let photoVal = photoUrl;
     if (name === 'email') {
@@ -38,6 +42,8 @@ const Register: NextPage = () => {
       pwVal = value;
     } else if (name === 'pwConfirm') {
       pwConVal = value;
+    } else if (name === 'verifyCode') {
+      verVal = parseInt(value);
     } else if (name === 'nickname') {
       nickVal = value;
     } else if (name === 'photoUrl') {
@@ -48,6 +54,7 @@ const Register: NextPage = () => {
         email: emailVal,
         pw: pwVal,
         pwConfirm: pwConVal,
+        verifyCode: verVal,
         nickname: nickVal,
         photoUrl: photoVal,
       }),

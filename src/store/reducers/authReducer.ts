@@ -7,6 +7,7 @@ export type AuthStateType = {
   email: string | null;
   pw: string | null;
   isExistTrigger: boolean;
+  verifyCode: number | null;
   loadAuthLoading: boolean;
   loadAuthDone: {} | null;
   loadAuthError: string | null;
@@ -16,6 +17,7 @@ const initialState: AuthStateType = {
   email: '',
   pw: '',
   isExistTrigger: false,
+  verifyCode: 0,
   loadAuthLoading: false,
   loadAuthDone: '',
   loadAuthError: '',
