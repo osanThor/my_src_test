@@ -14,10 +14,11 @@ export type ResponseFailure = {
   data: { message: string };
 };
 
-export type { LoginPayload, LoadAuthBody, LoadAuthResponse, VerifyEmail } from './auth';
+export type { LoginPayload, LoadAuthBody, LoadAuthResponse, VerifyEmailPayload, VerifyCodePayload } from './auth';
 export type {
   CheckNicknameRes,
   LoadUserBody,
+  RegisterBody,
   RegisterPayload,
   CheckNicknamePayload,
   LoadUserResponse,

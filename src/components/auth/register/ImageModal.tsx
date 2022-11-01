@@ -47,9 +47,13 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  value={Profile1[1].src}
+                  value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/01.png"
                   onChange={handleChangeRegisterForm}
-                  checked={photoUrl === Profile1[1].src ? true : false}
+                  checked={
+                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/01.png'
+                      ? true
+                      : false
+                  }
                 />
                 <label />
               </li>
@@ -58,9 +62,13 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  value={Profile2[1].src}
+                  value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/02.png"
                   onChange={handleChangeRegisterForm}
-                  checked={photoUrl === Profile2[1].src ? true : false}
+                  checked={
+                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/02.png'
+                      ? true
+                      : false
+                  }
                 />
                 <label />
               </li>
@@ -69,9 +77,13 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  value={Profile3[1].src}
+                  value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/03.png"
                   onChange={handleChangeRegisterForm}
-                  checked={photoUrl === Profile3[1].src ? true : false}
+                  checked={
+                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/03.png'
+                      ? true
+                      : false
+                  }
                 />
                 <label />
               </li>
@@ -80,9 +92,13 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  value={Profile4[1].src}
+                  value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/04.png"
                   onChange={handleChangeRegisterForm}
-                  checked={photoUrl === Profile4[1].src ? true : false}
+                  checked={
+                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/04.png'
+                      ? true
+                      : false
+                  }
                 />
                 <label />
               </li>

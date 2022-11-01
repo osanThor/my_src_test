@@ -12,11 +12,15 @@ export type LoginPayload = {
   email: string | null;
   pw: string | null;
 };
-export type VerifyEmail = {
+export type VerifyEmailPayload = {
   email: string;
   isExistTrigger: boolean;
 };
+export type VerifyCodePayload = {
+  email: string;
+  verifyCode: number | string;
+};
 
-export type LoadAuthResponse = ResponseStatus & {
-  data: string;
+export type LoadAuthResponse = {
+  message: string;
 };

@@ -9,8 +9,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { LoadUserResponse, LoadUserBody } from '../types';
 
 // api
-import { apiChangeTheme } from '../api';
-import { checkNickname } from '../api/user';
+import { apiCheckNickname, apiChangeTheme } from '../api';
 
 // 테마변경
 function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
@@ -32,12 +31,12 @@ function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
     console.log('끝');
   }
 }
-// 닉네임체크변경
+// 닉네임체크
 function* checkNickNameSaga(action: PayloadAction<LoadUserBody>) {
   console.log('시작');
   yield put(userActions.loadUserRequest());
   try {
-    const { data } = yield call(checkNickname, action.payload);
+    const { data } = yield call(apiCheckNickname, action.payload);
     console.log(data);
 
     yield put(userActions.loadCheckNickNameResult(data));

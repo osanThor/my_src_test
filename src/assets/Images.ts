@@ -2,6 +2,7 @@ import LogoImage from 'public/assets/common/logo.png';
 import GoogleIcon from 'public/assets/common/google.svg';
 import CloseIcon from 'public/assets/common/close.svg';
 import CloseRedIcon from 'public/assets/common/close_red.svg';
+import CloseWhiteIcon from 'public/assets/common/close_white.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -39,6 +40,7 @@ export const Profile4 = [ProfileIcon4, ProfileBLueIcon4];
 //기능 icon
 export const Close = CloseIcon;
 export const CloseRed = CloseRedIcon;
+export const CloseWhite = CloseWhiteIcon;
 export const CheckSquare = CheckSquareIcon;
 export const CheckedSqquare = CheckedSquareIcon;
 export const PreviewBg = previewBgImage;

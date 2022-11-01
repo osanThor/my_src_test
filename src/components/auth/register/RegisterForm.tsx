@@ -1,41 +1,41 @@
 import colors from '@/src/assets/Colors';
 import { CameraBlue, Email, Key, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
 import { IRegisterType } from '@/src/interfaces/iAuth/iRegister';
-import { userActions } from '@/src/store/reducers';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
+import Timer from '../../common/Timer';
 
 const RegisterForm = ({
-  email,
-  pw,
-  nickname,
-  checkNicknameResult,
+  handleCheckNickname,
   profileImg,
   verify,
   handleReqVerify,
   handleClickOpen,
   onChange,
   onSubmit,
+  veriAble,
+  ReadOnltVerify,
+  timerErr,
+  setTimerErr,
+  timerVisible,
+  handleCheckVerify,
 }: IRegisterType) => {
-  const [emailError, setEmailError] = useState<boolean>(Boolean);
-  const dispatch = useDispatch();
-
-  // 닉네임 체크
-  const handleCheckNickname = () => {
-    dispatch(userActions.checkNickName({ nickname }));
-    if (checkNicknameResult) {
-      alert('사용불가능');
-    } else {
-      alert('사용가능');
-    }
-  };
+  const { email, pw, pwConfirm, nickname, verifyCode } = useSelector(({ user }: RootState) => ({
+    email: user.email,
+    pw: user.pw,
+    pwConfirm: user.pwConfirm,
+    verifyCode: user.verifyCode,
+    nickname: user.nickname,
+  }));
 
   // 이메일 실시간 유효성검사
+  const [emailError, setEmailError] = useState<boolean>(Boolean);
   useEffect(() => {
     if (email.length <= 0) {
       setEmailError(true);
@@ -49,6 +49,50 @@ const RegisterForm = ({
     }
   }, [email]);
 
+  // 비밀번호 실시간 유효성 검사
+  const [pwError, setPwError] = useState<boolean>(Boolean);
+  const [pwErrMessage, setPwErrMessage] = useState<string>('');
+
+  useEffect(() => {
+    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    if (pw.length != 0) {
+      if (pw.length < 8 || pw.length > 20) {
+        setPwError(true);
+        setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
+      } else if (reg.test(pw) === false) {
+        setPwError(true);
+        setPwErrMessage('비밀번호 형식이 잘못되었어요');
+      } else {
+        setPwError(false);
+        setPwErrMessage('');
+      }
+    } else {
+      setPwError(false);
+      setPwErrMessage('');
+    }
+    if (pwConfirm.length != 0) {
+      if (pw != pwConfirm) {
+        setPwError(true);
+        setPwErrMessage('비밀번호가 일치하지 않아요.');
+      } else {
+        setPwError(false);
+        setPwErrMessage('');
+      }
+    }
+  }, [pw, pwConfirm, pwError]);
+  console.log(pwError);
+
+  // 회원가입 버튼 활성화
+  const [registerAble, setRegisterAble] = useState(false);
+
+  useEffect(() => {
+    if (profileImg && nickname && email && verifyCode && pw && pwConfirm && pwError === false) {
+      setRegisterAble(true);
+    } else {
+      setRegisterAble(false);
+    }
+  }, [profileImg, nickname, email, verifyCode, pwError]);
+
   return (
     <>
       <RegisterFormBlock>
@@ -59,7 +103,7 @@ const RegisterForm = ({
             </a>
           </Link>
         </h1>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={(e: React.FormEvent) => e.preventDefault()}>
           <div className="register_top">
             <div className={`${profileImg ? 'selectImage blue' : 'selectImage'}`} onClick={handleClickOpen}>
               {profileImg ? (
@@ -129,16 +173,49 @@ const RegisterForm = ({
           </div>
           <div className="register_bottom">
             {verify && (
-              <div className="emailVerify">
-                <StyleInput type="text" placeholder="인증번호를 입력해요" icon={Key} />
-                <StyledButton blue>인증확인</StyledButton>
+              <div className={ReadOnltVerify ? 'emailVerify readOnly' : 'emailVerify '}>
+                {timerVisible && <Timer error={timerErr} setError={setTimerErr} />}
+                <StyleInput
+                  name="verifyCode"
+                  type="number"
+                  placeholder="인증번호를 입력해요"
+                  value={verifyCode}
+                  icon={Key}
+                  onChange={onChange}
+                  readOnly={ReadOnltVerify ? true : false}
+                />
+                <StyledButton blue disabled={veriAble ? false : true} onClick={handleCheckVerify}>
+                  인증확인
+                </StyledButton>
               </div>
             )}
-            <StyleInput type="password" placeholder="비밀번호를 설정해요" icon={Lock} />
-            <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
+            <StyleInput
+              name="pw"
+              type="password"
+              placeholder="비밀번호를 설정해요"
+              value={pw}
+              icon={Lock}
+              onChange={onChange}
+            />
+            <StyleInput
+              name="pwConfirm"
+              type="password"
+              placeholder="비밀번호를 한번 더 설정해요"
+              value={pwConfirm}
+              icon={Lock}
+              onChange={onChange}
+            />
+            {pwError && (
+              <div className="pwErr">
+                <div>
+                  <Image src={Notice[1]} alt="notice" />
+                </div>
+                <span className="error">{pwErrMessage}</span>
+              </div>
+            )}
           </div>
         </form>
-        <Button fullWidth blue disabled onClick={onSubmit}>
+        <Button fullWidth blue disabled={registerAble ? false : true} onClick={onSubmit}>
           회원가입
         </Button>
       </RegisterFormBlock>
@@ -215,7 +292,7 @@ const RegisterFormBlock = styled.div`
             max-width: 320px;
           }
           &:last-child > div:first-child {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0;
             margin-right: 1rem;
           }
 
@@ -226,6 +303,7 @@ const RegisterFormBlock = styled.div`
             color: ${colors.gray[3]};
             display: flex;
             align-items: center;
+            margin-top: 0.5rem;
             & > div {
               margin-right: 0.5rem;
               transform: translateY(2px);
@@ -255,7 +333,11 @@ const RegisterFormBlock = styled.div`
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1rem;
+        margin-bottom: 2.7rem;
+        position: relative;
+        &.readOnly {
+          margin-bottom: 1rem;
+        }
         & > div {
           width: 81%;
           max-width: 496px;
@@ -266,6 +348,15 @@ const RegisterFormBlock = styled.div`
           width: 17%;
           padding: 0 21px;
         }
+      }
+    }
+    .pwErr {
+      width: 100%;
+      display: flex;
+      font-size: 14px;
+      color: ${colors.red[2]};
+      & > div {
+        margin-right: 0.5rem;
       }
     }
   }
@@ -289,6 +380,7 @@ const RegisterFormBlock = styled.div`
         }
         .reguster_auth {
           max-width: none;
+          width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -301,6 +393,10 @@ const RegisterFormBlock = styled.div`
             & > div:first-child {
               max-width: none;
               flex: 1;
+              margin-right: 0.5rem;
+            }
+            &:last-child > div:first-child {
+              margin-bottom: 0;
               margin-right: 0.5rem;
             }
             .notice {

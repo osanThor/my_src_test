@@ -5,9 +5,19 @@ export type LoadUserBody = {
   isDark: boolean;
   email: string | null;
   pw: string | null;
+  pwConfirm: string | null;
   nickname: string | null;
   photoUrl: string | null;
 };
+export type RegisterBody = {
+  email: string | null;
+  pw: string | null;
+  pwConfirm: string | null;
+  verifyCode: number | string | null;
+  nickname: string | null;
+  photoUrl: string | null;
+};
+
 export type ThemePayload = {
   isDark: boolean;
 };
