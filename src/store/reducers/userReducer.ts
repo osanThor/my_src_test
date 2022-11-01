@@ -45,7 +45,7 @@ const userSlice = createSlice({
     changeTheme(state, action: PayloadAction<ThemePayload>) {
       state.isDark = action.payload.isDark;
     },
-    changeRegisterFiled(state, action: PayloadAction<RegisterBody>) {
+    changeRegisterField(state, action: PayloadAction<RegisterBody>) {
       state.email = action.payload.email;
       state.pw = action.payload.pw;
       state.pwConfirm = action.payload.pwConfirm;

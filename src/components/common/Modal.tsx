@@ -5,6 +5,7 @@ import colors from '@/src/assets/Colors';
 import Image from 'next/image';
 import { CloseRed, CloseWhite } from '@/src/assets/Images';
 import { IModalType } from '@/src/interfaces/iCommon/iModal';
+import { media } from '@/styles/theme';
 
 const Modal = ({ open, close, message, error }: IModalType) => {
   return (
@@ -23,7 +24,7 @@ const DialogBlock = styled(Dialog)`
   .MuiPaper-root {
     max-width: none;
     border-radius: 14px;
-    background-color: ${colors.blue[2]};
+    background-color: ${colors.blue[1]};
     position: relative;
     color: white;
 
@@ -35,6 +36,9 @@ const DialogBlock = styled(Dialog)`
       transform: translateY(-50%);
       right: 24px;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   &.error {
@@ -51,6 +55,14 @@ const ModalCon = styled(DialogContent)`
     p {
       width: 820px;
       transform: translateY(2px);
+    }
+  }
+
+  ${media.tablet} {
+    &.MuiDialogContent-root {
+      p {
+        width: auto;
+      }
     }
   }
 `;

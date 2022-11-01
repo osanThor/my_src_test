@@ -10,4 +10,10 @@ export interface IRegisterState {
   handleClickOpen: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
+  veriAble: boolean;
+  ReadOnltVerify: boolean;
+  timerErr: boolean;
+  setTimerErr: React.Dispatch<React.SetStateAction<boolean>>;
+  timerVisible: boolean;
+  handleCheckVerify: () => void;
 }

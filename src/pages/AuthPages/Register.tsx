@@ -1,10 +1,10 @@
 import RegisterForm from '@/src/components/auth/register/RegisterForm';
 import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { RootState } from '@/src/store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
-import { userActions } from '@/src/store/reducers';
+import { authActions, userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
 import Modal from '@/src/components/common/Modal';
 
@@ -26,8 +26,14 @@ const Register: NextPage = () => {
   );
 
   // auth 상태관리
+  const { isExistTrigger, loadAuthLoading, loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
+    isExistTrigger: auth.isExistTrigger,
+    loadAuthLoading: auth.loadAuthLoading,
+    loadAuthDone: auth.loadAuthDone,
+    loadAuthError: auth.loadAuthError,
+  }));
 
-  // 회원가입 실시간 상태관리
+  // 회원가입 form 실시간 변화 상태관리
   const handleChangeRegisterForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value }: { name: string; value: any } = e.target;
     let emailVal = email;
@@ -50,7 +56,7 @@ const Register: NextPage = () => {
       photoVal = value;
     }
     dispatch(
-      userActions.changeRegisterFiled({
+      userActions.changeRegisterField({
         email: emailVal,
         pw: pwVal,
         pwConfirm: pwConVal,
@@ -90,18 +96,74 @@ const Register: NextPage = () => {
       setModalSt(true);
     } else {
       setModalOpen(true);
-      setMessage('사용가능한 닉네임이에요');
+      setMessage('사용 가능한 닉네임이에요. 닉네임은 최초설정 이후 최대 1번만 재설정이 가능해요.');
       setModalSt(false);
     }
   };
 
   // 인증번호 요청하기
   const handleReqVerify = () => {
-    setVerify(true);
-    setModalOpen(true);
-    setMessage('인증메일을 전송했어요');
-    setModalSt(false);
+    dispatch(authActions.sendVerifyEmail({ email, isExistTrigger }));
   };
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone.message === 'SEND_VERIFY') {
+        setVerify(true);
+        setModalOpen(true);
+        setMessage('인증메일을 전송했어요');
+        setModalSt(false);
+      } else if (loadAuthDone.message === 'EXIST_EMAIL') {
+        setModalOpen(true);
+        setMessage('이미 메일을 전송했어요. 재전송까지는 3분의 시간이 소요돼요.');
+        setModalSt(true);
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
+  // 인증코드 타이머
+  const [veriAble, setVeriAble] = useState(false);
+  const [ReadOnltVerify, setReadOnltVerify] = useState(false);
+  const [timerErr, setTimerErr] = useState(false);
+
+  // 시간이 초과되면 코드인증 버튼 비활성화
+  useEffect(() => {
+    if (timerErr === true) {
+      setVeriAble(false);
+    } else {
+      if (verifyCode.toString().length === 4) {
+        setVeriAble(true);
+      } else {
+        setVeriAble(false);
+      }
+    }
+  }, [verifyCode, timerErr]);
+
+  // 인증이 완료되면 타이머 사라지고 인증버튼 비활성화
+  const [timerVisible, setTimerVisible] = useState(true);
+
+  // 인증번호 검사
+  const handleCheckVerify = () => {
+    dispatch(authActions.checkVerifyCode({ email, verifyCode }));
+  };
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone.message === 'VERIFIED') {
+        setModalOpen(true);
+        setMessage('메일 인증이 되었어요.');
+        setModalSt(false);
+        setReadOnltVerify(true);
+        setTimerVisible(false);
+        setVeriAble(false);
+      } else if (loadAuthDone.message === 'WRONG_CODE') {
+        setModalOpen(true);
+        setMessage('인증 코드를 다시 한번 확인해주세요');
+        setModalSt(true);
+      } else if (loadAuthDone.message === '') {
+        console.log(loadAuthDone.message);
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
 
   // 회원가입
   const handleSubmitRegisterForm = (e: React.FormEvent) => {
@@ -123,6 +185,12 @@ const Register: NextPage = () => {
         handleClickOpen={handleClickOpen}
         onChange={handleChangeRegisterForm}
         onSubmit={handleSubmitRegisterForm}
+        veriAble={veriAble}
+        ReadOnltVerify={ReadOnltVerify}
+        timerErr={timerErr}
+        setTimerErr={setTimerErr}
+        timerVisible={timerVisible}
+        handleCheckVerify={handleCheckVerify}
       />
 
       <ImageModal

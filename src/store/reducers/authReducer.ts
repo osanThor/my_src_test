@@ -1,15 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { LoginPayload, LoadAuthBody, LoadAuthResponse, ResponseFailure } from '../types';
+import type {
+  LoginPayload,
+  LoadAuthBody,
+  LoadAuthResponse,
+  ResponseFailure,
+  VerifyEmailPayload,
+  VerifyCodePayload,
+} from '../types';
 
 export type AuthStateType = {
   email: string | null;
   pw: string | null;
   isExistTrigger: boolean;
-  verifyCode: number | null;
+  verifyCode: number | string | null;
   loadAuthLoading: boolean;
-  loadAuthDone: {} | null;
+  loadAuthDone: {
+    message: string;
+  } | null;
   loadAuthError: string | null;
 };
 
@@ -19,7 +28,7 @@ const initialState: AuthStateType = {
   isExistTrigger: false,
   verifyCode: 0,
   loadAuthLoading: false,
-  loadAuthDone: '',
+  loadAuthDone: { message: '' },
   loadAuthError: '',
 };
 
@@ -37,13 +46,26 @@ const authSlice = createSlice({
     },
     // login
     userLogin(state, action: PayloadAction<LoginPayload>) {
+      state.loadAuthDone = { message: '' };
       state.email = action.payload.email;
       state.pw = action.payload.pw;
+    },
+    // Verify Emial
+    sendVerifyEmail(state, action: PayloadAction<VerifyEmailPayload>) {
+      state.loadAuthDone = { message: '' };
+      state.email = action.payload.email;
+      state.isExistTrigger = action.payload.isExistTrigger;
+    },
+    // Verify code
+    checkVerifyCode(state, action: PayloadAction<VerifyCodePayload>) {
+      state.loadAuthDone = { message: '' };
+      state.email = action.payload.email;
+      state.verifyCode = action.payload.verifyCode;
     },
     // 모든 auth API 패치
     loadAuthRequest(state, action: PayloadAction<LoadAuthBody>) {
       state.loadAuthLoading = true;
-      state.loadAuthDone = null;
+      state.loadAuthDone = { message: '' };
       state.loadAuthError = null;
     },
     loadAuthSuccess(state, action: PayloadAction<LoadAuthResponse>) {
@@ -51,7 +73,6 @@ const authSlice = createSlice({
       state.loadAuthDone = action.payload;
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
-      state.loadAuthLoading = false;
       state.loadAuthError = action.payload.data.message;
     },
   },

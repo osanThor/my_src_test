@@ -19,6 +19,12 @@ const RegisterForm = ({
   handleClickOpen,
   onChange,
   onSubmit,
+  veriAble,
+  ReadOnltVerify,
+  timerErr,
+  setTimerErr,
+  timerVisible,
+  handleCheckVerify,
 }: IRegisterType) => {
   const { email, pw, pwConfirm, nickname, verifyCode } = useSelector(({ user }: RootState) => ({
     email: user.email,
@@ -43,22 +49,6 @@ const RegisterForm = ({
       setEmailError(false);
     }
   }, [email]);
-
-  // 인증코드 타이머
-  const [veriAble, setVeriAble] = useState(false);
-  const [timerErr, setTimerErr] = useState(false);
-
-  useEffect(() => {
-    if (timerErr === true) {
-      setVeriAble(false);
-    } else {
-      if (verifyCode.toString().length === 4) {
-        setVeriAble(true);
-      } else {
-        setVeriAble(false);
-      }
-    }
-  }, [verifyCode]);
 
   return (
     <>
@@ -140,8 +130,8 @@ const RegisterForm = ({
           </div>
           <div className="register_bottom">
             {verify && (
-              <div className="emailVerify">
-                <Timer error={timerErr} setError={setTimerErr} />
+              <div className={ReadOnltVerify ? 'emailVerify readOnly' : 'emailVerify '}>
+                {timerVisible && <Timer error={timerErr} setError={setTimerErr} />}
                 <StyleInput
                   name="verifyCode"
                   type="number"
@@ -149,8 +139,9 @@ const RegisterForm = ({
                   value={verifyCode}
                   icon={Key}
                   onChange={onChange}
+                  readOnly={ReadOnltVerify ? true : false}
                 />
-                <StyledButton blue disabled={veriAble ? false : true}>
+                <StyledButton blue disabled={veriAble ? false : true} onClick={handleCheckVerify}>
                   인증확인
                 </StyledButton>
               </div>
@@ -293,6 +284,9 @@ const RegisterFormBlock = styled.div`
         justify-content: space-between;
         margin-bottom: 2.7rem;
         position: relative;
+        &.readOnly {
+          margin-bottom: 1rem;
+        }
         & > div {
           width: 81%;
           max-width: 496px;
