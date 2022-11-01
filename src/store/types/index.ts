@@ -18,6 +18,7 @@ export type { LoginPayload, LoadAuthBody, LoadAuthResponse, VerifyEmail } from '
 export type {
   CheckNicknameRes,
   LoadUserBody,
+  RegisterBody,
   RegisterPayload,
   CheckNicknamePayload,
   LoadUserResponse,

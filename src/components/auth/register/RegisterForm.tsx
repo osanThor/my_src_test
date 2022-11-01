@@ -1,20 +1,18 @@
 import colors from '@/src/assets/Colors';
 import { CameraBlue, Email, Key, Lock, Logo, Notice, Profile } from '@/src/assets/Images';
 import { IRegisterType } from '@/src/interfaces/iAuth/iRegister';
-import { userActions } from '@/src/store/reducers';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
+import Timer from '../../common/Timer';
 
 const RegisterForm = ({
-  email,
-  pw,
-  nickname,
-  checkNicknameResult,
+  handleCheckNickname,
   profileImg,
   verify,
   handleReqVerify,
@@ -22,18 +20,16 @@ const RegisterForm = ({
   onChange,
   onSubmit,
 }: IRegisterType) => {
-  const [emailError, setEmailError] = useState<boolean>(Boolean);
-  const dispatch = useDispatch();
+  const { email, pw, pwConfirm, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
+    email: user.email,
+    pw: user.pw,
+    pwConfirm: user.pwConfirm,
+    nickname: user.nickname,
+    checkNicknameResult: user.checkNicknameResult,
+    photoUrl: user.photoUrl,
+  }));
 
-  // 닉네임 체크
-  const handleCheckNickname = () => {
-    dispatch(userActions.checkNickName({ nickname }));
-    if (checkNicknameResult) {
-      alert('사용불가능');
-    } else {
-      alert('사용가능');
-    }
-  };
+  const [emailError, setEmailError] = useState<boolean>(Boolean);
 
   // 이메일 실시간 유효성검사
   useEffect(() => {
@@ -48,6 +44,9 @@ const RegisterForm = ({
       setEmailError(false);
     }
   }, [email]);
+
+  // 인증코드 타이머
+  const [timerErr, setTimerErr] = useState(false);
 
   return (
     <>
@@ -130,12 +129,27 @@ const RegisterForm = ({
           <div className="register_bottom">
             {verify && (
               <div className="emailVerify">
+                <Timer error={timerErr} setError={setTimerErr} />
                 <StyleInput type="text" placeholder="인증번호를 입력해요" icon={Key} />
                 <StyledButton blue>인증확인</StyledButton>
               </div>
             )}
-            <StyleInput type="password" placeholder="비밀번호를 설정해요" icon={Lock} />
-            <StyleInput type="password" placeholder="비밀번호를 한번 더 설정해요" icon={Lock} />
+            <StyleInput
+              name="pw"
+              type="password"
+              placeholder="비밀번호를 설정해요"
+              value={pw}
+              icon={Lock}
+              onChange={onChange}
+            />
+            <StyleInput
+              name="pwConfirm"
+              type="password"
+              placeholder="비밀번호를 한번 더 설정해요"
+              value={pwConfirm}
+              icon={Lock}
+              onChange={onChange}
+            />
           </div>
         </form>
         <Button fullWidth blue disabled onClick={onSubmit}>
@@ -215,7 +229,7 @@ const RegisterFormBlock = styled.div`
             max-width: 320px;
           }
           &:last-child > div:first-child {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0;
             margin-right: 1rem;
           }
 
@@ -226,6 +240,7 @@ const RegisterFormBlock = styled.div`
             color: ${colors.gray[3]};
             display: flex;
             align-items: center;
+            margin-top: 0.5rem;
             & > div {
               margin-right: 0.5rem;
               transform: translateY(2px);
@@ -255,7 +270,8 @@ const RegisterFormBlock = styled.div`
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1rem;
+        margin-bottom: 2.7rem;
+        position: relative;
         & > div {
           width: 81%;
           max-width: 496px;
@@ -289,6 +305,7 @@ const RegisterFormBlock = styled.div`
         }
         .reguster_auth {
           max-width: none;
+          width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -301,6 +318,10 @@ const RegisterFormBlock = styled.div`
             & > div:first-child {
               max-width: none;
               flex: 1;
+              margin-right: 0.5rem;
+            }
+            &:last-child > div:first-child {
+              margin-bottom: 0;
               margin-right: 0.5rem;
             }
             .notice {

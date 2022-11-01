@@ -6,31 +6,38 @@ import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
-import FuncModal from '@/src/components/common/FuncModal';
+import Modal from '@/src/components/common/Modal';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState('');
 
-  const { email, pw, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
+  // user 상태 관리
+  const { email, pw, pwConfirm, nickname, checkNicknameResult, photoUrl } = useSelector(({ user }: RootState) => ({
     email: user.email,
     pw: user.pw,
+    pwConfirm: user.pwConfirm,
     nickname: user.nickname,
     checkNicknameResult: user.checkNicknameResult,
     photoUrl: user.photoUrl,
   }));
+
+  // auth 상태관리
 
   // 회원가입 실시간 상태관리
   const handleChangeRegisterForm = (e: any) => {
     const { name, value } = e.target;
     let emailVal = email;
     let pwVal = pw;
+    let pwConVal = pwConfirm;
     let nickVal = nickname;
     let photoVal = photoUrl;
     if (name === 'email') {
       emailVal = value;
     } else if (name === 'pw') {
       pwVal = value;
+    } else if (name === 'pwConfirm') {
+      pwConVal = value;
     } else if (name === 'nickname') {
       nickVal = value;
     } else if (name === 'photoUrl') {
@@ -40,6 +47,7 @@ const Register: NextPage = () => {
       userActions.changeRegisterFiled({
         email: emailVal,
         pw: pwVal,
+        pwConfirm: pwConVal,
         nickname: nickVal,
         photoUrl: photoVal,
       }),
@@ -56,18 +64,36 @@ const Register: NextPage = () => {
     setOpen(false);
   };
 
-  // 이메일 인증
+  // 이메일 인증, 모달 상태
   const [verify, setVerify] = useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [message, setMessage] = useState('');
+  const [modalSt, setModalSt] = useState(false);
 
   const handleModalClose = () => {
     setModalOpen(false);
+  };
+
+  // 닉네임 체크
+  const handleCheckNickname = () => {
+    dispatch(userActions.checkNickName({ nickname }));
+    if (checkNicknameResult) {
+      setModalOpen(true);
+      setMessage('이미 사용중인 닉네임이에요.');
+      setModalSt(true);
+    } else {
+      setModalOpen(true);
+      setMessage('사용가능한 닉네임이에요');
+      setModalSt(false);
+    }
   };
 
   // 인증번호 요청하기
   const handleReqVerify = () => {
     setVerify(true);
     setModalOpen(true);
+    setMessage('인증메일을 전송했어요');
+    setModalSt(false);
   };
 
   // 회원가입
@@ -83,18 +109,15 @@ const Register: NextPage = () => {
   return (
     <AuthLayout type="register">
       <RegisterForm
-        email={email}
-        pw={pw}
-        nickname={nickname}
-        checkNicknameResult={checkNicknameResult}
         profileImg={profileImg}
-        photoUrl={photoUrl}
         verify={verify}
+        handleCheckNickname={handleCheckNickname}
         handleReqVerify={handleReqVerify}
         handleClickOpen={handleClickOpen}
         onChange={handleChangeRegisterForm}
         onSubmit={handleSubmitRegisterForm}
       />
+
       <ImageModal
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -103,7 +126,7 @@ const Register: NextPage = () => {
         setProfileImg={setProfileImg}
         handleChangeRegisterForm={handleChangeRegisterForm}
       />
-      <FuncModal open={modalOpen} close={handleModalClose} message="테스트 입니다." error={true} />
+      <Modal open={modalOpen} close={handleModalClose} message={message} error={modalSt} />
     </AuthLayout>
   );
 };

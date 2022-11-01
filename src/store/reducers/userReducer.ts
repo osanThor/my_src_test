@@ -5,6 +5,7 @@ import {
   CheckNicknamePayload,
   LoadUserBody,
   LoadUserResponse,
+  RegisterBody,
   RegisterPayload,
   ResponseFailure,
   ThemePayload,
@@ -13,6 +14,7 @@ import {
 export type UserStateType = {
   email: string | null;
   pw: string | null;
+  pwConfirm: string | null;
   nickname: string | null;
   checkNicknameResult: boolean;
   photoUrl: string | null;
@@ -25,6 +27,7 @@ export type UserStateType = {
 const initialState: UserStateType = {
   email: '',
   pw: '',
+  pwConfirm: '',
   nickname: '',
   checkNicknameResult: false,
   photoUrl: '',
@@ -41,9 +44,10 @@ const userSlice = createSlice({
     changeTheme(state, action: PayloadAction<ThemePayload>) {
       state.isDark = action.payload.isDark;
     },
-    changeRegisterFiled(state, action: PayloadAction<RegisterPayload>) {
+    changeRegisterFiled(state, action: PayloadAction<RegisterBody>) {
       state.email = action.payload.email;
       state.pw = action.payload.pw;
+      state.pwConfirm = action.payload.pwConfirm;
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
     },
