@@ -3,7 +3,6 @@ import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colors from '../../assets/Colors';
@@ -40,16 +39,18 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
             </Link>
           )}
         </h1>
-        <div className="auth_Btn">
-          {type === 'login' ? (
-            <div className="onlyPc">
-              <span>계정이 없다구요?</span>
-              <Button href="/auth/terms">회원가입</Button>
-            </div>
-          ) : (
-            <Button href="/auth/login">로그인 하기</Button>
-          )}
-        </div>
+        {type != 'telegram' && (
+          <div className="auth_Btn">
+            {type === 'login' ? (
+              <div className="onlyPc">
+                <span>계정이 없다구요?</span>
+                <Button href="/auth/terms">회원가입</Button>
+              </div>
+            ) : (
+              <Button href="/auth/login">로그인 하기</Button>
+            )}
+          </div>
+        )}
       </AuthHead>
       {children}
     </AuthLayoutBlock>
@@ -125,13 +126,6 @@ const AuthHead = styled.div`
     .onlyPc {
       display: none;
     }
-  }
-`;
-const Spacer = styled.div`
-  width: 100%;
-  height: 128px;
-  ${media.tablet} {
-    height: 72px;
   }
 `;
 

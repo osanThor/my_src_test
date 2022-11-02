@@ -1,10 +1,11 @@
-import React from "react";
+import AuthLayout from '@/src/components/auth/AuthLayout';
+import React from 'react';
 
 const Telegram = () => {
   return (
-    <div>
-      <h1>퀀트로 텔레그램 연동 페이지</h1>
-    </div>
+    <AuthLayout type="telegram">
+      <h1>하하</h1>
+    </AuthLayout>
   );
 };
 

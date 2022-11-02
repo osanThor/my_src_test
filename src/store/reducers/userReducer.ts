@@ -38,7 +38,7 @@ const initialState: UserStateType = {
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
-  user: false,
+  user: null,
   userError: null,
 };
 
