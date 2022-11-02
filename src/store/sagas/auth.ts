@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 
 // action
-import { authActions } from '../reducers';
+import { authActions, userActions } from '../reducers';
 
 // types
 import type { AxiosResponse } from 'axios';
@@ -19,6 +19,11 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(userLogin, action.payload);
     console.log(data);
 
+    if (data.message === 'LOGGED_IN') {
+      yield put(userActions.userSuccess());
+    } else {
+      yield put(userActions.userFailure());
+    }
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga login >> ', error);

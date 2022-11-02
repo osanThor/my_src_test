@@ -1,20 +1,21 @@
 import RegisterForm from '@/src/components/auth/register/RegisterForm';
 import { NextPage } from 'next';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootState } from '@/src/store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { authActions, userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
 import Modal from '@/src/components/common/Modal';
+import { useRouter } from 'next/router';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();
   const [profileImg, setProfileImg] = useState('');
 
   // user 상태 관리
-  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, loadUserDone, loadUserLoading } =
-    useSelector(({ user }: RootState) => ({
+  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, user, userError } = useSelector(
+    ({ user }: RootState) => ({
       email: user.email,
       pw: user.pw,
       pwConfirm: user.pwConfirm,
@@ -22,15 +23,18 @@ const Register: NextPage = () => {
       nickname: user.nickname,
       checkNicknameResult: user.checkNicknameResult,
       photoUrl: user.photoUrl,
-      loadUserDone: user.loadUserDone,
-      loadUserLoading: user.loadUserLoading,
-    }));
+      user: user.user,
+      userError: user.userError,
+    }),
+  );
 
   // auth 상태관리
-  const { isExistTrigger, loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { isExistTrigger, loadAuthLoading, loadAuthDone, auth, authError } = useSelector(({ auth }: RootState) => ({
     isExistTrigger: auth.isExistTrigger,
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
+    auth: auth.auth,
+    authError: auth.authError,
   }));
 
   // 회원가입 form 실시간 변화 상태관리
@@ -44,6 +48,7 @@ const Register: NextPage = () => {
     let photoVal = photoUrl;
     if (name === 'email') {
       emailVal = value;
+      setExistEmial(false);
     } else if (name === 'pw') {
       pwVal = value;
     } else if (name === 'pwConfirm') {
@@ -103,7 +108,7 @@ const Register: NextPage = () => {
         setModalSt(false);
       }
     }
-  }, [checkNicknameResult, loadUserLoading]);
+  }, [checkNicknameResult]);
 
   // 인증번호 요청하기
   const handleReqVerify = () => {
@@ -113,10 +118,11 @@ const Register: NextPage = () => {
   useEffect(() => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
-        setVerify(true);
+        setVerify(false);
         setModalOpen(true);
         setMessage('인증메일을 전송했어요');
         setModalSt(false);
+        setVerify(true);
         setExistEmial(false);
       } else if (loadAuthDone.message === 'EXIST_EMAIL') {
         setModalOpen(true);
@@ -167,7 +173,6 @@ const Register: NextPage = () => {
         setMessage('인증 코드를 다시 한번 확인해주세요');
         setModalSt(true);
       } else if (loadAuthDone.message === '') {
-        console.log(loadAuthDone.message);
       }
     }
   }, [loadAuthLoading, loadAuthDone]);
@@ -206,9 +211,37 @@ const Register: NextPage = () => {
   };
 
   // 회원가입 성공 시 자동로그인
-  console.log(loadUserDone);
+  useEffect(() => {
+    if (auth) {
+      console.log('인증됨');
+      dispatch(authActions.userLogin({ email, pw }));
+    }
+    if (authError) {
+      console.log('인증 실패');
+      setModalOpen(true);
+      setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
+      setModalSt(true);
+    }
+  }, [auth, authError]);
 
   // 자동로그인 성공 시 user확인
+  const router = useRouter();
+  useEffect(() => {
+    if (userError) {
+      setModalOpen(true);
+      setMessage('자동로그인에 실패했어요. 다시 시도해주세요.');
+      setModalSt(true);
+    }
+
+    if (user) {
+      router.push('/auth/telegram');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [user, userError]);
 
   // 회원가입폼 상태 초기화
   useEffect(() => {
@@ -221,6 +254,7 @@ const Register: NextPage = () => {
         profileImg={profileImg}
         verify={verify}
         existEmail={existEmail}
+        setExistEmial={setExistEmial}
         handleCheckNickname={handleCheckNickname}
         handleReqVerify={handleReqVerify}
         handleClickOpen={handleClickOpen}

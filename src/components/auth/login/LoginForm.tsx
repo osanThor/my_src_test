@@ -14,7 +14,7 @@ const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
   const [pwError, setPwError] = useState(false);
 
   return (
-    <LoginFormBlock>
+    <LoginFormBlock onSubmit={onSubmit}>
       <h1 className="logo">
         <Link href="/">
           <a>

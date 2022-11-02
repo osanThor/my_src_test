@@ -32,7 +32,7 @@ const Login: NextPage = () => {
     );
   };
 
-  const handleLoginSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(authActions.userLogin({ email, pw }));
   };

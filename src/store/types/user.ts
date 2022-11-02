@@ -31,6 +31,6 @@ export type RegisterPayload = {
   nickname: string | null;
   photoUrl: string | null;
 };
-export type LoadUserResponse = ResponseStatus & {
+export type LoadUserResponse = {
   data: boolean | string;
 };

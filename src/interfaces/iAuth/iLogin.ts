@@ -9,5 +9,5 @@ export interface ILoginSubmit {
   email: string | null;
   pw: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: React.FormEvent) => void;
 }

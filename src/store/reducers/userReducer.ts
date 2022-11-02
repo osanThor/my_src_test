@@ -16,13 +16,15 @@ export type UserStateType = {
   pw: string | null;
   pwConfirm: string | null;
   nickname: string | null;
-  checkNicknameResult: boolean;
+  checkNicknameResult: boolean | null;
   photoUrl: string | null;
   verifyCode: number | string | null;
   isDark: boolean;
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
   loadUserError: null | string;
+  user: boolean | null;
+  userError: boolean | null;
 };
 
 const initialState: UserStateType = {
@@ -30,13 +32,15 @@ const initialState: UserStateType = {
   pw: '',
   pwConfirm: '',
   nickname: '',
-  checkNicknameResult: false,
+  checkNicknameResult: null,
   photoUrl: '',
   verifyCode: '',
   isDark: true,
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
+  user: null,
+  userError: null,
 };
 
 const userSlice = createSlice({
@@ -82,6 +86,14 @@ const userSlice = createSlice({
     loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadUserLoading = false;
       state.loadUserError = action.payload.data.message;
+    },
+    userSuccess(state) {
+      state.user = true;
+      state.userError = null;
+    },
+    userFailure(state) {
+      state.user = false;
+      state.userError = true;
     },
   },
 });

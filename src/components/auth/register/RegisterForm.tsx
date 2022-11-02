@@ -16,6 +16,7 @@ const RegisterForm = ({
   profileImg,
   verify,
   existEmail,
+  setExistEmial,
   handleReqVerify,
   handleClickOpen,
   onChange,
@@ -44,17 +45,25 @@ const RegisterForm = ({
     }
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    if (!emailRegex.test(email)) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
+
     if (existEmail) {
+      setEmailError(true);
       setEmailErrMessage('이미 등록된 이메일주소예요');
+      if (!emailRegex.test(email)) {
+        setEmailErrMessage('이메일 형식이 잘못 되었어요');
+        setExistEmial(false);
+      }
     } else {
       setEmailErrMessage('이메일 형식이 잘못 되었어요');
+      if (!emailRegex.test(email)) {
+        setEmailError(true);
+        setExistEmial(false);
+      } else {
+        setEmailError(false);
+        setExistEmial(false);
+      }
     }
-  }, [email]);
+  }, [email, existEmail]);
 
   // 비밀번호 실시간 유효성 검사
   const [pwError, setPwError] = useState<boolean>(Boolean);

@@ -22,8 +22,6 @@ const ImageModal = ({
 }) => {
   const handleClickIcon = (e: any) => {
     e.currentTarget.children[0].checked = true;
-    console.log(e.currentTarget.children[0].value.src);
-    console.log(Profile1[1]);
   };
 
   const handleSelectImage = () => {
