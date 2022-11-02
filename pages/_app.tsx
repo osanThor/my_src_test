@@ -3,9 +3,8 @@ import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
-import wrapper, { store } from '../src/store/configureStore';
+import wrapper from '../src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
-import { userActions } from '@/src/store/reducers';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

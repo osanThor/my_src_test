@@ -17,8 +17,7 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
   const { user } = useSelector(({ user }: RootState) => ({
     user: user.user,
   }));
-  const router = useRouter();
-  function loadUser() {
+  useEffect(() => {
     try {
       const user = localStorage.getItem('user');
       if (!user) return;
@@ -27,8 +26,7 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
     } catch (e) {
       console.log(e);
     }
-  }
-  loadUser();
+  }, [userActions, user, dispatch]);
 
   return (
     <AuthLayoutBlock>

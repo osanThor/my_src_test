@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   CheckNicknamePayload,
-  LoadUserBody,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
@@ -39,7 +38,7 @@ const initialState: UserStateType = {
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
-  user: null,
+  user: false,
   userError: null,
 };
 
@@ -74,7 +73,7 @@ const userSlice = createSlice({
     initializeUserForm(state) {
       Object.assign(state, initialState);
     },
-    loadUserRequest(state, action: PayloadAction<LoadUserBody>) {
+    loadUserRequest(state) {
       state.loadUserLoading = true;
       state.loadUserDone = null;
       state.loadUserError = null;

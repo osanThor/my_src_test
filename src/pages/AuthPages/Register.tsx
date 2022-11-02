@@ -247,6 +247,16 @@ const Register: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem('user');
+      if (!user) return;
+
+      dispatch(userActions.userSuccess());
+    } catch (e) {
+      console.log(e);
+    }
+  }, [userActions, user, dispatch]);
 
   return (
     <AuthLayout type="register">
