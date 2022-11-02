@@ -64,6 +64,9 @@ const userSlice = createSlice({
     loadCheckNickNameResult(state, action: PayloadAction<boolean>) {
       state.checkNicknameResult = action.payload;
     },
+    resetCheckNicknameResult(state, action: PayloadAction<boolean>) {
+      state.checkNicknameResult = action.payload;
+    },
     userRegister(state, action: PayloadAction<RegisterPayload>) {
       state.email = action.payload.email;
       state.pw = action.payload.pw;

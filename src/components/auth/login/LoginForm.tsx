@@ -73,7 +73,7 @@ const LoginFormBlock = styled.form`
   align-items: center;
 
   h1.logo {
-    width: 170px;
+    width: 190px;
     cursor: pointer;
     margin-bottom: 20px;
     img {

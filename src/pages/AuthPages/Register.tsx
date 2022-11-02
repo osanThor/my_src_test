@@ -102,6 +102,7 @@ const Register: NextPage = () => {
         setModalOpen(true);
         setMessage('이미 사용중인 닉네임이에요.');
         setModalSt(true);
+        dispatch(userActions.resetCheckNicknameResult(null));
       } else {
         setModalOpen(true);
         setMessage('사용 가능한 닉네임이에요. 닉네임은 최초설정 이후 최대 1번만 재설정이 가능해요.');
@@ -190,7 +191,7 @@ const Register: NextPage = () => {
       setMessage('닉네임을 확인해주세요.');
       setModalSt(true);
       return;
-    } else if (checkNicknameResult === true) {
+    } else if (checkNicknameResult === true || checkNicknameResult === null) {
       setModalOpen(true);
       setMessage('닉네임 중복을 확인해주세요.');
       setModalSt(true);
@@ -221,6 +222,7 @@ const Register: NextPage = () => {
       setModalOpen(true);
       setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
       setModalSt(true);
+      return;
     }
   }, [auth, authError]);
 
@@ -231,6 +233,7 @@ const Register: NextPage = () => {
       setModalOpen(true);
       setMessage('자동로그인에 실패했어요. 다시 시도해주세요.');
       setModalSt(true);
+      return;
     }
 
     if (user) {
