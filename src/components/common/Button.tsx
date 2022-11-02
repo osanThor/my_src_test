@@ -56,7 +56,9 @@ const StyledButton = styled.button`
   ${buttonStyle}
 `;
 const StyledLink = styled(Link)`
-  ${buttonStyle}
+  a {
+    ${buttonStyle}
+  }
 `;
 
 export default Button;

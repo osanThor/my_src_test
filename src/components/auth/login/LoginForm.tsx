@@ -14,7 +14,7 @@ const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
   const [pwError, setPwError] = useState(false);
 
   return (
-    <LoginFormBlock>
+    <LoginFormBlock onSubmit={onSubmit}>
       <h1 className="logo">
         <Link href="/">
           <a>
@@ -73,7 +73,7 @@ const LoginFormBlock = styled.form`
   align-items: center;
 
   h1.logo {
-    width: 170px;
+    width: 190px;
     cursor: pointer;
     margin-bottom: 20px;
     img {

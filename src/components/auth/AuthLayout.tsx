@@ -1,13 +1,32 @@
+import React, { useEffect } from 'react';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colors from '../../assets/Colors';
 import { Logo } from '../../assets/Images';
 import Button from '../common/Button';
+import { userActions } from '@/src/store/reducers';
+import { useDispatch } from 'react-redux';
 
 const AuthLayout = ({ type, children }: { type: string; children: React.ReactNode }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector(({ user }: RootState) => ({
+    user: user.user,
+  }));
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem('user');
+      if (!user) return;
+
+      dispatch(userActions.userSuccess());
+    } catch (e) {
+      console.log(e);
+    }
+  }, [userActions, user, dispatch]);
+
   return (
     <AuthLayoutBlock>
       <AuthHead>
@@ -20,16 +39,18 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
             </Link>
           )}
         </h1>
-        <div className="auth_Btn">
-          {type === 'login' ? (
-            <div className="onlyPc">
-              <span>계정이 없다구요?</span>
-              <Button href="/auth/terms">회원가입</Button>
-            </div>
-          ) : (
-            <Button href="/auth/login">로그인 하기</Button>
-          )}
-        </div>
+        {type != 'telegram' && (
+          <div className="auth_Btn">
+            {type === 'login' ? (
+              <div className="onlyPc">
+                <span>계정이 없다구요?</span>
+                <Button href="/auth/terms">회원가입</Button>
+              </div>
+            ) : (
+              <Button href="/auth/login">로그인 하기</Button>
+            )}
+          </div>
+        )}
       </AuthHead>
       {children}
     </AuthLayoutBlock>
@@ -105,13 +126,6 @@ const AuthHead = styled.div`
     .onlyPc {
       display: none;
     }
-  }
-`;
-const Spacer = styled.div`
-  width: 100%;
-  height: 128px;
-  ${media.tablet} {
-    height: 72px;
   }
 `;
 

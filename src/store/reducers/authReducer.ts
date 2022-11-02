@@ -20,6 +20,8 @@ export type AuthStateType = {
     message: string;
   } | null;
   loadAuthError: string | null;
+  auth: boolean | null;
+  authError: boolean | null;
 };
 
 const initialState: AuthStateType = {
@@ -30,6 +32,8 @@ const initialState: AuthStateType = {
   loadAuthLoading: false,
   loadAuthDone: { message: '' },
   loadAuthError: '',
+  auth: null,
+  authError: null,
 };
 
 const authSlice = createSlice({
@@ -74,6 +78,14 @@ const authSlice = createSlice({
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadAuthError = action.payload.data.message;
+    },
+    AuthSuccess(state) {
+      state.auth = true;
+      state.authError = null;
+    },
+    AuthFailure(state) {
+      state.auth = false;
+      state.authError = true;
     },
   },
 });

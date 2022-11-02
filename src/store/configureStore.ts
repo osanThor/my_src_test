@@ -22,7 +22,7 @@ const wrapper = createWrapper(createStore, {
   debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
 });
 
-const store = createStore();
+export const store = createStore();
 // "useSelector()"에서 사용하는 타입
 export type RootState = ReturnType<typeof store.getState>;
 

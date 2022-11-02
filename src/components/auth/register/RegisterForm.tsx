@@ -15,6 +15,8 @@ const RegisterForm = ({
   handleCheckNickname,
   profileImg,
   verify,
+  existEmail,
+  setExistEmial,
   handleReqVerify,
   handleClickOpen,
   onChange,
@@ -36,18 +38,32 @@ const RegisterForm = ({
 
   // 이메일 실시간 유효성검사
   const [emailError, setEmailError] = useState<boolean>(Boolean);
+  const [emailErrMessage, setEmailErrMessage] = useState<string>('이메일 형식이 잘못 되었어요');
   useEffect(() => {
     if (email.length <= 0) {
       setEmailError(true);
     }
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    if (!emailRegex.test(email)) {
+
+    if (existEmail) {
       setEmailError(true);
+      setEmailErrMessage('이미 등록된 이메일주소예요');
+      if (!emailRegex.test(email)) {
+        setEmailErrMessage('이메일 형식이 잘못 되었어요');
+        setExistEmial(false);
+      }
     } else {
-      setEmailError(false);
+      setEmailErrMessage('이메일 형식이 잘못 되었어요');
+      if (!emailRegex.test(email)) {
+        setEmailError(true);
+        setExistEmial(false);
+      } else {
+        setEmailError(false);
+        setExistEmial(false);
+      }
     }
-  }, [email]);
+  }, [email, existEmail]);
 
   // 비밀번호 실시간 유효성 검사
   const [pwError, setPwError] = useState<boolean>(Boolean);
@@ -80,7 +96,6 @@ const RegisterForm = ({
       }
     }
   }, [pw, pwConfirm, pwError]);
-  console.log(pwError);
 
   // 회원가입 버튼 활성화
   const [registerAble, setRegisterAble] = useState(false);
@@ -156,7 +171,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[1]} alt="notice" />
                         </div>
-                        <span className="error">이메일 형식이 잘못 되었어요</span>
+                        <span className="error">{emailErrMessage}</span>
                       </>
                     ) : (
                       <>
@@ -232,7 +247,7 @@ const RegisterFormBlock = styled.div`
   justify-content: center;
   align-items: center;
   h1.logo {
-    width: 170px;
+    width: 190px;
     cursor: pointer;
     margin-bottom: 20px;
     img {

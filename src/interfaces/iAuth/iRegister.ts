@@ -5,6 +5,8 @@ export type IRegisterType = IRegisterState;
 export interface IRegisterState {
   profileImg: string | null;
   verify: boolean;
+  existEmail: boolean;
+  setExistEmial: React.Dispatch<React.SetStateAction<boolean>>;
   handleCheckNickname: () => void;
   handleReqVerify: () => void;
   handleClickOpen: () => void;

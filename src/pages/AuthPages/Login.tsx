@@ -1,19 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import LoginForm from '../../components/auth/login/LoginForm';
-import { axiosInstance } from '@/src/store/api';
-import { END } from 'redux-saga';
-
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { authActions } from '@/src/store/reducers';
-import wrapper, { RootState } from '@/src/store/configureStore';
+import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import Modal from '@/src/components/common/Modal';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const { email, pw } = useSelector(({ auth }: RootState) => ({
     email: auth.email,
     pw: auth.pw,
+  }));
+  const { user, userError } = useSelector(({ user }: RootState) => ({
+    user: user.user,
+    userError: user.userError,
   }));
   const handleChangeLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,10 +35,36 @@ const Login: NextPage = () => {
     );
   };
 
-  const handleLoginSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(authActions.userLogin({ email, pw }));
   };
+  // 로그인 성공 시 user확인
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [message, setMessage] = useState('');
+  const [modalSt, setModalSt] = useState(false);
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userError) {
+      setModalOpen(true);
+      setMessage('로그인정보를 다시 확인해주세요.');
+      setModalSt(true);
+    }
+
+    if (user) {
+      router.push('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [user, userError]);
 
   useEffect(() => {
     dispatch(authActions.initializeAuthForm());
@@ -44,36 +73,9 @@ const Login: NextPage = () => {
   return (
     <AuthLayout type="login">
       <LoginForm email={email} pw={pw} onChange={handleChangeLoginForm} onSubmit={handleLoginSubmit} />
+      <Modal open={modalOpen} close={handleModalClose} message={message} error={modalSt} />
     </AuthLayout>
   );
 };
-// export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-//   (store) => async (context: GetServerSidePropsContext) => {
-//     /**
-//      * front-server와 backend-server가 서로 다르기때문에
-//      * axios의 "withCredentials" 옵션으로 브라우저의 쿠키를 전달할 수 없음
-//      * 따라서 직접 axios에 쿠키를 넣어주고 서버로 요청 후 다시 axios의 쿠키를 제거해주는 과정을 거침
-//      * 클라이언트는 여러 대지만 서버는 한대이기 때문에 서버 사용한 쿠키는 반드시 제거해 줘야 함
-//      */
-//     let cookie = context.req?.headers?.cookie;
-//     cookie = cookie ? cookie : '';
-//     axiosInstance.defaults.headers.Cookie = cookie;
 
-//     // 서버 사이드에서 dispatch할 내용을 적어줌
-//     store.dispatch(authActions.userLogin({ email: , pw: pw }));
-
-//     // 밑에 두 개는 REQUEST이후 SUCCESS가 될 때까지 기다려주게 해주는 코드
-//     store.dispatch(END);
-//     await store.sagaTask?.toPromise();
-
-//     // 위에서 말한대로 axios의 쿠키 제거
-//     axiosInstance.defaults.headers.Cookie = '';
-
-//     // 위의 작업들이 정상작동을 한다면 클라이언트에서 렌더링할 때 이미 redux의 store에 데이터가 들어가 있음
-//     // 따라서 props에 데이터를 전달할 필요 없음
-//     return {
-//       props: {},
-//     };
-//   },
-// );
 export default Login;

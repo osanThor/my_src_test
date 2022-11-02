@@ -1,10 +1,20 @@
-import React from "react";
+import React from 'react';
+import AuthLayout from '@/src/components/auth/AuthLayout';
+import ExplaneService from '@/src/components/auth/telegram/ExplaneService';
+import TelegramLayout from '@/src/components/auth/telegram/TelegramLayout';
+import ConectTelegram from '@/src/components/auth/telegram/ConectTelegram';
+import FuncModal from '@/src/components/common/FuncModal';
 
 const Telegram = () => {
+  const [changeType, setChangeType] = React.useState(false);
+  const handleChangeType = () => {
+    setChangeType(true);
+  };
   return (
-    <div>
-      <h1>퀀트로 텔레그램 연동 페이지</h1>
-    </div>
+    <AuthLayout type="telegram">
+      <TelegramLayout>{changeType ? <ConectTelegram /> : <ExplaneService onClick={handleChangeType} />}</TelegramLayout>
+      <FuncModal />
+    </AuthLayout>
   );
 };
 
