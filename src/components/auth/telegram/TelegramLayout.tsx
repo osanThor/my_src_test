@@ -1,11 +1,13 @@
 import colors from '@/src/assets/Colors';
 import { Logo } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../common/Button';
 
-const TelegramLayout = () => {
+const TelegramLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <LoginFormBlock>
       <h1 className="logo">
@@ -15,13 +17,13 @@ const TelegramLayout = () => {
           </a>
         </Link>
       </h1>
-      <div>
-        <h2>텔레그램 연동성의 중요성~!</h2>
-      </div>
+      {children}
+      <StyledButton fullWidth>건너뛰기</StyledButton>
     </LoginFormBlock>
   );
 };
-const LoginFormBlock = styled.form`
+
+const LoginFormBlock = styled.div`
   width: 100%;
   max-width: 400px;
   height: 100%;
@@ -38,6 +40,36 @@ const LoginFormBlock = styled.form`
     img {
       width: 100%;
     }
+  }
+
+  h2 {
+    color: ${colors.blue[2]};
+    margin-bottom: 1rem;
+  }
+  .import_connect {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    width: 100%;
+    height: 370px;
+    margin-bottom: 1rem;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  ${media.tablet} {
+    width: calc(100% - 64px);
+  }
+`;
+const StyledButton = styled(Button)`
+  height: 72px;
+  ${media.tablet} {
+    height: 56px;
   }
 `;
 
