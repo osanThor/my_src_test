@@ -5,6 +5,7 @@ export type IRegisterType = IRegisterState;
 export interface IRegisterState {
   profileImg: string | null;
   verify: boolean;
+  existEmail: boolean;
   handleCheckNickname: () => void;
   handleReqVerify: () => void;
   handleClickOpen: () => void;

@@ -15,6 +15,7 @@ const RegisterForm = ({
   handleCheckNickname,
   profileImg,
   verify,
+  existEmail,
   handleReqVerify,
   handleClickOpen,
   onChange,
@@ -36,6 +37,7 @@ const RegisterForm = ({
 
   // 이메일 실시간 유효성검사
   const [emailError, setEmailError] = useState<boolean>(Boolean);
+  const [emailErrMessage, setEmailErrMessage] = useState<string>('이메일 형식이 잘못 되었어요');
   useEffect(() => {
     if (email.length <= 0) {
       setEmailError(true);
@@ -46,6 +48,11 @@ const RegisterForm = ({
       setEmailError(true);
     } else {
       setEmailError(false);
+    }
+    if (existEmail) {
+      setEmailErrMessage('이미 등록된 이메일주소예요');
+    } else {
+      setEmailErrMessage('이메일 형식이 잘못 되었어요');
     }
   }, [email]);
 
@@ -80,7 +87,6 @@ const RegisterForm = ({
       }
     }
   }, [pw, pwConfirm, pwError]);
-  console.log(pwError);
 
   // 회원가입 버튼 활성화
   const [registerAble, setRegisterAble] = useState(false);
@@ -156,7 +162,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[1]} alt="notice" />
                         </div>
-                        <span className="error">이메일 형식이 잘못 되었어요</span>
+                        <span className="error">{emailErrMessage}</span>
                       </>
                     ) : (
                       <>

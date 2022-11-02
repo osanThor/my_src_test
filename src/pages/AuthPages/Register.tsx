@@ -1,6 +1,6 @@
 import RegisterForm from '@/src/components/auth/register/RegisterForm';
 import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { RootState } from '@/src/store/configureStore';
 import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
@@ -13,8 +13,8 @@ const Register: NextPage = () => {
   const [profileImg, setProfileImg] = useState('');
 
   // user 상태 관리
-  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl } = useSelector(
-    ({ user }: RootState) => ({
+  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, loadUserDone, loadUserLoading } =
+    useSelector(({ user }: RootState) => ({
       email: user.email,
       pw: user.pw,
       pwConfirm: user.pwConfirm,
@@ -22,8 +22,9 @@ const Register: NextPage = () => {
       nickname: user.nickname,
       checkNicknameResult: user.checkNicknameResult,
       photoUrl: user.photoUrl,
-    }),
-  );
+      loadUserDone: user.loadUserDone,
+      loadUserLoading: user.loadUserLoading,
+    }));
 
   // auth 상태관리
   const { isExistTrigger, loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
@@ -89,21 +90,26 @@ const Register: NextPage = () => {
   // 닉네임 체크
   const handleCheckNickname = () => {
     dispatch(userActions.checkNickName({ nickname }));
-    if (checkNicknameResult) {
-      setModalOpen(true);
-      setMessage('이미 사용중인 닉네임이에요.');
-      setModalSt(true);
-    } else {
-      setModalOpen(true);
-      setMessage('사용 가능한 닉네임이에요. 닉네임은 최초설정 이후 최대 1번만 재설정이 가능해요.');
-      setModalSt(false);
-    }
   };
+  useEffect(() => {
+    if (nickname.length > 0) {
+      if (checkNicknameResult) {
+        setModalOpen(true);
+        setMessage('이미 사용중인 닉네임이에요.');
+        setModalSt(true);
+      } else {
+        setModalOpen(true);
+        setMessage('사용 가능한 닉네임이에요. 닉네임은 최초설정 이후 최대 1번만 재설정이 가능해요.');
+        setModalSt(false);
+      }
+    }
+  }, [checkNicknameResult, loadUserLoading]);
 
   // 인증번호 요청하기
   const handleReqVerify = () => {
     dispatch(authActions.sendVerifyEmail({ email, isExistTrigger }));
   };
+  const [existEmail, setExistEmial] = useState(false);
   useEffect(() => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
@@ -111,10 +117,12 @@ const Register: NextPage = () => {
         setModalOpen(true);
         setMessage('인증메일을 전송했어요');
         setModalSt(false);
+        setExistEmial(false);
       } else if (loadAuthDone.message === 'EXIST_EMAIL') {
         setModalOpen(true);
-        setMessage('이미 메일을 전송했어요. 재전송까지는 3분의 시간이 소요돼요.');
+        setMessage('이미 등록된 이메일주소예요');
         setModalSt(true);
+        setExistEmial(true);
       }
     }
   }, [loadAuthLoading, loadAuthDone]);
@@ -193,7 +201,14 @@ const Register: NextPage = () => {
       setModalSt(true);
       return;
     }
+    //회원가입
+    dispatch(userActions.userRegister({ email, pw, nickname, photoUrl }));
   };
+
+  // 회원가입 성공 시 자동로그인
+  console.log(loadUserDone);
+
+  // 자동로그인 성공 시 user확인
 
   // 회원가입폼 상태 초기화
   useEffect(() => {
@@ -205,6 +220,7 @@ const Register: NextPage = () => {
       <RegisterForm
         profileImg={profileImg}
         verify={verify}
+        existEmail={existEmail}
         handleCheckNickname={handleCheckNickname}
         handleReqVerify={handleReqVerify}
         handleClickOpen={handleClickOpen}

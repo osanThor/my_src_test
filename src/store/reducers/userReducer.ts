@@ -55,6 +55,7 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
     },
     checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
+      state.loadUserLoading = true;
       state.nickname = action.payload.nickname;
     },
     loadCheckNickNameResult(state, action: PayloadAction<boolean>) {
