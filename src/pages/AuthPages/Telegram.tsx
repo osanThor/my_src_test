@@ -21,6 +21,10 @@ const Telegram = () => {
     const { value } = e.target;
     dispatch(userActions.changeTelegramField({ username: value }));
   };
+  // 텔레그램 사용자명 등록 요청
+  const handlePutTelegram = () => {
+    dispatch(userActions.telegramUsername({ username }));
+  };
 
   // 텔레그램 레이아웃
   const [changeType, setChangeType] = React.useState(false);
@@ -44,7 +48,11 @@ const Telegram = () => {
     <AuthLayout type="telegram">
       <TelegramLayout setOpen={setOpen}>
         {changeType ? (
-          <ConectTelegram onChange={handleChangeUserNameField} username={username} />
+          <ConectTelegram
+            onChange={handleChangeUserNameField}
+            username={username}
+            handlePutTelegram={handlePutTelegram}
+          />
         ) : (
           <ExplaneService onClick={handleChangeType} />
         )}

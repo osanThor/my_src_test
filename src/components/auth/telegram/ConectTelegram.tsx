@@ -8,9 +8,11 @@ import Button from '../../common/Button';
 const ConectTelegram = ({
   onChange,
   username,
+  handlePutTelegram,
 }: {
   username: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePutTelegram: () => void;
 }) => {
   // 리스트 색상 이벤트
   const handleClickEvent = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -50,7 +52,9 @@ const ConectTelegram = ({
       {inputVisible && (
         <StyledInputForm>
           <input type="text" placeholder="텔레그램 '@사용자명'을 입력해주세요" value={username} onChange={onChange} />
-          <StyledButton blue>등록</StyledButton>
+          <StyledButton blue onClick={handlePutTelegram}>
+            등록
+          </StyledButton>
         </StyledInputForm>
       )}
       <StyledButton href="https://t.me/quantro_alarm_bot" passHref>

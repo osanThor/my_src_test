@@ -3,6 +3,7 @@ export type LoadUserBody = {
   isDark: boolean;
   email: string | null;
   pw: string | null;
+  username: string | null;
   pwConfirm: string | null;
   nickname: string | null;
   photoUrl: string | null;

@@ -1,3 +1,4 @@
+import { TelegramPayload } from './../types/user';
 import { axiosInstance } from '.';
 
 import type { LoadUserBody, LoadUserResponse } from '../types';
@@ -18,3 +19,7 @@ export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
     nickname,
     photoUrl,
   });
+
+// 텔레그램 사용자명 입력
+export const apiTelegramUsername = ({ username }: TelegramPayload) =>
+  axiosInstance.put<LoadUserResponse>(`/users/telegram?username=${username}`);

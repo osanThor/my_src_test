@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
 import Image from 'next/image';

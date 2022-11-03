@@ -7,7 +7,7 @@ import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
 import Button from '../../common/Button';
 import StyledCheckBox from '../../common/StyledCheckBox';
 import { Logo } from '../../../assets/Images';
-import { ILoginSubmit, ILoginType } from '@/src/interfaces/iAuth/iLogin';
+import { ILoginSubmit } from '@/src/interfaces/iAuth/iLogin';
 
 const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
   const [idError, setIdError] = useState(false);
@@ -137,7 +137,7 @@ const StyleInput = (props: any) => {
   const { icon, onChange } = props;
   return (
     <StyledInputBlock>
-      <StyledInput onChange={onChange} {...props} />
+      <StyledInput onChange={onChange} {...props} autoComplete="on" />
       {icon && (
         <div className="inputIcon">
           <Image src={icon} alt="icon" />
