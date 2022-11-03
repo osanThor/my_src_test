@@ -447,7 +447,7 @@ const StyleInput = (props: any) => {
   const { icon, onChange } = props;
   return (
     <StyledInputBlock>
-      <StyledInput onChange={onChange} {...props} />
+      <StyledInput onChange={onChange} {...props} autoComplete="on" />
       {icon && (
         <div className="inputIcon">
           <Image src={icon} alt="icon" />
