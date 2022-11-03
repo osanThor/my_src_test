@@ -10,7 +10,7 @@ import Modal from '@/src/components/common/Modal';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
-  const { email, pw, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { email, pw } = useSelector(({ auth }: RootState) => ({
     email: auth.email,
     pw: auth.pw,
     loadAuthDone: auth.loadAuthDone,

@@ -24,6 +24,7 @@ const RegisterForm = ({
   veriAble,
   ReadOnltVerify,
   timerErr,
+  min,
   setTimerErr,
   timerVisible,
   handleCheckVerify,
@@ -189,7 +190,7 @@ const RegisterForm = ({
           <div className="register_bottom">
             {verify && (
               <div className={ReadOnltVerify ? 'emailVerify readOnly' : 'emailVerify '}>
-                {timerVisible && <Timer error={timerErr} setError={setTimerErr} />}
+                {timerVisible && <Timer error={timerErr} setError={setTimerErr} min={min} />}
                 <StyleInput
                   name="verifyCode"
                   type="number"
