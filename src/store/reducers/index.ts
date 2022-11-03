@@ -2,12 +2,12 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from '@reduxjs/toolkit';
 import type { AnyAction, CombinedState } from '@reduxjs/toolkit';
 
-// reducers ( 나머지 리듀서도 있다고 가정 )
+// reducers
 import authReducer, { AuthStateType } from './authReducer';
 import userReducer, { UserStateType } from './userReducer';
 import postReducer, { PostStateType } from './postReducer';
 
-// actions ( 하나의 파일에서 import 해주기 위해서 export ~ from 사용 )
+// actions
 export { authActions } from './authReducer';
 export { userActions } from './userReducer';
 export { postActions } from './postReducer';

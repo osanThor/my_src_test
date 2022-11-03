@@ -1,5 +1,3 @@
-import type { ResponseData, ResponseStatus } from '.';
-
 // auth
 export type LoadAuthBody = {
   form: string;
@@ -22,5 +20,7 @@ export type VerifyCodePayload = {
 };
 
 export type LoadAuthResponse = {
-  message: string;
+  message: string | null;
+  accessToken: string | undefined;
+  expiryTime: number | undefined;
 };

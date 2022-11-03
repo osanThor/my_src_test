@@ -34,7 +34,7 @@ const initialState: UserStateType = {
   checkNicknameResult: null,
   photoUrl: '',
   verifyCode: '',
-  isDark: true,
+  isDark: false,
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
@@ -96,6 +96,9 @@ const userSlice = createSlice({
     userFailure(state) {
       state.user = false;
       state.userError = true;
+    },
+    userLogOut(state) {
+      state.user = null;
     },
   },
 });
