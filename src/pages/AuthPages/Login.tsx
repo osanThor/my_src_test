@@ -13,6 +13,7 @@ const Login: NextPage = () => {
   const { email, pw } = useSelector(({ auth }: RootState) => ({
     email: auth.email,
     pw: auth.pw,
+    loadAuthDone: auth.loadAuthDone,
   }));
   const { user, userError } = useSelector(({ user }: RootState) => ({
     user: user.user,
@@ -54,6 +55,7 @@ const Login: NextPage = () => {
       setModalOpen(true);
       setMessage('로그인정보를 다시 확인해주세요.');
       setModalSt(true);
+      return;
     }
 
     if (user) {

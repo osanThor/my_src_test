@@ -1,5 +1,3 @@
-import type { ResponseData, ResponseStatus } from '.';
-
 // auth
 export type LoadUserBody = {
   isDark: boolean;
@@ -17,6 +15,9 @@ export type RegisterBody = {
   nickname: string | null;
   photoUrl: string | null;
 };
+export type TelegramPayload = {
+  username: string | null;
+};
 
 export type ThemePayload = {
   isDark: boolean;
@@ -32,5 +33,5 @@ export type RegisterPayload = {
   photoUrl: string | null;
 };
 export type LoadUserResponse = {
-  data: boolean | string;
+  data: boolean | string | null;
 };

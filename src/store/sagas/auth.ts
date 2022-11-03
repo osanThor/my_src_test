@@ -9,11 +9,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { LoadAuthResponse, LoadAuthBody } from '../types';
 
 // api
-import { apiVerifyCode, apiVerifyEmial, userLogin } from '../api';
+import { apiLogout, apiRefreshToken, apiVerifyCode, apiVerifyEmial, userLogin } from '../api';
 
 // 로그인
 function* loginSaga(action: PayloadAction<LoadAuthBody>) {
-  console.log('시작');
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(userLogin, action.payload);
@@ -33,7 +32,30 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
     // 실패한 액션 디스패치
     yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
   }
-  console.log('끝');
+}
+
+//토큰 재발급
+function* refreshSaga(action: PayloadAction<LoadAuthBody>) {
+  yield put(authActions.loadAuthRequest());
+  try {
+    const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiRefreshToken);
+    console.log(data);
+
+    if (data.message === 'UPDATED') {
+      yield put(userActions.userSuccess());
+    } else {
+      yield put(userActions.userFailure());
+      console.log('토큰실패');
+    }
+    yield put(authActions.loadAuthSuccess(data));
+  } catch (error: any) {
+    console.error('authSaga refresh >> ', error);
+
+    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+  }
 }
 
 // Email 인증 보내기
@@ -70,10 +92,29 @@ function* checkVerifySaga(action: PayloadAction<LoadAuthBody>) {
   }
 }
 
+// 로그아웃
+function* userLogoutSaga(action: PayloadAction<LoadAuthBody>) {
+  yield put(authActions.loadAuthRequest());
+  try {
+    const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiLogout);
+
+    yield put(authActions.loadAuthSuccess(data));
+  } catch (error: any) {
+    console.error('authSaga logout >> ', error);
+
+    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+  }
+}
+
 function* watchLoadAuth() {
   yield takeLatest(authActions.userLogin, loginSaga);
+  yield takeLatest(authActions.refreshToken, refreshSaga);
   yield takeLatest(authActions.sendVerifyEmail, sendVerifyEmailSaga);
   yield takeLatest(authActions.checkVerifyCode, checkVerifySaga);
+  yield takeLatest(authActions.userLogOut, userLogoutSaga);
 }
 
 export default function* authSaga() {

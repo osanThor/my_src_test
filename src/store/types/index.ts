@@ -23,6 +23,7 @@ export type {
   CheckNicknamePayload,
   LoadUserResponse,
   ThemePayload,
+  TelegramPayload,
 } from './user';
 export type { LoadPostsBody, LoadPostsResponse } from './post';
 export type { LoadFileBody, LoadFileResponse } from './file';

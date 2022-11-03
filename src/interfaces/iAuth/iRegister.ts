@@ -15,6 +15,7 @@ export interface IRegisterState {
   veriAble: boolean;
   ReadOnltVerify: boolean;
   timerErr: boolean;
+  min: number | undefined;
   setTimerErr: React.Dispatch<React.SetStateAction<boolean>>;
   timerVisible: boolean;
   handleCheckVerify: () => void;

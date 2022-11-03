@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type {
-  LoginPayload,
-  LoadAuthBody,
-  LoadAuthResponse,
-  ResponseFailure,
-  VerifyEmailPayload,
-  VerifyCodePayload,
-} from '../types';
+import type { LoginPayload, LoadAuthResponse, ResponseFailure, VerifyEmailPayload, VerifyCodePayload } from '../types';
 
 export type AuthStateType = {
   email: string | null;
@@ -18,6 +11,8 @@ export type AuthStateType = {
   loadAuthLoading: boolean;
   loadAuthDone: {
     message: string;
+    accessToken: string | undefined;
+    expiryTime: number | undefined;
   } | null;
   loadAuthError: string | null;
   auth: boolean | null;
@@ -30,7 +25,7 @@ const initialState: AuthStateType = {
   isExistTrigger: false,
   verifyCode: 0,
   loadAuthLoading: false,
-  loadAuthDone: { message: '' },
+  loadAuthDone: { message: '', accessToken: undefined, expiryTime: undefined },
   loadAuthError: '',
   auth: null,
   authError: null,
@@ -50,26 +45,31 @@ const authSlice = createSlice({
     },
     // login
     userLogin(state, action: PayloadAction<LoginPayload>) {
-      state.loadAuthDone = { message: '' };
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
+    // refresh
+    refreshToken(state) {
+      state.loadAuthLoading = true;
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
+    },
     // Verify Emial
     sendVerifyEmail(state, action: PayloadAction<VerifyEmailPayload>) {
-      state.loadAuthDone = { message: '' };
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.email = action.payload.email;
       state.isExistTrigger = action.payload.isExistTrigger;
     },
     // Verify code
     checkVerifyCode(state, action: PayloadAction<VerifyCodePayload>) {
-      state.loadAuthDone = { message: '' };
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.email = action.payload.email;
       state.verifyCode = action.payload.verifyCode;
     },
     // 모든 auth API 패치
-    loadAuthRequest(state, action: PayloadAction<LoadAuthBody>) {
+    loadAuthRequest(state) {
       state.loadAuthLoading = true;
-      state.loadAuthDone = { message: '' };
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.loadAuthError = null;
     },
     loadAuthSuccess(state, action: PayloadAction<LoadAuthResponse>) {
@@ -86,6 +86,9 @@ const authSlice = createSlice({
     AuthFailure(state) {
       state.auth = false;
       state.authError = true;
+    },
+    userLogOut(state) {
+      state.auth = null;
     },
   },
 });

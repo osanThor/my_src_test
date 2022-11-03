@@ -7,7 +7,16 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
-const TelegramLayout = ({ children }: { children: React.ReactNode }) => {
+const TelegramLayout = ({
+  children,
+  setOpen,
+}: {
+  children: React.ReactNode;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const handleActionOpenModal = () => {
+    setOpen(true);
+  };
   return (
     <LoginFormBlock>
       <h1 className="logo">
@@ -18,7 +27,9 @@ const TelegramLayout = ({ children }: { children: React.ReactNode }) => {
         </Link>
       </h1>
       {children}
-      <StyledButton fullWidth>건너뛰기</StyledButton>
+      <StyledButton fullWidth onClick={handleActionOpenModal}>
+        건너뛰기
+      </StyledButton>
     </LoginFormBlock>
   );
 };

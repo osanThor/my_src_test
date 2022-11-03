@@ -15,6 +15,9 @@ export const userLogin = ({ email, pw }: LoadAuthBody) =>
     },
   );
 
+// refresh token
+export const apiRefreshToken = () => axiosInstance.post<LoadAuthResponse>(`/auth/refresh`);
+
 // 이메일 인증요청
 export const apiVerifyEmial = ({ email, isExistTrigger }: LoadAuthBody) =>
   axiosInstance.post<LoadAuthResponse>(`/auth/email/verify/${email}?isExistTrigger=${isExistTrigger}`);
@@ -25,3 +28,6 @@ export const apiVerifyCode = ({ email, verifyCode }: LoadAuthBody) =>
     email,
     verifyCode,
   });
+
+// 로그아웃 요청
+export const apiLogout = () => axiosInstance.post<LoadAuthResponse>(`/auth/logout`);

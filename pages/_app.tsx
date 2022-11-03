@@ -1,12 +1,50 @@
-import type { AppContext, AppInitialProps, AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
-import wrapper from '../src/store/configureStore';
+import wrapper, { RootState } from '../src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { userActions } from '@/src/store/reducers';
+import AuthService from '@/src/utils/auth_service';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const authService = new AuthService();
+
+  const dispatch = useDispatch();
+
+  const { user } = useSelector(({ user }: RootState) => ({
+    user: user.user,
+  }));
+  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthDone: auth.loadAuthDone,
+  }));
+
+  // 사용자 확인
+  useEffect(() => {
+    authService.isUser(dispatch);
+  }, [userActions, user, dispatch]);
+
+  // axios 토큰 관리
+  useEffect(() => {
+    authService.jwtToken(loadAuthDone);
+  }, [loadAuthDone]);
+
+  // 토큰 재발급
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        authService.intervalRefresh(dispatch);
+      }, loadAuthDone.expiryTime - 30000);
+      console.log('발급 받음');
+    } else {
+      console.log('Not User');
+    }
+  }, [user]);
+
   return (
     <>
       <Head>
@@ -21,14 +59,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-MyApp.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitialProps> => {
-  let pageProps = {};
-
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-
-  return { pageProps };
-};
 
 export default wrapper.withRedux(MyApp);

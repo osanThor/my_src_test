@@ -3,8 +3,16 @@ import { media } from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const Timer = ({ error, setError }: { error: boolean; setError: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const [minutes, setMinutes] = useState<any>(3);
+const Timer = ({
+  error,
+  setError,
+  min,
+}: {
+  error: boolean;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  min: number | undefined;
+}) => {
+  const [minutes, setMinutes] = useState<any>(min);
   const [seconds, setSeconds] = useState<any>(0);
 
   useEffect(() => {

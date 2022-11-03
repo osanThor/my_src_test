@@ -1,32 +1,13 @@
-import React, { useEffect } from 'react';
-import { RootState } from '@/src/store/configureStore';
+import React from 'react';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colors from '../../assets/Colors';
 import { Logo } from '../../assets/Images';
 import Button from '../common/Button';
-import { userActions } from '@/src/store/reducers';
-import { useDispatch } from 'react-redux';
 
 const AuthLayout = ({ type, children }: { type: string; children: React.ReactNode }) => {
-  const dispatch = useDispatch();
-  const { user } = useSelector(({ user }: RootState) => ({
-    user: user.user,
-  }));
-  useEffect(() => {
-    try {
-      const user = localStorage.getItem('user');
-      if (!user) return;
-
-      dispatch(userActions.userSuccess());
-    } catch (e) {
-      console.log(e);
-    }
-  }, [userActions, user, dispatch]);
-
   return (
     <AuthLayoutBlock>
       <AuthHead>

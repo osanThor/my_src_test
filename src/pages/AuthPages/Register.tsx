@@ -98,12 +98,12 @@ const Register: NextPage = () => {
   };
   useEffect(() => {
     if (nickname.length > 0) {
-      if (checkNicknameResult) {
+      if (checkNicknameResult === true) {
         setModalOpen(true);
         setMessage('이미 사용중인 닉네임이에요.');
         setModalSt(true);
         dispatch(userActions.resetCheckNicknameResult(null));
-      } else {
+      } else if (checkNicknameResult === false) {
         setModalOpen(true);
         setMessage('사용 가능한 닉네임이에요. 닉네임은 최초설정 이후 최대 1번만 재설정이 가능해요.');
         setModalSt(false);
@@ -115,11 +115,13 @@ const Register: NextPage = () => {
   const handleReqVerify = () => {
     dispatch(authActions.sendVerifyEmail({ email, isExistTrigger }));
   };
+  let min: number = 3;
   const [existEmail, setExistEmial] = useState(false);
   useEffect(() => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
         setVerify(false);
+        min = 3;
         setModalOpen(true);
         setMessage('인증메일을 전송했어요');
         setModalSt(false);
@@ -276,6 +278,7 @@ const Register: NextPage = () => {
         veriAble={veriAble}
         ReadOnltVerify={readOnltVerify}
         timerErr={timerErr}
+        min={min}
         setTimerErr={setTimerErr}
         timerVisible={timerVisible}
         handleCheckVerify={handleCheckVerify}
