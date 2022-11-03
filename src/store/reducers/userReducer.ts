@@ -7,6 +7,7 @@ import {
   RegisterBody,
   RegisterPayload,
   ResponseFailure,
+  TelegramPayload,
   ThemePayload,
 } from '../types';
 
@@ -17,6 +18,7 @@ export type UserStateType = {
   nickname: string | null;
   checkNicknameResult: boolean | null;
   photoUrl: string | null;
+  username: string | null;
   verifyCode: number | string | null;
   isDark: boolean;
   loadUserLoading: boolean;
@@ -33,6 +35,7 @@ const initialState: UserStateType = {
   nickname: '',
   checkNicknameResult: null,
   photoUrl: '',
+  username: '',
   verifyCode: '',
   isDark: false,
   loadUserLoading: false,
@@ -56,6 +59,9 @@ const userSlice = createSlice({
       state.verifyCode = action.payload.verifyCode;
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
+    },
+    changeTelegramField(state, action: PayloadAction<TelegramPayload>) {
+      state.username = action.payload.username;
     },
     checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
       state.loadUserLoading = true;

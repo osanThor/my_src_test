@@ -5,7 +5,13 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
-const ConectTelegram = () => {
+const ConectTelegram = ({
+  onChange,
+  username,
+}: {
+  username: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
   // 리스트 색상 이벤트
   const handleClickEvent = (e: React.MouseEvent<HTMLLIElement>) => {
     const target = e.currentTarget;
@@ -43,7 +49,7 @@ const ConectTelegram = () => {
       </div>
       {inputVisible && (
         <StyledInputForm>
-          <input type="text" placeholder="텔레그램 '@사용자명'을 입력해주세요" />
+          <input type="text" placeholder="텔레그램 '@사용자명'을 입력해주세요" value={username} onChange={onChange} />
           <StyledButton blue>등록</StyledButton>
         </StyledInputForm>
       )}
@@ -167,6 +173,7 @@ const StyledInputForm = styled.div`
     }
 
     &::placeholder {
+      font-size: 14px;
       color: ${colors.blue[1]};
     }
     @media (max-width: 768px) {
@@ -179,6 +186,9 @@ const StyledInputForm = styled.div`
   ${media.mobile} {
     input {
       width: 65%;
+      &::placeholder {
+        font-size: 13px;
+      }
     }
     button {
       padding: 0 1.5rem;
