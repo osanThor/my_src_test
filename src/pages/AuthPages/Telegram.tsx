@@ -9,12 +9,14 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
+import Modal from '@/src/components/common/Modal';
 
 const Telegram = () => {
   // 텔레그램 상태관리
   const dispatch = useDispatch();
-  const { username } = useSelector(({ user }: RootState) => ({
+  const { username, loadUserDone } = useSelector(({ user }: RootState) => ({
     username: user.username,
+    loadUserDone: user.loadUserDone,
   }));
 
   const handleChangeUserNameField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +25,33 @@ const Telegram = () => {
   };
   // 텔레그램 사용자명 등록 요청
   const handlePutTelegram = () => {
+    if (username.length <= 0) {
+      setMoOpen(true);
+      setMoMessage('텔레그램 사용자명를 입력해주세요');
+      setMoSt(false);
+      return;
+    }
     dispatch(userActions.telegramUsername({ username }));
   };
+  React.useEffect(() => {
+    if (loadUserDone === 'NOT_FOUND_TELEGRAM') {
+      setMoOpen(true);
+      setMoMessage('텔레그램 사용자명를 찾을 수 없어요');
+      setMoSt(true);
+      return;
+    } else if (loadUserDone === 'CHANGED') {
+      setMoOpen(true);
+      setMoMessage('텔레그램이 연동되었어요~! 텔레그램 환영메세지를 확인해주세요.');
+      setMoSt(false);
+      telegramSuccess();
+    }
+  }, [loadUserDone]);
+
+  const telegramSuccess = React.useCallback(() => {
+    if (moOpen === false) {
+      Router.push('/');
+    }
+  }, []);
 
   // 텔레그램 레이아웃
   const [changeType, setChangeType] = React.useState(false);
@@ -44,6 +71,14 @@ const Telegram = () => {
   const handleModalEvent = () => {
     Router.push('/');
   };
+
+  // 일반 모달
+  const [moOpen, setMoOpen] = React.useState(false);
+  const [moMessage, setMoMessage] = React.useState('');
+  const [moSt, setMoSt] = React.useState(false);
+  const onCloseMo = () => {
+    setMoOpen(false);
+  };
   return (
     <AuthLayout type="telegram">
       <TelegramLayout setOpen={setOpen}>
@@ -58,6 +93,7 @@ const Telegram = () => {
         )}
       </TelegramLayout>
       <FuncModal open={open} onClose={onClose} message={message} dubBtn={dubBtn} onClick={handleModalEvent} />
+      <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
     </AuthLayout>
   );
 };
