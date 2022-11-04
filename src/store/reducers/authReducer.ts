@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { LoginPayload, LoadAuthResponse, ResponseFailure, VerifyEmailPayload, VerifyCodePayload } from '../types';
+import type {
+  LoginPayload,
+  LoadAuthResponse,
+  ResponseFailure,
+  VerifyEmailPayload,
+  VerifyCodePayload,
+  AuthPayload,
+} from '../types';
 
 export type AuthStateType = {
   email: string | null;
@@ -88,6 +95,10 @@ const authSlice = createSlice({
     AuthFailure(state) {
       state.auth = false;
       state.authError = true;
+    },
+    AuthChange(state, action: PayloadAction<AuthPayload>) {
+      state.loadAuthDone.message = action.payload.message;
+      state.loadAuthDone.accessToken = action.payload.accessToken;
     },
     userLogOut(state) {
       state.auth = null;

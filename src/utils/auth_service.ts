@@ -10,10 +10,15 @@ class AuthService {
     try {
       const user = localStorage.getItem('user');
       if (!user) return;
-      if (loadAuthDone.message === undefined || loadAuthDone.message === '') {
+      const authS = localStorage.getItem('AuthStatus');
+      const authT = localStorage.getItem('Authorization');
+      dispatch(authActions.AuthChange({ message: authS, accessToken: authT }));
+      if (loadAuthDone.message === undefined || loadAuthDone.message === null) {
         dispatch(userActions.userFailure());
         delete axiosInstance.defaults.headers.common['Authorization'];
         localStorage.removeItem('user');
+        localStorage.removeItem('AuthStatus');
+        localStorage.removeItem('Authorization');
         return;
       } else {
         dispatch(userActions.userSuccess());
@@ -26,13 +31,18 @@ class AuthService {
   jwtToken(loadAuthDone: LoadAuthResponse) {
     if (loadAuthDone.accessToken != undefined || loadAuthDone.accessToken != '') {
       axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
+      console.log();
     } else {
+      console.log('토큰 없음');
     }
   }
 
   // 토큰 재발급
   intervalRefresh(dispatch: Dispatch<AnyAction>) {
     dispatch(authActions.refreshToken());
+    const authS = localStorage.getItem('AuthStatus');
+    const authT = localStorage.getItem('Authorization');
+    dispatch(authActions.AuthChange({ message: authS, accessToken: authT }));
   }
 
   // 로그아웃
@@ -41,6 +51,8 @@ class AuthService {
     dispatch(userActions.userLogOut());
     delete axiosInstance.defaults.headers.common['Authorization'];
     localStorage.removeItem('user');
+    localStorage.removeItem('AuthStatus');
+    localStorage.removeItem('Authorization');
   }
 }
 
