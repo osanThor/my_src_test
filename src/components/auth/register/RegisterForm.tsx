@@ -380,7 +380,7 @@ const RegisterFormBlock = styled.div`
   }
 
   ${media.tablet} {
-    width: calc(100% - 64px);
+    width: calc(100% - 32px);
     overflow-y: auto;
     justify-content: flex-start;
     form {

@@ -38,7 +38,15 @@ class AuthService {
   }
 
   // 토큰 재발급
-  intervalRefresh(dispatch: Dispatch<AnyAction>) {
+  intervalRefresh(dispatch: Dispatch<AnyAction>, loadAuthDone: LoadAuthResponse) {
+    if (loadAuthDone.message === 'ACCESS_DENIED') {
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      localStorage.removeItem('user');
+      localStorage.removeItem('AuthStatus');
+      localStorage.removeItem('Authorization');
+      console.log('토큰 만료');
+      return;
+    }
     dispatch(authActions.refreshToken());
     const authS = localStorage.getItem('AuthStatus');
     const authT = localStorage.getItem('Authorization');

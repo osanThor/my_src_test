@@ -102,7 +102,8 @@ const LoginFormBlock = styled.form`
     }
   }
   @media (max-width: 768px) {
-    width: calc(100% - 64px);
+    width: calc(100% - 32px);
+    justify-content: flex-start;
     span.or {
       font-size: 24px;
       margin-bottom: 20px;

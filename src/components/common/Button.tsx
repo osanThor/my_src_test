@@ -40,6 +40,16 @@ const buttonStyle = css`
         background: ${colors.blue[1]};
       }
     `}
+  ${(props: any) =>
+    props.lightBlue &&
+    css`
+      background: ${colors.blue[0]};
+      color: ${colors.blue[2]};
+      &:hover {
+        background: ${colors.blue[0]};
+        opacity: 0.7;
+      }
+    `}
     &:disabled {
     background: ${colors.gray[0]};
     color: ${colors.gray[3]};

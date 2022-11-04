@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     if (user) {
       timeoutId = setTimeout(() => {
-        authService.intervalRefresh(dispatch);
+        authService.intervalRefresh(dispatch, loadAuthDone);
       }, loadAuthDone.expiryTime - 30000);
       console.log('발급 받음');
     } else {

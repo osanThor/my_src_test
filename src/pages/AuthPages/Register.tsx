@@ -127,20 +127,22 @@ const Register: NextPage = () => {
   const handleReqVerify = () => {
     dispatch(authActions.sendVerifyEmail({ email, isExistTrigger }));
   };
-  let min: number = 3;
+  const [min, setMin] = useState(3);
   const [existEmail, setExistEmial] = useState(false);
   const [readOnlyEmail, setOnltReadEmial] = useState(false);
   useEffect(() => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
-        setVerify(false);
-        min = 3;
         setModalOpen(true);
         setMessage('인증메일을 전송했어요');
         setModalSt(false);
-        setVerify(true);
+        setVerify(false);
         setOnltReadEmial(true);
         setExistEmial(false);
+        setTimerErr(false);
+        setVerify(true);
+        setMin(3);
+        setTimerVisible(true);
       } else if (loadAuthDone.message === 'EXIST_EMAIL') {
         setModalOpen(true);
         setMessage('이미 등록된 이메일주소예요');
@@ -159,6 +161,8 @@ const Register: NextPage = () => {
   useEffect(() => {
     if (timerErr === true) {
       setVeriAble(false);
+      setOnltReadEmial(false);
+      setTimerVisible(false);
     } else {
       if (verifyCode.toString().length === 4) {
         setVeriAble(true);

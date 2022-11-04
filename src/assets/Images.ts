@@ -27,6 +27,7 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 
 //로고
 export const Logo = LogoImage;
@@ -55,3 +56,4 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const StickArrowRight = StickArrowRightIcon;
