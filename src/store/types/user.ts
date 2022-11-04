@@ -34,5 +34,5 @@ export type RegisterPayload = {
   photoUrl: string | null;
 };
 export type LoadUserResponse = {
-  data: boolean | string | null;
+  message: string | boolean | null;
 };

@@ -74,7 +74,7 @@ const LoginFormBlock = styled.div`
   }
 
   ${media.tablet} {
-    width: calc(100% - 64px);
+    width: calc(100% - 32px);
   }
 `;
 const StyledButton = styled(Button)`

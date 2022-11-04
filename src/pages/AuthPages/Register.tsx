@@ -8,10 +8,12 @@ import { authActions, userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
 import Modal from '@/src/components/common/Modal';
 import { useRouter } from 'next/router';
+import AuthService from '@/src/utils/auth_service';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();
-  const [profileImg, setProfileImg] = useState('');
+  const router = useRouter();
+  const authSevice = new AuthService();
 
   // user 상태 관리
   const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, user, userError } = useSelector(
@@ -37,7 +39,17 @@ const Register: NextPage = () => {
     authError: auth.authError,
   }));
 
+  useEffect(() => {
+    authSevice.isUser(dispatch, loadAuthDone);
+    if (user) {
+      router.push('/');
+    } else {
+      return;
+    }
+  }, [user, dispatch]);
+
   // 회원가입 form 실시간 변화 상태관리
+  const [profileImg, setProfileImg] = useState('');
   const handleChangeRegisterForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value }: { name: string; value: any } = e.target;
     let emailVal = email;
@@ -115,18 +127,22 @@ const Register: NextPage = () => {
   const handleReqVerify = () => {
     dispatch(authActions.sendVerifyEmail({ email, isExistTrigger }));
   };
-  let min: number = 3;
+  const [min, setMin] = useState(3);
   const [existEmail, setExistEmial] = useState(false);
+  const [readOnlyEmail, setOnltReadEmial] = useState(false);
   useEffect(() => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
-        setVerify(false);
-        min = 3;
         setModalOpen(true);
         setMessage('인증메일을 전송했어요');
         setModalSt(false);
-        setVerify(true);
+        setVerify(false);
+        setOnltReadEmial(true);
         setExistEmial(false);
+        setTimerErr(false);
+        setVerify(true);
+        setMin(3);
+        setTimerVisible(true);
       } else if (loadAuthDone.message === 'EXIST_EMAIL') {
         setModalOpen(true);
         setMessage('이미 등록된 이메일주소예요');
@@ -145,6 +161,8 @@ const Register: NextPage = () => {
   useEffect(() => {
     if (timerErr === true) {
       setVeriAble(false);
+      setOnltReadEmial(false);
+      setTimerVisible(false);
     } else {
       if (verifyCode.toString().length === 4) {
         setVeriAble(true);
@@ -229,7 +247,6 @@ const Register: NextPage = () => {
   }, [auth, authError]);
 
   // 자동로그인 성공 시 user확인
-  const router = useRouter();
   useEffect(() => {
     if (userError) {
       setModalOpen(true);
@@ -242,6 +259,8 @@ const Register: NextPage = () => {
       router.push('/auth/telegram');
       try {
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('AuthStatus', loadAuthDone.message);
+        localStorage.setItem('Authorization', loadAuthDone.accessToken);
       } catch (e) {
         console.log(e);
       }
@@ -252,16 +271,6 @@ const Register: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
-  useEffect(() => {
-    try {
-      const user = localStorage.getItem('user');
-      if (!user) return;
-
-      dispatch(userActions.userSuccess());
-    } catch (e) {
-      console.log(e);
-    }
-  }, [userActions, user, dispatch]);
 
   return (
     <AuthLayout type="register">
@@ -270,6 +279,7 @@ const Register: NextPage = () => {
         verify={verify}
         existEmail={existEmail}
         setExistEmial={setExistEmial}
+        readOnlyEmail={readOnlyEmail}
         handleCheckNickname={handleCheckNickname}
         handleReqVerify={handleReqVerify}
         handleClickOpen={handleClickOpen}

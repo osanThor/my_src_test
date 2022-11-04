@@ -18,6 +18,10 @@ export type VerifyCodePayload = {
   email: string;
   verifyCode: number | string;
 };
+export type AuthPayload = {
+  message: string | null;
+  accessToken: string | null;
+};
 
 export type LoadAuthResponse = {
   message: string | null;

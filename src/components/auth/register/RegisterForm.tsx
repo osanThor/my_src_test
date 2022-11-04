@@ -17,6 +17,7 @@ const RegisterForm = ({
   verify,
   existEmail,
   setExistEmial,
+  readOnlyEmail,
   handleReqVerify,
   handleClickOpen,
   onChange,
@@ -153,9 +154,10 @@ const RegisterForm = ({
                   placeholder="이메일을 입력해요"
                   icon={Email}
                   value={email}
+                  readOnly={readOnlyEmail ? true : false}
                   onChange={onChange}
                 />
-                <StyledButton blue disabled={emailError ? true : false} onClick={handleReqVerify}>
+                <StyledButton blue disabled={emailError || readOnlyEmail ? true : false} onClick={handleReqVerify}>
                   메일전송
                 </StyledButton>
                 {!verify && (
@@ -378,7 +380,7 @@ const RegisterFormBlock = styled.div`
   }
 
   ${media.tablet} {
-    width: calc(100% - 64px);
+    width: calc(100% - 32px);
     overflow-y: auto;
     justify-content: flex-start;
     form {

@@ -13,7 +13,6 @@ import { apiCheckNickname, apiChangeTheme, apiRegister, apiTelegramUsername } fr
 
 // 테마변경
 function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
-  console.log('시작');
   yield put(userActions.loadUserRequest());
   try {
     const { data }: AxiosResponse<LoadUserResponse> = yield call(apiChangeTheme, action.payload);
@@ -28,12 +27,10 @@ function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
 
     // 실패한 액션 디스패치
     yield put(userActions.loadUserFailure({ status: { ok: false }, data: { message } }));
-    console.log('끝');
   }
 }
 // 닉네임체크
 function* checkNickNameSaga(action: PayloadAction<LoadUserBody>) {
-  console.log('시작');
   yield put(userActions.loadUserRequest());
   try {
     const { data } = yield call(apiCheckNickname, action.payload);
@@ -50,7 +47,6 @@ function* checkNickNameSaga(action: PayloadAction<LoadUserBody>) {
     // 실패한 액션 디스패치
     yield put(userActions.loadUserFailure({ status: { ok: false }, data: { message } }));
   }
-  console.log('끝');
 }
 // 회원가입
 function* userRegisterSaga(action: PayloadAction<LoadUserBody>) {
@@ -78,7 +74,7 @@ function* userRegisterSaga(action: PayloadAction<LoadUserBody>) {
   }
   console.log('회원가입 끝');
 }
-// 회원가입
+// 텔레그램 사용자명
 function* telegramUsernameSaga(action: PayloadAction<LoadUserBody>) {
   console.log('시작');
   yield put(userActions.loadUserRequest());
@@ -100,7 +96,6 @@ function* telegramUsernameSaga(action: PayloadAction<LoadUserBody>) {
 
     // 실패한 액션 디스패치
     yield put(userActions.loadUserFailure({ status: { ok: false }, data: { message } }));
-    yield put(authActions.AuthFailure());
   }
   console.log('끝');
 }

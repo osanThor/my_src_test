@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import LoginForm from '../../components/auth/login/LoginForm';
 import { NextPage } from 'next';
-import { authActions } from '@/src/store/reducers';
+import { authActions, userActions } from '@/src/store/reducers';
 import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ import Modal from '@/src/components/common/Modal';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
-  const { email, pw } = useSelector(({ auth }: RootState) => ({
+  const { email, pw, loadAuthDone } = useSelector(({ auth }: RootState) => ({
     email: auth.email,
     pw: auth.pw,
     loadAuthDone: auth.loadAuthDone,
@@ -55,6 +55,7 @@ const Login: NextPage = () => {
       setModalOpen(true);
       setMessage('로그인정보를 다시 확인해주세요.');
       setModalSt(true);
+      dispatch(userActions.initializeUserForm());
       return;
     }
 
@@ -62,6 +63,8 @@ const Login: NextPage = () => {
       router.push('/');
       try {
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('AuthStatus', loadAuthDone.message);
+        localStorage.setItem('Authorization', loadAuthDone.accessToken);
       } catch (e) {
         console.log(e);
       }

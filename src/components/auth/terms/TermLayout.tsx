@@ -302,7 +302,7 @@ const TermsBlock = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: calc(100% - 64px);
+    width: calc(100% - 32px);
     justify-content: flex-start;
     overflow-y: auto;
   }

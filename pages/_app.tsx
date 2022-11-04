@@ -8,7 +8,6 @@ import wrapper, { RootState } from '../src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -25,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // 사용자 확인
   useEffect(() => {
-    authService.isUser(dispatch);
-  }, [userActions, user, dispatch]);
+    authService.isUser(dispatch, loadAuthDone);
+  }, [user, dispatch, loadAuthDone]);
 
   // axios 토큰 관리
   useEffect(() => {
@@ -35,13 +34,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // 토큰 재발급
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     if (user) {
-      setTimeout(() => {
-        authService.intervalRefresh(dispatch);
+      timeoutId = setTimeout(() => {
+        authService.intervalRefresh(dispatch, loadAuthDone);
       }, loadAuthDone.expiryTime - 30000);
       console.log('발급 받음');
     } else {
+      clearTimeout(timeoutId);
       console.log('Not User');
+      return;
     }
   }, [user]);
 
