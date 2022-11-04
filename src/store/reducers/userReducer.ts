@@ -93,6 +93,7 @@ const userSlice = createSlice({
     },
     loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadUserLoading = false;
+      state.loadUserDone = null;
       state.loadUserError = action.payload.data.message;
     },
     userSuccess(state) {

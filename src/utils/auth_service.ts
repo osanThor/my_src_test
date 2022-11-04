@@ -6,20 +6,27 @@ import { LoadAuthResponse } from '../store/types';
 
 class AuthService {
   // 사용자 확인
-  isUser(dispatch: Dispatch<AnyAction>) {
+  isUser(dispatch: Dispatch<AnyAction>, loadAuthDone: LoadAuthResponse) {
     try {
       const user = localStorage.getItem('user');
       if (!user) return;
-
-      dispatch(userActions.userSuccess());
+      if (loadAuthDone.message === undefined || loadAuthDone.message === '') {
+        dispatch(userActions.userFailure());
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        localStorage.removeItem('user');
+        return;
+      } else {
+        dispatch(userActions.userSuccess());
+      }
     } catch (e) {
       console.log(e);
     }
   }
   // axios 토큰 관리
   jwtToken(loadAuthDone: LoadAuthResponse) {
-    if (loadAuthDone.accessToken != undefined || loadAuthDone.accessToken === '') {
+    if (loadAuthDone.accessToken != undefined || loadAuthDone.accessToken != '') {
       axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
+    } else {
     }
   }
 

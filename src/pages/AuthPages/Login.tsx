@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import LoginForm from '../../components/auth/login/LoginForm';
 import { NextPage } from 'next';
-import { authActions } from '@/src/store/reducers';
+import { authActions, userActions } from '@/src/store/reducers';
 import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -55,6 +55,7 @@ const Login: NextPage = () => {
       setModalOpen(true);
       setMessage('로그인정보를 다시 확인해주세요.');
       setModalSt(true);
+      dispatch(userActions.initializeUserForm());
       return;
     }
 

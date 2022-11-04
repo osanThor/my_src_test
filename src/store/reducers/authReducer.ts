@@ -77,6 +77,8 @@ const authSlice = createSlice({
       state.loadAuthDone = action.payload;
     },
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
+      state.loadAuthLoading = false;
+      state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.loadAuthError = action.payload.data.message;
     },
     AuthSuccess(state) {
