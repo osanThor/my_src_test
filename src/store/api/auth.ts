@@ -1,6 +1,6 @@
 import { axiosInstance } from '.';
 
-import type { LoadAuthBody, LoadAuthResponse, LoadUserResponse } from '../types';
+import type { LoadAuthBody, LoadAuthResponse } from '../types';
 
 // 로그인 요청
 export const userLogin = ({ email, pw }: LoadAuthBody) =>
@@ -31,3 +31,7 @@ export const apiVerifyCode = ({ email, verifyCode }: LoadAuthBody) =>
 
 // 로그아웃 요청
 export const apiLogout = () => axiosInstance.post<LoadAuthResponse>(`/auth/logout`);
+
+// reset PW
+export const apiResetPw = ({ email, pw }: LoadAuthBody) =>
+  axiosInstance.put<LoadAuthResponse>(`/auth/reset-pw`, { email, pw });

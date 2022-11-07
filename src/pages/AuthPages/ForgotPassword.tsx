@@ -8,11 +8,12 @@ import { RootState } from '@/src/store/configureStore';
 import { NextPage } from 'next';
 import Modal from '@/src/components/common/Modal';
 import ResetPw from '@/src/components/auth/forgotPw/ResetPw';
+import ForgotPwLastPage from '@/src/components/auth/forgotPw/ForgotPwLastPage';
 
 const ForgotPassword: NextPage = () => {
   const dispatch = useDispatch();
-  const [firstPage, setFirstPage] = useState(false);
-  const [secondPage, setSecondPage] = useState(true);
+  const [firstPage, setFirstPage] = useState(true);
+  const [secondPage, setSecondPage] = useState(false);
   const [lastPage, setLastPage] = useState(false);
 
   const handleGoToSec = () => {
@@ -155,7 +156,8 @@ const ForgotPassword: NextPage = () => {
             handleGoToSec={handleGoToSec}
           />
         )}
-        {secondPage && <ResetPw />}
+        {secondPage && <ResetPw onChange={handleChangeForgetPWField} handleGoToLast={handleGoToLast} />}
+        {lastPage && <ForgotPwLastPage />}
       </ForgotPwLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
     </AuthLayout>

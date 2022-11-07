@@ -268,16 +268,19 @@ const StyledInput = styled.input`
 `;
 const StyledButton = styled(Button)`
   height: 72px;
+  font-size: 20px;
 
   ${(props: any) =>
     props.verify &&
     css`
+      font-size: 1rem;
       ${media.tablet} {
         padding: 1rem;
       }
     `}
   ${media.tablet} {
     height: 56px;
+    font-size: 1rem;
   }
 `;
 export default VerifyEmail;
