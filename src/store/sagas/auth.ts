@@ -9,7 +9,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { LoadAuthResponse, LoadAuthBody } from '../types';
 
 // api
-import { apiLogout, apiRefreshToken, apiVerifyCode, apiVerifyEmial, userLogin } from '../api';
+import { apiLogout, apiRefreshToken, apiResetPw, apiVerifyCode, apiVerifyEmial, userLogin } from '../api';
 
 // 로그인
 function* loginSaga(action: PayloadAction<LoadAuthBody>) {
@@ -27,15 +27,15 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
   } catch (error: any) {
     console.error('authSaga login >> ', error);
 
-    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
-    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
   }
 }
 
 //토큰 재발급
-function* refreshSaga(action: PayloadAction<LoadAuthBody>) {
+function* refreshSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiRefreshToken);
@@ -51,10 +51,10 @@ function* refreshSaga(action: PayloadAction<LoadAuthBody>) {
   } catch (error: any) {
     console.error('authSaga refresh >> ', error);
 
-    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
-    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
   }
 }
 
@@ -68,10 +68,10 @@ function* sendVerifyEmailSaga(action: PayloadAction<LoadAuthBody>) {
   } catch (error: any) {
     console.error('authSaga sendVerifyEmail >> ', error);
 
-    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
-    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
   }
 }
 
@@ -85,15 +85,15 @@ function* checkVerifySaga(action: PayloadAction<LoadAuthBody>) {
   } catch (error: any) {
     console.error('authSaga checkVerifycode >> ', error);
 
-    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
-    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
   }
 }
 
 // 로그아웃
-function* userLogoutSaga(action: PayloadAction<LoadAuthBody>) {
+function* userLogoutSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiLogout);
@@ -102,10 +102,26 @@ function* userLogoutSaga(action: PayloadAction<LoadAuthBody>) {
   } catch (error: any) {
     console.error('authSaga logout >> ', error);
 
-    const message = error?.name === 'AxiosError' ? error.response : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
     // 실패한 액션 디스패치
-    yield put(authActions.loadAuthFailure({ status: { ok: false }, data: { message } }));
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
+  }
+}
+// reset pw
+function* userResetPwSaga(action: PayloadAction<LoadAuthBody>) {
+  yield put(authActions.loadAuthRequest());
+  try {
+    const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiResetPw, action.payload);
+
+    yield put(authActions.loadAuthSuccess(data));
+  } catch (error: any) {
+    console.error('authSaga logout >> ', error);
+
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
   }
 }
 
@@ -115,6 +131,7 @@ function* watchLoadAuth() {
   yield takeLatest(authActions.sendVerifyEmail, sendVerifyEmailSaga);
   yield takeLatest(authActions.checkVerifyCode, checkVerifySaga);
   yield takeLatest(authActions.userLogOut, userLogoutSaga);
+  yield takeLatest(authActions.userResetPw, userResetPwSaga);
 }
 
 export default function* authSaga() {

@@ -86,7 +86,7 @@ const authSlice = createSlice({
     loadAuthFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadAuthLoading = false;
       state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
-      state.loadAuthError = action.payload.data.message;
+      state.loadAuthError = action.payload.message;
     },
     AuthSuccess(state) {
       state.auth = true;
@@ -100,8 +100,14 @@ const authSlice = createSlice({
       state.loadAuthDone.message = action.payload.message;
       state.loadAuthDone.accessToken = action.payload.accessToken;
     },
+    // logout
     userLogOut(state) {
       state.auth = null;
+    },
+    //reset pw
+    userResetPw(state, action: PayloadAction<LoginPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
     },
   },
 });

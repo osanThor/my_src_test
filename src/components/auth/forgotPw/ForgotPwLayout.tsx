@@ -5,17 +5,17 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 
-const ForgotPwLayout = ({ children }: { children: React.ReactNode }) => {
+const ForgotPwLayout = ({ children, firstPage }: { children: React.ReactNode; firstPage: boolean }) => {
   return (
     <ForgotPwLayoutBlock>
       <div className="main_con">
         <div className="top_con">
           <div className="top_status">
-            <span className="on">아이디 입력 확인</span>
+            <span className={firstPage ? 'on' : ''}>아이디 입력 확인</span>
             <span className="arrow">
               <Image src={StickArrowRight} alt="arrow" />
             </span>
-            <span>비밀번호 재설정</span>
+            <span className={!firstPage ? 'on' : ''}>비밀번호 재설정</span>
           </div>
         </div>
         {children}

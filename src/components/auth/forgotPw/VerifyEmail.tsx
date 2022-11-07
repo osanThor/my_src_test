@@ -13,20 +13,28 @@ const VerifyEmail = ({
   onChange,
   operEmail,
   veriftAble,
+  verifyErr,
+  nextBtn,
   handleReqVerify,
   min,
   timerErr,
   setTimerErr,
+  hadleCheckVerifyCode,
+  handleGoToSec,
 }: {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   operEmail: boolean;
   veriftAble: boolean;
+  verifyErr: boolean;
+  nextBtn: boolean;
   handleReqVerify: () => void;
   min: number;
   timerErr: boolean;
   setTimerErr: React.Dispatch<React.SetStateAction<boolean>>;
+  hadleCheckVerifyCode: () => void;
+  handleGoToSec: () => void;
 }) => {
-  const [verifyErr, setVerifyErr] = React.useState(false);
+  const [verifyBtn, setVerifyBtn] = React.useState(true);
 
   const { email, verifyCode } = useSelector(({ user }: RootState) => ({
     email: user.email,
@@ -49,6 +57,22 @@ const VerifyEmail = ({
       }
     }
   }, [email]);
+
+  // 인증확인버튼 활성화
+  React.useEffect(() => {
+    if (veriftAble) {
+      setVerifyBtn(true);
+    } else {
+      if (verifyCode.toString().length === 0 || !verifyCode) {
+        setVerifyBtn(true);
+      } else {
+        setVerifyBtn(false);
+        if (verifyCode.toString().length > 4) {
+          setVerifyBtn(true);
+        }
+      }
+    }
+  }, [veriftAble, verifyCode]);
 
   return (
     <VerifyEmailBlock>
@@ -90,13 +114,13 @@ const VerifyEmail = ({
             placeholder="인증번호를 입력해요"
             error={verifyErr}
           />
-          <StyledButton blue verify disabled={veriftAble}>
+          <StyledButton blue verify disabled={verifyBtn} onClick={hadleCheckVerifyCode}>
             인증확인
           </StyledButton>
           {!veriftAble && <Timer error={timerErr} setError={setTimerErr} min={min} />}
         </div>
       </div>
-      <StyledButton fullWidth lightBlue style={{ marginBottom: '1rem' }} disabled>
+      <StyledButton fullWidth lightBlue style={{ marginBottom: '1rem' }} disabled={!nextBtn} onClick={handleGoToSec}>
         다음
       </StyledButton>
       <div className="notice">
@@ -244,16 +268,19 @@ const StyledInput = styled.input`
 `;
 const StyledButton = styled(Button)`
   height: 72px;
+  font-size: 20px;
 
   ${(props: any) =>
     props.verify &&
     css`
+      font-size: 1rem;
       ${media.tablet} {
         padding: 1rem;
       }
     `}
   ${media.tablet} {
     height: 56px;
+    font-size: 1rem;
   }
 `;
 export default VerifyEmail;

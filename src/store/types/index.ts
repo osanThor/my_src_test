@@ -11,7 +11,7 @@ export type ResponseData = {
 // 예측가능한 실패인 경우 응답 타입 ( 403, 409 등 )
 export type ResponseFailure = {
   status: { ok: boolean };
-  data: { message: string };
+  message: string;
 };
 
 export type {

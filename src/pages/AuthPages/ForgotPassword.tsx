@@ -1,15 +1,31 @@
 import ForgotPwLayout from '@/src/components/auth/forgotPw/ForgotPwLayout';
 import VerifyEmail from '@/src/components/auth/forgotPw/VerifyEmail';
 import { authActions, userActions } from '@/src/store/reducers';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { RootState } from '@/src/store/configureStore';
 import { NextPage } from 'next';
 import Modal from '@/src/components/common/Modal';
+import ResetPw from '@/src/components/auth/forgotPw/ResetPw';
+import ForgotPwLastPage from '@/src/components/auth/forgotPw/ForgotPwLastPage';
 
 const ForgotPassword: NextPage = () => {
   const dispatch = useDispatch();
+  const [firstPage, setFirstPage] = useState(true);
+  const [secondPage, setSecondPage] = useState(false);
+  const [lastPage, setLastPage] = useState(false);
+
+  const handleGoToSec = () => {
+    setFirstPage(false);
+    setSecondPage(true);
+  };
+  const handleGoToLast = () => {
+    setSecondPage(false);
+    setLastPage(true);
+  };
+
+  // auth 상태 관리
   const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
@@ -35,6 +51,7 @@ const ForgotPassword: NextPage = () => {
       pwConVal = value;
     } else if (name === 'verifyCode') {
       verVal = parseInt(value);
+      setVerifyErr(false);
     }
     dispatch(
       userActions.changeRegisterField({
@@ -73,7 +90,7 @@ const ForgotPassword: NextPage = () => {
     }
   }, [loadAuthLoading, loadAuthDone]);
 
-  // 인증번호 인증
+  // 인증번호 input 활성화
   const [veriftAble, setverifyAble] = React.useState(true);
 
   // 시간이 초과되면 코드인증 버튼 비활성화
@@ -84,6 +101,30 @@ const ForgotPassword: NextPage = () => {
       setOperEmail(false);
     }
   }, [verifyCode, timerErr]);
+
+  // 인증코드 인증
+  const [verifyErr, setVerifyErr] = React.useState(false);
+  const [nextBtn, setNextBtn] = useState(false);
+
+  const hadleCheckVerifyCode = () => {
+    dispatch(authActions.checkVerifyCode({ email, verifyCode }));
+  };
+  useEffect(() => {
+    if (loadAuthDone.message === 'WRONG_CODE') {
+      setMoOpen(true);
+      setMoMessage('인증 코드를 다시 한번 확인해주세요');
+      setMoSt(true);
+      setVerifyErr(true);
+      return;
+    } else if (loadAuthDone.message === 'VERIFIED') {
+      setMoOpen(true);
+      setMoMessage('이메일 인증이 되었어요');
+      setMoSt(false);
+      setVerifyErr(false);
+      setverifyAble(true);
+      setNextBtn(true);
+    }
+  }, [loadAuthDone]);
 
   // 모달
   const [moOpen, setMoOpen] = React.useState(false);
@@ -99,16 +140,24 @@ const ForgotPassword: NextPage = () => {
 
   return (
     <AuthLayout type="forgot-password">
-      <ForgotPwLayout>
-        <VerifyEmail
-          onChange={handleChangeForgetPWField}
-          operEmail={operEmail}
-          veriftAble={veriftAble}
-          handleReqVerify={handleReqVerify}
-          min={min}
-          timerErr={timerErr}
-          setTimerErr={setTimerErr}
-        />
+      <ForgotPwLayout firstPage={firstPage}>
+        {firstPage && (
+          <VerifyEmail
+            onChange={handleChangeForgetPWField}
+            operEmail={operEmail}
+            veriftAble={veriftAble}
+            verifyErr={verifyErr}
+            nextBtn={nextBtn}
+            handleReqVerify={handleReqVerify}
+            min={min}
+            timerErr={timerErr}
+            setTimerErr={setTimerErr}
+            hadleCheckVerifyCode={hadleCheckVerifyCode}
+            handleGoToSec={handleGoToSec}
+          />
+        )}
+        {secondPage && <ResetPw onChange={handleChangeForgetPWField} handleGoToLast={handleGoToLast} />}
+        {lastPage && <ForgotPwLastPage />}
       </ForgotPwLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
     </AuthLayout>
