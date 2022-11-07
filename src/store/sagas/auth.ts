@@ -35,7 +35,7 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
 }
 
 //토큰 재발급
-function* refreshSaga(action: PayloadAction<LoadAuthBody>) {
+function* refreshSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiRefreshToken);
@@ -93,7 +93,7 @@ function* checkVerifySaga(action: PayloadAction<LoadAuthBody>) {
 }
 
 // 로그아웃
-function* userLogoutSaga(action: PayloadAction<LoadAuthBody>) {
+function* userLogoutSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiLogout);
