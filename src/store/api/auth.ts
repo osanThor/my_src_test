@@ -18,11 +18,11 @@ export const userLogin = ({ email, pw }: LoadAuthBody) =>
 // refresh token
 export const apiRefreshToken = () => axiosInstance.post<LoadAuthResponse>(`/auth/refresh`);
 
-// 이메일 인증요청
+// 이메일 인증번호 요청
 export const apiVerifyEmial = ({ email, isExistTrigger }: LoadAuthBody) =>
   axiosInstance.post<LoadAuthResponse>(`/auth/email/verify/${email}?isExistTrigger=${isExistTrigger}`);
 
-//이메일 인증번호
+// 이메일 인증번호 인증
 export const apiVerifyCode = ({ email, verifyCode }: LoadAuthBody) =>
   axiosInstance.post<LoadAuthResponse>(`/auth/email/verify`, {
     email,
