@@ -1,3 +1,12 @@
+// styles/global-styles.ts
+import { createGlobalStyle } from 'styled-components';
+import { themeType } from './theme';
+
+export const GlobalStyle = createGlobalStyle`
+#__next{
+  width: 100%;
+  height: 100%;
+}
 @font-face {
   font-family: "GmarketSansLight";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff")
@@ -12,17 +21,30 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: GmarketSansMedium;
 }
 html,
 body {
   width: 100%;
   height: 100%;
   font-size: 16px;
-  font-family: GmarketSansMedium;
+}
+
+body{
+  background-color: ${({ theme }: { theme: themeType }) => theme.bgColor} !important;
+  color: ${({ theme }: { theme: themeType }) => theme.textColor} !important;
 }
 
 a {
@@ -44,12 +66,11 @@ aside {
   display: block;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+@media (max-width: 768px) {
+  html,
   body {
-    color: white;
-    background: black;
+    font-size: 14px;
   }
 }
+
+`;
