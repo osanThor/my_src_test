@@ -15,7 +15,7 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
           {type === 'forgot-password' && (
             <Link href="/">
               <a>
-                <Image src={Logo} alt="main Logo" />
+                <Image src={Logo[0]} alt="main Logo" />
               </a>
             </Link>
           )}

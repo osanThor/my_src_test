@@ -1,5 +1,6 @@
 // styles/global-styles.ts
 import { createGlobalStyle } from 'styled-components';
+import { themeType } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
 #__next{
@@ -27,6 +28,7 @@ export const GlobalStyle = createGlobalStyle`
   font-weight: normal;
   font-style: normal;
 }
+
 * {
   padding: 0;
   margin: 0;
@@ -38,6 +40,11 @@ body {
   width: 100%;
   height: 100%;
   font-size: 16px;
+}
+
+body{
+  background-color: ${({ theme }: { theme: themeType }) => theme.bgColor} !important;
+  color: ${({ theme }: { theme: themeType }) => theme.textColor} !important;
 }
 
 a {

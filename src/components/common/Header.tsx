@@ -1,5 +1,4 @@
 import { Logo } from '@/src/assets/Images';
-import { theme } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -14,7 +13,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
         <div className="main_logo">
           <Link href="/">
             <a>
-              <Image src={Logo} alt="main_logo" />
+              <Image src={Logo[0]} alt="main_logo" />
             </a>
           </Link>
         </div>
@@ -40,7 +39,7 @@ const TopHeader = styled.div`
   top: 0;
   right: 0;
   z-index: 990;
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 const TopHeaderSpacer = styled.div`
   width: 100%;

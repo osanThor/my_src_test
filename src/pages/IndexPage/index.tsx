@@ -13,17 +13,23 @@ import UserLayout from '@/src/components/layout/UserLayout';
 const IndexPage: NextPage = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, user } = useSelector(({ user }: RootState) => ({
+  const { isDark, user, loadUserDone } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     user: user.user,
+    loadUserDone: user.loadUserDone,
   }));
-  const onClick = async () => {
+  const onClick = React.useCallback(() => {
     if (!user) {
       alert('로그인 해주세요');
       return;
     }
     dispatch(userActions.changeTheme({ isDark }));
-  };
+    dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
+  }, [user, loadUserDone]);
+
+  React.useEffect(() => {
+    localStorage.setItem('isDark', JSON.stringify(isDark));
+  }, [isDark]);
 
   const [btnWord, setBtnWord] = React.useState('');
   const router = useRouter();

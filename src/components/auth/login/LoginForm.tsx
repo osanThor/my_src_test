@@ -19,7 +19,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
       <h1 className="logo">
         <Link href="/">
           <a>
-            <Image src={Logo} alt="main_logo" />
+            <Image src={Logo[0]} alt="main_logo" />
           </a>
         </Link>
       </h1>
