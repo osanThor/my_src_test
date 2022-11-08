@@ -22,6 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     loadAuthDone: auth.loadAuthDone,
   }));
 
+  // 자동 로그인
+  useEffect(() => {
+    authService.autoLogin(dispatch);
+  }, []);
+
   // 사용자 확인
   useEffect(() => {
     authService.isUser(dispatch, loadAuthDone);

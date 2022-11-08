@@ -5,14 +5,36 @@ import { authActions, userActions } from '../store/reducers';
 import { LoadAuthResponse } from '../store/types';
 
 class AuthService {
+  // 자동 로그인
+  autoLogin(dispatch: Dispatch<AnyAction>) {
+    try {
+      const email = localStorage.getItem('userId');
+      const pw = localStorage.getItem('userPw');
+      if (!email && !pw) {
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        localStorage.removeItem('user');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userPw');
+        localStorage.removeItem('AuthStatus');
+        localStorage.removeItem('Authorization');
+        return;
+      }
+      dispatch(authActions.userLogin({ email, pw }));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   // 사용자 확인
   isUser(dispatch: Dispatch<AnyAction>, loadAuthDone: LoadAuthResponse) {
     try {
       const user = localStorage.getItem('user');
       if (!user) return;
+
       const authS = localStorage.getItem('AuthStatus');
       const authT = localStorage.getItem('Authorization');
       dispatch(authActions.AuthChange({ message: authS, accessToken: authT }));
+
       if (loadAuthDone.message === undefined || loadAuthDone.message === null) {
         dispatch(userActions.userFailure());
         delete axiosInstance.defaults.headers.common['Authorization'];
@@ -33,6 +55,7 @@ class AuthService {
       axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
       console.log();
     } else {
+      delete axiosInstance.defaults.headers.common['Authorization'];
       console.log('토큰 없음');
     }
   }
@@ -59,6 +82,8 @@ class AuthService {
     dispatch(userActions.userLogOut());
     delete axiosInstance.defaults.headers.common['Authorization'];
     localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userPw');
     localStorage.removeItem('AuthStatus');
     localStorage.removeItem('Authorization');
   }

@@ -7,7 +7,7 @@ export const theme = {
     lightGreen: '#99ecdd',
     darkGray: '#54595d',
   },
-  boxShadow: '0 4px 12px rgb(0 0 0 / 10%)',
+  boxShadow: '0 4px 12px rgba(0 0 0 / 10%)',
 };
 
 const customMediaQuery = (maxWidth: number): string => `@media (max-width: ${maxWidth}px)`;

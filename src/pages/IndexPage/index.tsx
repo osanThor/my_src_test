@@ -18,6 +18,10 @@ const IndexPage: NextPage = () => {
     user: user.user,
   }));
   const onClick = async () => {
+    if (!user) {
+      alert('로그인 해주세요');
+      return;
+    }
     dispatch(userActions.changeTheme({ isDark }));
   };
 
@@ -38,10 +42,12 @@ const IndexPage: NextPage = () => {
   };
   return (
     <UserLayout>
-      <h1>퀀트로 Index 페이지</h1>
-      <Button onClick={onClick}>다크모드</Button>
-      <div style={{ cursor: 'pointer' }} onClick={onClickHandler}>
-        {btnWord}
+      <div>
+        <h1>퀀트로 Index 페이지</h1>
+        <Button onClick={onClick}>다크모드</Button>
+        <div style={{ cursor: 'pointer' }} onClick={onClickHandler}>
+          {btnWord}
+        </div>
       </div>
     </UserLayout>
   );

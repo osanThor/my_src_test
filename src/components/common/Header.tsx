@@ -18,6 +18,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
             </a>
           </Link>
         </div>
+        <div className="gnb"></div>
       </GnbHeader>
       <MainContainer>
         <GnbHeaderSpacer />
@@ -57,6 +58,8 @@ const GnbHeader = styled.div`
 
   .main_logo {
     width: 100%;
+    height: 80px;
+    padding: 1rem 20px;
 
     a {
       display: block;
@@ -70,9 +73,12 @@ const GnbHeaderSpacer = styled.div`
 `;
 const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
   overflow-y: auto;
   display: flex;
+
+  & > div:nth-child(2) {
+    flex: 1;
+  }
 `;
 
 export default Header;
