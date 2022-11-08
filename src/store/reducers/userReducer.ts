@@ -52,6 +52,9 @@ const userSlice = createSlice({
     changeTheme(state, action: PayloadAction<ThemePayload>) {
       state.isDark = action.payload.isDark;
     },
+    changeThemeStatus(state, action: PayloadAction<ThemePayload>) {
+      state.isDark = action.payload.isDark;
+    },
     changeRegisterField(state, action: PayloadAction<RegisterBody>) {
       state.email = action.payload.email;
       state.pw = action.payload.pw;
@@ -94,7 +97,7 @@ const userSlice = createSlice({
     loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadUserLoading = false;
       state.loadUserDone = null;
-      state.loadUserError = action.payload.data.message;
+      state.loadUserError = action.payload.message;
     },
     userSuccess(state) {
       state.user = true;

@@ -1,4 +1,5 @@
 import LogoImage from 'public/assets/common/logo.png';
+import WhiteLogoImage from 'public/assets/common/logo_darkTheme.png';
 import GoogleIcon from 'public/assets/common/google.svg';
 import CloseIcon from 'public/assets/common/close.svg';
 import CloseRedIcon from 'public/assets/common/close_red.svg';
@@ -30,7 +31,7 @@ import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 
 //로고
-export const Logo = LogoImage;
+export const Logo = [LogoImage, WhiteLogoImage];
 export const Google = GoogleIcon;
 
 //프로필

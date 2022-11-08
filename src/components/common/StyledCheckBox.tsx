@@ -5,9 +5,17 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 type CheckStyle = 'round' | 'switch' | 'squar';
 
-const StyledCheckBox = ({ style }: { style: CheckStyle }) => {
+const StyledCheckBox = ({
+  style,
+  autoLogin,
+  handleAutoLogin,
+}: {
+  style: CheckStyle;
+  autoLogin: boolean;
+  handleAutoLogin: () => void;
+}) => {
   if (style === 'round') {
-    return <RoundCheckBox />;
+    return <RoundCheckBox autoLogin={autoLogin} handleAutoLogin={handleAutoLogin} />;
   } else {
     return <input type="checkBox" />;
   }
@@ -40,14 +48,12 @@ const RoundCheckBoxBlock = styled.div`
     transform: translateY(-3px);
   }
 `;
-const RoundCheckBox = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
+const RoundCheckBox = ({ autoLogin, handleAutoLogin }: { autoLogin: boolean; handleAutoLogin: () => void }) => {
   return (
     <RoundCheckBoxBlock>
       <label>
-        <input onClick={() => setIsChecked(!isChecked)} type="checkBox" />
-        {isChecked ? <RadioButtonCheckedIcon color="primary" /> : <RadioButtonUncheckedIcon />}
+        <input onChange={handleAutoLogin} type="checkBox" checked={autoLogin} />
+        {autoLogin ? <RadioButtonCheckedIcon color="primary" /> : <RadioButtonUncheckedIcon />}
       </label>
     </RoundCheckBoxBlock>
   );

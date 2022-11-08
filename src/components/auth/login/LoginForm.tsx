@@ -8,8 +8,9 @@ import Button from '../../common/Button';
 import StyledCheckBox from '../../common/StyledCheckBox';
 import { Logo } from '../../../assets/Images';
 import { ILoginSubmit } from '@/src/interfaces/iAuth/iLogin';
+import GoogleLoginBtn from './GoogleLoginBtn';
 
-const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
+const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }: ILoginSubmit) => {
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
 
@@ -18,16 +19,11 @@ const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
       <h1 className="logo">
         <Link href="/">
           <a>
-            <Image src={Logo} alt="main_logo" />
+            <Image src={Logo[0]} alt="main_logo" />
           </a>
         </Link>
       </h1>
-      <GoogleLoginButon>
-        구글 계정을 사용할래요{' '}
-        <div className="icon">
-          <Image src={Google} alt="google" />
-        </div>
-      </GoogleLoginButon>
+      <GoogleLoginBtn />
       <span className="or">or</span>
       <StyleInput
         type="text"
@@ -48,7 +44,7 @@ const LoginForm = ({ email, pw, onChange, onSubmit }: ILoginSubmit) => {
         value={pw}
       />
       <div className="check">
-        <StyledCheckBox style="round" />
+        <StyledCheckBox style="round" autoLogin={autoLogin} handleAutoLogin={handleAutoLogin} />
         편리한 자동 로그인
       </div>
       <Button blue fullWidth style={{ marginBottom: '1rem' }} onClick={onSubmit}>
@@ -111,26 +107,6 @@ const LoginFormBlock = styled.form`
     .check {
       margin-bottom: 20px;
     }
-  }
-`;
-
-const GoogleLoginButon = styled(Button)`
-  width: 100%;
-  height: 72px;
-  text-align: left;
-  position: relative;
-  margin-bottom: 30px;
-
-  .icon {
-    position: absolute;
-    top: 50%;
-    right: 36px;
-    transform: translateY(-50%);
-    display: flex;
-  }
-  @media (max-width: 768px) {
-    height: 56px;
-    margin-bottom: 20px;
   }
 `;
 

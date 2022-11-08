@@ -1,5 +1,4 @@
 import { Logo } from '@/src/assets/Images';
-import { theme } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -14,10 +13,11 @@ const Header = ({ children }: { children: React.ReactNode }) => {
         <div className="main_logo">
           <Link href="/">
             <a>
-              <Image src={Logo} alt="main_logo" />
+              <Image src={Logo[0]} alt="main_logo" />
             </a>
           </Link>
         </div>
+        <div className="gnb"></div>
       </GnbHeader>
       <MainContainer>
         <GnbHeaderSpacer />
@@ -39,7 +39,7 @@ const TopHeader = styled.div`
   top: 0;
   right: 0;
   z-index: 990;
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 const TopHeaderSpacer = styled.div`
   width: 100%;
@@ -57,6 +57,8 @@ const GnbHeader = styled.div`
 
   .main_logo {
     width: 100%;
+    height: 80px;
+    padding: 1rem 20px;
 
     a {
       display: block;
@@ -70,9 +72,12 @@ const GnbHeaderSpacer = styled.div`
 `;
 const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
   overflow-y: auto;
   display: flex;
+
+  & > div:nth-child(2) {
+    flex: 1;
+  }
 `;
 
 export default Header;

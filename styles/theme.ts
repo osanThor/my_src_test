@@ -1,13 +1,27 @@
-export const theme = {
-  color: {
-    purple: '#8661de',
-    blue: '#00bac7',
-    gray: '#f6f6f6',
-    green: '#07b495',
-    lightGreen: '#99ecdd',
-    darkGray: '#54595d',
-  },
-  boxShadow: '0 4px 12px rgb(0 0 0 / 10%)',
+import colors from '@/src/assets/Colors';
+
+export const darkTheme = {
+  bgColor: `${colors.dark[3]}`,
+  textColor: 'white',
+  boxShadow: '0 4px 12px rgba(0 0 0 / 10%)',
+};
+export const lightTheme = {
+  bgColor: 'white',
+  textColor: 'black',
+  boxShadow: '0 4px 12px rgba(0 0 0 / 10%)',
+};
+
+const theme = {
+  darkTheme,
+  lightTheme,
+};
+
+export default theme;
+
+export type themeType = {
+  bgColor: string;
+  textColor: string;
+  boxShadow: string;
 };
 
 const customMediaQuery = (maxWidth: number): string => `@media (max-width: ${maxWidth}px)`;

@@ -3,24 +3,30 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
-import { theme } from '../styles/theme';
 import wrapper, { RootState } from '../src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AuthService from '@/src/utils/auth_service';
+import theme from '@/styles/theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const authService = new AuthService();
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector(({ user }: RootState) => ({
+  const { user, isDark } = useSelector(({ user }: RootState) => ({
     user: user.user,
+    isDark: user.isDark,
   }));
   const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
   }));
+
+  // // 자동 로그인
+  // useEffect(() => {
+  //   authService.autoLogin(dispatch);
+  // }, []);
 
   // 사용자 확인
   useEffect(() => {
@@ -40,13 +46,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       timeoutId = setTimeout(() => {
         authService.intervalRefresh(dispatch, loadAuthDone);
       }, loadAuthDone.expiryTime - 30000);
-      console.log('발급 받음');
     } else {
       clearTimeout(timeoutId);
       console.log('Not User');
       return;
     }
   }, [user]);
+  // theme
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+  useEffect(() => {
+    const isLocalDark = localStorage.getItem('isDark');
+    if (!isLocalDark) return;
+    if (isLocalDark === 'true') {
+      setIsDarkMode(true);
+    } else {
+      setIsDarkMode(false);
+    }
+  }, [isDark]);
 
   return (
     <>
@@ -54,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>QUANTRO</title>
       </Head>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={isDarkMode ? theme.darkTheme : theme.lightTheme}>
         <GlobalStyle />
         <CssBaseline />
         <Component {...pageProps} />
