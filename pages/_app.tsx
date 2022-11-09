@@ -9,10 +9,16 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AuthService from '@/src/utils/auth_service';
 import theme from '@/styles/theme';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{
+  session: Session;
+}>) {
   const authService = new AuthService();
-
   const dispatch = useDispatch();
 
   const { user, isDark } = useSelector(({ user }: RootState) => ({
@@ -52,11 +58,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       return;
     }
   }, [user]);
+
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);
   useEffect(() => {
     const isLocalDark = localStorage.getItem('isDark');
-    if (!isLocalDark) return;
+    console.log(isLocalDark);
     if (isLocalDark === 'true') {
       setIsDarkMode(true);
     } else {
@@ -66,15 +73,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>QUANTRO</title>
-      </Head>
-      <ThemeProvider theme={isDarkMode ? theme.darkTheme : theme.lightTheme}>
-        <GlobalStyle />
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <SessionProvider session={pageProps.session}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>QUANTRO</title>
+        </Head>
+        <ThemeProvider theme={isDarkMode ? theme.darkTheme : theme.lightTheme}>
+          <GlobalStyle />
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </SessionProvider>
     </>
   );
 }

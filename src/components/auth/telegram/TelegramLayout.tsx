@@ -1,9 +1,11 @@
 import colors from '@/src/assets/Colors';
 import { Logo } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
@@ -14,6 +16,9 @@ const TelegramLayout = ({
   children: React.ReactNode;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { isDark } = useSelector(({ user }: RootState) => ({
+    isDark: user.isDark,
+  }));
   const handleActionOpenModal = () => {
     setOpen(true);
   };
@@ -22,7 +27,7 @@ const TelegramLayout = ({
       <h1 className="logo">
         <Link href="/">
           <a>
-            <Image src={Logo[0]} alt="main_logo" />
+            <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
           </a>
         </Link>
       </h1>

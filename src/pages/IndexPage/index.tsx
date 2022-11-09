@@ -13,7 +13,7 @@ import UserLayout from '@/src/components/layout/UserLayout';
 const IndexPage: NextPage = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, user, loadUserDone } = useSelector(({ user }: RootState) => ({
+  const { isDark, user } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     user: user.user,
     loadUserDone: user.loadUserDone,
@@ -25,19 +25,15 @@ const IndexPage: NextPage = () => {
     }
     dispatch(userActions.changeTheme({ isDark }));
     dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
+    localStorage.setItem('isDark', JSON.stringify(!isDark));
   };
 
   React.useEffect(() => {
     const isDarkSt = localStorage.getItem('isDark');
-    console.log(isDarkSt);
-    if (!isDarkSt) return;
     if (isDarkSt === 'true') {
-      dispatch(userActions.changeThemeStatus({ isDark: true }));
-      localStorage.setItem('isDark', JSON.stringify(isDark));
-    } else {
-      localStorage.setItem('isDark', JSON.stringify(isDark));
+      dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
     }
-  }, [isDark]);
+  }, []);
 
   const [btnWord, setBtnWord] = React.useState('');
   const router = useRouter();

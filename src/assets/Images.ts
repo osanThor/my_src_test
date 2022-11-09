@@ -5,6 +5,19 @@ import CloseIcon from 'public/assets/common/close.svg';
 import CloseRedIcon from 'public/assets/common/close_red.svg';
 import CloseWhiteIcon from 'public/assets/common/close_white.svg';
 
+import MenuIcon from 'public/assets/common/menu/menu.svg';
+import MenuBluIcon from 'public/assets/common/menu/menu_blu.svg';
+import WriteIcon from 'public/assets/common/menu/write.svg';
+import WriteBluIcon from 'public/assets/common/menu/write_blu.svg';
+import ApiKeyIcon from 'public/assets/common/menu/apiKey.svg';
+import ApiKeyBluIcon from 'public/assets/common/menu/apiKey_blu.svg';
+import MessageIcon from 'public/assets/common/menu/message.svg';
+import MessageBluIcon from 'public/assets/common/menu/message_blu.svg';
+import MyPageIcon from 'public/assets/common/menu/myPage.svg';
+import MyPageBluIcon from 'public/assets/common/menu/myPage_blu.svg';
+import CommunityIcon from 'public/assets/common/menu/community.svg';
+import CommunityBluIcon from 'public/assets/common/menu/community_blu.svg';
+
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
 import ProfileIcon3 from 'public/assets/common/profile/profile_icon3.svg';
@@ -33,6 +46,14 @@ import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
 export const Google = GoogleIcon;
+
+//header menu
+export const Menu1 = [MenuIcon, MenuBluIcon];
+export const Menu2 = [WriteIcon, WriteBluIcon];
+export const Menu3 = [ApiKeyIcon, ApiKeyBluIcon];
+export const Menu4 = [MessageIcon, MessageBluIcon];
+export const Menu5 = [MyPageIcon, MyPageBluIcon];
+export const Menu6 = [CommunityIcon, CommunityBluIcon];
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];
