@@ -1,21 +1,27 @@
 import { Google } from '@/src/assets/Images';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
-  const onClick = (e: any) => {
-    e.preventDefault();
-    return;
-  };
+  const { data: session, status } = useSession();
+
+  console.log(`session is ${session}`);
+  console.log(`status is ${status}`);
+
   return (
-    <GoogleLoginBtnBlock onClick={onClick}>
-      구글 계정을 사용할래요
-      <div className="icon">
-        <Image src={Google} alt="google" />
-      </div>
-    </GoogleLoginBtnBlock>
+    <>
+      <p>status: {status}</p>
+      <p>{session?.user?.name}</p>
+      <GoogleLoginBtnBlock type="button" onClick={() => signIn('google')}>
+        구글 계정을 사용할래요
+        <div className="icon">
+          <Image src={Google} alt="google" />
+        </div>
+      </GoogleLoginBtnBlock>
+    </>
   );
 };
 const GoogleLoginBtnBlock = styled(Button)`

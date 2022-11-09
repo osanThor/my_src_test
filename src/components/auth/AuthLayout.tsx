@@ -6,8 +6,13 @@ import styled from 'styled-components';
 import colors from '../../assets/Colors';
 import { Logo } from '../../assets/Images';
 import Button from '../common/Button';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
 
 const AuthLayout = ({ type, children }: { type: string; children: React.ReactNode }) => {
+  const { isDark } = useSelector(({ user }: RootState) => ({
+    isDark: user.isDark,
+  }));
   return (
     <AuthLayoutBlock>
       <AuthHead>
@@ -15,7 +20,7 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
           {type === 'forgot-password' && (
             <Link href="/">
               <a>
-                <Image src={Logo[0]} alt="main Logo" />
+                <Image src={isDark ? Logo[1] : Logo[0]} alt="main Logo" />
               </a>
             </Link>
           )}
