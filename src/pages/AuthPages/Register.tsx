@@ -267,10 +267,10 @@ const Register: NextPage = () => {
     }
   }, [user, userError]);
 
-  // 회원가입폼 상태 초기화
-  useEffect(() => {
-    dispatch(userActions.initializeUserForm());
-  }, [dispatch]);
+  // // 회원가입폼 상태 초기화
+  // useEffect(() => {
+  //   dispatch(userActions.initializeUserForm());
+  // }, [dispatch]);
 
   return (
     <AuthLayout type="register">

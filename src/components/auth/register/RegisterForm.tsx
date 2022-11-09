@@ -30,12 +30,13 @@ const RegisterForm = ({
   timerVisible,
   handleCheckVerify,
 }: IRegisterType) => {
-  const { email, pw, pwConfirm, nickname, verifyCode } = useSelector(({ user }: RootState) => ({
+  const { email, pw, pwConfirm, nickname, verifyCode, isDark } = useSelector(({ user }: RootState) => ({
     email: user.email,
     pw: user.pw,
     pwConfirm: user.pwConfirm,
     verifyCode: user.verifyCode,
     nickname: user.nickname,
+    isDark: user.isDark,
   }));
 
   // 이메일 실시간 유효성검사
@@ -116,7 +117,7 @@ const RegisterForm = ({
         <h1 className="logo">
           <Link href="/">
             <a>
-              <Image src={Logo[0]} alt="main_logo" />
+              <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
             </a>
           </Link>
         </h1>

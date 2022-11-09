@@ -9,17 +9,23 @@ import StyledCheckBox from '../../common/StyledCheckBox';
 import { Logo } from '../../../assets/Images';
 import { ILoginSubmit } from '@/src/interfaces/iAuth/iLogin';
 import GoogleLoginBtn from './GoogleLoginBtn';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
 
 const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }: ILoginSubmit) => {
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
+
+  const { isDark } = useSelector(({ user }: RootState) => ({
+    isDark: user.isDark,
+  }));
 
   return (
     <LoginFormBlock>
       <h1 className="logo">
         <Link href="/">
           <a>
-            <Image src={Logo[0]} alt="main_logo" />
+            <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
           </a>
         </Link>
       </h1>

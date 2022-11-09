@@ -1,15 +1,20 @@
+import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colors from '../../../assets/Colors';
 import { CheckedSqquare, CheckSquare, Logo } from '../../../assets/Images';
 import Button from '../../common/Button';
 
 const TermsLayOut = () => {
+  const { isDark } = useSelector(({ user }: RootState) => ({
+    isDark: user.isDark,
+  }));
   const terms = [
     { id: 0, type: 'privacy' },
     { id: 1, type: 'service' },
@@ -63,7 +68,7 @@ const TermsLayOut = () => {
     } else {
       setCheckAble(false);
     }
-  }, [canOpen]);
+  }, [openItems]);
 
   const router = useRouter();
 
@@ -76,7 +81,7 @@ const TermsLayOut = () => {
       <h1 className="logo">
         <Link href="/">
           <a>
-            <Image src={Logo[0]} alt="main_logo" />
+            <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
           </a>
         </Link>
       </h1>
