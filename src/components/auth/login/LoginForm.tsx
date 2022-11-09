@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import colors from '../../../assets/Colors';
-import { CloseRed, Email, Google, Lock } from '../../../assets/Images';
+import { CloseRed, Email, Lock } from '../../../assets/Images';
 import Button from '../../common/Button';
 import StyledCheckBox from '../../common/StyledCheckBox';
 import { Logo } from '../../../assets/Images';

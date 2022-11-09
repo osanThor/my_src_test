@@ -18,17 +18,25 @@ const IndexPage: NextPage = () => {
     user: user.user,
     loadUserDone: user.loadUserDone,
   }));
-  const onClick = React.useCallback(() => {
+  const onClick = () => {
     if (!user) {
       alert('로그인 해주세요');
       return;
     }
     dispatch(userActions.changeTheme({ isDark }));
     dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
-  }, [user, loadUserDone]);
+  };
 
   React.useEffect(() => {
-    localStorage.setItem('isDark', JSON.stringify(isDark));
+    const isDarkSt = localStorage.getItem('isDark');
+    console.log(isDarkSt);
+    if (!isDarkSt) return;
+    if (isDarkSt === 'true') {
+      dispatch(userActions.changeThemeStatus({ isDark: true }));
+      localStorage.setItem('isDark', JSON.stringify(isDark));
+    } else {
+      localStorage.setItem('isDark', JSON.stringify(isDark));
+    }
   }, [isDark]);
 
   const [btnWord, setBtnWord] = React.useState('');
