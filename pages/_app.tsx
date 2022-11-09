@@ -52,11 +52,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       return;
     }
   }, [user]);
+
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);
   useEffect(() => {
     const isLocalDark = localStorage.getItem('isDark');
-    if (!isLocalDark) return;
+    console.log(isLocalDark);
     if (isLocalDark === 'true') {
       setIsDarkMode(true);
     } else {
