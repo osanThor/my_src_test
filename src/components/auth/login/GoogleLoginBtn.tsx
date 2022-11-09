@@ -5,10 +5,7 @@ import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
-  const onClick = (e: any) => {
-    e.preventDefault();
-    return;
-  };
+  const onClick = () => {};
   return (
     <GoogleLoginBtnBlock onClick={onClick}>
       구글 계정을 사용할래요

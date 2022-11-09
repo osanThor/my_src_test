@@ -15,7 +15,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
   const [pwError, setPwError] = useState(false);
 
   return (
-    <LoginFormBlock onSubmit={onSubmit}>
+    <LoginFormBlock>
       <h1 className="logo">
         <Link href="/">
           <a>
@@ -25,31 +25,33 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
       </h1>
       <GoogleLoginBtn />
       <span className="or">or</span>
-      <StyleInput
-        type="text"
-        name="email"
-        onChange={onChange}
-        placeholder="이메일 입력해요"
-        icon={idError ? CloseRed : Email}
-        error={idError ? true : false}
-        value={email}
-      />
-      <StyleInput
-        type="password"
-        name="pw"
-        onChange={onChange}
-        placeholder="비밀번호를 입력해요"
-        icon={pwError ? CloseRed : Lock}
-        error={pwError ? true : false}
-        value={pw}
-      />
-      <div className="check">
-        <StyledCheckBox style="round" autoLogin={autoLogin} handleAutoLogin={handleAutoLogin} />
-        편리한 자동 로그인
-      </div>
-      <Button blue fullWidth style={{ marginBottom: '1rem' }} onClick={onSubmit}>
-        로그인
-      </Button>
+      <form onSubmit={onSubmit}>
+        <StyleInput
+          type="text"
+          name="email"
+          onChange={onChange}
+          placeholder="이메일 입력해요"
+          icon={idError ? CloseRed : Email}
+          error={idError ? true : false}
+          value={email}
+        />
+        <StyleInput
+          type="password"
+          name="pw"
+          onChange={onChange}
+          placeholder="비밀번호를 입력해요"
+          icon={pwError ? CloseRed : Lock}
+          error={pwError ? true : false}
+          value={pw}
+        />
+        <div className="check">
+          <StyledCheckBox style="round" autoLogin={autoLogin} handleAutoLogin={handleAutoLogin} />
+          편리한 자동 로그인
+        </div>
+        <Button blue fullWidth style={{ marginBottom: '1rem' }} onClick={onSubmit}>
+          로그인
+        </Button>
+      </form>
       <div className="bottom">
         <Link href="/auth/terms">회원가입</Link>
         <Link href="/auth/forgot-password">이메일 or 비밀번호 모르겠어요</Link>
@@ -58,7 +60,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
   );
 };
 
-const LoginFormBlock = styled.form`
+const LoginFormBlock = styled.div`
   width: 100%;
   max-width: 400px;
   height: 100%;
@@ -82,6 +84,9 @@ const LoginFormBlock = styled.form`
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;
+  }
+  form {
+    width: 100%;
   }
   .check {
     display: flex;
