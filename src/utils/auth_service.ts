@@ -17,6 +17,7 @@ class AuthService {
         localStorage.removeItem('userPw');
         localStorage.removeItem('AuthStatus');
         localStorage.removeItem('Authorization');
+        deleteAllCookies();
         return;
       }
       dispatch(authActions.userLogin({ email, pw }));
@@ -41,6 +42,8 @@ class AuthService {
         localStorage.removeItem('user');
         localStorage.removeItem('AuthStatus');
         localStorage.removeItem('Authorization');
+        localStorage.clear();
+        deleteAllCookies();
         return;
       } else {
         dispatch(userActions.userSuccess());
@@ -67,6 +70,8 @@ class AuthService {
       localStorage.removeItem('user');
       localStorage.removeItem('AuthStatus');
       localStorage.removeItem('Authorization');
+      localStorage.clear();
+      deleteAllCookies();
       console.log('토큰 만료');
       return;
     }
@@ -86,7 +91,18 @@ class AuthService {
     localStorage.removeItem('userPw');
     localStorage.removeItem('AuthStatus');
     localStorage.removeItem('Authorization');
+    localStorage.clear();
+    deleteAllCookies();
   }
 }
+function deleteAllCookies() {
+  var cookies = document.cookie.split(';');
 
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf('=');
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  }
+}
 export default AuthService;

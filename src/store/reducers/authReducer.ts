@@ -8,12 +8,14 @@ import type {
   VerifyEmailPayload,
   VerifyCodePayload,
   AuthPayload,
+  GooglePayload,
 } from '../types';
 
 export type AuthStateType = {
   email: string | null;
   pw: string | null;
   isExistTrigger: boolean;
+  accessToken: string | null;
   verifyCode: number | string | null;
   loadAuthLoading: boolean;
   loadAuthDone: {
@@ -30,6 +32,7 @@ const initialState: AuthStateType = {
   email: '',
   pw: '',
   isExistTrigger: false,
+  accessToken: '',
   verifyCode: 0,
   loadAuthLoading: false,
   loadAuthDone: { message: '', accessToken: undefined, expiryTime: undefined },
@@ -46,7 +49,6 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
-
     initializeAuthForm(state) {
       Object.assign(state, initialState);
     },
@@ -55,6 +57,10 @@ const authSlice = createSlice({
       state.loadAuthDone = { message: '', accessToken: undefined, expiryTime: undefined };
       state.email = action.payload.email;
       state.pw = action.payload.pw;
+    },
+    //googleLogin
+    googleLogin(state, action: PayloadAction<GooglePayload>) {
+      state.accessToken = action.payload.accessToken;
     },
     // refresh
     refreshToken(state) {

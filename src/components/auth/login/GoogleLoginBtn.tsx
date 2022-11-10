@@ -1,20 +1,61 @@
 import { Google } from '@/src/assets/Images';
-import { signIn, useSession } from 'next-auth/react';
+import { RootState } from '@/src/store/configureStore';
+import { authActions } from '@/src/store/reducers';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
-  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthDone: auth.loadAuthDone,
+  }));
+  const { user, userError } = useSelector(({ user }: RootState) => ({
+    user: user.user,
+    userError: user.userError,
+  }));
 
-  console.log(`session is ${session}`);
-  console.log(`status is ${status}`);
+  const { data: session, status } = useSession();
+  React.useEffect(() => {
+    if (!session) {
+      console.log('not login');
+    } else {
+      const { accessToken } = session;
+      let email;
+      email = session.user.email;
+      console.log(accessToken);
+      console.log(email);
+      dispatch(authActions.googleLogin({ accessToken }));
+    }
+  }, [session]);
+
+  React.useEffect(() => {
+    if (loadAuthDone.message != '') {
+      if (loadAuthDone.message === 'CREATED') {
+        const { accessToken, user } = session;
+        console.log('새로운 회원');
+        localStorage.setItem('gId', user.email);
+        localStorage.setItem('Authorization', accessToken);
+        router.push('/auth/register');
+      }
+      if (loadAuthDone.message === undefined) {
+        console.log('구글이 먼저');
+        console.log('이미 회원이거나 구글 로그인');
+        localStorage.setItem('gId', 'true');
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('AuthStatus', '구글로그인');
+        localStorage.setItem('Authorization', loadAuthDone.accessToken);
+      }
+    }
+  }, [loadAuthDone]);
 
   return (
     <>
-      <p>status: {status}</p>
-      <p>{session?.user?.name}</p>
       <GoogleLoginBtnBlock type="button" onClick={() => signIn('google')}>
         구글 계정을 사용할래요
         <div className="icon">
