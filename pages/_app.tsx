@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AuthService from '@/src/utils/auth_service';
 import theme from '@/styles/theme';
-import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 
 function MyApp({
   Component,
