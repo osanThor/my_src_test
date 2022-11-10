@@ -73,7 +73,7 @@ function MyApp({
 
   return (
     <>
-      <SessionProvider session={pageProps.session}>
+      <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <title>QUANTRO</title>

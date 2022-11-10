@@ -7,9 +7,8 @@ import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
   const { data: session, status } = useSession();
-
-  console.log(`session is ${session}`);
-  console.log(`status is ${status}`);
+  const loading = status === 'loading';
+  console.log(session);
 
   return (
     <>

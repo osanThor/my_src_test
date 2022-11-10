@@ -1,22 +1,18 @@
-import NextAuth, { DefaultSession } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import NextAuth from 'next-auth';
 
+// type
+import type { UserWithPhoto } from '@src/types';
+
+// 여기서 재정의한 타입이 "session.user"의 타입으로 정의됨
 declare module 'next-auth' {
-  /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
   interface Session {
     user: {
-      /** The user's postal address. */
-      address: string;
-    } & DefaultSession['user'];
-  }
-}
-
-declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT {
-    /** OpenID ID Token */
-    idToken?: string;
+      accessToken: unknown;
+      refreshToken: unknown;
+      username: unknown;
+      idx: number;
+      id: string;
+      name: string;
+    };
   }
 }
