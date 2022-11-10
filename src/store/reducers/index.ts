@@ -5,17 +5,14 @@ import type { AnyAction, CombinedState } from '@reduxjs/toolkit';
 // reducers
 import authReducer, { AuthStateType } from './authReducer';
 import userReducer, { UserStateType } from './userReducer';
-import postReducer, { PostStateType } from './postReducer';
 
 // actions
 export { authActions } from './authReducer';
 export { userActions } from './userReducer';
-export { postActions } from './postReducer';
 
 type ReducerState = {
   auth: AuthStateType;
   user: UserStateType;
-  post: PostStateType;
 };
 
 // 원래 "rootReducer"로 합쳐줄 필요 없이 "configureStore()"에서 합칠 수 있지만 "HYDRATE"를 위해서 사용
@@ -32,7 +29,6 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
       return combineReducers({
         auth: authReducer,
         user: userReducer,
-        post: postReducer,
       })(state, action);
   }
 };

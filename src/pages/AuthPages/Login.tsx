@@ -78,12 +78,17 @@ const Login: NextPage = () => {
 
     if (user) {
       router.push('/');
-      try {
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('AuthStatus', loadAuthDone.message);
-        localStorage.setItem('Authorization', loadAuthDone.accessToken);
-      } catch (e) {
-        console.log(e);
+      console.log('앞이 먼저');
+      //구글
+      const gId = localStorage.getItem('gId');
+      if (!gId) {
+        try {
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('AuthStatus', loadAuthDone.message);
+          localStorage.setItem('Authorization', loadAuthDone.accessToken);
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
   }, [user, userError]);
