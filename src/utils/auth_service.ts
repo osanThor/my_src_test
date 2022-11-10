@@ -12,11 +12,6 @@ class AuthService {
       const pw = localStorage.getItem('userPw');
       if (!email && !pw) {
         delete axiosInstance.defaults.headers.common['Authorization'];
-        localStorage.removeItem('user');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userPw');
-        localStorage.removeItem('AuthStatus');
-        localStorage.removeItem('Authorization');
         deleteAllCookies();
         return;
       }
@@ -39,9 +34,6 @@ class AuthService {
       if (loadAuthDone.message === undefined || loadAuthDone.message === null) {
         dispatch(userActions.userFailure());
         delete axiosInstance.defaults.headers.common['Authorization'];
-        localStorage.removeItem('user');
-        localStorage.removeItem('AuthStatus');
-        localStorage.removeItem('Authorization');
         localStorage.clear();
         deleteAllCookies();
         return;
@@ -67,9 +59,6 @@ class AuthService {
   intervalRefresh(dispatch: Dispatch<AnyAction>, loadAuthDone: LoadAuthResponse) {
     if (loadAuthDone.message === 'ACCESS_DENIED') {
       delete axiosInstance.defaults.headers.common['Authorization'];
-      localStorage.removeItem('user');
-      localStorage.removeItem('AuthStatus');
-      localStorage.removeItem('Authorization');
       localStorage.clear();
       deleteAllCookies();
       console.log('토큰 만료');
@@ -86,11 +75,6 @@ class AuthService {
     dispatch(authActions.userLogOut());
     dispatch(userActions.userLogOut());
     delete axiosInstance.defaults.headers.common['Authorization'];
-    localStorage.removeItem('user');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userPw');
-    localStorage.removeItem('AuthStatus');
-    localStorage.removeItem('Authorization');
     localStorage.clear();
     deleteAllCookies();
   }

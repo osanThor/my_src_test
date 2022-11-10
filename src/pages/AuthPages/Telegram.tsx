@@ -10,8 +10,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
 import Modal from '@/src/components/common/Modal';
+import { NextPage } from 'next';
 
-const Telegram = () => {
+const Telegram: NextPage = () => {
   // 텔레그램 상태관리
   const dispatch = useDispatch();
   const { username, loadUserDone } = useSelector(({ user }: RootState) => ({
@@ -47,12 +48,11 @@ const Telegram = () => {
     }
   }, [loadUserDone]);
 
-  const telegramSuccess = React.useCallback(() => {
+  const telegramSuccess = () => {
     if (moOpen === false) {
       Router.push('/');
     }
-  }, []);
-
+  };
   // 텔레그램 레이아웃
   const [changeType, setChangeType] = React.useState(false);
   const handleChangeType = () => {
