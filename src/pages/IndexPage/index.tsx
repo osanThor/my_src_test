@@ -36,33 +36,11 @@ const IndexPage: NextPage = () => {
     }
   }, []);
 
-  const [btnWord, setBtnWord] = React.useState('');
-  const router = useRouter();
-
-  React.useEffect(() => {
-    const user = localStorage.getItem('user');
-
-    if (user) setBtnWord('로그아웃');
-    if (user === null) setBtnWord('로그인');
-  }, []);
-
-  const onClickHandler = () => {
-    const user = localStorage.getItem('user');
-
-    if (user) {
-      authService.userLogOut(dispatch);
-      setBtnWord('로그인');
-    }
-    return router.push('/auth/login');
-  };
   return (
     <UserLayout>
       <div>
         <h1>퀀트로 Index 페이지</h1>
         <Button onClick={onClick}>다크모드</Button>
-        <div style={{ cursor: 'pointer' }} onClick={onClickHandler}>
-          {btnWord}
-        </div>
       </div>
     </UserLayout>
   );
