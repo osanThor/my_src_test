@@ -160,6 +160,7 @@ const TopHeader = styled.div`
   z-index: 990;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
+  justify-content: spa;
   padding: 1rem 140px 1rem 48px;
 `;
 const TopHeaderSpacer = styled.div`

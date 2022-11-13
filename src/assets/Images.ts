@@ -66,7 +66,7 @@ export const Menu6 = [CommunityIcon, CommunityBluIcon];
 export const ApiKeyMenu = [ApiKeyBoxFile, ApiKeyBoxDarkFile];
 export const LogOutIcon = LogOutSvgIcon;
 export const SearchIcon = SearchIconFile;
-export const ResetIcon = [ResetIconFile, RetryIconFile];
+export const ResetIcon = [RetryIconFile, ResetIconFile];
 export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
 
 //프로필
