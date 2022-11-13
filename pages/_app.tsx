@@ -11,6 +11,7 @@ import AuthService from '@/src/utils/auth_service';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import { authActions } from '@/src/store/reducers';
 
 function MyApp({
   Component,
@@ -29,35 +30,18 @@ function MyApp({
     loadAuthDone: auth.loadAuthDone,
   }));
 
-  // // 자동 로그인
-  // useEffect(() => {
-  //   authService.autoLogin(dispatch);
-  // }, []);
-
-  // 사용자 확인
+  // auto login
   useEffect(() => {
-    authService.isUser(dispatch, loadAuthDone);
-  }, [user, dispatch, loadAuthDone]);
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (!userInfo) return;
+    const { email, pw } = userInfo;
+    dispatch(authActions.userLogin({ email, pw }));
+  }, []);
 
-  // axios 토큰 관리
+  // token
   useEffect(() => {
-    authService.jwtToken(loadAuthDone);
-  }, [loadAuthDone]);
-
-  // 토큰 재발급
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    if (user) {
-      timeoutId = setTimeout(() => {
-        authService.intervalRefresh(dispatch, loadAuthDone);
-      }, loadAuthDone.expiryTime - 30000);
-    } else {
-      clearTimeout(timeoutId);
-      console.log('Not User');
-      return;
-    }
-  }, [user]);
+    authService.userRefreshToken(dispatch, loadAuthDone);
+  }, [dispatch]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);

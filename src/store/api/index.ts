@@ -15,4 +15,3 @@ export {
   apiResetPw,
 } from './auth';
 export { apiCheckNickname, apiRegister, apiChangeTheme, apiTelegramUsername } from './user';
-export { apiLoadPosts } from './post';

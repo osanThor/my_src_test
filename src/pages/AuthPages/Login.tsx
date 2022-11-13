@@ -7,19 +7,34 @@ import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Modal from '@/src/components/common/Modal';
+import { axiosInstance } from '@/src/store/api';
+import AuthService from '@/src/utils/auth_service';
+import { useSession } from 'next-auth/react';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
+  const authService = new AuthService();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    const auth = localStorage.getItem('Authorization');
+    if (!auth) {
+      localStorage.clear();
+      return;
+    }
+    const user = localStorage.getItem('user');
+    if (user) {
+      router.push('/');
+    }
+  }, []);
 
   // 상태 관리
-  const { email, pw, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { email, pw, loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     email: auth.email,
     pw: auth.pw,
     loadAuthDone: auth.loadAuthDone,
-  }));
-  const { user, userError } = useSelector(({ user }: RootState) => ({
-    user: user.user,
-    userError: user.userError,
+    loadAuthError: auth.loadAuthError,
   }));
 
   const handleChangeLoginForm = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,10 +63,7 @@ const Login: NextPage = () => {
   // 로그인
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (autoLogin) {
-      localStorage.setItem('userId', email);
-      localStorage.setItem('userPw', pw);
-    }
+
     dispatch(authActions.userLogin({ email, pw }));
   };
 
@@ -64,35 +76,49 @@ const Login: NextPage = () => {
     setModalOpen(false);
   };
 
-  // 로그인 성공 시 user확인
-  const router = useRouter();
-
+  //Error handler
   useEffect(() => {
-    if (userError === true) {
+    if (loadAuthError) {
       setModalOpen(true);
-      setMessage('로그인정보를 다시 확인해주세요.');
+      setMessage(loadAuthError);
       setModalSt(true);
-      dispatch(userActions.initializeUserForm());
       return;
     }
 
-    if (user) {
-      router.push('/');
-      console.log('앞이 먼저');
-      //구글
-      const gId = localStorage.getItem('gId');
-      if (!gId) {
-        try {
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('AuthStatus', loadAuthDone.message);
-          localStorage.setItem('Authorization', loadAuthDone.accessToken);
-        } catch (e) {
-          console.log(e);
-        }
+    // email login
+    if (loadAuthDone.message === 'EMAIL_PW_REQUIRED' || loadAuthDone.message === 'NO_MATCH_USER') {
+      setModalOpen(true);
+      setMessage('이메일과 비밀번호를 확인해요 ');
+      setModalSt(true);
+      return;
+    } else if (loadAuthDone.message === 'NOT_FOUND_USER') {
+      setModalOpen(true);
+      setMessage('로그인 정보를 다시 확인해주세요');
+      setModalSt(true);
+      return;
+    } else if (loadAuthDone.message === 'LOGGED_IN') {
+      if (autoLogin) {
+        localStorage.setItem('userInfo', JSON.stringify({ email: email, pw: pw }));
       }
+      authService.userLogin(loadAuthDone);
+      router.push('/');
     }
-  }, [user, userError]);
 
+    // google login
+    const gId = localStorage.getItem('gId');
+    console.log(gId);
+    if (gId && loadAuthDone.accessToken) {
+      if (loadAuthDone.message === 'CREATED') {
+        const { accessToken } = session;
+        localStorage.setItem('Authorization', accessToken);
+        router.push('/auth/register');
+      }
+      authService.userLogin(loadAuthDone);
+      router.push('/');
+    }
+  }, [loadAuthDone, loadAuthError]);
+
+  // 상태 초기화
   useEffect(() => {
     dispatch(authActions.initializeAuthForm());
   }, [dispatch]);

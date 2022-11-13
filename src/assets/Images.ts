@@ -17,6 +17,14 @@ import MyPageIcon from 'public/assets/common/menu/myPage.svg';
 import MyPageBluIcon from 'public/assets/common/menu/myPage_blu.svg';
 import CommunityIcon from 'public/assets/common/menu/community.svg';
 import CommunityBluIcon from 'public/assets/common/menu/community_blu.svg';
+import ApiKeyBoxFile from 'public/assets/common/header/api_key_box.svg';
+import ApiKeyBoxDarkFile from 'public/assets/common/header/api_key_box_dark.svg';
+import LogOutSvgIcon from 'public/assets/common/header/logout.svg';
+import SearchIconFile from 'public/assets/common/header/search.svg';
+import ResetIconFile from 'public/assets/common/header/reset.svg';
+import RetryIconFile from 'public/assets/common/header/retry.svg';
+import AlramIconFile from 'public/assets/common/header/alram.svg';
+import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -26,6 +34,7 @@ import ProfileBLueIcon1 from 'public/assets/common/profile/profile_icon_blue.svg
 import ProfileBLueIcon2 from 'public/assets/common/profile/profile_icon2_blue.svg';
 import ProfileBLueIcon3 from 'public/assets/common/profile/profile_icon3_blue.svg';
 import ProfileBLueIcon4 from 'public/assets/common/profile/profile_icon4_blue.svg';
+import MyDefaultIconFile from 'public/assets/common/profile/my.svg';
 
 import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
@@ -47,19 +56,25 @@ import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 export const Logo = [LogoImage, WhiteLogoImage];
 export const Google = GoogleIcon;
 
-//header menu
+//header
 export const Menu1 = [MenuIcon, MenuBluIcon];
 export const Menu2 = [WriteIcon, WriteBluIcon];
 export const Menu3 = [ApiKeyIcon, ApiKeyBluIcon];
 export const Menu4 = [MessageIcon, MessageBluIcon];
 export const Menu5 = [MyPageIcon, MyPageBluIcon];
 export const Menu6 = [CommunityIcon, CommunityBluIcon];
+export const ApiKeyMenu = [ApiKeyBoxFile, ApiKeyBoxDarkFile];
+export const LogOutIcon = LogOutSvgIcon;
+export const SearchIcon = SearchIconFile;
+export const ResetIcon = [ResetIconFile, RetryIconFile];
+export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];
 export const Profile2 = [ProfileIcon2, ProfileBLueIcon2];
 export const Profile3 = [ProfileIcon3, ProfileBLueIcon3];
 export const Profile4 = [ProfileIcon4, ProfileBLueIcon4];
+export const MyDefaultIcon = MyDefaultIconFile;
 
 //기능 icon
 export const Close = CloseIcon;
