@@ -107,9 +107,6 @@ const userSlice = createSlice({
       state.user = false;
       state.userError = true;
     },
-    userLogOut(state) {
-      state.user = null;
-    },
     telegramUsername(state, action: PayloadAction<TelegramPayload>) {
       state.username = action.payload.username;
     },

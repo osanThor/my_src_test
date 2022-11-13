@@ -13,12 +13,13 @@ import UserLayout from '@/src/components/layout/UserLayout';
 const IndexPage: NextPage = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, user } = useSelector(({ user }: RootState) => ({
+  const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
-    user: user.user,
-    loadUserDone: user.loadUserDone,
   }));
+
   const onClick = () => {
+    const user = localStorage.getItem('user');
+
     if (!user) {
       alert('로그인 해주세요');
       return;
@@ -39,13 +40,17 @@ const IndexPage: NextPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
+    const user = localStorage.getItem('user');
+
     if (user) setBtnWord('로그아웃');
     if (user === null) setBtnWord('로그인');
-  }, [user]);
+  }, []);
 
   const onClickHandler = () => {
+    const user = localStorage.getItem('user');
+
     if (user) {
-      authService.logout(dispatch);
+      authService.userLogOut(dispatch);
       setBtnWord('로그인');
     }
     return router.push('/auth/login');

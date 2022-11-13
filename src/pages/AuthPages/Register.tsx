@@ -31,22 +31,16 @@ const Register: NextPage = () => {
   );
 
   // auth 상태관리
-  const { isExistTrigger, loadAuthLoading, loadAuthDone, auth, authError } = useSelector(({ auth }: RootState) => ({
-    isExistTrigger: auth.isExistTrigger,
-    loadAuthLoading: auth.loadAuthLoading,
-    loadAuthDone: auth.loadAuthDone,
-    auth: auth.auth,
-    authError: auth.authError,
-  }));
-
-  useEffect(() => {
-    authSevice.isUser(dispatch, loadAuthDone);
-    if (user) {
-      router.push('/');
-    } else {
-      return;
-    }
-  }, [user, dispatch]);
+  const { isExistTrigger, loadAuthLoading, loadAuthDone, loadAuthError, auth, authError } = useSelector(
+    ({ auth }: RootState) => ({
+      isExistTrigger: auth.isExistTrigger,
+      loadAuthLoading: auth.loadAuthLoading,
+      loadAuthDone: auth.loadAuthDone,
+      loadAuthError: auth.loadAuthError,
+      auth: auth.auth,
+      authError: auth.authError,
+    }),
+  );
 
   // 회원가입 form 실시간 변화 상태관리
   const [profileImg, setProfileImg] = useState('');
@@ -234,11 +228,10 @@ const Register: NextPage = () => {
   // 회원가입 성공 시 자동로그인
   useEffect(() => {
     if (auth) {
-      console.log('인증됨');
       dispatch(authActions.userLogin({ email, pw }));
+      authSevice.userLogin(loadAuthDone);
     }
     if (authError) {
-      console.log('인증 실패');
       setModalOpen(true);
       setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
       setModalSt(true);
@@ -248,29 +241,29 @@ const Register: NextPage = () => {
 
   // 자동로그인 성공 시 user확인
   useEffect(() => {
-    if (userError) {
+    const user = localStorage.getItem('user');
+    if (loadAuthError) {
       setModalOpen(true);
-      setMessage('자동로그인에 실패했어요. 다시 시도해주세요.');
+      setMessage(loadAuthError);
       setModalSt(true);
       return;
     }
 
-    if (user) {
+    if (loadAuthDone.message === 'LOGGED_IN') {
       router.push('/auth/telegram');
       try {
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('AuthStatus', loadAuthDone.message);
         localStorage.setItem('Authorization', loadAuthDone.accessToken);
       } catch (e) {
         console.log(e);
       }
     }
-  }, [user, userError]);
+  }, [loadAuthDone, loadAuthError]);
 
-  // // 회원가입폼 상태 초기화
-  // useEffect(() => {
-  //   dispatch(userActions.initializeUserForm());
-  // }, [dispatch]);
+  // 회원가입폼 상태 초기화
+  useEffect(() => {
+    dispatch(userActions.initializeUserForm());
+  }, [dispatch]);
 
   return (
     <AuthLayout type="register">

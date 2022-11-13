@@ -1,58 +1,29 @@
 import { Google } from '@/src/assets/Images';
-import { RootState } from '@/src/store/configureStore';
 import { authActions } from '@/src/store/reducers';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
-    loadAuthDone: auth.loadAuthDone,
-  }));
-  const { user, userError } = useSelector(({ user }: RootState) => ({
-    user: user.user,
-    userError: user.userError,
-  }));
 
   const { data: session, status } = useSession();
+  console.log(session);
   React.useEffect(() => {
-    if (!session) {
-      console.log('not login');
-    } else {
-      const { accessToken } = session;
+    if (session) {
+      const { accessToken, user } = session;
       let email;
-      email = session.user.email;
+      email = user.email;
       console.log(accessToken);
-      console.log(email);
+      localStorage.setItem('gId', email);
       dispatch(authActions.googleLogin({ accessToken }));
+    } else {
+      localStorage.clear();
     }
   }, [session]);
-
-  React.useEffect(() => {
-    if (loadAuthDone.message != '') {
-      if (loadAuthDone.message === 'CREATED') {
-        const { accessToken, user } = session;
-        console.log('새로운 회원');
-        localStorage.setItem('gId', user.email);
-        localStorage.setItem('Authorization', accessToken);
-        router.push('/auth/register');
-      }
-      if (loadAuthDone.message === undefined) {
-        console.log('구글이 먼저');
-        console.log('이미 회원이거나 구글 로그인');
-        localStorage.setItem('gId', 'true');
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('AuthStatus', '구글로그인');
-        localStorage.setItem('Authorization', loadAuthDone.accessToken);
-      }
-    }
-  }, [loadAuthDone]);
 
   return (
     <>

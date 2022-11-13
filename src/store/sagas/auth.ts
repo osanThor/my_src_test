@@ -26,11 +26,6 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(userLogin, action.payload);
     console.log(data);
 
-    if (data.message === 'LOGGED_IN') {
-      yield put(userActions.userSuccess());
-    } else {
-      yield put(userActions.userFailure());
-    }
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga login >> ', error);
@@ -73,12 +68,6 @@ function* refreshSaga() {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiRefreshToken);
     console.log(data);
 
-    if (data.message === 'UPDATED') {
-      yield put(userActions.userSuccess());
-    } else {
-      yield put(userActions.userFailure());
-      console.log('토큰실패');
-    }
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga refresh >> ', error);
@@ -129,6 +118,7 @@ function* userLogoutSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiLogout);
+    console.log(data);
 
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {

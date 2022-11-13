@@ -19,7 +19,7 @@ export type AuthStateType = {
   verifyCode: number | string | null;
   loadAuthLoading: boolean;
   loadAuthDone: {
-    message: string;
+    message: string | undefined;
     accessToken: string | undefined;
     expiryTime: number | undefined;
   } | null;
@@ -35,7 +35,7 @@ const initialState: AuthStateType = {
   accessToken: '',
   verifyCode: 0,
   loadAuthLoading: false,
-  loadAuthDone: { message: '', accessToken: undefined, expiryTime: undefined },
+  loadAuthDone: { message: undefined, accessToken: undefined, expiryTime: undefined },
   loadAuthError: '',
   auth: null,
   authError: null,
