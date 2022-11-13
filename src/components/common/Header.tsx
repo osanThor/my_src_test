@@ -22,6 +22,7 @@ import { RootState } from '@/src/store/configureStore';
 import colors from '@/src/assets/Colors';
 import { useRouter } from 'next/router';
 import AuthService from '@/src/utils/auth_service';
+import { media } from '@/styles/theme';
 
 const Header = ({ children }: { children: React.ReactNode }) => {
   const authService = new AuthService();
@@ -56,9 +57,18 @@ const Header = ({ children }: { children: React.ReactNode }) => {
           <Image src={SearchIcon} alt="search" />
         </div>
         <div className="header_con">
-          <Image src={ResetIcon[0]} alt="ResetIcon" />
-          <Image src={AlramIcon[0]} alt="AlramIcon" />
-          <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
+          <div className="headBtn">
+            <Image src={ResetIcon[0]} alt="ResetIcon" />
+            <span>다시</span>
+          </div>
+          <div className="headBtn">
+            <Image src={AlramIcon[0]} alt="AlramIcon" />
+            <span>알림</span>
+          </div>
+          <div className="headBtn">
+            <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
+            <span>MY</span>
+          </div>
         </div>
       </TopHeader>
       <TopHeaderSpacer />
@@ -150,6 +160,10 @@ const HeaderBlock = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+
+  /* ${media.tablet} {
+    display: none;
+  } */
 `;
 const TopHeader = styled.div`
   width: calc(100% - 228px);
@@ -160,8 +174,48 @@ const TopHeader = styled.div`
   z-index: 990;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
-  justify-content: spa;
+  justify-content: space-between;
   padding: 1rem 140px 1rem 48px;
+  .search_place {
+    width: 48px;
+    height: 48px;
+    background-color: ${colors.gray[0]};
+    border-radius: 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .header_con {
+    display: flex;
+    .headBtn {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: ${colors.gray[0]};
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 10px;
+      color: ${colors.gray[3]};
+      transition: all 0.2s;
+      margin-left: 12px;
+
+      &:hover {
+        background-color: ${colors.gray[1]};
+      }
+      &:last-child {
+        background-color: ${colors.blue[2]};
+        color: white;
+        &:hover {
+          background-color: ${colors.blue[1]};
+        }
+      }
+    }
+  }
 `;
 const TopHeaderSpacer = styled.div`
   width: 100%;
