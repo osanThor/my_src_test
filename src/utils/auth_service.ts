@@ -28,7 +28,8 @@ class AuthService {
           delete axiosInstance.defaults.headers.common['Authorization'];
           localStorage.clear();
           console.log('토큰 만료');
-          this.router.push('/');
+          this.router.push('/auth/login');
+          clearTimeout(timeoutId);
           return;
         }
         dispatch(authActions.refreshToken());

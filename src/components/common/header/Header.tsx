@@ -15,7 +15,7 @@ import {
 } from '@/src/assets/Images';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '@/src/store/configureStore';
@@ -23,6 +23,8 @@ import colors from '@/src/assets/Colors';
 import { useRouter } from 'next/router';
 import AuthService from '@/src/utils/auth_service';
 import { media } from '@/styles/theme';
+import AlramWindow from './AlramWindow';
+import MyMenuWindow from './MyMenuWindow';
 
 const Header = ({ children }: { children: React.ReactNode }) => {
   const authService = new AuthService();
@@ -31,13 +33,20 @@ const Header = ({ children }: { children: React.ReactNode }) => {
     isDark: user.isDark,
   }));
   const [btnWord, setBtnWord] = React.useState('');
+  const [hBtnTxt, setHBtnTxt] = React.useState('');
   const router = useRouter();
 
   React.useEffect(() => {
     const user = localStorage.getItem('user');
 
-    if (user) setBtnWord('로그아웃');
-    if (user === null) setBtnWord('로그인');
+    if (user) {
+      setBtnWord('로그아웃');
+      setHBtnTxt('MY');
+    }
+    if (user === null) {
+      setBtnWord('로그인');
+      setHBtnTxt('로그인');
+    }
   }, []);
 
   const onClickHandler = () => {
@@ -46,28 +55,78 @@ const Header = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       authService.userLogOut(dispatch);
       setBtnWord('로그인');
+      setHBtnTxt('로그인');
     } else {
       return router.push('/auth/login');
     }
   };
+
+  const AlramRef = useRef<HTMLDivElement>(null);
+  const [openAlram, setOpenAlram] = useState(false);
+  const handleOpenAlram = () => {
+    setOpenAlram(!openAlram);
+  };
+  const MyMenuRef = useRef<HTMLDivElement>(null);
+  const [openMenu, setOpenMenu] = useState(false);
+  const handleOpenMenu = () => {
+    setOpenMenu(!openMenu);
+  };
+
+  const handleHeadModal = (e: any) => {
+    if (openAlram) {
+      if (AlramRef.current === e.target) {
+        setOpenAlram(true);
+      } else {
+        setOpenAlram(false);
+      }
+    }
+    if (openMenu) {
+      const themeInput = document.querySelector('.switchBtn.theme');
+      if (MyMenuRef.current === e.target || e.target.parentNode == themeInput.parentNode) {
+        setOpenMenu(true);
+      } else {
+        setOpenMenu(false);
+      }
+    }
+  };
+
   return (
-    <HeaderBlock>
+    <HeaderBlock onClick={handleHeadModal}>
       <TopHeader>
-        <div className="search_place">
-          <Image src={SearchIcon} alt="search" />
-        </div>
-        <div className="header_con">
-          <div className="headBtn">
-            <Image src={ResetIcon[0]} alt="ResetIcon" />
-            <span>다시</span>
+        <div className="inner_header">
+          <div className="search_place">
+            <Image src={SearchIcon} alt="search" />
           </div>
-          <div className="headBtn">
-            <Image src={AlramIcon[0]} alt="AlramIcon" />
-            <span>알림</span>
-          </div>
-          <div className="headBtn">
-            <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
-            <span>MY</span>
+          <div className="header_con">
+            <div className="headBtn">
+              <Image src={ResetIcon[0]} alt="ResetIcon" />
+              <span>다시</span>
+            </div>
+            <div style={{ position: 'relative' }}>
+              <div className="headBtn alram" onClick={handleOpenAlram}>
+                <Image src={AlramIcon[0]} alt="AlramIcon" />
+                <span>알림</span>
+              </div>
+              {openAlram && <AlramWindow AlramRef={AlramRef} />}
+            </div>
+            <div style={{ position: 'relative' }}>
+              <div
+                className="headBtn blue"
+                onClick={
+                  hBtnTxt === '로그인'
+                    ? () => {
+                        router.push('/auth/login');
+                      }
+                    : () => {
+                        handleOpenMenu();
+                      }
+                }
+              >
+                <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
+                <span>{hBtnTxt}</span>
+              </div>
+              {openMenu && <MyMenuWindow MyMenuRef={MyMenuRef} />}
+            </div>
           </div>
         </div>
       </TopHeader>
@@ -173,45 +232,49 @@ const TopHeader = styled.div`
   right: 0;
   z-index: 990;
   box-shadow: ${({ theme }) => theme.boxShadow};
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 140px 1rem 48px;
-  .search_place {
-    width: 48px;
-    height: 48px;
-    background-color: ${colors.gray[0]};
-    border-radius: 24px;
-    position: relative;
+  padding: 1rem 48px;
+  .inner_header {
+    max-width: 1504px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  .header_con {
-    display: flex;
-    .headBtn {
+    justify-content: space-between;
+    .search_place {
       width: 48px;
       height: 48px;
+      background-color: ${colors.gray[0]};
+      border-radius: 24px;
+      position: relative;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: ${colors.gray[0]};
-      border-radius: 50%;
       cursor: pointer;
-      font-size: 10px;
-      color: ${colors.gray[3]};
-      transition: all 0.2s;
-      margin-left: 12px;
+    }
+    .header_con {
+      display: flex;
+      .headBtn {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: ${colors.gray[0]};
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 10px;
+        color: ${colors.gray[3]};
+        transition: all 0.2s;
+        margin-left: 12px;
+        position: relative;
 
-      &:hover {
-        background-color: ${colors.gray[1]};
-      }
-      &:last-child {
-        background-color: ${colors.blue[2]};
-        color: white;
         &:hover {
-          background-color: ${colors.blue[1]};
+          background-color: ${colors.gray[1]};
+        }
+        &.blue {
+          background-color: ${colors.blue[2]};
+          color: white;
+          &:hover {
+            background-color: ${colors.blue[1]};
+          }
         }
       }
     }
@@ -251,6 +314,11 @@ const GnbHeader = styled.div`
     justify-content: space-between;
     flex: 1;
     overflow-y: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
 
     .gnb_menu {
       width: 100%;

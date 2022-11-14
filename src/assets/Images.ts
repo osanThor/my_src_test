@@ -25,6 +25,9 @@ import ResetIconFile from 'public/assets/common/header/reset.svg';
 import RetryIconFile from 'public/assets/common/header/retry.svg';
 import AlramIconFile from 'public/assets/common/header/alram.svg';
 import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
+import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg';
+import EditDefaultIcon from 'public/assets/common/header/edit-icon.svg';
+import LangKrIcon from 'public/assets/common/header/language_kr.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -68,6 +71,10 @@ export const LogOutIcon = LogOutSvgIcon;
 export const SearchIcon = SearchIconFile;
 export const ResetIcon = [RetryIconFile, ResetIconFile];
 export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
+export const ProfileEditIcon = ProfileEditDefaultIcon;
+export const EditIcon = EditDefaultIcon;
+
+export const LangKr = LangKrIcon;
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];
