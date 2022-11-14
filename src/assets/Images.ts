@@ -25,6 +25,9 @@ import ResetIconFile from 'public/assets/common/header/reset.svg';
 import RetryIconFile from 'public/assets/common/header/retry.svg';
 import AlramIconFile from 'public/assets/common/header/alram.svg';
 import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
+import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg';
+import EditDefaultIcon from 'public/assets/common/header/edit-icon.svg';
+import LangKrIcon from 'public/assets/common/header/language_kr.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -50,7 +53,10 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
+
+import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
@@ -68,6 +74,10 @@ export const LogOutIcon = LogOutSvgIcon;
 export const SearchIcon = SearchIconFile;
 export const ResetIcon = [RetryIconFile, ResetIconFile];
 export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
+export const ProfileEditIcon = ProfileEditDefaultIcon;
+export const EditIcon = EditDefaultIcon;
+
+export const LangKr = LangKrIcon;
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];
@@ -93,4 +103,8 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
+
+//Index
+export const MainBanner = MainBannerImage;

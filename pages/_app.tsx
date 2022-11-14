@@ -3,15 +3,15 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
-import wrapper, { RootState } from '../src/store/configureStore';
+import wrapper, { RootState } from '@/src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import AuthService from '@/src/utils/auth_service';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { authActions } from '@/src/store/reducers';
+import AuthService from '@/src/utils/auth_service';
 
 function MyApp({
   Component,
@@ -22,13 +22,15 @@ function MyApp({
   const authService = new AuthService();
   const dispatch = useDispatch();
 
-  const { user, isDark } = useSelector(({ user }: RootState) => ({
-    user: user.user,
+  const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
   }));
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
+    loadAuthError: auth.loadAuthError,
   }));
+
+  console.log(loadAuthError);
 
   // auto login
   useEffect(() => {
@@ -37,6 +39,19 @@ function MyApp({
     const { email, pw } = userInfo;
     dispatch(authActions.userLogin({ email, pw }));
   }, []);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (loadAuthDone.message === 'LOGGED_IN' || user) {
+      authService.userLogin(loadAuthDone);
+    }
+  }, [loadAuthDone]);
+
+  useEffect(() => {
+    if (loadAuthError) {
+      authService.userLogOut(dispatch);
+    }
+  }, [loadAuthError]);
 
   // token
   useEffect(() => {
@@ -47,7 +62,6 @@ function MyApp({
   const [isDarkMode, setIsDarkMode] = React.useState(false);
   useEffect(() => {
     const isLocalDark = localStorage.getItem('isDark');
-    console.log(isLocalDark);
     if (isLocalDark === 'true') {
       setIsDarkMode(true);
     } else {
