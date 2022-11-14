@@ -53,7 +53,10 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
+
+import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
@@ -100,4 +103,8 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
+
+//Index
+export const MainBanner = MainBannerImage;

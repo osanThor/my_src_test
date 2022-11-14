@@ -56,9 +56,8 @@ const Header = ({ children }: { children: React.ReactNode }) => {
       authService.userLogOut(dispatch);
       setBtnWord('로그인');
       setHBtnTxt('로그인');
-    } else {
-      return router.push('/auth/login');
     }
+    return router.push('/auth/login');
   };
 
   const AlramRef = useRef<HTMLDivElement>(null);
@@ -231,6 +230,7 @@ const TopHeader = styled.div`
   top: 0;
   right: 0;
   z-index: 990;
+  background-color: ${({ theme }) => theme.bgColor};
   box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 1rem 48px;
   .inner_header {
@@ -293,6 +293,7 @@ const GnbHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  background-color: ${({ theme }) => theme.bgColor};
   border-right: 1px solid #e9eaec;
   z-index: 991;
 

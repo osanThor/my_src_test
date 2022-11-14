@@ -28,13 +28,6 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
     localStorage.setItem('isDark', JSON.stringify(!isDark));
   };
 
-  React.useEffect(() => {
-    const isDarkSt = localStorage.getItem('isDark');
-    if (isDarkSt === 'true') {
-      dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
-    }
-  }, []);
-
   return (
     <MyMenuWindowBlock ref={MyMenuRef}>
       <div className="menuItem">

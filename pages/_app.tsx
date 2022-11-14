@@ -25,9 +25,12 @@ function MyApp({
   const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
   }));
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
+    loadAuthError: auth.loadAuthError,
   }));
+
+  console.log(loadAuthError);
 
   // auto login
   useEffect(() => {
@@ -43,6 +46,12 @@ function MyApp({
       authService.userLogin(loadAuthDone);
     }
   }, [loadAuthDone]);
+
+  useEffect(() => {
+    if (loadAuthError) {
+      authService.userLogOut(dispatch);
+    }
+  }, [loadAuthError]);
 
   // token
   useEffect(() => {
