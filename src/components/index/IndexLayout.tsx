@@ -1,25 +1,12 @@
 import colors from '@/src/assets/Colors';
 import { MainBanner, ArrowRightBlue } from '@/src/assets/Images';
-import { RootState } from '@/src/store/configureStore';
-import { userActions } from '@/src/store/reducers';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const IndexLayout = () => {
-  const dispatch = useDispatch();
-  const { isDark } = useSelector(({ user }: RootState) => ({
-    isDark: user.isDark,
-  }));
-  React.useEffect(() => {
-    const isDarkSt = localStorage.getItem('isDark');
-    if (isDarkSt === 'true') {
-      dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
-    }
-  }, []);
   return (
     <IndexLayoutBlock>
       <div className="main_banner">
@@ -31,7 +18,7 @@ const IndexLayout = () => {
           <div className="strategy">
             <div className="main_top_con">
               <div className="main_tit">
-                퀀트로 인증전략 <span>퀀트로에서 인증한 전략을 확인해보세요. </span>
+                퀀트로 인증전략 <span className="dis_p">퀀트로에서 인증한 전략을 확인해보세요. </span>
               </div>
 
               <Link href="/">
@@ -39,6 +26,7 @@ const IndexLayout = () => {
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
+              <span className="description dis_m">사용자들의 전략을 확인해보세요</span>
             </div>
           </div>
           <div className="lank">
@@ -50,6 +38,7 @@ const IndexLayout = () => {
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
+              <span className="description dis_m">퀀트로에서 랭크를 확인해보세요.</span>
             </div>
           </div>
         </div>
@@ -99,6 +88,14 @@ const IndexLayout = () => {
 const IndexLayoutBlock = styled.div`
   width: 100%;
   height: 100%;
+
+  .dis_p {
+    display: inline-block;
+  }
+  .dis_m {
+    display: none;
+  }
+
   .main_banner {
     width: 100%;
     position: relative;
@@ -112,11 +109,14 @@ const IndexLayoutBlock = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      text-align: center;
     }
   }
   .main_con {
-    width: calc(100% - 96px);
     padding: 0 48px 160px;
+    & > div {
+      max-width: 1504px;
+    }
   }
 
   .main_top_con {
@@ -183,6 +183,46 @@ const IndexLayoutBlock = styled.div`
     & > div {
       width: 33.333%;
       max-width: 470px;
+    }
+  }
+
+  ${media.tablet} {
+    .dis_p {
+      display: none;
+    }
+    .dis_m {
+      display: block;
+    }
+    .main_banner {
+      width: 100%;
+      margin-bottom: 20px;
+      .banner_txt {
+        font-size: 20px;
+      }
+    }
+
+    .main_con {
+      padding: 0 1rem 200px;
+      .main_top {
+        flex-direction: column;
+        margin-bottom: 0;
+        .strategy {
+          width: 100%;
+          max-width: none;
+        }
+        .lank {
+          width: 100%;
+          max-width: none;
+        }
+      }
+      .main_bottom {
+        flex-direction: column;
+
+        & > div {
+          width: 100%;
+          max-width: none;
+        }
+      }
     }
   }
 `;

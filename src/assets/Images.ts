@@ -28,6 +28,7 @@ import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
 import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg';
 import EditDefaultIcon from 'public/assets/common/header/edit-icon.svg';
 import LangKrIcon from 'public/assets/common/header/language_kr.svg';
+import MobileMenuIcon from 'public/assets/common/header/m_menu_bar.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -78,6 +79,10 @@ export const ProfileEditIcon = ProfileEditDefaultIcon;
 export const EditIcon = EditDefaultIcon;
 
 export const LangKr = LangKrIcon;
+
+//header mobile
+
+export const MMenuBar = MobileMenuIcon;
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];

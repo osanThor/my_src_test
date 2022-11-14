@@ -26,7 +26,7 @@ import { media } from '@/styles/theme';
 import AlramWindow from './AlramWindow';
 import MyMenuWindow from './MyMenuWindow';
 
-const Header = ({ children }: { children: React.ReactNode }) => {
+const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
   const { isDark } = useSelector(({ user }: RootState) => ({
@@ -129,7 +129,6 @@ const Header = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </TopHeader>
-      <TopHeaderSpacer />
       <GnbHeader>
         <div className="main_logo">
           <Link href="/">
@@ -206,22 +205,20 @@ const Header = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </GnbHeader>
-      <MainContainer>
-        <GnbHeaderSpacer />
-        {children}
-      </MainContainer>
     </HeaderBlock>
   );
 };
 
 const HeaderBlock = styled.div`
   width: 100%;
-  height: 100%;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 990;
 
-  /* ${media.tablet} {
+  ${media.tablet} {
     display: none;
-  } */
+  }
 `;
 const TopHeader = styled.div`
   width: calc(100% - 228px);
@@ -280,10 +277,7 @@ const TopHeader = styled.div`
     }
   }
 `;
-const TopHeaderSpacer = styled.div`
-  width: 100%;
-  height: 80px;
-`;
+
 const GnbHeader = styled.div`
   width: 228px;
   height: 100%;
@@ -431,19 +425,6 @@ const GnbHeader = styled.div`
         transform: translateY(2px);
       }
     }
-  }
-`;
-const GnbHeaderSpacer = styled.div`
-  width: 228px;
-  height: 100%;
-`;
-const MainContainer = styled.div`
-  width: 100%;
-  overflow-y: auto;
-  display: flex;
-
-  & > div:nth-child(2) {
-    flex: 1;
   }
 `;
 
