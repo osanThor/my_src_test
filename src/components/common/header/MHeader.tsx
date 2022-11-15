@@ -7,12 +7,10 @@ import { useRouter } from 'next/router';
 import AuthService from '@/src/utils/auth_service';
 import { media } from '@/styles/theme';
 import AlramWindow from './AlramWindow';
-import MyMenuWindow from './MyMenuWindow';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   AlramIcon,
-  ApiKeyMenu,
   Logo,
   MMenuBar,
   LogOutIcon,
@@ -22,20 +20,25 @@ import {
   Menu4,
   Menu5,
   Menu6,
-  MyDefaultIcon,
   ResetIcon,
   Profile1,
-  SearchIcon,
+  ArrowLeft,
+  MApiKeyMenu,
+  ProfileEditIcon,
 } from '@/src/assets/Images';
+import MMenuWindow from './MMenuWindow';
+import GnbMenu from './GnbMenu';
 
 const MHeader = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, nickname, licenses } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    photoUrl: user.photoUrl,
+    nickname: user.nickname,
+    licenses: user.licenses,
   }));
   const [btnWord, setBtnWord] = React.useState('');
-  const [hBtnTxt, setHBtnTxt] = React.useState('');
   const router = useRouter();
 
   React.useEffect(() => {
@@ -43,11 +46,9 @@ const MHeader = () => {
 
     if (user) {
       setBtnWord('로그아웃');
-      setHBtnTxt('MY');
     }
     if (user === null) {
       setBtnWord('로그인');
-      setHBtnTxt('로그인');
     }
   }, []);
 
@@ -57,7 +58,6 @@ const MHeader = () => {
     if (user) {
       authService.userLogOut(dispatch);
       setBtnWord('로그인');
-      setHBtnTxt('로그인');
     }
     return router.push('/auth/login');
   };
@@ -67,12 +67,15 @@ const MHeader = () => {
   const handleOpenAlram = () => {
     setOpenAlram(!openAlram);
   };
-  const MyMenuRef = useRef<HTMLDivElement>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => {
-    setOpenMenu(!openMenu);
+    setOpenMenu(true);
+  };
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
   };
 
+  // gnb menu open event
   const [openGnbMenu, setOpenGnbMenu] = useState(false);
   const [openGnbMenuEvent, setOpenGnbMenuEvent] = useState(false);
   const gnbMenuRef = useRef<HTMLDivElement>(null);
@@ -96,7 +99,7 @@ const MHeader = () => {
 
   return (
     <MHeaderBlock>
-      <MHeaderTop>
+      <MHeaderMain>
         <div className="menu_bar">
           <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
         </div>
@@ -111,11 +114,11 @@ const MHeader = () => {
           <div className="reset">
             <Image src={ResetIcon[0]} alt="reset" />
           </div>
-          <div className="alram">
+          <div className="alram" onClick={handleOpenAlram}>
             <Image src={AlramIcon[0]} alt="reset" />
           </div>
         </div>
-      </MHeaderTop>
+      </MHeaderMain>
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
@@ -123,18 +126,46 @@ const MHeader = () => {
             <div className="menu_top">
               <div className="profile">
                 <div className="profile_image">
-                  <Image src={Profile1[1]} alt="profile" />
+                  <Image
+                    src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]}
+                    alt="profile"
+                    layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
+                  />
                 </div>
                 <div className="profile_info">
-                  <div className="nickName">부자부자</div>
-                  <div className="api_key">이용권을 등로해주세요</div>
+                  <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
+                  <div className="api_key">이용권을 등록해주세요</div>
                 </div>
               </div>
-              <div className="close_btn" onClick={handleCloseGnbMenu}></div>
+              <div className="close_btn" onClick={handleCloseGnbMenu}>
+                <Image src={ArrowLeft} alt="back button" />
+              </div>
+            </div>
+            <div className="gnb">
+              <GnbMenu />
+              <div className="moreInfoBox">
+                <Image src={isDark ? MApiKeyMenu[1] : MApiKeyMenu[0]} alt="menu box" />
+                <Link href="/">
+                  <a className="cbksrh">More</a>
+                </Link>
+              </div>
+            </div>
+            <div className="menu profile_edit" onClick={handleOpenMenu}>
+              <div className="icon">
+                <Image src={ProfileEditIcon} alt="edit" />
+              </div>
+              설정
+            </div>
+            <div className="menu logOut" onClick={onClickHandler}>
+              <div className="icon">
+                <Image src={LogOutIcon} alt="logOut" />
+              </div>
+              {btnWord}
             </div>
           </div>
         </MHeaderSideBlock>
       )}
+      {openMenu && <MMenuWindow handleCloseMenu={handleCloseMenu} />}
     </MHeaderBlock>
   );
 };
@@ -148,7 +179,7 @@ const MHeaderBlock = styled.div`
     display: block;
   }
 `;
-const MHeaderTop = styled.div`
+const MHeaderMain = styled.div`
   width: 100%;
   height: 50px;
   padding: 0.5rem 1rem;
@@ -210,6 +241,12 @@ const MHeaderSideBlock = styled.div`
     left: -100%;
     background-color: ${({ theme }) => theme.bgColor};
     transition: all 0.5s ease-in-out;
+    overflow-y: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
 
     &.on {
       left: 0;
@@ -219,6 +256,8 @@ const MHeaderSideBlock = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
 
       .profile {
         display: flex;
@@ -236,7 +275,6 @@ const MHeaderSideBlock = styled.div`
           flex: 1;
           .nickName {
             font-family: 'GmarketSansBold';
-            margin-bottom: 4px;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -246,6 +284,63 @@ const MHeaderSideBlock = styled.div`
             font-size: 14px;
             color: ${colors.blue[2]};
           }
+        }
+      }
+      .close_btn {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    .gnb {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+
+      .moreInfoBox {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 20px;
+
+        a.cbksrh {
+          width: calc(100% - 76px);
+          max-width: 104px;
+          line-height: 40px;
+          background-color: ${colors.blue[2]};
+          color: white;
+          position: absolute;
+          left: 50%;
+          bottom: 20px;
+          transform: translateX(-50%);
+          text-align: center;
+          border-radius: 8px;
+          transition: all 0.2s;
+          &:hover {
+            background-color: ${colors.blue[1]};
+          }
+        }
+      }
+    }
+    .menu {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      color: ${colors.gray[5]};
+      .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 20px !important;
         }
       }
     }

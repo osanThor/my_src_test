@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import LoginForm from '../../components/auth/login/LoginForm';
 import { NextPage } from 'next';
-import { authActions, userActions } from '@/src/store/reducers';
+import { authActions } from '@/src/store/reducers';
 import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Modal from '@/src/components/common/Modal';
-import { axiosInstance } from '@/src/store/api';
 import AuthService from '@/src/utils/auth_service';
 import { useSession } from 'next-auth/react';
 
@@ -105,13 +104,14 @@ const Login: NextPage = () => {
     }
 
     // google login
+    console.log(loadAuthDone);
     const gId = localStorage.getItem('gId');
-    console.log(gId);
-    if (gId && loadAuthDone.accessToken) {
-      if (loadAuthDone.message === 'CREATED') {
-        const { accessToken } = session;
-        localStorage.setItem('Authorization', accessToken);
-        router.push('/auth/register');
+    if (gId) {
+      if (loadAuthDone.message === 'CAN_CREATE') {
+        // const { accessToken } = session;
+        // localStorage.setItem('Authorization', accessToken);
+        router.push('/auth/terms');
+        return;
       }
       authService.userLogin(loadAuthDone);
       router.push('/');

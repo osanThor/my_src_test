@@ -39,7 +39,6 @@ class AuthService {
       console.log('Not User');
       return;
     }
-    console.log(loadAuthDone);
     axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
   }
 
@@ -51,6 +50,8 @@ class AuthService {
     dispatch(authActions.userLogOut());
     localStorage.clear();
     delete axiosInstance.defaults.headers.common['Authorization'];
+    dispatch(authActions.initializeAuthForm());
+    dispatch(userActions.initializeUserForm());
   }
 }
 

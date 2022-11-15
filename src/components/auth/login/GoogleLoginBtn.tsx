@@ -11,13 +11,12 @@ const GoogleLoginBtn = () => {
   const dispatch = useDispatch();
 
   const { data: session, status } = useSession();
-  console.log(session);
   React.useEffect(() => {
     if (session) {
       const { accessToken, user } = session;
+      console.log(accessToken);
       let email;
       email = user.email;
-      console.log(accessToken);
       localStorage.setItem('gId', email);
       dispatch(authActions.googleLogin({ accessToken }));
     } else {

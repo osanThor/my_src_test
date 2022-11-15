@@ -83,7 +83,7 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
 const MyMenuWindowBlock = styled.div`
   width: 290px;
   font-size: 1rem;
-  background-color: white;
+  background-color: ${({ theme }) => theme.bgColor};
   position: absolute;
   padding: 20px 32px;
   border-radius: 14px;
@@ -171,7 +171,9 @@ const MyMenuWindowBlock = styled.div`
       transform: translate(14px, -50%);
       background-color: ${colors.blue[2]};
     }
-
+    &:first-child img {
+      transform: translateY(-2px);
+    }
     &:last-child img {
       max-width: 18px !important;
       transform: translateY(-2px);

@@ -10,6 +10,7 @@ import type { LoadUserResponse, LoadUserBody } from '../types';
 
 // api
 import { apiCheckNickname, apiChangeTheme, apiRegister, apiTelegramUsername } from '../api';
+import { apiGetUserProfile } from '../api/user';
 
 // 테마변경
 function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
@@ -50,7 +51,6 @@ function* checkNickNameSaga(action: PayloadAction<LoadUserBody>) {
 }
 // 회원가입
 function* userRegisterSaga(action: PayloadAction<LoadUserBody>) {
-  console.log('회원가입 시작');
   yield put(userActions.loadUserRequest());
   try {
     const { data } = yield call(apiRegister, action.payload);
@@ -72,11 +72,9 @@ function* userRegisterSaga(action: PayloadAction<LoadUserBody>) {
     yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
     yield put(authActions.AuthFailure());
   }
-  console.log('회원가입 끝');
 }
 // 텔레그램 사용자명
 function* telegramUsernameSaga(action: PayloadAction<LoadUserBody>) {
-  console.log('시작');
   yield put(userActions.loadUserRequest());
   try {
     const { data } = yield call(apiTelegramUsername, action.payload);
@@ -97,7 +95,23 @@ function* telegramUsernameSaga(action: PayloadAction<LoadUserBody>) {
     // 실패한 액션 디스패치
     yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
   }
-  console.log('끝');
+}
+// get user profile
+function* getUserProfileSaga() {
+  try {
+    yield put(userActions.loadUserRequest());
+    const { data } = yield call(apiGetUserProfile);
+    console.log(data);
+    yield put(userActions.getUserProfileResult(data));
+  } catch (error: any) {
+    console.error('userSaga getUserProfileSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
+  }
 }
 
 function* watchLoadUser() {
@@ -105,6 +119,7 @@ function* watchLoadUser() {
   yield takeLatest(userActions.checkNickName, checkNickNameSaga);
   yield takeLatest(userActions.userRegister, userRegisterSaga);
   yield takeLatest(userActions.telegramUsername, telegramUsernameSaga);
+  yield takeLatest(userActions.getUserProfile, getUserProfileSaga);
 }
 
 export default function* userSaga() {

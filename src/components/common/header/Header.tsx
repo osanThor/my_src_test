@@ -11,7 +11,6 @@ import {
   Menu6,
   MyDefaultIcon,
   ResetIcon,
-  SearchIcon,
 } from '@/src/assets/Images';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,12 +24,15 @@ import AuthService from '@/src/utils/auth_service';
 import { media } from '@/styles/theme';
 import AlramWindow from './AlramWindow';
 import MyMenuWindow from './MyMenuWindow';
+import GnbMenu from './GnbMenu';
 
 const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, _count } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    photoUrl: user.photoUrl,
+    _count: user._count,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -93,9 +95,7 @@ const Header = () => {
     <HeaderBlock onClick={handleHeadModal}>
       <TopHeader>
         <div className="inner_header">
-          <div className="search_place">
-            <Image src={SearchIcon} alt="search" />
-          </div>
+          <div className=""></div>
           <div className="header_con">
             <div className="headBtn">
               <Image src={ResetIcon[0]} alt="ResetIcon" />
@@ -121,8 +121,15 @@ const Header = () => {
                       }
                 }
               >
-                <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
-                <span>{hBtnTxt}</span>
+                <Image
+                  src={photoUrl && photoUrl != 'default.com' ? photoUrl : MyDefaultIcon}
+                  style={
+                    photoUrl && photoUrl != 'default.com' ? {} : { height: '100px', transform: 'translateY(-5px)' }
+                  }
+                  alt="MyDefaultIcon"
+                  layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
+                />
+                <span className="txt">{hBtnTxt}</span>
               </div>
               {openMenu && <MyMenuWindow MyMenuRef={MyMenuRef} />}
             </div>
@@ -138,56 +145,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="gnb">
-          <div className="gnb_menu_list">
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>대시보드</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>퀀트작성</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>이용권 등록 / API Key</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>주문내역 / 에러 메세지</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>전략</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>커뮤니티</span>
-                </a>
-              </Link>
-            </div>
-          </div>
+          <GnbMenu />
 
           <div className="moreInfoBox">
             <Image src={isDark ? ApiKeyMenu[1] : ApiKeyMenu[0]} alt="menu box" />
@@ -256,6 +214,7 @@ const TopHeader = styled.div`
         justify-content: center;
         background-color: ${colors.gray[0]};
         border-radius: 50%;
+        overflow: hidden;
         cursor: pointer;
         font-size: 10px;
         color: ${colors.gray[3]};
@@ -269,6 +228,18 @@ const TopHeader = styled.div`
         &.blue {
           background-color: ${colors.blue[2]};
           color: white;
+          span {
+            height: 100% !important;
+          }
+          span.txt {
+            width: 100%;
+            height: 15px !important;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            transform: translateX(-50%);
+          }
           &:hover {
             background-color: ${colors.blue[1]};
           }
@@ -315,69 +286,6 @@ const GnbHeader = styled.div`
       display: none; /* Chrome, Safari, Opera*/
     }
 
-    .gnb_menu {
-      width: 100%;
-      margin-bottom: 12px;
-      color: ${colors.gray[4]};
-      &:last-child {
-        margin-bottom: 0;
-      }
-      a {
-        width: 100%;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        transition: all 0.2s;
-        & > .headerIcon {
-          width: 24px;
-          height: 24px;
-          margin-right: 12px;
-        }
-        & > span {
-          transform: translateY(2px);
-          font-size: 14px;
-        }
-      }
-      &:nth-child(1) > a > .headerIcon {
-        background: url(${Menu1[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(2) > a > .headerIcon {
-        background: url(${Menu2[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(3) > a > .headerIcon {
-        background: url(${Menu3[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(4) > a > .headerIcon {
-        background: url(${Menu4[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(5) > a > .headerIcon {
-        background: url(${Menu5[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(6) > a > .headerIcon {
-        background: url(${Menu6[0].src}) no-repeat 50% / cover;
-      }
-      &:hover {
-        color: ${colors.blue[2]};
-        &:nth-child(1) > a > .headerIcon {
-          background: url(${Menu1[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(2) > a > .headerIcon {
-          background: url(${Menu2[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(3) > a > .headerIcon {
-          background: url(${Menu3[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(4) > a > .headerIcon {
-          background: url(${Menu4[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(5) > a > .headerIcon {
-          background: url(${Menu5[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(6) > a > .headerIcon {
-          background: url(${Menu6[1].src}) no-repeat 50% / cover;
-        }
-      }
-    }
     .moreInfoBox {
       width: 100%;
       display: flex;

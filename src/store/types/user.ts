@@ -36,3 +36,17 @@ export type RegisterPayload = {
 export type LoadUserResponse = {
   message: string | boolean | null;
 };
+
+export type UserProfilePayload = {
+  photoUrl: string | null;
+  email: string | null;
+  nicknamePrev: string | null;
+  nickname: string | null;
+  licenses: Array<string> | [];
+  styles: Array<string> | [];
+  introduction: string | null;
+  _count: {
+    boards: number | null;
+    comments: number | null;
+  };
+};

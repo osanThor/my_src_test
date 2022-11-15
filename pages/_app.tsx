@@ -10,8 +10,9 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
-import { authActions } from '@/src/store/reducers';
+import { authActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
+import { axiosInstance } from '@/src/store/api';
 
 function MyApp({
   Component,
@@ -30,8 +31,6 @@ function MyApp({
     loadAuthError: auth.loadAuthError,
   }));
 
-  console.log(loadAuthError);
-
   // auto login
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -45,11 +44,17 @@ function MyApp({
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
     }
+    if (loadAuthDone.message != 'CREATED') {
+      if (loadAuthDone.accessToken) {
+        dispatch(userActions.getUserProfile());
+      }
+    }
   }, [loadAuthDone]);
 
   useEffect(() => {
     if (loadAuthError) {
-      authService.userLogOut(dispatch);
+      localStorage.clear();
+      delete axiosInstance.defaults.headers.common['Authorization'];
     }
   }, [loadAuthError]);
 
