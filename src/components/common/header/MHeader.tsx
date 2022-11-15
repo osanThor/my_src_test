@@ -12,7 +12,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   AlramIcon,
-  ApiKeyMenu,
   Logo,
   MMenuBar,
   LogOutIcon,
@@ -25,8 +24,11 @@ import {
   MyDefaultIcon,
   ResetIcon,
   Profile1,
-  SearchIcon,
+  ArrowLeft,
+  MApiKeyMenu,
+  ProfileEditIcon,
 } from '@/src/assets/Images';
+import MMenuWindow from './MMenuWindow';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -67,12 +69,15 @@ const MHeader = () => {
   const handleOpenAlram = () => {
     setOpenAlram(!openAlram);
   };
-  const MyMenuRef = useRef<HTMLDivElement>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => {
-    setOpenMenu(!openMenu);
+    setOpenMenu(true);
+  };
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
   };
 
+  // gnb menu open event
   const [openGnbMenu, setOpenGnbMenu] = useState(false);
   const [openGnbMenuEvent, setOpenGnbMenuEvent] = useState(false);
   const gnbMenuRef = useRef<HTMLDivElement>(null);
@@ -96,7 +101,7 @@ const MHeader = () => {
 
   return (
     <MHeaderBlock>
-      <MHeaderTop>
+      <MHeaderMain>
         <div className="menu_bar">
           <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
         </div>
@@ -115,7 +120,7 @@ const MHeader = () => {
             <Image src={AlramIcon[0]} alt="reset" />
           </div>
         </div>
-      </MHeaderTop>
+      </MHeaderMain>
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
@@ -130,11 +135,84 @@ const MHeader = () => {
                   <div className="api_key">이용권을 등로해주세요</div>
                 </div>
               </div>
-              <div className="close_btn" onClick={handleCloseGnbMenu}></div>
+              <div className="close_btn" onClick={handleCloseGnbMenu}>
+                <Image src={ArrowLeft} alt="back button" />
+              </div>
+            </div>
+            <div className="gnb">
+              <div className="gnb_menu_list">
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>대시보드</span>
+                    </a>
+                  </Link>
+                </div>
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>퀀트작성</span>
+                    </a>
+                  </Link>
+                </div>
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>이용권 등록 / API Key</span>
+                    </a>
+                  </Link>
+                </div>
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>주문내역 / 에러 메세지</span>
+                    </a>
+                  </Link>
+                </div>
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>전략</span>
+                    </a>
+                  </Link>
+                </div>
+                <div className="gnb_menu">
+                  <Link href="/">
+                    <a>
+                      <div className="headerIcon" />
+                      <span>커뮤니티</span>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="moreInfoBox">
+                <Image src={isDark ? MApiKeyMenu[1] : MApiKeyMenu[0]} alt="menu box" />
+                <Link href="/">
+                  <a className="cbksrh">More</a>
+                </Link>
+              </div>
+            </div>
+            <div className="menu profile_edit" onClick={handleOpenMenu}>
+              <div className="icon">
+                <Image src={ProfileEditIcon} alt="edit" />
+              </div>
+              설정
+            </div>
+            <div className="menu logOut" onClick={onClickHandler}>
+              <div className="icon">
+                <Image src={LogOutIcon} alt="logOut" />
+              </div>
+              {btnWord}
             </div>
           </div>
         </MHeaderSideBlock>
       )}
+      {openMenu && <MMenuWindow handleCloseMenu={handleCloseMenu} />}
     </MHeaderBlock>
   );
 };
@@ -148,7 +226,7 @@ const MHeaderBlock = styled.div`
     display: block;
   }
 `;
-const MHeaderTop = styled.div`
+const MHeaderMain = styled.div`
   width: 100%;
   height: 50px;
   padding: 0.5rem 1rem;
@@ -210,6 +288,12 @@ const MHeaderSideBlock = styled.div`
     left: -100%;
     background-color: ${({ theme }) => theme.bgColor};
     transition: all 0.5s ease-in-out;
+    overflow-y: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
 
     &.on {
       left: 0;
@@ -219,6 +303,8 @@ const MHeaderSideBlock = styled.div`
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
 
       .profile {
         display: flex;
@@ -246,6 +332,130 @@ const MHeaderSideBlock = styled.div`
             font-size: 14px;
             color: ${colors.blue[2]};
           }
+        }
+      }
+      .close_btn {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    .gnb {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+
+      .gnb_menu_list {
+        width: 100%;
+        margin-bottom: 20px;
+        .gnb_menu {
+          width: 100%;
+          color: ${colors.gray[5]};
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+          a {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            & > .headerIcon {
+              width: 24px;
+              height: 24px;
+              margin-right: 12px;
+            }
+            & > span {
+              transform: translateY(2px);
+              font-size: 14px;
+            }
+          }
+          &:nth-child(1) > a > .headerIcon {
+            background: url(${Menu1[0].src}) no-repeat 50% / cover;
+          }
+          &:nth-child(2) > a > .headerIcon {
+            background: url(${Menu2[0].src}) no-repeat 50% / cover;
+          }
+          &:nth-child(3) > a > .headerIcon {
+            background: url(${Menu3[0].src}) no-repeat 50% / cover;
+          }
+          &:nth-child(4) > a > .headerIcon {
+            background: url(${Menu4[0].src}) no-repeat 50% / cover;
+          }
+          &:nth-child(5) > a > .headerIcon {
+            background: url(${Menu5[0].src}) no-repeat 50% / cover;
+          }
+          &:nth-child(6) > a > .headerIcon {
+            background: url(${Menu6[0].src}) no-repeat 50% / cover;
+          }
+          &:hover {
+            color: ${colors.blue[2]};
+            &:nth-child(1) > a > .headerIcon {
+              background: url(${Menu1[1].src}) no-repeat 50% / cover;
+            }
+            &:nth-child(2) > a > .headerIcon {
+              background: url(${Menu2[1].src}) no-repeat 50% / cover;
+            }
+            &:nth-child(3) > a > .headerIcon {
+              background: url(${Menu3[1].src}) no-repeat 50% / cover;
+            }
+            &:nth-child(4) > a > .headerIcon {
+              background: url(${Menu4[1].src}) no-repeat 50% / cover;
+            }
+            &:nth-child(5) > a > .headerIcon {
+              background: url(${Menu5[1].src}) no-repeat 50% / cover;
+            }
+            &:nth-child(6) > a > .headerIcon {
+              background: url(${Menu6[1].src}) no-repeat 50% / cover;
+            }
+          }
+        }
+      }
+      .moreInfoBox {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 20px;
+
+        a.cbksrh {
+          width: calc(100% - 76px);
+          max-width: 104px;
+          line-height: 40px;
+          background-color: ${colors.blue[2]};
+          color: white;
+          position: absolute;
+          left: 50%;
+          bottom: 20px;
+          transform: translateX(-50%);
+          text-align: center;
+          border-radius: 8px;
+          transition: all 0.2s;
+          &:hover {
+            background-color: ${colors.blue[1]};
+          }
+        }
+      }
+    }
+    .menu {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      color: ${colors.gray[5]};
+      .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 20px !important;
         }
       }
     }

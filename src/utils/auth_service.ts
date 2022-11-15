@@ -39,7 +39,6 @@ class AuthService {
       console.log('Not User');
       return;
     }
-    console.log(loadAuthDone);
     axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
   }
 
