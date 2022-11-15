@@ -11,7 +11,12 @@ const NoticeArea = () => {
   SwiperCore.use([Navigation, Pagination]);
   return (
     <NoticeAreaBlock>
-      <Swiper slidesPerView={1} spaceBetween={20} className="mySwiper" breakpoints={{ 768: { slidesPerView: 3 } }}>
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={20}
+        className="mySwiper"
+        breakpoints={{ 768: { slidesPerView: 2 }, 1200: { slidesPerView: 3 } }}
+      >
         <SwiperSlide>
           <Link href="/">
             <div className="notice_item">
@@ -45,6 +50,7 @@ const NoticeArea = () => {
 };
 const NoticeAreaBlock = styled.div`
   width: 100%;
+  margin-bottom: 40px;
 
   .notice_item {
     cursor: pointer;
@@ -55,6 +61,7 @@ const NoticeAreaBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.2s;
 
     .notice_num {
       width: 32px;
@@ -79,11 +86,27 @@ const NoticeAreaBlock = styled.div`
       transform: translateY(2px);
       color: ${colors.red[1]};
     }
+
+    &:hover {
+      background-color: ${colors.gray[2]};
+    }
   }
 
   ${media.tablet} {
     .notice_item {
       max-width: none;
+      padding: 8px;
+      .notice_num {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+      .notice_title {
+        margin-right: 8px;
+      }
+      span {
+        font-size: 12px;
+      }
     }
   }
 `;

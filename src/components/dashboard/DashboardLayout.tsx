@@ -1,11 +1,16 @@
+import colors from '@/src/assets/Colors';
+import { Profile1, ResetIcon } from '@/src/assets/Images';
+import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
+import MyExchangeArea from './MyExchangeArea';
 import NoticeArea from './NoticeArea';
 
 const DashboardLayout = () => {
   return (
     <DashboardLayoutBlock className="container">
       <NoticeArea />
+      <MyExchangeArea />
     </DashboardLayoutBlock>
   );
 };
