@@ -41,7 +41,7 @@ function MyApp({
     dispatch(authActions.userLogin({ email, pw }));
   }, []);
 
-  //google session reset
+  //next auth session reset
   useEffect(() => {
     const gId = localStorage.getItem('gId');
     console.log(gId);

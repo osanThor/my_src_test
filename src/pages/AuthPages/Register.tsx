@@ -16,7 +16,7 @@ const Register: NextPage = () => {
   const authSevice = new AuthService();
 
   // user 상태 관리
-  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, user, userError } = useSelector(
+  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl } = useSelector(
     ({ user }: RootState) => ({
       email: user.email,
       pw: user.pw,
@@ -146,7 +146,7 @@ const Register: NextPage = () => {
     }
   }, [loadAuthLoading, loadAuthDone]);
 
-  // 인증코드 타이머
+  // 인증코드 state 타이머 error state
   const [veriAble, setVeriAble] = useState(false);
   const [readOnltVerify, setReadOnltVerify] = useState(false);
   const [timerErr, setTimerErr] = useState(false);
@@ -167,6 +167,7 @@ const Register: NextPage = () => {
   }, [verifyCode, timerErr]);
 
   // 인증이 완료되면 타이머 사라지고 인증버튼 비활성화
+  // 기본으로 타이머는 숨겨진 component 안에 보이기 때문에 true
   const [timerVisible, setTimerVisible] = useState(true);
 
   // 인증번호 검사
@@ -264,7 +265,23 @@ const Register: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
-
+  //google register
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      setOnltReadEmial(true);
+      dispatch(
+        userActions.changeRegisterField({
+          email: gId,
+          pw: '',
+          pwConfirm: '',
+          verifyCode: '',
+          nickname: '',
+          photoUrl: '',
+        }),
+      );
+    }
+  }, []);
   return (
     <AuthLayout type="register">
       <RegisterForm
