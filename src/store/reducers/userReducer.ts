@@ -9,6 +9,7 @@ import {
   ResponseFailure,
   TelegramPayload,
   ThemePayload,
+  UserProfilePayload,
 } from '../types';
 
 export type UserStateType = {
@@ -21,6 +22,14 @@ export type UserStateType = {
   username: string | null;
   verifyCode: number | string | null;
   isDark: boolean;
+  nicknamePrev: string | null;
+  licenses: Array<string> | [];
+  styles: Array<string> | [];
+  introduction: string | null;
+  _count: {
+    boards: number | null;
+    comments: number | null;
+  };
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
   loadUserError: null | string;
@@ -38,6 +47,14 @@ const initialState: UserStateType = {
   username: '',
   verifyCode: '',
   isDark: false,
+  nicknamePrev: '',
+  licenses: [],
+  styles: [],
+  introduction: '',
+  _count: {
+    boards: 0,
+    comments: 0,
+  },
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
@@ -81,6 +98,31 @@ const userSlice = createSlice({
       state.pw = action.payload.pw;
       state.nickname = action.payload.nickname;
       state.photoUrl = action.payload.photoUrl;
+    },
+    getUserProfile(state) {
+      state.loadUserLoading = true;
+      state.email = '';
+      state.photoUrl = '';
+      state.nickname = '';
+      state.nicknamePrev = '';
+      state.licenses = [];
+      state.styles = [];
+      state.introduction = '';
+      state._count = {
+        boards: 0,
+        comments: 0,
+      };
+    },
+    getUserProfileResult(state, action: PayloadAction<UserProfilePayload>) {
+      state.loadUserLoading = false;
+      state.email = action.payload.email;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.nicknamePrev = action.payload.nicknamePrev;
+      state.licenses = action.payload.licenses;
+      state.styles = action.payload.styles;
+      state.introduction = action.payload.introduction;
+      state._count = action.payload._count;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

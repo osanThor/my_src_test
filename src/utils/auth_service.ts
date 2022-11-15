@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 import { axiosInstance } from '../store/api';
-import { authActions, userActions } from '../store/reducers';
+import { authActions } from '../store/reducers';
 import { LoadAuthResponse } from '../store/types';
 
 class AuthService {

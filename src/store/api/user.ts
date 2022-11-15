@@ -23,3 +23,6 @@ export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
 // 텔레그램 사용자명 입력
 export const apiTelegramUsername = ({ username }: TelegramPayload) =>
   axiosInstance.put<LoadUserResponse>(`/users/telegram?username=${username}`);
+
+// user profile
+export const apiGetUserProfile = () => axiosInstance.get('/users/profile');

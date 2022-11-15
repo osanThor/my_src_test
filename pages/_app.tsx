@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
-import { authActions } from '@/src/store/reducers';
+import { authActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 
 function MyApp({
@@ -30,8 +30,6 @@ function MyApp({
     loadAuthError: auth.loadAuthError,
   }));
 
-  console.log(loadAuthError);
-
   // auto login
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -44,6 +42,9 @@ function MyApp({
     const user = localStorage.getItem('user');
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
+    }
+    if (loadAuthDone.accessToken) {
+      dispatch(userActions.getUserProfile());
     }
   }, [loadAuthDone]);
 
