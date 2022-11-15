@@ -11,9 +11,9 @@ export const apiCheckNickname = ({ nickname }: LoadUserBody) =>
 export const apiChangeTheme = ({ isDark }: LoadUserBody) =>
   axiosInstance.put<LoadUserResponse>(`/users/theme?isDark=${isDark}`);
 
-// 회원가입 요청
+// email 회원가입 요청
 export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
-  axiosInstance.post<LoadUserResponse>(`/users`, {
+  axiosInstance.post<LoadUserResponse>(`/users/email`, {
     email,
     pw,
     nickname,
