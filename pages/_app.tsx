@@ -9,10 +9,11 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, signOut } from 'next-auth/react';
 import { authActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
+import { useRouter } from 'next/router';
 
 function MyApp({
   Component,
@@ -22,6 +23,7 @@ function MyApp({
 }>) {
   const authService = new AuthService();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
@@ -38,6 +40,15 @@ function MyApp({
     const { email, pw } = userInfo;
     dispatch(authActions.userLogin({ email, pw }));
   }, []);
+
+  //google session reset
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    console.log(gId);
+    if (gId) {
+      signOut({ redirect: false });
+    }
+  }, [router]);
 
   useEffect(() => {
     const user = localStorage.getItem('user');

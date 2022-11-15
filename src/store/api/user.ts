@@ -19,6 +19,14 @@ export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
     nickname,
     photoUrl,
   });
+//google 회원가입 요청
+export const apiGoogleRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
+  axiosInstance.post<LoadUserResponse>(`/users/email`, {
+    email,
+    pw,
+    nickname,
+    photoUrl,
+  });
 
 // 텔레그램 사용자명 입력
 export const apiTelegramUsername = ({ username }: TelegramPayload) =>

@@ -43,10 +43,6 @@ class AuthService {
   }
 
   userLogOut(dispatch: Dispatch<AnyAction>) {
-    const gId = localStorage.getItem('gId');
-    if (gId) {
-      signOut();
-    }
     dispatch(authActions.userLogOut());
     localStorage.clear();
     delete axiosInstance.defaults.headers.common['Authorization'];
