@@ -9,11 +9,12 @@ import { useRouter } from 'next/router';
 import Modal from '@/src/components/common/Modal';
 import AuthService from '@/src/utils/auth_service';
 import { useSession } from 'next-auth/react';
+import Loading from '@/src/components/common/Loading';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
   const authService = new AuthService();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -105,18 +106,33 @@ const Login: NextPage = () => {
 
     // google login
     console.log(loadAuthDone);
-    const gId = localStorage.getItem('gId');
-    if (gId) {
+    if (status === 'authenticated') {
       if (loadAuthDone.message === 'CAN_CREATE') {
-        // const { accessToken } = session;
-        // localStorage.setItem('Authorization', accessToken);
+        const { user } = session;
+        let email;
+        email = user.email;
+        localStorage.setItem('gId', email);
         router.push('/auth/terms');
-        return;
+      } else if (loadAuthDone.accessToken) {
+        console.log('여기 일어남?');
+        localStorage.setItem('gId', 'true');
+        authService.userLogin(loadAuthDone);
+        router.push('/');
       }
-      authService.userLogin(loadAuthDone);
-      router.push('/');
     }
   }, [loadAuthDone, loadAuthError]);
+
+  //loading
+  const [googleLoading, setGoogleLogin] = useState(false);
+  useEffect(() => {
+    if (status === 'loading') {
+      setGoogleLogin(true);
+    } else {
+      setTimeout(() => {
+        setGoogleLogin(false);
+      }, 1000);
+    }
+  }, [status]);
 
   // 상태 초기화
   useEffect(() => {
@@ -134,6 +150,7 @@ const Login: NextPage = () => {
         onSubmit={handleLoginSubmit}
       />
       <Modal open={modalOpen} close={handleModalClose} message={message} error={modalSt} />
+      {googleLoading && <Loading />}
     </AuthLayout>
   );
 };

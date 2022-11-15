@@ -19,6 +19,7 @@ const TermsLayOut = () => {
     { id: 0, type: 'privacy' },
     { id: 1, type: 'service' },
   ];
+
   const [checkItems, setCheckItems] = useState([]);
   const [openItems, setOpenItems] = useState([false, false]);
   const [allCheck, setAllCheck] = useState(false);

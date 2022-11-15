@@ -10,14 +10,11 @@ import Button from '../../common/Button';
 const GoogleLoginBtn = () => {
   const dispatch = useDispatch();
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   React.useEffect(() => {
     if (session) {
-      const { accessToken, user } = session;
+      const { accessToken } = session;
       console.log(accessToken);
-      let email;
-      email = user.email;
-      localStorage.setItem('gId', email);
       dispatch(authActions.googleLogin({ accessToken }));
     } else {
       localStorage.clear();

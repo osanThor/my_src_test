@@ -30,14 +30,29 @@ const RegisterForm = ({
   timerVisible,
   handleCheckVerify,
 }: IRegisterType) => {
-  const { email, pw, pwConfirm, nickname, verifyCode, isDark } = useSelector(({ user }: RootState) => ({
-    email: user.email,
-    pw: user.pw,
-    pwConfirm: user.pwConfirm,
-    verifyCode: user.verifyCode,
-    nickname: user.nickname,
-    isDark: user.isDark,
-  }));
+  //google 회원가입 인지 확인
+  const [googleRegister, setGoogleRegister] = useState(false);
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      setGoogleRegister(true);
+    } else {
+      setGoogleRegister(false);
+    }
+    console.log(`gId is ${gId}`);
+  }, []);
+  // 상태관리
+  const { email, pw, pwConfirm, nickname, checkNicknameResult, verifyCode, isDark } = useSelector(
+    ({ user }: RootState) => ({
+      email: user.email,
+      pw: user.pw,
+      pwConfirm: user.pwConfirm,
+      verifyCode: user.verifyCode,
+      nickname: user.nickname,
+      checkNicknameResult: user.checkNicknameResult,
+      isDark: user.isDark,
+    }),
+  );
 
   // 이메일 실시간 유효성검사
   const [emailError, setEmailError] = useState<boolean>(Boolean);
@@ -104,12 +119,20 @@ const RegisterForm = ({
   const [registerAble, setRegisterAble] = useState(false);
 
   useEffect(() => {
-    if (profileImg && nickname && email && verifyCode && pw && pwConfirm && pwError === false) {
-      setRegisterAble(true);
+    if (googleRegister) {
+      if (profileImg && nickname && checkNicknameResult === false && checkNicknameResult != null) {
+        setRegisterAble(true);
+      } else {
+        setRegisterAble(false);
+      }
     } else {
-      setRegisterAble(false);
+      if (profileImg && nickname && email && verifyCode && pw && pwConfirm && pwError === false) {
+        setRegisterAble(true);
+      } else {
+        setRegisterAble(false);
+      }
     }
-  }, [profileImg, nickname, email, verifyCode, pwError]);
+  }, [profileImg, nickname, checkNicknameResult, email, verifyCode, pwError]);
 
   return (
     <>
@@ -190,49 +213,51 @@ const RegisterForm = ({
               </div>
             </div>
           </div>
-          <div className="register_bottom">
-            {verify && (
-              <div className={ReadOnltVerify || !timerVisible ? 'emailVerify readOnly' : 'emailVerify '}>
-                {timerVisible && <Timer error={timerErr} setError={setTimerErr} min={min} />}
-                <StyleInput
-                  name="verifyCode"
-                  type="number"
-                  placeholder="인증번호를 입력해요"
-                  value={verifyCode}
-                  icon={Key}
-                  onChange={onChange}
-                  readOnly={ReadOnltVerify ? true : false}
-                />
-                <StyledButton blue disabled={veriAble ? false : true} onClick={handleCheckVerify}>
-                  인증확인
-                </StyledButton>
-              </div>
-            )}
-            <StyleInput
-              name="pw"
-              type="password"
-              placeholder="비밀번호를 설정해요"
-              value={pw}
-              icon={Lock}
-              onChange={onChange}
-            />
-            <StyleInput
-              name="pwConfirm"
-              type="password"
-              placeholder="비밀번호를 한번 더 설정해요"
-              value={pwConfirm}
-              icon={Lock}
-              onChange={onChange}
-            />
-            {pwError && (
-              <div className="pwErr">
-                <div>
-                  <Image src={Notice[1]} alt="notice" />
+          {!googleRegister && (
+            <div className="register_bottom">
+              {verify && (
+                <div className={ReadOnltVerify || !timerVisible ? 'emailVerify readOnly' : 'emailVerify '}>
+                  {timerVisible && <Timer error={timerErr} setError={setTimerErr} min={min} />}
+                  <StyleInput
+                    name="verifyCode"
+                    type="number"
+                    placeholder="인증번호를 입력해요"
+                    value={verifyCode}
+                    icon={Key}
+                    onChange={onChange}
+                    readOnly={ReadOnltVerify ? true : false}
+                  />
+                  <StyledButton blue disabled={veriAble ? false : true} onClick={handleCheckVerify}>
+                    인증확인
+                  </StyledButton>
                 </div>
-                <span className="error">{pwErrMessage}</span>
-              </div>
-            )}
-          </div>
+              )}
+              <StyleInput
+                name="pw"
+                type="password"
+                placeholder="비밀번호를 설정해요"
+                value={pw}
+                icon={Lock}
+                onChange={onChange}
+              />
+              <StyleInput
+                name="pwConfirm"
+                type="password"
+                placeholder="비밀번호를 한번 더 설정해요"
+                value={pwConfirm}
+                icon={Lock}
+                onChange={onChange}
+              />
+              {pwError && (
+                <div className="pwErr">
+                  <div>
+                    <Image src={Notice[1]} alt="notice" />
+                  </div>
+                  <span className="error">{pwErrMessage}</span>
+                </div>
+              )}
+            </div>
+          )}
         </form>
         <Button fullWidth blue disabled={registerAble ? false : true} onClick={onSubmit}>
           회원가입
