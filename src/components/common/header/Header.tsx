@@ -29,8 +29,9 @@ import MyMenuWindow from './MyMenuWindow';
 const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    photoUrl: user.photoUrl,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -121,8 +122,15 @@ const Header = () => {
                       }
                 }
               >
-                <Image src={MyDefaultIcon} alt="MyDefaultIcon" />
-                <span>{hBtnTxt}</span>
+                <Image
+                  src={photoUrl && photoUrl != 'default.com' ? photoUrl : MyDefaultIcon}
+                  style={
+                    photoUrl && photoUrl != 'default.com' ? {} : { height: '100px', transform: 'translateY(-5px)' }
+                  }
+                  alt="MyDefaultIcon"
+                  layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
+                />
+                <span className="txt">{hBtnTxt}</span>
               </div>
               {openMenu && <MyMenuWindow MyMenuRef={MyMenuRef} />}
             </div>
@@ -256,6 +264,7 @@ const TopHeader = styled.div`
         justify-content: center;
         background-color: ${colors.gray[0]};
         border-radius: 50%;
+        overflow: hidden;
         cursor: pointer;
         font-size: 10px;
         color: ${colors.gray[3]};
@@ -269,6 +278,18 @@ const TopHeader = styled.div`
         &.blue {
           background-color: ${colors.blue[2]};
           color: white;
+          span {
+            height: 100% !important;
+          }
+          span.txt {
+            width: 100%;
+            height: 15px !important;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            transform: translateX(-50%);
+          }
           &:hover {
             background-color: ${colors.blue[1]};
           }

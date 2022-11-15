@@ -12,6 +12,7 @@ import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { authActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
+import { axiosInstance } from '@/src/store/api';
 
 function MyApp({
   Component,
@@ -50,7 +51,8 @@ function MyApp({
 
   useEffect(() => {
     if (loadAuthError) {
-      authService.userLogOut(dispatch);
+      localStorage.clear();
+      delete axiosInstance.defaults.headers.common['Authorization'];
     }
   }, [loadAuthError]);
 

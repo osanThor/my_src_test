@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
 import { axiosInstance } from '../store/api';
-import { authActions } from '../store/reducers';
+import { authActions, userActions } from '../store/reducers';
 import { LoadAuthResponse } from '../store/types';
 
 class AuthService {
@@ -50,6 +50,8 @@ class AuthService {
     dispatch(authActions.userLogOut());
     localStorage.clear();
     delete axiosInstance.defaults.headers.common['Authorization'];
+    dispatch(authActions.initializeAuthForm());
+    dispatch(userActions.initializeUserForm());
   }
 }
 

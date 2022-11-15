@@ -21,7 +21,6 @@ import {
   Menu4,
   Menu5,
   Menu6,
-  MyDefaultIcon,
   ResetIcon,
   Profile1,
   ArrowLeft,
@@ -33,8 +32,11 @@ import MMenuWindow from './MMenuWindow';
 const MHeader = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, nickname, licenses } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    photoUrl: user.photoUrl,
+    nickname: user.nickname,
+    licenses: user.licenses,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -128,11 +130,15 @@ const MHeader = () => {
             <div className="menu_top">
               <div className="profile">
                 <div className="profile_image">
-                  <Image src={Profile1[1]} alt="profile" />
+                  <Image
+                    src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]}
+                    alt="profile"
+                    layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
+                  />
                 </div>
                 <div className="profile_info">
-                  <div className="nickName">부자부자</div>
-                  <div className="api_key">이용권을 등로해주세요</div>
+                  <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
+                  <div className="api_key">이용권을 등록해주세요</div>
                 </div>
               </div>
               <div className="close_btn" onClick={handleCloseGnbMenu}>
@@ -322,7 +328,6 @@ const MHeaderSideBlock = styled.div`
           flex: 1;
           .nickName {
             font-family: 'GmarketSansBold';
-            margin-bottom: 4px;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
