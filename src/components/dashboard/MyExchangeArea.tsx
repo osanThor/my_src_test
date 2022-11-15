@@ -232,6 +232,7 @@ const MyExchaingeAreaBlock = styled.div`
   }
   ${media.tablet} {
     flex-direction: column;
+    margin-bottom: 40px;
     .dashboard_top {
       flex-direction: column;
       flex-wrap: wrap;
