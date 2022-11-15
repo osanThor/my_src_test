@@ -40,7 +40,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.1",
     "styled-components": "^5.3.6",
-    "styled-reset": "^4.4.2"
+    "styled-reset": "^4.4.2",
+    "swiper": "^8.4.4"
   },
   "devDependencies": {
     "@types/next-auth": "^3.15.0",

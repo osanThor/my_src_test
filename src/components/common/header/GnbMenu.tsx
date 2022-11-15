@@ -1,13 +1,75 @@
+import colors from '@/src/assets/Colors';
+import { Menu1, Menu2, Menu3, Menu4, Menu5, Menu6 } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 const GnbMenu = () => {
+  const router = useRouter();
+
+  const pathName = router.pathname;
+  // headHightLight
+  const [dashboard, setDachBoard] = useState(false);
+  const [writeQuant, setWriteQuant] = useState(false);
+  const [licenses, setLicenses] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [strategy, setStrategy] = useState(false);
+  const [community, setCommunity] = useState(false);
+
+  useEffect(() => {
+    if (pathName === '/dashboard') {
+      setDachBoard(true);
+      setWriteQuant(false);
+      setLicenses(false);
+      setMessage(false);
+      setStrategy(false);
+      setCommunity(false);
+    } else if (pathName === '/write-quant') {
+      setDachBoard(false);
+      setWriteQuant(true);
+      setLicenses(false);
+      setMessage(false);
+      setStrategy(false);
+      setCommunity(false);
+    } else if (pathName === '/licenses') {
+      setDachBoard(false);
+      setWriteQuant(false);
+      setLicenses(true);
+      setMessage(false);
+      setStrategy(false);
+      setCommunity(false);
+    } else if (pathName === '/message') {
+      setDachBoard(false);
+      setWriteQuant(false);
+      setLicenses(false);
+      setMessage(true);
+      setStrategy(false);
+      setCommunity(false);
+    } else if (pathName === '/strategy') {
+      setDachBoard(false);
+      setWriteQuant(false);
+      setLicenses(false);
+      setMessage(false);
+      setStrategy(true);
+      setCommunity(false);
+    } else if (pathName === '/community') {
+      setDachBoard(false);
+      setWriteQuant(false);
+      setLicenses(false);
+      setMessage(false);
+      setStrategy(false);
+      setCommunity(true);
+    }
+  }, [router]);
+
   return (
     <>
-      <div className="gnb_menu_list">
+      <GnbMenuList className="gnb_menu_list">
         <div className="gnb_menu">
           <Link href="/dashboard">
-            <a>
+            <a className={dashboard ? 'on' : ''}>
               <div className="headerIcon" />
               <span>대시보드</span>
             </a>
@@ -15,7 +77,7 @@ const GnbMenu = () => {
         </div>
         <div className="gnb_menu">
           <Link href="/write-quant">
-            <a>
+            <a className={writeQuant ? 'on' : ''}>
               <div className="headerIcon" />
               <span>퀀트작성</span>
             </a>
@@ -23,7 +85,7 @@ const GnbMenu = () => {
         </div>
         <div className="gnb_menu">
           <Link href="/licenses">
-            <a>
+            <a className={licenses ? 'on' : ''}>
               <div className="headerIcon" />
               <span>이용권 등록 / API Key</span>
             </a>
@@ -31,7 +93,7 @@ const GnbMenu = () => {
         </div>
         <div className="gnb_menu">
           <Link href="/message">
-            <a>
+            <a className={message ? 'on' : ''}>
               <div className="headerIcon" />
               <span>주문내역 / 에러 메세지</span>
             </a>
@@ -39,7 +101,7 @@ const GnbMenu = () => {
         </div>
         <div className="gnb_menu">
           <Link href="/strategy">
-            <a>
+            <a className={strategy ? 'on' : ''}>
               <div className="headerIcon" />
               <span>전략</span>
             </a>
@@ -47,15 +109,115 @@ const GnbMenu = () => {
         </div>
         <div className="gnb_menu">
           <Link href="/community">
-            <a>
+            <a className={community ? 'on' : ''}>
               <div className="headerIcon" />
               <span>커뮤니티</span>
             </a>
           </Link>
         </div>
-      </div>
+      </GnbMenuList>
     </>
   );
 };
+
+const GnbMenuList = styled.div`
+  &.gnb_menu_list {
+    .gnb_menu {
+      width: 100%;
+      margin-bottom: 12px;
+      color: ${colors.gray[4]};
+      &:last-child {
+        margin-bottom: 0;
+      }
+      a {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s;
+        &.on {
+          color: ${colors.blue[2]};
+        }
+        & > .headerIcon {
+          width: 24px;
+          height: 24px;
+          margin-right: 12px;
+        }
+        & > span {
+          transform: translateY(2px);
+          font-size: 14px;
+        }
+      }
+      &:nth-child(1) > a > .headerIcon {
+        background: url(${Menu1[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(2) > a > .headerIcon {
+        background: url(${Menu2[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(3) > a > .headerIcon {
+        background: url(${Menu3[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(4) > a > .headerIcon {
+        background: url(${Menu4[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(5) > a > .headerIcon {
+        background: url(${Menu5[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(6) > a > .headerIcon {
+        background: url(${Menu6[0].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(1) > a.on > .headerIcon {
+        background: url(${Menu1[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(2) > a.on > .headerIcon {
+        background: url(${Menu2[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(3) > a.on > .headerIcon {
+        background: url(${Menu3[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(4) > a.on > .headerIcon {
+        background: url(${Menu4[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(5) > a.on > .headerIcon {
+        background: url(${Menu5[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(6) > a.on > .headerIcon {
+        background: url(${Menu6[1].src}) no-repeat 50% / cover;
+      }
+      &:hover {
+        color: ${colors.blue[2]};
+        &:nth-child(1) > a > .headerIcon {
+          background: url(${Menu1[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(2) > a > .headerIcon {
+          background: url(${Menu2[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(3) > a > .headerIcon {
+          background: url(${Menu3[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(4) > a > .headerIcon {
+          background: url(${Menu4[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(5) > a > .headerIcon {
+          background: url(${Menu5[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(6) > a > .headerIcon {
+          background: url(${Menu6[1].src}) no-repeat 50% / cover;
+        }
+      }
+    }
+  }
+  ${media.tablet} {
+    &.gnb_menu_list {
+      width: 100%;
+      margin-bottom: 20px;
+      .gnb_menu {
+        width: 100%;
+        color: ${colors.gray[5]};
+        margin-bottom: 0;
+      }
+    }
+  }
+`;
 
 export default GnbMenu;

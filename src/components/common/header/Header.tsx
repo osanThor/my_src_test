@@ -286,69 +286,6 @@ const GnbHeader = styled.div`
       display: none; /* Chrome, Safari, Opera*/
     }
 
-    .gnb_menu {
-      width: 100%;
-      margin-bottom: 12px;
-      color: ${colors.gray[4]};
-      &:last-child {
-        margin-bottom: 0;
-      }
-      a {
-        width: 100%;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        transition: all 0.2s;
-        & > .headerIcon {
-          width: 24px;
-          height: 24px;
-          margin-right: 12px;
-        }
-        & > span {
-          transform: translateY(2px);
-          font-size: 14px;
-        }
-      }
-      &:nth-child(1) > a > .headerIcon {
-        background: url(${Menu1[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(2) > a > .headerIcon {
-        background: url(${Menu2[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(3) > a > .headerIcon {
-        background: url(${Menu3[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(4) > a > .headerIcon {
-        background: url(${Menu4[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(5) > a > .headerIcon {
-        background: url(${Menu5[0].src}) no-repeat 50% / cover;
-      }
-      &:nth-child(6) > a > .headerIcon {
-        background: url(${Menu6[0].src}) no-repeat 50% / cover;
-      }
-      &:hover {
-        color: ${colors.blue[2]};
-        &:nth-child(1) > a > .headerIcon {
-          background: url(${Menu1[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(2) > a > .headerIcon {
-          background: url(${Menu2[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(3) > a > .headerIcon {
-          background: url(${Menu3[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(4) > a > .headerIcon {
-          background: url(${Menu4[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(5) > a > .headerIcon {
-          background: url(${Menu5[1].src}) no-repeat 50% / cover;
-        }
-        &:nth-child(6) > a > .headerIcon {
-          background: url(${Menu6[1].src}) no-repeat 50% / cover;
-        }
-      }
-    }
     .moreInfoBox {
       width: 100%;
       display: flex;
