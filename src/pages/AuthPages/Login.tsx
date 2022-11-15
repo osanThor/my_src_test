@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Modal from '@/src/components/common/Modal';
 import AuthService from '@/src/utils/auth_service';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import Loading from '@/src/components/common/Loading';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();
@@ -121,6 +122,18 @@ const Login: NextPage = () => {
     }
   }, [loadAuthDone, loadAuthError]);
 
+  //loading
+  const [googleLoading, setGoogleLogin] = useState(false);
+  useEffect(() => {
+    if (status === 'loading') {
+      setGoogleLogin(true);
+    } else {
+      setTimeout(() => {
+        setGoogleLogin(false);
+      }, 1000);
+    }
+  }, [status]);
+
   // 상태 초기화
   useEffect(() => {
     dispatch(authActions.initializeAuthForm());
@@ -137,6 +150,7 @@ const Login: NextPage = () => {
         onSubmit={handleLoginSubmit}
       />
       <Modal open={modalOpen} close={handleModalClose} message={message} error={modalSt} />
+      {googleLoading && <Loading />}
     </AuthLayout>
   );
 };
