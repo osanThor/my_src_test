@@ -24,6 +24,7 @@ import AuthService from '@/src/utils/auth_service';
 import { media } from '@/styles/theme';
 import AlramWindow from './AlramWindow';
 import MyMenuWindow from './MyMenuWindow';
+import GnbMenu from './GnbMenu';
 
 const Header = () => {
   const authService = new AuthService();
@@ -144,56 +145,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="gnb">
-          <div className="gnb_menu_list">
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>대시보드</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>퀀트작성</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>이용권 등록 / API Key</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>주문내역 / 에러 메세지</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>전략</span>
-                </a>
-              </Link>
-            </div>
-            <div className="gnb_menu">
-              <Link href="/">
-                <a>
-                  <div className="headerIcon" />
-                  <span>커뮤니티</span>
-                </a>
-              </Link>
-            </div>
-          </div>
+          <GnbMenu />
 
           <div className="moreInfoBox">
             <Image src={isDark ? ApiKeyMenu[1] : ApiKeyMenu[0]} alt="menu box" />

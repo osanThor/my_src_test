@@ -1,7 +1,8 @@
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
 import { useMediaQuery } from '@mui/material';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Header from '../common/header/Header';
@@ -10,6 +11,7 @@ import Container from './Container';
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const isDesk = useMediaQuery('(min-width: 769px)');
   const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
@@ -20,6 +22,14 @@ const UserLayout = ({ children }: { children: React.ReactNode }) => {
       dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
     }
   }, []);
+  console.log(router.pathname);
+  // headHightLight
+  const [dashboard, setDachBoard] = useState(false);
+  const [writeQuant, setWriteQuant] = useState(false);
+  const [licenses, setLicenses] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [strategy, setStrategy] = useState(false);
+  const [community, setCommunity] = useState(false);
 
   return (
     <UserLayOutBlock>
