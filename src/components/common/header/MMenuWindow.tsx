@@ -24,6 +24,12 @@ const MMenuWindow = ({ handleCloseMenu }: { handleCloseMenu: () => void }) => {
   };
 
   const handleChangeTheme = () => {
+    const user = localStorage.getItem('user');
+
+    if (!user) {
+      alert('로그인 후 이용해주세요');
+      return;
+    }
     dispatch(userActions.changeTheme({ isDark }));
     dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
     localStorage.setItem('isDark', JSON.stringify(!isDark));

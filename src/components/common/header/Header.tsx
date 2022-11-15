@@ -11,7 +11,6 @@ import {
   Menu6,
   MyDefaultIcon,
   ResetIcon,
-  SearchIcon,
 } from '@/src/assets/Images';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,9 +28,10 @@ import MyMenuWindow from './MyMenuWindow';
 const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, _count } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
+    _count: user._count,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -94,9 +94,7 @@ const Header = () => {
     <HeaderBlock onClick={handleHeadModal}>
       <TopHeader>
         <div className="inner_header">
-          <div className="search_place">
-            <Image src={SearchIcon} alt="search" />
-          </div>
+          <div className=""></div>
           <div className="header_con">
             <div className="headBtn">
               <Image src={ResetIcon[0]} alt="ResetIcon" />

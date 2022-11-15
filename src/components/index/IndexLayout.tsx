@@ -138,7 +138,6 @@ const IndexLayoutBlock = styled.div`
     a {
       font-size: 14px;
       color: ${colors.blue[2]};
-      transform: translateY(2px);
       display: flex;
       align-items: center;
       transition: all 0.2s;

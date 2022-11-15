@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import colors from '../../../assets/Colors';
 import { CloseRed, Email, Lock } from '../../../assets/Images';
@@ -16,9 +16,25 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
   const [idError, setIdError] = useState(false);
   const [pwError, setPwError] = useState(false);
 
+  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthDone: auth.loadAuthDone,
+  }));
   const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
   }));
+
+  useEffect(() => {
+    if (loadAuthDone.message === 'NOT_FOUND_USER') {
+      setIdError(true);
+      setPwError(true);
+    }
+  }, [loadAuthDone]);
+
+  const handleErrorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIdError(false);
+    setPwError(false);
+    onChange(e);
+  };
 
   return (
     <LoginFormBlock>
@@ -35,7 +51,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
         <StyleInput
           type="text"
           name="email"
-          onChange={onChange}
+          onChange={handleErrorChange}
           placeholder="이메일 입력해요"
           icon={idError ? CloseRed : Email}
           error={idError ? true : false}
@@ -44,7 +60,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
         <StyleInput
           type="password"
           name="pw"
-          onChange={onChange}
+          onChange={handleErrorChange}
           placeholder="비밀번호를 입력해요"
           icon={pwError ? CloseRed : Lock}
           error={pwError ? true : false}

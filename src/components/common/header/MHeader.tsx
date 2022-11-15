@@ -39,7 +39,6 @@ const MHeader = () => {
     licenses: user.licenses,
   }));
   const [btnWord, setBtnWord] = React.useState('');
-  const [hBtnTxt, setHBtnTxt] = React.useState('');
   const router = useRouter();
 
   React.useEffect(() => {
@@ -47,11 +46,9 @@ const MHeader = () => {
 
     if (user) {
       setBtnWord('로그아웃');
-      setHBtnTxt('MY');
     }
     if (user === null) {
       setBtnWord('로그인');
-      setHBtnTxt('로그인');
     }
   }, []);
 
@@ -61,7 +58,6 @@ const MHeader = () => {
     if (user) {
       authService.userLogOut(dispatch);
       setBtnWord('로그인');
-      setHBtnTxt('로그인');
     }
     return router.push('/auth/login');
   };
@@ -118,7 +114,7 @@ const MHeader = () => {
           <div className="reset">
             <Image src={ResetIcon[0]} alt="reset" />
           </div>
-          <div className="alram">
+          <div className="alram" onClick={handleOpenAlram}>
             <Image src={AlramIcon[0]} alt="reset" />
           </div>
         </div>

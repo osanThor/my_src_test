@@ -44,8 +44,10 @@ function MyApp({
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
     }
-    if (loadAuthDone.accessToken) {
-      dispatch(userActions.getUserProfile());
+    if (loadAuthDone.message != 'CREATED') {
+      if (loadAuthDone.accessToken) {
+        dispatch(userActions.getUserProfile());
+      }
     }
   }, [loadAuthDone]);
 
