@@ -1,10 +1,15 @@
 import UserLayout from '@/src/components/layout/UserLayout';
+import WriteQuantLayout from '@/src/components/writeQuant/WriteQuantLayout';
+import WriteQuantTop from '@/src/components/writeQuant/WriteQuantTop';
+import { NextPage } from 'next';
 import React from 'react';
 
-const WriteQuantIndex = () => {
+const WriteQuantIndex: NextPage = () => {
   return (
     <UserLayout>
-      <div>퀀트작성</div>
+      <WriteQuantLayout>
+        <WriteQuantTop />
+      </WriteQuantLayout>
     </UserLayout>
   );
 };
