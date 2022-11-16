@@ -113,6 +113,35 @@ const PositionItemBlock = styled.div`
   ${media.tablet} {
     padding: 20px;
   }
+  ${media.mobile} {
+    .positionItem_con {
+      .exchange_logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+      }
+      .position_info {
+        flex: 1;
+        .position_info_row {
+          margin-bottom: 8px;
+          font-size: 14px;
+          color: ${colors.gray[3]};
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &:nth-child(2n) {
+            margin-bottom: 16px;
+          }
+          .smFont {
+            font-size: 14px;
+          }
+          .bigFont {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -123,6 +152,7 @@ const StyledButton = styled(Button)`
   border: 1px solid ${colors.gray[5]};
   color: ${colors.dark[1]};
   border-radius: 8px;
+
   ${media.tablet} {
     min-height: auto;
   }

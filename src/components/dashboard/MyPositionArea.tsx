@@ -1,6 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import PositionItem from './PositionItem';
 
@@ -38,12 +38,12 @@ const MyPositionArea = () => {
           </div>
         </div>
         <div className="switch_box">
-          <label className={checkVal ? 'moreInfoLabel on' : 'moreInfoLabel'} htmlFor="moreInfoSwitch">
+          <label className={checkVal ? 'moreInfoLabel on' : 'moreInfoLabel'}>
             자세히 보기
-          </label>
-          <label className="switch">
-            <input ref={switchRef} className="switchBtn" type="checkbox" id="moreInfoSwitch" name="moreInfo" />
-            <span className="slider round"></span>
+            <div className="switch">
+              <input ref={switchRef} className="switchBtn" type="checkbox" id="moreInfoSwitch" name="moreInfo" />
+              <span className="slider round"></span>
+            </div>
           </label>
         </div>
       </div>
@@ -99,8 +99,11 @@ const MyPositionAreaBlock = styled.div`
     }
     .switch_box {
       label.moreInfoLabel {
-        margin-right: 8px;
         transform: translateY(2px);
+        cursor: pointer;
+        & > div {
+          margin-left: 8px;
+        }
       }
       label.moreInfoLabel.on {
         color: ${colors.blue[2]};

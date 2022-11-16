@@ -23,7 +23,7 @@ const MyExchangeArea = () => {
         <div className="exchange_another_area">
           <div className="switch_box">
             <label className="switch">
-              <input className="switchBtn" type="checkbox" id="moreInfoSwitch" name="moreInfo" />
+              <input className="switchBtn" type="checkbox" name="moreInfo" />
               <span className="slider round"></span>
               <span className="txt">선물 보기</span>
             </label>
@@ -284,7 +284,7 @@ const MyExchaingeAreaBlock = styled.div`
     }
     .exchange_area {
       margin-right: 0;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
       padding-top: 0;
       .exchange_inner_area {
         .exchange_logo {
