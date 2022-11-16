@@ -77,6 +77,7 @@ const Header = () => {
       }
     }
   };
+  console.log(isDark);
 
   return (
     <HeaderBlock onClick={handleHeadModal}>
@@ -323,4 +324,4 @@ const GnbHeader = styled.div`
   }
 `;
 
-export default Header;
+export default React.memo(Header);
