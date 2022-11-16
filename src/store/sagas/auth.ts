@@ -44,12 +44,6 @@ function* googleLoginSaga(action: PayloadAction<LoadAuthBody>) {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiGoogleLogin, action.payload);
     console.log(data);
 
-    // if (data.message === 'CREATED' || data.message === 'NOT_FOUND_USER' || data.message === 'NOT_FOUND_TOKEN') {
-    //   yield put(userActions.userFailure());
-    // } else {
-    //   yield put(userActions.userSuccess());
-    // }
-
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga googleLogin >> ', error);

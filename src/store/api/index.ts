@@ -14,4 +14,11 @@ export {
   apiLogout,
   apiResetPw,
 } from './auth';
-export { apiCheckNickname, apiRegister, apiChangeTheme, apiTelegramUsername } from './user';
+export {
+  apiCheckNickname,
+  apiRegister,
+  apiGoogleRegister,
+  apiGetUserProfile,
+  apiChangeTheme,
+  apiTelegramUsername,
+} from './user';

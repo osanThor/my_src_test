@@ -196,41 +196,71 @@ const Register: NextPage = () => {
   // 회원가입
   const handleSubmitRegisterForm = (e: React.FormEvent) => {
     e.preventDefault();
-    if (photoUrl === '') {
-      setModalOpen(true);
-      setMessage('프로필 사진을 선택해주세요.');
-      setModalSt(true);
-      return;
-    } else if (nickname === '') {
-      setModalOpen(true);
-      setMessage('닉네임을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (checkNicknameResult === true || checkNicknameResult === null) {
-      setModalOpen(true);
-      setMessage('닉네임 중복을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (email === '') {
-      setModalOpen(true);
-      setMessage('이메일을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (readOnltVerify != true) {
-      setModalOpen(true);
-      setMessage('인증확인을 확인해주세요.');
-      setModalSt(true);
-      return;
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      if (photoUrl === '') {
+        setModalOpen(true);
+        setMessage('프로필 사진을 선택해주세요.');
+        setModalSt(true);
+        return;
+      } else if (nickname === '') {
+        setModalOpen(true);
+        setMessage('닉네임을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (checkNicknameResult === true || checkNicknameResult === null) {
+        setModalOpen(true);
+        setMessage('닉네임 중복을 확인해주세요.');
+        setModalSt(true);
+        return;
+      }
+      // Google 회원가입
+      dispatch(userActions.userGoogleRegister({ email, pw, nickname, photoUrl }));
+    } else {
+      if (photoUrl === '') {
+        setModalOpen(true);
+        setMessage('프로필 사진을 선택해주세요.');
+        setModalSt(true);
+        return;
+      } else if (nickname === '') {
+        setModalOpen(true);
+        setMessage('닉네임을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (checkNicknameResult === true || checkNicknameResult === null) {
+        setModalOpen(true);
+        setMessage('닉네임 중복을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (email === '') {
+        setModalOpen(true);
+        setMessage('이메일을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (readOnltVerify != true) {
+        setModalOpen(true);
+        setMessage('인증확인을 확인해주세요.');
+        setModalSt(true);
+        return;
+      }
+      //회원가입
+      dispatch(userActions.userRegister({ email, pw, nickname, photoUrl }));
     }
-    //회원가입
-    dispatch(userActions.userRegister({ email, pw, nickname, photoUrl }));
   };
 
   // 회원가입 성공 시 자동로그인
   useEffect(() => {
     if (auth) {
-      dispatch(authActions.userLogin({ email, pw }));
-      authSevice.userLogin(loadAuthDone);
+      const gId = localStorage.getItem('gId');
+      if (gId) {
+        let accessToken;
+        accessToken = loadAuthDone.accessToken;
+        dispatch(authActions.googleLogin({ accessToken }));
+        authSevice.userLogin(loadAuthDone);
+      } else {
+        dispatch(authActions.userLogin({ email, pw }));
+        authSevice.userLogin(loadAuthDone);
+      }
     }
     if (authError) {
       setModalOpen(true);
@@ -242,7 +272,6 @@ const Register: NextPage = () => {
 
   // 자동로그인 성공 시 user확인
   useEffect(() => {
-    const user = localStorage.getItem('user');
     if (loadAuthError) {
       setModalOpen(true);
       setMessage(loadAuthError);
@@ -251,12 +280,12 @@ const Register: NextPage = () => {
     }
 
     if (loadAuthDone.message === 'LOGGED_IN') {
-      router.push('/auth/telegram');
       try {
-        localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('Authorization', loadAuthDone.accessToken);
+        router.push('/auth/telegram');
       } catch (e) {
         console.log(e);
+        return;
       }
     }
   }, [loadAuthDone, loadAuthError]);
@@ -265,6 +294,7 @@ const Register: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
+
   //google register
   useEffect(() => {
     const gId = localStorage.getItem('gId');

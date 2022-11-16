@@ -105,7 +105,6 @@ const Login: NextPage = () => {
     }
 
     // google login
-    console.log(loadAuthDone);
     if (status === 'authenticated') {
       if (loadAuthDone.message === 'CAN_CREATE') {
         const { user } = session;
@@ -114,7 +113,6 @@ const Login: NextPage = () => {
         localStorage.setItem('gId', email);
         router.push('/auth/terms');
       } else if (loadAuthDone.accessToken) {
-        console.log('여기 일어남?');
         localStorage.setItem('gId', 'true');
         authService.userLogin(loadAuthDone);
         router.push('/');
