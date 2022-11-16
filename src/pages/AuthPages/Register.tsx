@@ -259,10 +259,11 @@ const Register: NextPage = () => {
 
     if (auth) {
       const gId = localStorage.getItem('gId');
+      const gAuth = localStorage.getItem('gAuth');
       if (gId) {
-        let accessToken;
-        accessToken = loadAuthDone.accessToken;
-        dispatch(authActions.googleLogin({ accessToken }));
+        dispatch(authActions.googleLogin({ accessToken: gAuth }));
+        localStorage.clear();
+        localStorage.setItem('gId', 'true');
         authSevice.userLogin(loadAuthDone);
       } else {
         dispatch(authActions.userLogin({ email, pw }));
@@ -289,7 +290,7 @@ const Register: NextPage = () => {
         return;
       }
     }
-  }, [loadAuthDone, loadAuthError]);
+  }, [loadAuthDone, loadAuthError, authError]);
 
   // 회원가입폼 상태 초기화
   useEffect(() => {

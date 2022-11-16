@@ -14,12 +14,6 @@ import {
   Logo,
   MMenuBar,
   LogOutIcon,
-  Menu1,
-  Menu2,
-  Menu3,
-  Menu4,
-  Menu5,
-  Menu6,
   ResetIcon,
   Profile1,
   ArrowLeft,
@@ -236,7 +230,7 @@ const DashBoardMenuBlock = styled.div`
   overflow-x: auto;
   a {
     width: 33.333%;
-    min-width: 130px;
+    min-width: 107px;
     line-height: 37px;
     font-size: 14px;
     text-align: center;

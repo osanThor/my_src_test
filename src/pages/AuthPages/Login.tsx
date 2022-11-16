@@ -107,10 +107,11 @@ const Login: NextPage = () => {
     // google login
     if (status === 'authenticated') {
       if (loadAuthDone.message === 'CAN_CREATE') {
-        const { user } = session;
+        const { user, accessToken } = session;
         let email;
         email = user.email;
         localStorage.setItem('gId', email);
+        localStorage.setItem('gAuth', accessToken);
         router.push('/auth/terms');
       } else if (loadAuthDone.accessToken) {
         localStorage.setItem('gId', 'true');
