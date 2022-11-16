@@ -44,7 +44,6 @@ function MyApp({
   //next auth session reset
   useEffect(() => {
     const gId = localStorage.getItem('gId');
-    console.log(gId);
     if (gId) {
       signOut({ redirect: false });
     }
@@ -79,8 +78,10 @@ function MyApp({
   useEffect(() => {
     const isLocalDark = localStorage.getItem('isDark');
     if (isLocalDark === 'true') {
+      dispatch(userActions.changeThemeStatus({ isDark: true }));
       setIsDarkMode(true);
     } else {
+      dispatch(userActions.changeThemeStatus({ isDark: false }));
       setIsDarkMode(false);
     }
   }, [isDark]);
