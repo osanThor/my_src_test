@@ -20,7 +20,7 @@ const MyExchangeArea = () => {
             </div>
           </div>
         </div>
-        <div className="exchange_another_area">
+        <div className="exchange_another_area" id="point1">
           <div className="switch_box">
             <label className="switch">
               <input className="switchBtn" type="checkbox" name="moreInfo" />
@@ -50,7 +50,7 @@ const MyExchangeArea = () => {
               <div>평가손익</div>
               <span className="bold red">-2,95 USD</span>
             </div>
-            <div className="all_position_gainAndLoss">
+            <div className="all_position_gainAndLoss" id="point2">
               <div>보유자산</div>
               <span className="bold">30.0000 USD</span>
             </div>
@@ -62,7 +62,7 @@ const MyExchangeArea = () => {
           <div className="dashboard_title">
             <span className="title">현물</span>총 누적 평가손익
           </div>
-          <div className="gainAndLoss_info">
+          <div className="gainAndLoss_info" id="point3">
             287. 4980 <span>USDT</span>
           </div>
         </div>

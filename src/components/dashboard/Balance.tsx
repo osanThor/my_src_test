@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Balance = () => {
   return (
-    <BalanceLayout>
+    <BalanceLayout id="balance">
       <span className="tit dis_m">현재 계좌 잔고</span>
       <BalanceBlock>
         <span className="tit dis_p">현재 계좌 잔고</span>
