@@ -57,7 +57,7 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
             className="switchBtn theme"
             onChange={handleChangeTheme}
             type="checkbox"
-            name="exposed"
+            name="isDark"
             checked={isDark}
           />
           <span className="slider round"></span>

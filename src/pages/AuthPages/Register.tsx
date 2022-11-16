@@ -250,6 +250,13 @@ const Register: NextPage = () => {
 
   // 회원가입 성공 시 자동로그인
   useEffect(() => {
+    if (authError) {
+      setModalOpen(true);
+      setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
+      setModalSt(true);
+      return;
+    }
+
     if (auth) {
       const gId = localStorage.getItem('gId');
       if (gId) {
@@ -261,12 +268,6 @@ const Register: NextPage = () => {
         dispatch(authActions.userLogin({ email, pw }));
         authSevice.userLogin(loadAuthDone);
       }
-    }
-    if (authError) {
-      setModalOpen(true);
-      setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
-      setModalSt(true);
-      return;
     }
   }, [auth, authError]);
 

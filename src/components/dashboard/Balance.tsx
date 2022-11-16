@@ -69,14 +69,21 @@ const BalanceBlock = styled.div`
       letter-spacing: 0;
     }
   }
+  ${media.pc} {
+    display: flex;
+    flex-wrap: wrap;
+    .balance_price {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 
   ${media.tablet} {
     padding: 16px;
     .balance_price {
-      width: 100%;
-      text-align: right;
+      justify-content: flex-end;
       font-size: 20px;
-      letter-spacing: 0;
     }
   }
 `;

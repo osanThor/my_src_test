@@ -8,41 +8,60 @@ import styled from 'styled-components';
 const MyExchangeArea = () => {
   return (
     <MyExchaingeAreaBlock className="my_exchainge_area">
-      <div className="all_position_area">
-        <div className="dashboard_top">
-          <div className="dashboard_title">총 포지션 현황</div>
-        </div>
-        <div className="position_con exchange">
-          <div className="exchange_area">
-            <div className="exchange_logo">
-              <Image src={Profile1[1]} alt="exchange logo" layout="fill" />
-            </div>
-            <div className="exchange_info">
-              <div className="exchange_title">Bybit</div>
-              <div className="replace_exchange_btn">
-                <Image src={ResetIcon[1]} alt="change exchange button" />
-              </div>
+      <div className="exchange_area">
+        <div className="exchange_inner_area">
+          <div className="exchange_logo">
+            <Image src={Profile1[1]} alt="exchange logo" layout="fill" />
+          </div>
+          <div className="exchange_info">
+            <div className="exchange_title">Bybit</div>
+            <div className="replace_exchange_btn">
+              <Image src={ResetIcon[1]} alt="change exchange button" />
             </div>
           </div>
+        </div>
+        <div className="exchange_another_area">
+          <div className="switch_box">
+            <label className="switch">
+              <input className="switchBtn" type="checkbox" id="moreInfoSwitch" name="moreInfo" />
+              <span className="slider round"></span>
+              <span className="txt">선물 보기</span>
+            </label>
+          </div>
+          <div className="description_box">
+            API를 등록한 거래소만 선택할 수 있어요
+            <span>해당 거래소의 현물의 경우 퀀트로에서 API를 등록한 시점부터 적용돼요</span>
+          </div>
+        </div>
+      </div>
+      <div className="all_position_area">
+        <div className="dashboard_top">
+          <div className="dashboard_title">
+            <span className="title">현물</span>총 포지션 현황
+          </div>
+        </div>
+        <div className="position_con exchange">
           <div className="position_info">
             <div className="all_position_info">
-              <div>
-                <span className="dis_p">총 포지션</span> 금액비율
-              </div>
-              <span className="bold">16,324.51 USD</span>
+              <div>투자금액</div>
+              <span className="bold">16,324.51 USD (-0.02%)</span>
             </div>
             <div className="all_position_gainAndLoss">
-              <div>
-                <span className="dis_p">총 포지션</span> 평가손익
-              </div>
-              <span className="bold red">-2,95 USD (-0.02%)</span>
+              <div>평가손익</div>
+              <span className="bold red">-2,95 USD</span>
+            </div>
+            <div className="all_position_gainAndLoss">
+              <div>보유자산</div>
+              <span className="bold">30.0000 USD</span>
             </div>
           </div>
         </div>
       </div>
       <div className="all_gainAndLoss_area">
         <div className="dashboard_top">
-          <div className="dashboard_title">총 누적 평가손익</div>
+          <div className="dashboard_title">
+            <span className="title">현물</span>총 누적 평가손익
+          </div>
           <div className="gainAndLoss_info">
             287. 4980 <span>USDT</span>
           </div>
@@ -59,7 +78,7 @@ const MyExchaingeAreaBlock = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 31px;
+  margin-bottom: 60px;
 
   .all_position_area {
     width: 50%;
@@ -80,6 +99,11 @@ const MyExchaingeAreaBlock = styled.div`
     .dashboard_title {
       font-size: 20px;
       font-family: 'GmarketSansBold';
+      span {
+        font-family: 'GmarketSansBold';
+        margin-right: 7px;
+        color: ${colors.gray[5]};
+      }
     }
     .gainAndLoss_info {
       font-size: 20px;
@@ -90,41 +114,119 @@ const MyExchaingeAreaBlock = styled.div`
       }
     }
   }
+  .exchange_area {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 40px;
+    .exchange_inner_area {
+      display: flex;
+      .exchange_logo {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        margin-right: 1rem;
+      }
+      .exchange_info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .exchange_title {
+          min-width: 112px;
+          font-size: 24px;
+          font-family: 'GmarketSansBold';
+        }
+        .replace_exchange_btn {
+          cursor: pointer;
+          position: relative;
+        }
+      }
+    }
+    .switch_box {
+      padding-left: 100px;
+      margin-bottom: 20px;
+      /* on off 스위치 */
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 24px;
+        vertical-align: middle;
+
+        /* Hide default HTML checkbox */
+        input {
+          display: none;
+        }
+        span.txt {
+          position: absolute;
+          right: 5px;
+          top: 3px;
+          font-size: 14px;
+        }
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: ${colors.gray[1]};
+          border-radius: 20px;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+        .slider:before {
+          position: absolute;
+          content: '';
+          height: 18px;
+          width: 18px;
+          left: 2px;
+          top: 50%;
+          transform: translateY(-50%);
+          border-radius: 50%;
+          background-color: ${colors.gray[3]};
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+        input.switchBtn:checked + .slider:before {
+          -webkit-transform: translate(75px, -50%);
+          -ms-transform: translate(75px, -50%);
+          transform: translate(75px, -50%);
+          background-color: ${colors.blue[2]};
+        }
+      }
+    }
+    .description_box {
+      width: 100%;
+      position: relative;
+      color: ${colors.gray[4]};
+      font-size: 14px;
+      white-space: nowrap;
+      transform: translateY(5px);
+      span {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 130%;
+        color: ${colors.red[1]};
+      }
+    }
+  }
   .position_con {
     background-color: ${colors.gray[1]};
     border-radius: 14px;
 
     &.exchange {
-      padding: 44px 40px;
+      padding: 2rem;
       display: flex;
       justify-content: space-between;
-      .exchange_area {
-        margin-right: 1rem;
-        display: flex;
-        .exchange_logo {
-          width: 92px;
-          height: 92px;
-          border-radius: 50%;
-          position: relative;
-          overflow: hidden;
-          margin-right: 1rem;
-        }
-        .exchange_info {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          .exchange_title {
-            min-width: 112px;
-            font-size: 24px;
-            font-family: 'GmarketSansBold';
-          }
-          .replace_exchange_btn {
-            cursor: pointer;
-            position: relative;
-          }
-        }
-      }
+
       .position_info {
         flex: 1;
         display: flex;
@@ -140,8 +242,9 @@ const MyExchaingeAreaBlock = styled.div`
           justify-content: space-between;
           align-items: center;
           color: ${colors.gray[3]};
-          &:first-child {
-            margin-bottom: 8px;
+          margin-bottom: 8px;
+          &:last-child {
+            margin-bottom: 0;
           }
           span.bold {
             font-family: 'GmarketSansBold';
@@ -163,6 +266,9 @@ const MyExchaingeAreaBlock = styled.div`
     }
   }
   ${media.pc} {
+    flex-direction: column;
+
+    margin-bottom: 40px;
     .dis_p {
       display: none;
     }
@@ -176,31 +282,56 @@ const MyExchaingeAreaBlock = styled.div`
         font-size: 18px;
       }
     }
+    .exchange_area {
+      margin-right: 0;
+      margin-bottom: 40px;
+      padding-top: 0;
+      .exchange_inner_area {
+        .exchange_logo {
+          width: 56px;
+          height: 56px;
+        }
+        .exchange_info {
+          .exchange_title {
+            min-width: auto;
+          }
+          .replace_exchange_btn {
+            cursor: pointer;
+            position: relative;
+          }
+        }
+      }
+      .exchange_inner_area {
+        margin-bottom: 1rem;
+      }
+      .switch_box {
+        padding-left: 0;
+        margin-bottom: 1rem;
+      }
+      .description_box {
+        white-space: inherit;
+        span {
+          font-size: 12px;
+          top: 110%;
+        }
+      }
+    }
     .all_position_area {
+      width: 100%;
+      max-width: none;
       max-height: none;
+      margin-bottom: 40px;
     }
     .all_gainAndLoss_area {
+      width: 100%;
+      max-width: none;
+      max-height: none;
     }
     .position_con {
       &.exchange {
         padding: 2rem;
         flex-direction: column;
-        .exchange_area {
-          margin-bottom: 1rem;
-          .exchange_logo {
-            width: 56px;
-            height: 56px;
-          }
-          .exchange_info {
-            .exchange_title {
-              min-width: auto;
-            }
-            .replace_exchange_btn {
-              cursor: pointer;
-              position: relative;
-            }
-          }
-        }
+
         .position_info {
           flex: 1;
           display: flex;
@@ -231,7 +362,6 @@ const MyExchaingeAreaBlock = styled.div`
     }
   }
   ${media.tablet} {
-    flex-direction: column;
     margin-bottom: 40px;
     .dashboard_top {
       flex-direction: column;
