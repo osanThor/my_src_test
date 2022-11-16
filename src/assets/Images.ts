@@ -30,7 +30,7 @@ import RetryIconFile from 'public/assets/common/header/retry.svg';
 import AlramIconFile from 'public/assets/common/header/alram.svg';
 import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
 import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg';
-import EditDefaultIcon from 'public/assets/common/header/edit-icon.svg';
+import EditDefaultIcon from 'public/assets/common/header/edit-Icon.svg';
 import LangKrIcon from 'public/assets/common/header/language_kr.svg';
 import MobileMenuIcon from 'public/assets/common/header/m_menu_bar.svg';
 
