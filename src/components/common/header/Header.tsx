@@ -1,17 +1,4 @@
-import {
-  AlramIcon,
-  ApiKeyMenu,
-  Logo,
-  LogOutIcon,
-  Menu1,
-  Menu2,
-  Menu3,
-  Menu4,
-  Menu5,
-  Menu6,
-  MyDefaultIcon,
-  ResetIcon,
-} from '@/src/assets/Images';
+import { AlramIcon, ApiKeyMenu, Logo, LogOutIcon, MyDefaultIcon, ResetIcon } from '@/src/assets/Images';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';

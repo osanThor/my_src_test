@@ -71,7 +71,7 @@ const MMenuWindow = ({ handleCloseMenu }: { handleCloseMenu: () => void }) => {
               className="switchBtn theme"
               onChange={handleChangeTheme}
               type="checkbox"
-              name="exposed"
+              name="isDark"
               checked={isDark}
             />
             <span className="slider round"></span>

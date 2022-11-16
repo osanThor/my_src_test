@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Menu1, Menu2, Menu3, Menu4, Menu5, Menu6 } from '@/src/assets/Images';
+import { Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7 } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,6 +17,7 @@ const GnbMenu = () => {
   const [message, setMessage] = useState(false);
   const [strategy, setStrategy] = useState(false);
   const [community, setCommunity] = useState(false);
+  const [center, setCenter] = useState(false);
 
   useEffect(() => {
     if (pathName === '/dashboard') {
@@ -26,6 +27,7 @@ const GnbMenu = () => {
       setMessage(false);
       setStrategy(false);
       setCommunity(false);
+      setCenter(false);
     } else if (pathName === '/write-quant') {
       setDachBoard(false);
       setWriteQuant(true);
@@ -33,6 +35,7 @@ const GnbMenu = () => {
       setMessage(false);
       setStrategy(false);
       setCommunity(false);
+      setCenter(false);
     } else if (pathName === '/licenses') {
       setDachBoard(false);
       setWriteQuant(false);
@@ -40,6 +43,7 @@ const GnbMenu = () => {
       setMessage(false);
       setStrategy(false);
       setCommunity(false);
+      setCenter(false);
     } else if (pathName === '/message') {
       setDachBoard(false);
       setWriteQuant(false);
@@ -47,6 +51,7 @@ const GnbMenu = () => {
       setMessage(true);
       setStrategy(false);
       setCommunity(false);
+      setCenter(false);
     } else if (pathName === '/strategy') {
       setDachBoard(false);
       setWriteQuant(false);
@@ -54,6 +59,7 @@ const GnbMenu = () => {
       setMessage(false);
       setStrategy(true);
       setCommunity(false);
+      setCenter(false);
     } else if (pathName === '/community') {
       setDachBoard(false);
       setWriteQuant(false);
@@ -61,6 +67,15 @@ const GnbMenu = () => {
       setMessage(false);
       setStrategy(false);
       setCommunity(true);
+      setCenter(false);
+    } else if (pathName === '/center') {
+      setDachBoard(false);
+      setWriteQuant(false);
+      setLicenses(false);
+      setMessage(false);
+      setStrategy(false);
+      setCommunity(false);
+      setCenter(true);
     }
   }, [router]);
 
@@ -115,6 +130,14 @@ const GnbMenu = () => {
             </a>
           </Link>
         </div>
+        <div className="gnb_menu">
+          <Link href="/center">
+            <a className={center ? 'on' : ''}>
+              <div className="headerIcon" />
+              <span>이용안내</span>
+            </a>
+          </Link>
+        </div>
       </GnbMenuList>
     </>
   );
@@ -124,7 +147,7 @@ const GnbMenuList = styled.div`
   &.gnb_menu_list {
     .gnb_menu {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       color: ${colors.gray[4]};
       &:last-child {
         margin-bottom: 0;
@@ -166,6 +189,9 @@ const GnbMenuList = styled.div`
       &:nth-child(6) > a > .headerIcon {
         background: url(${Menu6[0].src}) no-repeat 50% / cover;
       }
+      &:nth-child(7) > a > .headerIcon {
+        background: url(${Menu7[0].src}) no-repeat 50% / cover;
+      }
       &:nth-child(1) > a.on > .headerIcon {
         background: url(${Menu1[1].src}) no-repeat 50% / cover;
       }
@@ -183,6 +209,9 @@ const GnbMenuList = styled.div`
       }
       &:nth-child(6) > a.on > .headerIcon {
         background: url(${Menu6[1].src}) no-repeat 50% / cover;
+      }
+      &:nth-child(7) > a.on > .headerIcon {
+        background: url(${Menu7[1].src}) no-repeat 50% / cover;
       }
       &:hover {
         color: ${colors.blue[2]};
@@ -203,6 +232,9 @@ const GnbMenuList = styled.div`
         }
         &:nth-child(6) > a > .headerIcon {
           background: url(${Menu6[1].src}) no-repeat 50% / cover;
+        }
+        &:nth-child(7) > a > .headerIcon {
+          background: url(${Menu7[1].src}) no-repeat 50% / cover;
         }
       }
     }

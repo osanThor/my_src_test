@@ -20,14 +20,13 @@ const Container = ({ children }: { children: React.ReactNode }) => {
 };
 const MainContainerBlock = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
 
   .container {
     width: 100%;
-    padding: 48px 48px 56px;
+    padding: 48px 48px 100px;
     & > div {
       max-width: 1504px;
     }
@@ -37,7 +36,7 @@ const MainContainerBlock = styled.div`
     width: 100%;
     .container {
       width: 100%;
-      padding: 8px 16px;
+      padding: 8px 16px 60px;
     }
   }
 `;

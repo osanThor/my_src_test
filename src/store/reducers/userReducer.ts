@@ -99,6 +99,12 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.photoUrl = action.payload.photoUrl;
     },
+    userGoogleRegister(state, action: PayloadAction<RegisterPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+      state.nickname = action.payload.nickname;
+      state.photoUrl = action.payload.photoUrl;
+    },
     getUserProfile(state) {
       state.loadUserLoading = true;
       state.email = '';

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Balance = () => {
   return (
-    <BalanceLayout>
+    <BalanceLayout id="balance">
       <span className="tit dis_m">현재 계좌 잔고</span>
       <BalanceBlock>
         <span className="tit dis_p">현재 계좌 잔고</span>
@@ -69,14 +69,21 @@ const BalanceBlock = styled.div`
       letter-spacing: 0;
     }
   }
+  ${media.pc} {
+    display: flex;
+    flex-wrap: wrap;
+    .balance_price {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 
   ${media.tablet} {
     padding: 16px;
     .balance_price {
-      width: 100%;
-      text-align: right;
+      justify-content: flex-end;
       font-size: 20px;
-      letter-spacing: 0;
     }
   }
 `;
