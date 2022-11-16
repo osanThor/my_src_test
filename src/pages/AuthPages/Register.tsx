@@ -16,7 +16,7 @@ const Register: NextPage = () => {
   const authSevice = new AuthService();
 
   // user 상태 관리
-  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl, user, userError } = useSelector(
+  const { email, pw, pwConfirm, verifyCode, nickname, checkNicknameResult, photoUrl } = useSelector(
     ({ user }: RootState) => ({
       email: user.email,
       pw: user.pw,
@@ -31,22 +31,16 @@ const Register: NextPage = () => {
   );
 
   // auth 상태관리
-  const { isExistTrigger, loadAuthLoading, loadAuthDone, auth, authError } = useSelector(({ auth }: RootState) => ({
-    isExistTrigger: auth.isExistTrigger,
-    loadAuthLoading: auth.loadAuthLoading,
-    loadAuthDone: auth.loadAuthDone,
-    auth: auth.auth,
-    authError: auth.authError,
-  }));
-
-  useEffect(() => {
-    authSevice.isUser(dispatch, loadAuthDone);
-    if (user) {
-      router.push('/');
-    } else {
-      return;
-    }
-  }, [user, dispatch]);
+  const { isExistTrigger, loadAuthLoading, loadAuthDone, loadAuthError, auth, authError } = useSelector(
+    ({ auth }: RootState) => ({
+      isExistTrigger: auth.isExistTrigger,
+      loadAuthLoading: auth.loadAuthLoading,
+      loadAuthDone: auth.loadAuthDone,
+      loadAuthError: auth.loadAuthError,
+      auth: auth.auth,
+      authError: auth.authError,
+    }),
+  );
 
   // 회원가입 form 실시간 변화 상태관리
   const [profileImg, setProfileImg] = useState('');
@@ -152,7 +146,7 @@ const Register: NextPage = () => {
     }
   }, [loadAuthLoading, loadAuthDone]);
 
-  // 인증코드 타이머
+  // 인증코드 state 타이머 error state
   const [veriAble, setVeriAble] = useState(false);
   const [readOnltVerify, setReadOnltVerify] = useState(false);
   const [timerErr, setTimerErr] = useState(false);
@@ -173,6 +167,7 @@ const Register: NextPage = () => {
   }, [verifyCode, timerErr]);
 
   // 인증이 완료되면 타이머 사라지고 인증버튼 비활성화
+  // 기본으로 타이머는 숨겨진 component 안에 보이기 때문에 true
   const [timerVisible, setTimerVisible] = useState(true);
 
   // 인증번호 검사
@@ -201,77 +196,124 @@ const Register: NextPage = () => {
   // 회원가입
   const handleSubmitRegisterForm = (e: React.FormEvent) => {
     e.preventDefault();
-    if (photoUrl === '') {
-      setModalOpen(true);
-      setMessage('프로필 사진을 선택해주세요.');
-      setModalSt(true);
-      return;
-    } else if (nickname === '') {
-      setModalOpen(true);
-      setMessage('닉네임을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (checkNicknameResult === true || checkNicknameResult === null) {
-      setModalOpen(true);
-      setMessage('닉네임 중복을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (email === '') {
-      setModalOpen(true);
-      setMessage('이메일을 확인해주세요.');
-      setModalSt(true);
-      return;
-    } else if (readOnltVerify != true) {
-      setModalOpen(true);
-      setMessage('인증확인을 확인해주세요.');
-      setModalSt(true);
-      return;
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      if (photoUrl === '') {
+        setModalOpen(true);
+        setMessage('프로필 사진을 선택해주세요.');
+        setModalSt(true);
+        return;
+      } else if (nickname === '') {
+        setModalOpen(true);
+        setMessage('닉네임을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (checkNicknameResult === true || checkNicknameResult === null) {
+        setModalOpen(true);
+        setMessage('닉네임 중복을 확인해주세요.');
+        setModalSt(true);
+        return;
+      }
+      // Google 회원가입
+      dispatch(userActions.userGoogleRegister({ email, pw, nickname, photoUrl }));
+    } else {
+      if (photoUrl === '') {
+        setModalOpen(true);
+        setMessage('프로필 사진을 선택해주세요.');
+        setModalSt(true);
+        return;
+      } else if (nickname === '') {
+        setModalOpen(true);
+        setMessage('닉네임을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (checkNicknameResult === true || checkNicknameResult === null) {
+        setModalOpen(true);
+        setMessage('닉네임 중복을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (email === '') {
+        setModalOpen(true);
+        setMessage('이메일을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (readOnltVerify != true) {
+        setModalOpen(true);
+        setMessage('인증확인을 확인해주세요.');
+        setModalSt(true);
+        return;
+      }
+      //회원가입
+      dispatch(userActions.userRegister({ email, pw, nickname, photoUrl }));
     }
-    //회원가입
-    dispatch(userActions.userRegister({ email, pw, nickname, photoUrl }));
   };
 
   // 회원가입 성공 시 자동로그인
   useEffect(() => {
-    if (auth) {
-      console.log('인증됨');
-      dispatch(authActions.userLogin({ email, pw }));
-    }
     if (authError) {
-      console.log('인증 실패');
       setModalOpen(true);
       setMessage('회원가입에에 실패했어요. 다시 시도해주세요.');
       setModalSt(true);
       return;
     }
+
+    if (auth) {
+      const gId = localStorage.getItem('gId');
+      const gAuth = localStorage.getItem('gAuth');
+      if (gId) {
+        dispatch(authActions.googleLogin({ accessToken: gAuth }));
+        localStorage.clear();
+        localStorage.setItem('gId', 'true');
+        authSevice.userLogin(loadAuthDone);
+      } else {
+        dispatch(authActions.userLogin({ email, pw }));
+        authSevice.userLogin(loadAuthDone);
+      }
+    }
   }, [auth, authError]);
 
   // 자동로그인 성공 시 user확인
   useEffect(() => {
-    if (userError) {
+    if (loadAuthError) {
       setModalOpen(true);
-      setMessage('자동로그인에 실패했어요. 다시 시도해주세요.');
+      setMessage(loadAuthError);
       setModalSt(true);
       return;
     }
 
-    if (user) {
-      router.push('/auth/telegram');
+    if (loadAuthDone.message === 'LOGGED_IN') {
       try {
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('AuthStatus', loadAuthDone.message);
         localStorage.setItem('Authorization', loadAuthDone.accessToken);
+        router.push('/auth/telegram');
       } catch (e) {
         console.log(e);
+        return;
       }
     }
-  }, [user, userError]);
+  }, [loadAuthDone, loadAuthError, authError]);
 
-  // // 회원가입폼 상태 초기화
-  // useEffect(() => {
-  //   dispatch(userActions.initializeUserForm());
-  // }, [dispatch]);
+  // 회원가입폼 상태 초기화
+  useEffect(() => {
+    dispatch(userActions.initializeUserForm());
+  }, [dispatch]);
 
+  //google register
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      setOnltReadEmial(true);
+      dispatch(
+        userActions.changeRegisterField({
+          email: gId,
+          pw: '',
+          pwConfirm: '',
+          verifyCode: '',
+          nickname: '',
+          photoUrl: '',
+        }),
+      );
+    }
+  }, []);
   return (
     <AuthLayout type="register">
       <RegisterForm

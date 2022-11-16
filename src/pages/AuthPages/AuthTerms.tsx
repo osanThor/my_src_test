@@ -1,8 +1,14 @@
 import AuthLayout from '@/src/components/auth/AuthLayout';
 import TermsLayOut from '@/src/components/auth/terms/TermLayout';
-import React from 'react';
+import { NextPage } from 'next';
+import { signOut } from 'next-auth/react';
+import React, { useEffect } from 'react';
 
-const AuthTerms = () => {
+const AuthTerms: NextPage = () => {
+  //next auth session reset
+  useEffect(() => {
+    signOut({ redirect: false });
+  }, []);
   return (
     <AuthLayout type="terms">
       <TermsLayOut />

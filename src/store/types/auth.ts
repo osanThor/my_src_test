@@ -5,10 +5,14 @@ export type LoadAuthBody = {
   pw: string;
   verifyCode: number;
   isExistTrigger: boolean;
+  accessToken: string;
 };
 export type LoginPayload = {
   email: string | null;
   pw: string | null;
+};
+export type GooglePayload = {
+  accessToken: string | null;
 };
 export type VerifyEmailPayload = {
   email: string;

@@ -3,14 +3,17 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
-import wrapper, { RootState } from '../src/store/configureStore';
+import wrapper, { RootState } from '@/src/store/configureStore';
 import { GlobalStyle } from '@/styles/global-styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import AuthService from '@/src/utils/auth_service';
 import theme from '@/styles/theme';
-import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { SessionProvider, signOut } from 'next-auth/react';
+import { authActions, userActions } from '@/src/store/reducers';
+import AuthService from '@/src/utils/auth_service';
+import { axiosInstance } from '@/src/store/api';
+import { useRouter } from 'next/router';
 
 function MyApp({
   Component,
@@ -20,50 +23,61 @@ function MyApp({
 }>) {
   const authService = new AuthService();
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const { user, isDark } = useSelector(({ user }: RootState) => ({
-    user: user.user,
+  const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
   }));
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
+    loadAuthError: auth.loadAuthError,
   }));
 
-  // // 자동 로그인
-  // useEffect(() => {
-  //   authService.autoLogin(dispatch);
-  // }, []);
-
-  // 사용자 확인
+  // auto login
   useEffect(() => {
-    authService.isUser(dispatch, loadAuthDone);
-  }, [user, dispatch, loadAuthDone]);
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (!userInfo) return;
+    const { email, pw } = userInfo;
+    dispatch(authActions.userLogin({ email, pw }));
+  }, []);
 
-  // axios 토큰 관리
+  //next auth session reset
   useEffect(() => {
-    authService.jwtToken(loadAuthDone);
+    const gId = localStorage.getItem('gId');
+    console.log(gId);
+    if (gId) {
+      signOut({ redirect: false });
+    }
+  }, [router]);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (loadAuthDone.message === 'LOGGED_IN' || user) {
+      authService.userLogin(loadAuthDone);
+    }
+    if (loadAuthDone.message != 'CREATED') {
+      if (loadAuthDone.accessToken) {
+        dispatch(userActions.getUserProfile());
+      }
+    }
   }, [loadAuthDone]);
 
-  // 토큰 재발급
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    if (user) {
-      timeoutId = setTimeout(() => {
-        authService.intervalRefresh(dispatch, loadAuthDone);
-      }, loadAuthDone.expiryTime - 30000);
-    } else {
-      clearTimeout(timeoutId);
-      console.log('Not User');
-      return;
+    if (loadAuthError) {
+      localStorage.clear();
+      delete axiosInstance.defaults.headers.common['Authorization'];
     }
-  }, [user]);
+  }, [loadAuthError]);
+
+  // token
+  useEffect(() => {
+    authService.userRefreshToken(dispatch, loadAuthDone);
+  }, [dispatch]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);
   useEffect(() => {
     const isLocalDark = localStorage.getItem('isDark');
-    console.log(isLocalDark);
     if (isLocalDark === 'true') {
       setIsDarkMode(true);
     } else {
@@ -73,7 +87,7 @@ function MyApp({
 
   return (
     <>
-      <SessionProvider session={pageProps.session}>
+      <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <title>QUANTRO</title>

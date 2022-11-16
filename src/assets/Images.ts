@@ -17,6 +17,22 @@ import MyPageIcon from 'public/assets/common/menu/myPage.svg';
 import MyPageBluIcon from 'public/assets/common/menu/myPage_blu.svg';
 import CommunityIcon from 'public/assets/common/menu/community.svg';
 import CommunityBluIcon from 'public/assets/common/menu/community_blu.svg';
+import MarkIcon from 'public/assets/common/menu/mark.svg';
+import MarkBluIcon from 'public/assets/common/menu/mark_blu.svg';
+import ApiKeyBoxFile from 'public/assets/common/header/api_key_box.svg';
+import ApiKeyBoxDarkFile from 'public/assets/common/header/api_key_box_dark.svg';
+import MApiKeyBoxFile from 'public/assets/common/header/m_apiKey_menu_white.svg';
+import MApiKeyBoxDarkFile from 'public/assets/common/header//m_apiKey_menu_dark.svg';
+import LogOutSvgIcon from 'public/assets/common/header/logout.svg';
+import SearchIconFile from 'public/assets/common/header/search.svg';
+import ResetIconFile from 'public/assets/common/header/reset.svg';
+import RetryIconFile from 'public/assets/common/header/retry.svg';
+import AlramIconFile from 'public/assets/common/header/alram.svg';
+import AlramActiveIconFile from 'public/assets/common/header/alram_active.svg';
+import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg';
+import EditDefaultIcon from 'public/assets/common/header/edit-icon.svg';
+import LangKrIcon from 'public/assets/common/header/language_kr.svg';
+import MobileMenuIcon from 'public/assets/common/header/m_menu_bar.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -26,6 +42,7 @@ import ProfileBLueIcon1 from 'public/assets/common/profile/profile_icon_blue.svg
 import ProfileBLueIcon2 from 'public/assets/common/profile/profile_icon2_blue.svg';
 import ProfileBLueIcon3 from 'public/assets/common/profile/profile_icon3_blue.svg';
 import ProfileBLueIcon4 from 'public/assets/common/profile/profile_icon4_blue.svg';
+import MyDefaultIconFile from 'public/assets/common/profile/my.svg';
 
 import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
@@ -41,25 +58,46 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import ArrowLeftIcon from 'public/assets/common/arrowLeft.svg';
+import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 
+import MainBannerImage from 'public/assets/Index/main_banner.svg';
+
+///*** !----Export----- */
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
 export const Google = GoogleIcon;
 
-//header menu
+//header
 export const Menu1 = [MenuIcon, MenuBluIcon];
 export const Menu2 = [WriteIcon, WriteBluIcon];
 export const Menu3 = [ApiKeyIcon, ApiKeyBluIcon];
 export const Menu4 = [MessageIcon, MessageBluIcon];
 export const Menu5 = [MyPageIcon, MyPageBluIcon];
 export const Menu6 = [CommunityIcon, CommunityBluIcon];
+export const Menu7 = [MarkIcon, MarkBluIcon];
+export const ApiKeyMenu = [ApiKeyBoxFile, ApiKeyBoxDarkFile];
+export const MApiKeyMenu = [MApiKeyBoxFile, MApiKeyBoxDarkFile];
+export const LogOutIcon = LogOutSvgIcon;
+export const SearchIcon = SearchIconFile;
+export const ResetIcon = [RetryIconFile, ResetIconFile];
+export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
+export const ProfileEditIcon = ProfileEditDefaultIcon;
+export const EditIcon = EditDefaultIcon;
+
+export const LangKr = LangKrIcon;
+
+//header mobile
+
+export const MMenuBar = MobileMenuIcon;
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];
 export const Profile2 = [ProfileIcon2, ProfileBLueIcon2];
 export const Profile3 = [ProfileIcon3, ProfileBLueIcon3];
 export const Profile4 = [ProfileIcon4, ProfileBLueIcon4];
+export const MyDefaultIcon = MyDefaultIconFile;
 
 //기능 icon
 export const Close = CloseIcon;
@@ -69,7 +107,6 @@ export const CheckSquare = CheckSquareIcon;
 export const CheckedSqquare = CheckedSquareIcon;
 export const PreviewBg = previewBgImage;
 
-//기능X Icon
 export const Notice = [NoticeIcon, NoticeErrIcon];
 export const Camera = CameraIcon;
 export const CameraBlue = CameraBlueIcon;
@@ -78,4 +115,9 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const ArrowLeft = ArrowLeftIcon;
+export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
+
+//Index
+export const MainBanner = MainBannerImage;

@@ -1,20 +1,28 @@
 import { Google } from '@/src/assets/Images';
-import { signIn, useSession } from 'next-auth/react';
+import { authActions } from '@/src/store/reducers';
+import { useSession, signIn } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const GoogleLoginBtn = () => {
-  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
 
-  console.log(`session is ${session}`);
-  console.log(`status is ${status}`);
+  const { data: session } = useSession();
+  React.useEffect(() => {
+    if (session) {
+      const { accessToken } = session;
+      console.log(accessToken);
+      dispatch(authActions.googleLogin({ accessToken }));
+    } else {
+      localStorage.clear();
+    }
+  }, [session]);
 
   return (
     <>
-      <p>status: {status}</p>
-      <p>{session?.user?.name}</p>
       <GoogleLoginBtnBlock type="button" onClick={() => signIn('google')}>
         구글 계정을 사용할래요
         <div className="icon">

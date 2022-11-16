@@ -11,9 +11,17 @@ export const apiCheckNickname = ({ nickname }: LoadUserBody) =>
 export const apiChangeTheme = ({ isDark }: LoadUserBody) =>
   axiosInstance.put<LoadUserResponse>(`/users/theme?isDark=${isDark}`);
 
-// 회원가입 요청
+// email 회원가입 요청
 export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
-  axiosInstance.post<LoadUserResponse>(`/users`, {
+  axiosInstance.post<LoadUserResponse>(`/users/email`, {
+    email,
+    pw,
+    nickname,
+    photoUrl,
+  });
+//google 회원가입 요청
+export const apiGoogleRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
+  axiosInstance.post<LoadUserResponse>(`/users/email`, {
     email,
     pw,
     nickname,
@@ -23,3 +31,6 @@ export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
 // 텔레그램 사용자명 입력
 export const apiTelegramUsername = ({ username }: TelegramPayload) =>
   axiosInstance.put<LoadUserResponse>(`/users/telegram?username=${username}`);
+
+// user profile
+export const apiGetUserProfile = () => axiosInstance.get('/users/profile');

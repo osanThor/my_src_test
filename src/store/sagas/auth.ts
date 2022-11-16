@@ -9,7 +9,15 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { LoadAuthResponse, LoadAuthBody } from '../types';
 
 // api
-import { apiLogout, apiRefreshToken, apiResetPw, apiVerifyCode, apiVerifyEmial, userLogin } from '../api';
+import {
+  apiGoogleLogin,
+  apiLogout,
+  apiRefreshToken,
+  apiResetPw,
+  apiVerifyCode,
+  apiVerifyEmial,
+  userLogin,
+} from '../api';
 
 // 로그인
 function* loginSaga(action: PayloadAction<LoadAuthBody>) {
@@ -18,14 +26,27 @@ function* loginSaga(action: PayloadAction<LoadAuthBody>) {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(userLogin, action.payload);
     console.log(data);
 
-    if (data.message === 'LOGGED_IN') {
-      yield put(userActions.userSuccess());
-    } else {
-      yield put(userActions.userFailure());
-    }
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga login >> ', error);
+
+    const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(authActions.loadAuthFailure({ status: { ok: false }, message }));
+  }
+}
+
+//Google 로그인
+function* googleLoginSaga(action: PayloadAction<LoadAuthBody>) {
+  yield put(authActions.loadAuthRequest());
+  try {
+    const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiGoogleLogin, action.payload);
+    console.log(data);
+
+    yield put(authActions.loadAuthSuccess(data));
+  } catch (error: any) {
+    console.error('authSaga googleLogin >> ', error);
 
     const message = error?.name === 'AxiosError' ? error.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
 
@@ -41,12 +62,6 @@ function* refreshSaga() {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiRefreshToken);
     console.log(data);
 
-    if (data.message === 'UPDATED') {
-      yield put(userActions.userSuccess());
-    } else {
-      yield put(userActions.userFailure());
-      console.log('토큰실패');
-    }
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
     console.error('authSaga refresh >> ', error);
@@ -97,6 +112,7 @@ function* userLogoutSaga() {
   yield put(authActions.loadAuthRequest());
   try {
     const { data }: AxiosResponse<LoadAuthResponse> = yield call(apiLogout);
+    console.log(data);
 
     yield put(authActions.loadAuthSuccess(data));
   } catch (error: any) {
@@ -127,6 +143,7 @@ function* userResetPwSaga(action: PayloadAction<LoadAuthBody>) {
 
 function* watchLoadAuth() {
   yield takeLatest(authActions.userLogin, loginSaga);
+  yield takeLatest(authActions.googleLogin, googleLoginSaga);
   yield takeLatest(authActions.refreshToken, refreshSaga);
   yield takeLatest(authActions.sendVerifyEmail, sendVerifyEmailSaga);
   yield takeLatest(authActions.checkVerifyCode, checkVerifySaga);

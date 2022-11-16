@@ -17,6 +17,7 @@ export type ResponseFailure = {
 export type {
   AuthPayload,
   LoginPayload,
+  GooglePayload,
   LoadAuthBody,
   LoadAuthResponse,
   VerifyEmailPayload,
@@ -31,6 +32,6 @@ export type {
   LoadUserResponse,
   ThemePayload,
   TelegramPayload,
+  UserProfilePayload,
 } from './user';
-export type { LoadPostsBody, LoadPostsResponse } from './post';
 export type { LoadFileBody, LoadFileResponse } from './file';

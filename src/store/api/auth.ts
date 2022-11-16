@@ -15,6 +15,10 @@ export const userLogin = ({ email, pw }: LoadAuthBody) =>
     },
   );
 
+// google 로그인
+export const apiGoogleLogin = ({ accessToken }: LoadAuthBody) =>
+  axiosInstance.post<LoadAuthResponse>(`/auth/login/google?accessToken=${accessToken}`);
+
 // refresh token
 export const apiRefreshToken = () => axiosInstance.post<LoadAuthResponse>(`/auth/refresh`);
 
