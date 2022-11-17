@@ -22,6 +22,8 @@ import {
 } from '@/src/assets/Images';
 import MMenuWindow from './MMenuWindow';
 import GnbMenu from './GnbMenu';
+import DashBoardMenu from './mobileHeaderAdded/DashBoardMenu';
+import WriteQuantMenu from './mobileHeaderAdded/WriteQuantMenu';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -91,13 +93,19 @@ const MHeader = () => {
     }
   };
 
+  // 페이지별 추가 레이아웃
   const [dashBoard, setDashBoard] = useState(false);
-
+  const [writeQuant, setWriteQuant] = useState(false);
   useEffect(() => {
     if (router.pathname === '/dashboard') {
       setDashBoard(true);
     } else {
       setDashBoard(false);
+    }
+    if (router.pathname === '/write-quant') {
+      setWriteQuant(true);
+    } else {
+      setWriteQuant(false);
     }
   }, []);
 
@@ -123,6 +131,7 @@ const MHeader = () => {
           </div>
         </div>
         {dashBoard && <DashBoardMenu />}
+        {writeQuant && <WriteQuantMenu />}
       </MHeaderMain>
       <MHeaderTopSpacer />
       {openGnbMenu && (
@@ -174,84 +183,6 @@ const MHeader = () => {
     </MHeaderBlock>
   );
 };
-
-const DashBoardMenu = () => {
-  const [point1, setPoint1] = useState(true);
-  const [point2, setPoint2] = useState(false);
-  const [point3, setPoint3] = useState(false);
-  useEffect(() => {
-    window.addEventListener('scroll', scrollTracker);
-    return () => {
-      window.removeEventListener('scroll', scrollTracker); //clean up
-    };
-  }, []);
-  function scrollTracker() {
-    if (window.scrollY < 509) {
-      setPoint1(true);
-      setPoint2(false);
-      setPoint3(false);
-    } else if (window.scrollY < 633) {
-      setPoint1(false);
-      setPoint2(true);
-      setPoint3(false);
-    } else {
-      setPoint1(false);
-      setPoint2(false);
-      setPoint3(true);
-    }
-  }
-  return (
-    <DashBoardMenuBlock>
-      <a className={point1 ? 'on' : ''} href="#point1">
-        총 포지션 현황
-      </a>
-      <a className={point2 ? 'on' : ''} href="#point2">
-        총 누적 평가손익
-      </a>
-      <a className={point3 ? 'on' : ''} href="#point3">
-        현재 계좌 잔고
-      </a>
-    </DashBoardMenuBlock>
-  );
-};
-
-const DashBoardMenuBlock = styled.div`
-  width: 100%;
-  height: 40px;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  padding: 0 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid ${colors.gray[1]};
-  background-color: ${({ theme }) => theme.bgColor};
-  overflow-x: auto;
-  a {
-    width: 33.333%;
-    min-width: 107px;
-    line-height: 37px;
-    font-size: 14px;
-    text-align: center;
-    color: ${colors.gray[3]};
-    white-space: nowrap;
-    position: relative;
-    &.on {
-      font-family: 'GmarketSansBold';
-      color: ${colors.blue[2]};
-      &::after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        background-color: ${colors.blue[2]};
-        position: absolute;
-        bottom: 0;
-        left: 0;
-      }
-    }
-  }
-`;
 
 const MHeaderBlock = styled.div`
   width: 100%;
@@ -357,7 +288,8 @@ const MHeaderSideBlock = styled.div`
         .profile_info {
           flex: 1;
           .nickName {
-            font-family: 'GmarketSansBold';
+            font-weight: 800;
+            /* font-family: GmarketSansBold; */
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -430,4 +362,4 @@ const MHeaderSideBlock = styled.div`
   }
 `;
 
-export default MHeader;
+export default React.memo(MHeader);

@@ -98,18 +98,22 @@ const MyExchaingeAreaBlock = styled.div`
     justify-content: space-between;
     .dashboard_title {
       font-size: 20px;
-      font-family: 'GmarketSansBold';
+      font-weight: 800;
+      /* font-family: GmarketSansBold; */
       span {
-        font-family: 'GmarketSansBold';
+        font-weight: 800;
+        /* font-family: GmarketSansBold; */
         margin-right: 7px;
         color: ${colors.gray[5]};
       }
     }
     .gainAndLoss_info {
       font-size: 20px;
-      font-family: 'GmarketSansBold';
+      font-weight: 800;
+      /* font-family: GmarketSansBold; */
       span {
-        font-family: 'GmarketSansBold';
+        font-weight: 800;
+        /* font-family: GmarketSansBold; */
         color: ${colors.gray[5]};
       }
     }
@@ -138,7 +142,8 @@ const MyExchaingeAreaBlock = styled.div`
         .exchange_title {
           min-width: 112px;
           font-size: 24px;
-          font-family: 'GmarketSansBold';
+          font-weight: 800;
+          /* font-family: GmarketSansBold; */
         }
         .replace_exchange_btn {
           cursor: pointer;
@@ -247,7 +252,8 @@ const MyExchaingeAreaBlock = styled.div`
             margin-bottom: 0;
           }
           span.bold {
-            font-family: 'GmarketSansBold';
+            font-weight: 800;
+            /* font-family: GmarketSansBold; */
             font-size: 20px;
             text-align: right;
             color: ${colors.dark[1]};
