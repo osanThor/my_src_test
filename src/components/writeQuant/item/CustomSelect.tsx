@@ -47,6 +47,8 @@ const CustomSelectBox = styled.div`
   align-self: center;
   border: 1px solid ${colors.gray[2]};
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   &::before {
     content: '';
     width: 32px;
@@ -63,10 +65,14 @@ const CustomSelectBox = styled.div`
   }
 `;
 const Label = styled.label`
+  width: 100%;
   font-size: 16px;
   margin-left: 4px;
   text-align: center;
   color: ${(props: { place: boolean }) => (props.place ? `${colors.gray[2]}` : `${colors.dark[2]}`)};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const SelectOptions = styled.ul`
   position: absolute;

@@ -66,6 +66,7 @@ import SawWheelIconFile from 'public/assets/common/saw-toothdwheel.svg';
 import GuidGoIconFile from 'public/assets/common/guide-go.svg';
 import MarkBlackIconFile from 'public/assets/common/mark_black.svg';
 import SelectButtonIconFile from 'public/assets/common/select-button.svg';
+import SmailBlueIcon from 'public/assets/common/smail.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -128,6 +129,7 @@ export const SawWheelIcon = SawWheelIconFile;
 export const GuidGoIcon = GuidGoIconFile;
 export const Mark = MarkBlackIconFile;
 export const SelectButtonIcon = SelectButtonIconFile;
+export const SmailBlue = SmailBlueIcon;
 
 //Index
 export const MainBanner = MainBannerImage;

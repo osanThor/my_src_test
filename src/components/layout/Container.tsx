@@ -49,7 +49,7 @@ const MainContainer = styled.div`
   & > div:nth-child(2) {
     width: calc(100% - 228px);
     flex: 1;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
   }
 `;
 const TopHeaderSpacer = styled.div`

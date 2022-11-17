@@ -68,6 +68,7 @@ const WriteQuantBottomBlock = styled.div`
       justify-content: space-between;
       align-items: center;
       .button {
+        white-space: nowrap;
         cursor: pointer;
         flex: 1;
         text-align: center;
@@ -124,12 +125,8 @@ const WriteQuantBottomBlock = styled.div`
         position: relative;
         margin-right: 8px;
       }
-      span.txt {
-        /* transform: translateY(2px); */
-      }
     }
     .description {
-      /* transform: translateY(2px); */
       color: ${colors.gray[4]};
     }
   }
@@ -141,6 +138,15 @@ const WriteQuantBottomBlock = styled.div`
   //responsive
   ${media.pc} {
     .write_quant_botTop {
+      flex-wrap: wrap;
+      .write_quant_menu {
+        overflow-y: auto;
+      }
+    }
+    .intro_box {
+      height: auto;
+      min-height: auto;
+      padding: 14px 24px;
       flex-wrap: wrap;
     }
   }

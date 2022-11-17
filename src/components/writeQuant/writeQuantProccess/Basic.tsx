@@ -75,13 +75,17 @@ const BasicBlock = styled.div`
           margin-bottom: 0;
         }
         .bg_title {
+          min-width: 162px;
           padding: 1rem;
-          min-width: 128px;
           text-align: center;
           white-space: nowrap;
           border-radius: 8px;
           background-color: ${colors.gray[1]};
           margin-right: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
         }
       }
     }
@@ -130,7 +134,7 @@ const StyledButton = styled(Button)`
   min-height: auto;
   height: 50px;
   border-radius: 8px;
-  ${media.mobile} {
+  ${media.tablet} {
     width: 100%;
     height: 56px;
   }
