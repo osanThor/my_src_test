@@ -13,7 +13,6 @@ const CustomSelect = () => {
     setCurrentValue(innerText);
   };
   const handleClickOutSide = (e: any) => {
-    console.log(selectRef.current.contains(e.target));
     if (showOptions && !selectRef.current.contains(e.target)) {
       setShowOptions(false);
     }
