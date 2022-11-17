@@ -2,7 +2,7 @@ import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -153,14 +153,18 @@ const TermItem = ({
 }) => {
   const { id, type } = term;
 
+  const checkRef = useRef(null);
   const termType = typeMap[type];
   const target = openItems[id];
+  console.log(target);
+  console.log(checkRef.current);
 
   return (
     <div className="termItem">
-      <div className="term_top">
+      <div className="term_top" onClick={() => handleOpenTerm(target, id)}>
         <label className={target ? 'checkSquare' : 'disabled'}>
           <input
+            ref={checkRef}
             className="checkSquare"
             type="checkbox"
             onChange={(e) => handleSingleCheck(e.target.checked, id)}
@@ -169,9 +173,7 @@ const TermItem = ({
           <span className="check" />
           {termType.name}
         </label>
-        <span className="more" onClick={() => handleOpenTerm(target, id)}>
-          {target ? '접기' : '더보기'}
-        </span>
+        <span className="more">{target ? '접기' : '더보기'}</span>
       </div>
       <div className={target ? 'term_bottom_open' : 'term_bottom'}>{termType.info}</div>
     </div>
@@ -188,9 +190,9 @@ const TermsBlock = styled.div`
   align-items: center;
 
   h1.logo {
-    width: 210px;
+    width: 230px;
     cursor: pointer;
-    margin-bottom: 28px;
+    margin-bottom: 40px;
     a {
       display: block;
     }
@@ -218,6 +220,7 @@ const TermsBlock = styled.div`
         align-items: center;
         line-height: 24px;
         font-weight: bold;
+        cursor: pointer;
       }
 
       .term_bottom {
@@ -313,6 +316,9 @@ const TermsBlock = styled.div`
     width: calc(100% - 32px);
     justify-content: flex-start;
     overflow-y: auto;
+    h1.logo {
+      width: 210px;
+    }
   }
 `;
 

@@ -93,9 +93,9 @@ const LoginFormBlock = styled.div`
   align-items: center;
 
   h1.logo {
-    width: 210px;
+    width: 230px;
     cursor: pointer;
-    margin-bottom: 28px;
+    margin-bottom: 40px;
     a {
       display: block;
     }
@@ -128,6 +128,9 @@ const LoginFormBlock = styled.div`
     }
   }
   @media (max-width: 768px) {
+    h1.logo {
+      width: 210px;
+    }
     width: calc(100% - 32px);
     justify-content: flex-start;
     span.or {
