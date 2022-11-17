@@ -24,7 +24,6 @@ const LoadingBlock = styled.div`
   backdrop-filter: blur(10px);
   h1 {
     font-weight: 800;
-    /* font-family: GmarketSansBold; */
     color: ${colors.blue[2]};
   }
 `;

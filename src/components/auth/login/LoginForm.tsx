@@ -93,9 +93,12 @@ const LoginFormBlock = styled.div`
   align-items: center;
 
   h1.logo {
-    width: 190px;
+    width: 210px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    a {
+      display: block;
+    }
     img {
       width: 100%;
     }
@@ -103,7 +106,6 @@ const LoginFormBlock = styled.div`
 
   span.or {
     font-weight: 800;
-    /* font-family: GmarketSansBold; */
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;

@@ -104,7 +104,6 @@ const IndexLayoutBlock = styled.div`
       word-break: keep-all;
       position: absolute;
       font-weight: 800;
-      /* font-family: GmarketSansBold; */
       font-size: 40px;
       color: white;
       top: 50%;

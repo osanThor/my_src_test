@@ -78,13 +78,10 @@ const NoticeAreaBlock = styled.div`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      /* transform: translateY(2px); */
       margin-right: 20px;
     }
     span {
       font-weight: 800;
-      /* font-family: GmarketSansBold; */
-      /* transform: translateY(2px); */
       color: ${colors.red[1]};
     }
 

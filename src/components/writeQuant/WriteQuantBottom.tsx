@@ -51,7 +51,6 @@ const WriteQuantBottomBlock = styled.div`
     .title {
       font-size: 20px;
       font-weight: 800;
-      /* font-family: GmarketSansBold; */
     }
     .write_quant_menu {
       display: flex;
