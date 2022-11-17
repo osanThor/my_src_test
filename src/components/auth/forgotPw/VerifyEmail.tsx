@@ -128,8 +128,8 @@ const VerifyEmail = ({
           <Image src={Notice[0]} alt="notice" />
         </span>
         <p>
-          텔레그램 @quantro 봇에 /myemail 을 입력하시면, 가입 Email 주소를 찾을 수 있어요. (텔레그램 연동 없으면, 찾기
-          불가)
+          텔레그램 @quantro_alarm_bot 봇에 /myemail 을 입력하시면, 가입 Email 주소를 찾을 수 있어요. (텔레그램 연동
+          없으면, 찾기 불가)
         </p>
       </div>
     </VerifyEmailBlock>

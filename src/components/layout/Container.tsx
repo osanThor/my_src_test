@@ -37,6 +37,7 @@ const MainContainerBlock = styled.div`
     .container {
       width: 100%;
       padding: 8px 16px 60px;
+      overflow: hidden;
     }
   }
 `;
@@ -48,6 +49,7 @@ const MainContainer = styled.div`
   & > div:nth-child(2) {
     width: calc(100% - 228px);
     flex: 1;
+    min-height: calc(100vh - 80px);
   }
 `;
 const TopHeaderSpacer = styled.div`

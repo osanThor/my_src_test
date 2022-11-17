@@ -9,7 +9,14 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { LoadUserResponse, LoadUserBody } from '../types';
 
 // api
-import { apiCheckNickname, apiChangeTheme, apiRegister, apiTelegramUsername, apiGetUserProfile } from '../api';
+import {
+  apiCheckNickname,
+  apiChangeTheme,
+  apiRegister,
+  apiTelegramUsername,
+  apiGetUserProfile,
+  apiGoogleRegister,
+} from '../api';
 
 // 테마변경
 function* changeThemeSaga(action: PayloadAction<LoadUserBody>) {
@@ -76,7 +83,7 @@ function* userRegisterSaga(action: PayloadAction<LoadUserBody>) {
 function* userGoogleRegisterSaga(action: PayloadAction<LoadUserBody>) {
   yield put(userActions.loadUserRequest());
   try {
-    const { data } = yield call(apiRegister, action.payload);
+    const { data } = yield call(apiGoogleRegister, action.payload);
     console.log(data);
 
     if (data.message === 'CREATED') {

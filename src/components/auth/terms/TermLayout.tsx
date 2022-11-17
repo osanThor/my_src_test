@@ -25,19 +25,6 @@ const TermsLayOut = () => {
   const [allCheck, setAllCheck] = useState(false);
   const [checkAble, setCheckAble] = useState(false);
 
-  const handleSingleCheck = (checked: boolean, id: number): void => {
-    if (checked) {
-      // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems((prev) => [...prev, id]);
-      if (checkItems.length === 1) {
-        setAllCheck(true);
-      }
-    } else {
-      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(checkItems.filter((el) => el !== id));
-      setAllCheck(false);
-    }
-  };
   const handleAllCheck = (checked: boolean) => {
     if (checked) {
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
@@ -48,6 +35,7 @@ const TermsLayOut = () => {
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
       setCheckItems([]);
+      setOpenItems([false, false]);
       setAllCheck(false);
     }
   };
@@ -56,10 +44,16 @@ const TermsLayOut = () => {
     const bArr = [...openItems];
     bArr[id] = !target;
     setOpenItems(bArr);
-    if (target === true) {
+
+    if (target) {
       setAllCheck(false);
       setCheckItems(checkItems.filter((el) => el !== id));
       setCheckAble(false);
+    } else {
+      setCheckItems((prev) => [...prev, id]);
+      if (checkItems.length === 1) {
+        setAllCheck(true);
+      }
     }
   };
   const canOpen = openItems.filter((el) => el === true);
@@ -91,7 +85,6 @@ const TermsLayOut = () => {
           <TermItem
             key={term.id}
             term={term}
-            handleSingleCheck={handleSingleCheck}
             checkItems={checkItems}
             openItems={openItems}
             handleOpenTerm={handleOpenTerm}
@@ -140,13 +133,11 @@ const typeMap: TermType = {
 };
 const TermItem = ({
   term,
-  handleSingleCheck,
   checkItems,
   openItems,
   handleOpenTerm,
 }: {
   term: { id: number; type: string };
-  handleSingleCheck: (check: boolean, id: number) => void;
   checkItems: Array<number>;
   openItems: Array<boolean>;
   handleOpenTerm: (target: boolean, id: number) => void;
@@ -158,20 +149,18 @@ const TermItem = ({
 
   return (
     <div className="termItem">
-      <div className="term_top">
+      <div className="term_top" onClick={() => handleOpenTerm(target, id)}>
         <label className={target ? 'checkSquare' : 'disabled'}>
           <input
             className="checkSquare"
             type="checkbox"
-            onChange={(e) => handleSingleCheck(e.target.checked, id)}
+            onChange={(e) => handleOpenTerm(e.target.checked, id)}
             checked={checkItems.includes(term.id) ? true : false}
           />
           <span className="check" />
           {termType.name}
         </label>
-        <span className="more" onClick={() => handleOpenTerm(target, id)}>
-          {target ? '접기' : '더보기'}
-        </span>
+        <span className="more">{target ? '접기' : '더보기'}</span>
       </div>
       <div className={target ? 'term_bottom_open' : 'term_bottom'}>{termType.info}</div>
     </div>
@@ -188,9 +177,12 @@ const TermsBlock = styled.div`
   align-items: center;
 
   h1.logo {
-    width: 170px;
+    width: 230px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    a {
+      display: block;
+    }
     img {
       width: 100%;
     }
@@ -215,6 +207,7 @@ const TermsBlock = styled.div`
         align-items: center;
         line-height: 24px;
         font-weight: bold;
+        cursor: pointer;
       }
 
       .term_bottom {
@@ -252,7 +245,6 @@ const TermsBlock = styled.div`
     }
     span.more {
       cursor: pointer;
-      text-decoration: underline;
       color: ${colors.blue[2]};
       line-height: 37px;
 
@@ -311,6 +303,9 @@ const TermsBlock = styled.div`
     width: calc(100% - 32px);
     justify-content: flex-start;
     overflow-y: auto;
+    h1.logo {
+      width: 210px;
+    }
   }
 `;
 

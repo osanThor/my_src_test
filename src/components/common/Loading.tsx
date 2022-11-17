@@ -23,7 +23,7 @@ const LoadingBlock = styled.div`
   align-items: center;
   backdrop-filter: blur(10px);
   h1 {
-    font-family: 'GmarketSansBold';
+    font-weight: 800;
     color: ${colors.blue[2]};
   }
 `;

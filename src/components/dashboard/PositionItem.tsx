@@ -92,7 +92,7 @@ const PositionItemBlock = styled.div`
           color: ${colors.dark[1]};
         }
         .bold {
-          font-family: 'GmarketSansBold';
+          font-weight: 800;
         }
       }
     }

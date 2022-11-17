@@ -1,7 +1,7 @@
 import { AlramIcon, ApiKeyMenu, Logo, LogOutIcon, MyDefaultIcon, ResetIcon } from '@/src/assets/Images';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '@/src/store/configureStore';
@@ -16,10 +16,9 @@ import GnbMenu from './GnbMenu';
 const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, photoUrl, _count } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
-    _count: user._count,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -54,6 +53,7 @@ const Header = () => {
   const handleOpenAlram = () => {
     setOpenAlram(!openAlram);
   };
+  const MyMenuButtonRef = useRef<HTMLDivElement>(null);
   const MyMenuRef = useRef<HTMLDivElement>(null);
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => {
@@ -77,7 +77,24 @@ const Header = () => {
       }
     }
   };
-  console.log(isDark);
+  const handleClickOutSideHeader = (e: any) => {
+    if (openAlram && !AlramRef.current.contains(e.target)) {
+      setOpenAlram(false);
+      return;
+    }
+    if (openMenu && !MyMenuRef.current.contains(e.target)) {
+      if (!MyMenuButtonRef.current.contains(e.target)) {
+        handleOpenMenu();
+      }
+      return;
+    }
+  };
+  useEffect(() => {
+    if (openAlram || openMenu) document.addEventListener('mousedown', handleClickOutSideHeader);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutSideHeader);
+    };
+  });
 
   return (
     <HeaderBlock onClick={handleHeadModal}>
@@ -98,6 +115,7 @@ const Header = () => {
             </div>
             <div style={{ position: 'relative' }}>
               <div
+                ref={MyMenuButtonRef}
                 className="headBtn blue"
                 onClick={
                   hBtnTxt === '로그인'
@@ -318,7 +336,10 @@ const GnbHeader = styled.div`
         width: 28px;
         height: 30px;
         margin-right: 12px;
-        transform: translateY(2px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* transform: translateY(2px); */
       }
     }
   }

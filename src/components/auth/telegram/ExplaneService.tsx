@@ -6,7 +6,7 @@ import Button from '../../common/Button';
 const ExplaneService = ({ onClick }: { onClick: () => void }) => {
   return (
     <ExplaneBlock>
-      <h2>텔레그램 연동의 중요성~!</h2>
+      <h2>이런 이유로 텔레그램 연동을 추천해요!</h2>
       <div className="description">텔레그램 연동의 중요성(미결정)</div>
       <StyledButton fullWidth blue onClick={onClick}>
         연동하기
@@ -21,6 +21,9 @@ const ExplaneBlock = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 1rem;
+  h2 {
+    font-weight: 700;
+  }
   .description {
     width: 100%;
     height: 370px;

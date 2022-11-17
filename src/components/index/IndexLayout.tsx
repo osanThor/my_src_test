@@ -103,7 +103,7 @@ const IndexLayoutBlock = styled.div`
     .banner_txt {
       word-break: keep-all;
       position: absolute;
-      font-family: 'GmarketSansBold';
+      font-weight: 800;
       font-size: 40px;
       color: white;
       top: 50%;

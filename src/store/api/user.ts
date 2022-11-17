@@ -21,7 +21,7 @@ export const apiRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
   });
 //google 회원가입 요청
 export const apiGoogleRegister = ({ email, pw, nickname, photoUrl }: LoadUserBody) =>
-  axiosInstance.post<LoadUserResponse>(`/users/email`, {
+  axiosInstance.post<LoadUserResponse>(`/users/google`, {
     email,
     pw,
     nickname,

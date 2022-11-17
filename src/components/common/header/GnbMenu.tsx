@@ -167,8 +167,7 @@ const GnbMenuList = styled.div`
           margin-right: 12px;
         }
         & > span {
-          transform: translateY(2px);
-          font-size: 14px;
+          /* transform: translateY(2px); */
         }
       }
       &:nth-child(1) > a > .headerIcon {
