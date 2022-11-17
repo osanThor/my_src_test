@@ -77,7 +77,6 @@ const Header = () => {
       }
     }
   };
-  console.log(isDark);
 
   return (
     <HeaderBlock onClick={handleHeadModal}>

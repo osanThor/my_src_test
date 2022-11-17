@@ -14,7 +14,6 @@ const GoogleLoginBtn = () => {
   React.useEffect(() => {
     if (session) {
       const { accessToken } = session;
-      console.log(accessToken);
       dispatch(authActions.googleLogin({ accessToken }));
     } else {
       localStorage.clear();
