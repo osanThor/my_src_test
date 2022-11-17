@@ -201,7 +201,6 @@ const Register: NextPage = () => {
   // 비밀번호 유효성 검사
   const [pwError, setPwError] = useState<boolean>(Boolean);
   const [pwErrMessage, setPwErrMessage] = useState<string>('');
-  console.log(pwError);
 
   const handlePwBlur = () => {
     console.log('됨?');

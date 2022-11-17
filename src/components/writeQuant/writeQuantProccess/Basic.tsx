@@ -5,8 +5,12 @@ import { Mark } from '@/src/assets/Images';
 import CustomSelect from '../item/CustomSelect';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import Button from '../../common/Button';
+import { useDispatch } from 'react-redux';
+import { localActions } from '@/src/store/reducers';
 
 const Basic = () => {
+  const dispatch = useDispatch();
   return (
     <BasicBlock>
       <div className="intro_box">
@@ -40,6 +44,11 @@ const Basic = () => {
           </div>
         </div>
       </div>
+      <div className="write_quant_bottom">
+        <StyledButton lightBlue onClick={() => dispatch(localActions.gotoOrder())}>
+          다음
+        </StyledButton>
+      </div>
     </BasicBlock>
   );
 };
@@ -49,6 +58,7 @@ const BasicBlock = styled.div`
   .basic_form {
     width: 100%;
     display: flex;
+    margin-bottom: 100px;
     & > div {
       width: 50%;
       max-width: 732px;
@@ -80,6 +90,7 @@ const BasicBlock = styled.div`
   ${media.pc} {
     .basic_form {
       flex-direction: column;
+      margin-bottom: 40px;
       & > div {
         width: 100%;
         max-width: none;
@@ -111,6 +122,17 @@ const BasicBlock = styled.div`
         }
       }
     }
+  }
+`;
+
+const StyledButton = styled(Button)`
+  width: 152px;
+  min-height: auto;
+  height: 50px;
+  border-radius: 8px;
+  ${media.mobile} {
+    width: 100%;
+    height: 56px;
   }
 `;
 

@@ -70,7 +70,7 @@ const WriteQuantTopBlock = styled.div`
       .top {
         width: 100%;
         display: flex;
-        margin-bottom: 1rem;
+        margin-bottom: 15px;
         align-items: center;
         .title {
           color: ${colors.dark[1]};

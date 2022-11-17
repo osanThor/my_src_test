@@ -1,35 +1,46 @@
 import colors from '@/src/assets/Colors';
 import { ArrowRight } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
+import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const WriteQuantBottom = ({ children }: { children: React.ReactNode }) => {
+  const dispatch = useDispatch();
+  const { basic, order, quantity, option } = useSelector(({ local }: RootState) => ({
+    basic: local.basic,
+    order: local.order,
+    quantity: local.quantity,
+    option: local.option,
+  }));
   return (
     <WriteQuantBottomBlock>
       <div className="write_quant_botTop">
         <div className="title">주문작성</div>
         <div className="write_quant_menu">
-          <div className="button on">
+          <div className={basic ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoBasic())}>
             <span>기본정보</span>
           </div>
           <div className="arrow">
             <Image src={ArrowRight} alt="arrow" />
           </div>
-          <div className="button">
+          <div className={order ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoOrder())}>
             <span>주문정보</span>
           </div>
           <div className="arrow">
             <Image src={ArrowRight} alt="arrow" />
           </div>
-          <div className="button">
+          <div className={quantity ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoQuantity())}>
             <span>수량정보</span>
           </div>
           <div className="arrow">
             <Image src={ArrowRight} alt="arrow" />
           </div>
-          <div className="button">
+          <div className={option ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoOption())}>
             <span>옵션선택</span>
           </div>
         </div>
@@ -95,7 +106,7 @@ const WriteQuantBottomBlock = styled.div`
     width: 100%;
     background-color: ${colors.gray[1]};
     border-radius: 8px;
-    height: 54px;
+    height: 52px;
     display: flex;
     padding: 0 24px;
     align-items: center;
@@ -122,7 +133,11 @@ const WriteQuantBottomBlock = styled.div`
       color: ${colors.gray[4]};
     }
   }
-
+  .write_quant_bottom {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
   //responsive
   ${media.pc} {
     .write_quant_botTop {

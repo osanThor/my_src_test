@@ -1,31 +1,42 @@
 import colors from '@/src/assets/Colors';
 import { ArrowRight } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
+import { localActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const WriteQuantMenu = () => {
+  const dispatch = useDispatch();
+  const { basic, order, quantity, option } = useSelector(({ local }: RootState) => ({
+    basic: local.basic,
+    order: local.order,
+    quantity: local.quantity,
+    option: local.option,
+  }));
   return (
     <WriteQuantMenuBlock>
-      <div className="button on">
+      <div className={basic ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoBasic())}>
         <span>기본정보</span>
       </div>
       <div className="arrow">
         <Image src={ArrowRight} alt="arrow" />
       </div>
-      <div className="button">
+      <div className={order ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoOrder())}>
         <span>주문정보</span>
       </div>
       <div className="arrow">
         <Image src={ArrowRight} alt="arrow" />
       </div>
-      <div className="button">
+      <div className={quantity ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoQuantity())}>
         <span>수량정보</span>
       </div>
       <div className="arrow">
         <Image src={ArrowRight} alt="arrow" />
       </div>
-      <div className="button">
+      <div className={option ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoOption())}>
         <span>옵션선택</span>
       </div>
     </WriteQuantMenuBlock>
