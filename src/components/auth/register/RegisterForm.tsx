@@ -350,7 +350,7 @@ const RegisterFormBlock = styled.div`
             margin-top: 0.5rem;
             & > div {
               margin-right: 0.5rem;
-              transform: translateY(2px);
+              /* transform: translateY(2px); */
             }
 
             span.error {

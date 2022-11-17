@@ -54,7 +54,7 @@ const ModalCon = styled(DialogContent)`
     text-align: center;
     p {
       width: 820px;
-      transform: translateY(2px);
+      /* transform: translateY(2px); */
     }
   }
 

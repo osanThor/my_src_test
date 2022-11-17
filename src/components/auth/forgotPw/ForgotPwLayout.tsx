@@ -64,7 +64,8 @@ const ForgotPwLayoutBlock = styled.div`
     color: ${colors.gray[5]};
     h2 {
       font-size: 26px;
-      font-family: GmarketSansBold;
+      font-weight: 800;
+      /* font-family: GmarketSansBold; */
       margin-bottom: 1rem;
     }
     p.descript {

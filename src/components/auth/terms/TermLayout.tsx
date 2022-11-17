@@ -252,7 +252,6 @@ const TermsBlock = styled.div`
     }
     span.more {
       cursor: pointer;
-      text-decoration: underline;
       color: ${colors.blue[2]};
       line-height: 37px;
 

@@ -288,7 +288,8 @@ const MHeaderSideBlock = styled.div`
         .profile_info {
           flex: 1;
           .nickName {
-            font-family: 'GmarketSansBold';
+            font-weight: 800;
+            /* font-family: GmarketSansBold; */
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;

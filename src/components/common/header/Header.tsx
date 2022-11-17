@@ -16,10 +16,9 @@ import GnbMenu from './GnbMenu';
 const Header = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, photoUrl, _count } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
-    _count: user._count,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const [hBtnTxt, setHBtnTxt] = React.useState('');
@@ -337,7 +336,7 @@ const GnbHeader = styled.div`
         width: 28px;
         height: 30px;
         margin-right: 12px;
-        transform: translateY(2px);
+        /* transform: translateY(2px); */
       }
     }
   }

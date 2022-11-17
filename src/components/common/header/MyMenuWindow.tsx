@@ -22,7 +22,7 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
     router.push('/auth/login');
   };
 
-  const handleChangeTheme = (e: any) => {
+  const handleChangeTheme = () => {
     dispatch(userActions.changeTheme({ isDark }));
     dispatch(userActions.changeThemeStatus({ isDark: !isDark }));
     localStorage.setItem('isDark', JSON.stringify(!isDark));
@@ -104,7 +104,7 @@ const MyMenuWindowBlock = styled.div`
     padding: 4px 0;
 
     span {
-      transform: translateY(2px);
+      /* transform: translateY(2px); */
     }
 
     .menuBtn {

@@ -116,7 +116,7 @@ const ConnectTelegramBlock = styled.div`
           margin-right: 0.5rem;
         }
         p {
-          transform: translateY(2px);
+          /* transform: translateY(2px); */
           flex: 1;
         }
 

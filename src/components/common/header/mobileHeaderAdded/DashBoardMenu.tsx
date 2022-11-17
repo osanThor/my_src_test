@@ -65,7 +65,8 @@ const DashBoardMenuBlock = styled.div`
     white-space: nowrap;
     position: relative;
     &.on {
-      font-family: 'GmarketSansBold';
+      font-weight: 800;
+      /* font-family: GmarketSansBold; */
       color: ${colors.blue[2]};
       &::after {
         content: '';

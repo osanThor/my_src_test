@@ -4,9 +4,8 @@ import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import Basic from './writeQuantProccess/Basic';
 
-const WriteQuantBottom = () => {
+const WriteQuantBottom = ({ children }: { children: React.ReactNode }) => {
   return (
     <WriteQuantBottomBlock>
       <div className="write_quant_botTop">
@@ -35,7 +34,7 @@ const WriteQuantBottom = () => {
           </div>
         </div>
       </div>
-      <Basic />
+      {children}
     </WriteQuantBottomBlock>
   );
 };
@@ -51,7 +50,8 @@ const WriteQuantBottomBlock = styled.div`
     margin-bottom: 20px;
     .title {
       font-size: 20px;
-      font-family: 'GmarketSansBold';
+      font-weight: 800;
+      /* font-family: GmarketSansBold; */
     }
     .write_quant_menu {
       display: flex;
@@ -67,7 +67,7 @@ const WriteQuantBottomBlock = styled.div`
         color: ${colors.gray[5]};
         transition: all 0.2s;
         span {
-          transform: translateY(2px);
+          /* transform: translateY(2px); */
         }
         &:hover {
           background-color: ${colors.gray[2]};
@@ -115,11 +115,11 @@ const WriteQuantBottomBlock = styled.div`
         margin-right: 8px;
       }
       span.txt {
-        transform: translateY(2px);
+        /* transform: translateY(2px); */
       }
     }
     .description {
-      transform: translateY(2px);
+      /* transform: translateY(2px); */
       color: ${colors.gray[4]};
     }
   }
