@@ -100,6 +100,12 @@ const Register: NextPage = () => {
 
   // 닉네임 체크
   const handleCheckNickname = () => {
+    if (nickname.length < 3 || nickname.length > 8) {
+      setModalOpen(true);
+      setMessage('닉네임은 최소 3자, 최대 8자이며 한글, 영문, 숫자로만 이루어질 수 있어요.');
+      setModalSt(true);
+      return;
+    }
     dispatch(userActions.checkNickName({ nickname }));
   };
   useEffect(() => {
@@ -192,6 +198,29 @@ const Register: NextPage = () => {
       }
     }
   }, [loadAuthLoading, loadAuthDone]);
+  // 비밀번호 유효성 검사
+  const [pwError, setPwError] = useState<boolean>(Boolean);
+  const [pwErrMessage, setPwErrMessage] = useState<string>('');
+
+  const handlePwBlur = () => {
+    console.log('됨?');
+    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    if (pw.length != 0) {
+      if (pw.length < 8 || pw.length > 20) {
+        setPwError(true);
+        setPwErrMessage('비밀번호는 최소 8자, 최대 20자로 설정할 수 있어요');
+      } else if (reg.test(pw) === false) {
+        setPwError(true);
+        setPwErrMessage('영문 대/소문자, 숫자, 특수문자 중 3종류 이상 섞어주세요');
+      } else {
+        setPwError(false);
+        setPwErrMessage('');
+      }
+    } else {
+      setPwError(false);
+      setPwErrMessage('');
+    }
+  };
 
   // 회원가입
   const handleSubmitRegisterForm = (e: React.FormEvent) => {
@@ -240,6 +269,16 @@ const Register: NextPage = () => {
       } else if (readOnltVerify != true) {
         setModalOpen(true);
         setMessage('인증확인을 확인해주세요.');
+        setModalSt(true);
+        return;
+      } else if (pw === '') {
+        setModalOpen(true);
+        setMessage('비밀번호를 입력해주세요');
+        setModalSt(true);
+        return;
+      } else if (pw != pwConfirm) {
+        setModalOpen(true);
+        setMessage('비밀번호가 일치하지 않아요');
         setModalSt(true);
         return;
       }
@@ -334,6 +373,9 @@ const Register: NextPage = () => {
         setTimerErr={setTimerErr}
         timerVisible={timerVisible}
         handleCheckVerify={handleCheckVerify}
+        pwError={pwError}
+        pwErrMessage={pwErrMessage}
+        handlePwBlur={handlePwBlur}
       />
 
       <ImageModal

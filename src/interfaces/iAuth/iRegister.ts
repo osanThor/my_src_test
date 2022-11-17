@@ -20,4 +20,7 @@ export interface IRegisterState {
   setTimerErr: React.Dispatch<React.SetStateAction<boolean>>;
   timerVisible: boolean;
   handleCheckVerify: () => void;
+  pwError: boolean;
+  pwErrMessage: string;
+  handlePwBlur: () => void;
 }

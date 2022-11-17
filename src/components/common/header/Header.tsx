@@ -336,6 +336,9 @@ const GnbHeader = styled.div`
         width: 28px;
         height: 30px;
         margin-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         /* transform: translateY(2px); */
       }
     }

@@ -50,9 +50,12 @@ const LoginFormBlock = styled.div`
   align-items: center;
 
   h1.logo {
-    width: 190px;
+    width: 230px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    a {
+      display: block;
+    }
     img {
       width: 100%;
     }
@@ -80,6 +83,9 @@ const LoginFormBlock = styled.div`
 
   ${media.tablet} {
     width: calc(100% - 32px);
+    h1.logo {
+      width: 210px;
+    }
   }
 `;
 const StyledButton = styled(Button)`

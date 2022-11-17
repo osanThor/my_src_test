@@ -5,7 +5,7 @@ import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
@@ -29,6 +29,9 @@ const RegisterForm = ({
   setTimerErr,
   timerVisible,
   handleCheckVerify,
+  pwError,
+  pwErrMessage,
+  handlePwBlur,
 }: IRegisterType) => {
   //google 회원가입 인지 확인
   const [googleRegister, setGoogleRegister] = useState(false);
@@ -83,38 +86,6 @@ const RegisterForm = ({
     }
   }, [email, existEmail]);
 
-  // 비밀번호 실시간 유효성 검사
-  const [pwError, setPwError] = useState<boolean>(Boolean);
-  const [pwErrMessage, setPwErrMessage] = useState<string>('');
-
-  useEffect(() => {
-    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    if (pw.length != 0) {
-      if (pw.length < 8 || pw.length > 20) {
-        setPwError(true);
-        setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
-      } else if (reg.test(pw) === false) {
-        setPwError(true);
-        setPwErrMessage('비밀번호 형식이 잘못되었어요');
-      } else {
-        setPwError(false);
-        setPwErrMessage('');
-      }
-    } else {
-      setPwError(false);
-      setPwErrMessage('');
-    }
-    if (pwConfirm.length != 0) {
-      if (pw != pwConfirm) {
-        setPwError(true);
-        setPwErrMessage('비밀번호가 일치하지 않아요.');
-      } else {
-        setPwError(false);
-        setPwErrMessage('');
-      }
-    }
-  }, [pw, pwConfirm, pwError]);
-
   // 회원가입 버튼 활성화
   const [registerAble, setRegisterAble] = useState(false);
 
@@ -132,7 +103,7 @@ const RegisterForm = ({
         setRegisterAble(false);
       }
     }
-  }, [profileImg, nickname, checkNicknameResult, email, verifyCode, pwError]);
+  }, [profileImg, nickname, checkNicknameResult, email, pw, pwConfirm, verifyCode, pwError]);
 
   return (
     <>
@@ -191,7 +162,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     ) : emailError ? (
                       <>
@@ -205,7 +176,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     )}
                   </div>
@@ -239,6 +210,7 @@ const RegisterForm = ({
                 value={pw}
                 icon={Lock}
                 onChange={onChange}
+                onBlur={handlePwBlur}
               />
               <StyleInput
                 name="pwConfirm"
@@ -276,9 +248,12 @@ const RegisterFormBlock = styled.div`
   justify-content: center;
   align-items: center;
   h1.logo {
-    width: 190px;
+    width: 230px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    a {
+      display: block;
+    }
     img {
       width: 100%;
     }
@@ -349,8 +324,9 @@ const RegisterFormBlock = styled.div`
             align-items: center;
             margin-top: 0.5rem;
             & > div {
+              width: 18px;
+              height: 18px;
               margin-right: 0.5rem;
-              /* transform: translateY(2px); */
             }
 
             span.error {
@@ -409,6 +385,9 @@ const RegisterFormBlock = styled.div`
     width: calc(100% - 32px);
     overflow-y: auto;
     justify-content: flex-start;
+    h1.logo {
+      width: 210px;
+    }
     form {
       margin-bottom: 1rem;
 
@@ -473,9 +452,11 @@ const RegisterFormBlock = styled.div`
 
 const StyleInput = (props: any) => {
   const { icon, onChange } = props;
+  const inputRef = useRef(null);
+
   return (
     <StyledInputBlock>
-      <StyledInput onChange={onChange} {...props} autoComplete="on" />
+      <StyledInput ref={inputRef} onChange={onChange} {...props} autoComplete="on" />
       {icon && (
         <div className="inputIcon">
           <Image src={icon} alt="icon" />

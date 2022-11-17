@@ -7,45 +7,49 @@ import styled from 'styled-components';
 import Button from '../../common/Button';
 import CustomSelect from '../item/CustomSelect';
 
-const OrderInfo = () => {
+const Quantity = () => {
   return (
-    <OrderInfoBlock>
+    <QuantityBlock>
       <div className="intro_box">
         <div className="intro_title">
           <div className="mark">
             <Image src={Mark} alt="mark" />
           </div>
-          <span className="txt">주문정보</span>
+          <span className="txt">수량정보</span>
         </div>
-        <div className="description">
-          지정가 주문일 경우 직접 가격을 입력하여 주문할 수 있어요 (현재 가격대비 퍼센트로 주문해요)
-        </div>
+        <div className="description">주문수량을 입력하실땐 USDT와 코인갯수로 주문해요</div>
       </div>
-      <div className="order_form">
+      <div className="quantity_form">
         <div className="first_con">
           <div className="write_quant_item">
-            <div className="bg_title">주문유형</div>
+            <div className="radio_title">
+              <label>
+                <input type="radio" name="quantity_option" defaultChecked /> 주문수량
+              </label>
+            </div>
             <CustomSelect />
-          </div>
-          <div className="write_quant_item">
-            <div className="bg_title">주문방법</div>
-            <CustomSelect />
-          </div>
-          <div className="write_quant_item">
-            <div className="bg_title">주문가격</div>
-            <CustomSelect />
-            <StyledInput autoComplete="order_price" placeholder="주문가격을 입력해요" disabled />
+            <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
+            <div className="info gray">
+              <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
+              <span>USDT 코인 갯수 입력 : 500을 입력하면 500USDT의 값어치에 맞는 BTC 구입</span>
+            </div>
           </div>
         </div>
         <div className="first_con">
           <div className="write_quant_item">
-            <div className="bg_title">주문가격대비 퍼센트</div>
-            <CustomInput autoComplete="price_percent" placeholder="퍼센트를 직접 입력하세요" />
+            <div className="radio_title">
+              <label>
+                <input type="radio" name="quantity_option" />
+                기준자산
+              </label>
+            </div>
+            <CustomSelect />
+            <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" />
             <div className="info">
               <div className="notice">
                 <Image src={Notice[0]} alt="notice" />
               </div>
-              현재 주문가격보다 싸게 매수할 경우 -n%를 입력해요
+              주문방법에서 청산선택시 주문수량을 입력하지 않을 경우 100% 청산돼요
             </div>
           </div>
         </div>
@@ -56,13 +60,13 @@ const OrderInfo = () => {
           <StyledButton lightBlue>다음</StyledButton>
         </div>
       </div>
-    </OrderInfoBlock>
+    </QuantityBlock>
   );
 };
 
-const OrderInfoBlock = styled.div`
+const QuantityBlock = styled.div`
   width: 100%;
-  .order_form {
+  .quantity_form {
     width: 100%;
     display: flex;
     margin-bottom: 100px;
@@ -82,18 +86,26 @@ const OrderInfoBlock = styled.div`
         &:last-child {
           margin-bottom: 0;
         }
-        .bg_title {
-          min-width: 162px;
-          padding: 1rem;
+        .radio_title {
           text-align: center;
           white-space: nowrap;
           border-radius: 8px;
-          background-color: ${colors.gray[1]};
-          margin-right: 1rem;
+          margin-right: 24px;
+          font-size: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 16px;
+          label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            input {
+              width: 20px;
+              height: 20px;
+              margin-right: 6.5px;
+            }
+          }
         }
         .info {
           width: 100%;
@@ -101,8 +113,8 @@ const OrderInfoBlock = styled.div`
           align-items: center;
           position: absolute;
           bottom: 0;
-          font-size: 14px;
           left: 0;
+          font-size: 14px;
           word-break: keep-all;
           color: ${colors.gray[4]};
           transform: translateY(110%);
@@ -110,6 +122,12 @@ const OrderInfoBlock = styled.div`
             width: 18px;
             height: 18px;
             margin-right: 8px;
+          }
+          &.gray {
+            flex-wrap: wrap;
+            span {
+              color: ${colors.gray[3]};
+            }
           }
         }
       }
@@ -121,9 +139,8 @@ const OrderInfoBlock = styled.div`
       margin-right: 1rem;
     }
   }
-
   ${media.pc} {
-    .order_form {
+    .quantity_form {
       flex-direction: column;
       margin-bottom: 40px;
       & > div {
@@ -135,18 +152,20 @@ const OrderInfoBlock = styled.div`
         }
         .write_quant_item {
           margin-bottom: 24px;
-          .bg_title {
-            min-width: 162px;
+          .radio_title {
+          }
+          .info {
+            display: none;
           }
         }
       }
     }
   }
   ${media.tablet} {
-    .order_form {
+    .quantity_form {
       & > div {
         .write_quant_item {
-          .bg_title {
+          .radio_title {
           }
         }
       }
@@ -161,13 +180,13 @@ const OrderInfoBlock = styled.div`
     }
   }
   ${media.mobile} {
-    .order_form {
+    .quantity_form {
       margin-bottom: 60px;
       & > div {
         .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
-          .bg_title {
+          .radio_title {
             padding: 0;
             min-width: auto;
             text-align: center;
@@ -244,5 +263,4 @@ const CustomInput = styled.input`
     outline: none;
   }
 `;
-
-export default OrderInfo;
+export default Quantity;
