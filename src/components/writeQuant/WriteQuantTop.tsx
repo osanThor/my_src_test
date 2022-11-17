@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { SawWheelIcon } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
@@ -49,6 +50,10 @@ const WriteQuantTopBlock = styled.div`
     & > div {
       width: 100%;
       max-width: 732px;
+
+      &:first-child {
+        margin-right: 40px;
+      }
       .top {
         width: 100%;
         display: flex;
@@ -94,8 +99,10 @@ const WriteQuantTopBlock = styled.div`
         }
 
         button {
+          width: 152px;
           height: 56px;
           border-radius: 8px;
+          padding: 0;
         }
 
         & > span {
@@ -105,6 +112,123 @@ const WriteQuantTopBlock = styled.div`
           font-size: 14px;
           color: ${colors.gray[3]};
           bottom: -30px;
+        }
+      }
+    }
+  }
+  ${media.pc} {
+    .writeTop_con {
+      flex-wrap: wrap;
+      & > div {
+        max-width: none;
+        &:first-child {
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+        .top {
+          width: 100%;
+          display: flex;
+          margin-bottom: 1rem;
+          align-items: center;
+          .title {
+            color: ${colors.dark[1]};
+            margin-right: 20px;
+          }
+          .openHowToBtn {
+            display: flex;
+            font-size: 14px;
+            cursor: pointer;
+            color: ${colors.gray[5]};
+            .icon {
+              width: 18px;
+              height: 18px;
+              margin-right: 8px;
+            }
+          }
+        }
+        .bottom {
+          width: 100%;
+          display: flex;
+          position: relative;
+          input {
+            flex: 1;
+            height: 56px;
+            margin-right: 8px;
+            background-color: ${colors.gray[1]};
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 24px;
+            font-size: 1rem;
+            &:focus {
+              outline: none;
+            }
+
+            &.blue {
+              background-color: ${colors.blue[0]};
+              color: ${colors.blue[2]};
+            }
+          }
+
+          button {
+            width: 100px;
+            height: 56px;
+            border-radius: 8px;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+  ${media.tablet} {
+    padding: 20px 0 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid ${colors.gray[1]};
+    .writeTop_con {
+      flex-direction: column;
+      & > div {
+        max-width: none;
+        &:first-child {
+          margin-right: 0;
+          margin-bottom: 24px;
+        }
+        .top {
+          margin-bottom: 10px;
+          justify-content: space-between;
+          .title {
+            margin-right: 0;
+          }
+          .openHowToBtn {
+            .icon {
+              width: 18px;
+              height: 18px;
+              margin-right: 8px;
+            }
+          }
+        }
+        .bottom {
+          width: 100%;
+          display: flex;
+          position: relative;
+          input {
+            flex: 1;
+            height: 48px;
+            margin-right: 8px;
+            background-color: ${colors.gray[1]};
+            border: none;
+            border-radius: 8px;
+            padding: 12px 8px;
+            font-size: 14px;
+          }
+          button {
+            width: 48px;
+            height: 48px;
+            min-height: auto;
+            border-radius: 8px;
+            padding: 0;
+          }
+          & > span {
+            bottom: -27px;
+          }
         }
       }
     }
