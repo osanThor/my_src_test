@@ -24,6 +24,7 @@ import MMenuWindow from './MMenuWindow';
 import GnbMenu from './GnbMenu';
 import DashBoardMenu from './mobileHeaderAdded/DashBoardMenu';
 import WriteQuantMenu from './mobileHeaderAdded/WriteQuantMenu';
+import MessageMenu from './mobileHeaderAdded/MessageMenu';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -96,6 +97,7 @@ const MHeader = () => {
   // 페이지별 추가 레이아웃
   const [dashBoard, setDashBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
+  const [message, setMessage] = useState(false);
   useEffect(() => {
     if (router.pathname === '/dashboard') {
       setDashBoard(true);
@@ -106,6 +108,11 @@ const MHeader = () => {
       setWriteQuant(true);
     } else {
       setWriteQuant(false);
+    }
+    if (router.pathname === '/message') {
+      setMessage(true);
+    } else {
+      setMessage(false);
     }
   }, []);
 
@@ -132,6 +139,7 @@ const MHeader = () => {
         </div>
         {dashBoard && <DashBoardMenu />}
         {writeQuant && <WriteQuantMenu />}
+        {message && <MessageMenu />}
       </MHeaderMain>
       <MHeaderTopSpacer />
       {openGnbMenu && (
