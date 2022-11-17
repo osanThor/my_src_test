@@ -2,7 +2,7 @@ import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
