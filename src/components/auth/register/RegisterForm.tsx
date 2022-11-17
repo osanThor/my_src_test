@@ -191,7 +191,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     ) : emailError ? (
                       <>
@@ -205,7 +205,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     )}
                   </div>
@@ -352,8 +352,9 @@ const RegisterFormBlock = styled.div`
             align-items: center;
             margin-top: 0.5rem;
             & > div {
+              width: 18px;
+              height: 18px;
               margin-right: 0.5rem;
-              /* transform: translateY(2px); */
             }
 
             span.error {

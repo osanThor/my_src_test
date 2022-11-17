@@ -100,6 +100,12 @@ const Register: NextPage = () => {
 
   // 닉네임 체크
   const handleCheckNickname = () => {
+    if (nickname.length < 3 || nickname.length > 8) {
+      setModalOpen(true);
+      setMessage('닉네임은 최소 3자, 최대 8자이며 한글, 영문, 숫자로만 이루어질 수 있어요.');
+      setModalSt(true);
+      return;
+    }
     dispatch(userActions.checkNickName({ nickname }));
   };
   useEffect(() => {
