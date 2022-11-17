@@ -1,22 +1,11 @@
 import { media } from '@/styles/theme';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
-  const [dashBoard, setDashBoard] = useState(false);
-
-  useEffect(() => {
-    if (router.pathname === '/dashboard') {
-      setDashBoard(true);
-    } else {
-      setDashBoard(false);
-    }
-  }, []);
   return (
     <DashboardLayoutBlock className="container">
-      {dashBoard && <DashboardHeaderSpacer />}
+      <DashboardHeaderSpacer />
       {children}
     </DashboardLayoutBlock>
   );

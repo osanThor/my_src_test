@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { SawWheelIcon } from '@/src/assets/Images';
+import { GuidGoIcon, SawWheelIcon } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
@@ -22,7 +22,12 @@ const WriteQuantTop = () => {
           </div>
           <div className="bottom">
             <input value="https://tvextbot-trading.web.app/api/webhook" readOnly />
-            <Button lightBlue>복사하기</Button>
+            <Button lightBlue>
+              <span className="dis_p">복사하기</span>
+              <span className="dis_m">
+                <Image src={GuidGoIcon} alt="button" />
+              </span>
+            </Button>
           </div>
         </div>
         <div className="orderMessage_area">
@@ -31,7 +36,12 @@ const WriteQuantTop = () => {
           </div>
           <div className="bottom">
             <input className="blue" />
-            <Button blue>복사하기</Button>
+            <Button blue>
+              <span className="dis_p">복사하기</span>
+              <span className="dis_m">
+                <Image src={GuidGoIcon} alt="button" />
+              </span>
+            </Button>
             <span>간단한 텍스트 수정이 가능해요</span>
           </div>
         </div>
@@ -43,6 +53,9 @@ const WriteQuantTop = () => {
 const WriteQuantTopBlock = styled.div`
   width: 100%;
   margin-bottom: 80px;
+  .dis_m {
+    display: none;
+  }
   .writeTop_con {
     width: 100%;
     display: flex;
@@ -180,9 +193,27 @@ const WriteQuantTopBlock = styled.div`
     }
   }
   ${media.tablet} {
+    .dis_p {
+      display: none;
+    }
+    .dis_m {
+      display: inline-block;
+      position: relative;
+      width: 24px;
+      height: 24px;
+    }
     padding: 20px 0 40px;
     margin-bottom: 20px;
-    border-bottom: 1px solid ${colors.gray[1]};
+    position: relative;
+    &::after {
+      content: '';
+      width: 100vw;
+      height: 1px;
+      background-color: ${colors.gray[1]};
+      position: absolute;
+      bottom: 0;
+      left: -1rem;
+    }
     .writeTop_con {
       flex-direction: column;
       & > div {
@@ -225,6 +256,10 @@ const WriteQuantTopBlock = styled.div`
             min-height: auto;
             border-radius: 8px;
             padding: 0;
+            background-color: ${colors.blue[0]};
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
           & > span {
             bottom: -27px;

@@ -27,6 +27,7 @@ const MainContainerBlock = styled.div`
   .container {
     width: 100%;
     padding: 48px 48px 100px;
+    overflow: hidden;
     & > div {
       max-width: 1504px;
     }

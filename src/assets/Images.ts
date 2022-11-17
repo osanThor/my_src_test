@@ -59,9 +59,11 @@ import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
 import ArrowLeftIcon from 'public/assets/common/arrowLeft.svg';
+import ArrowRightIcon from 'public/assets/common/arrowRight.svg';
 import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 import SawWheelIconFile from 'public/assets/common/saw-toothdwheel.svg';
+import GuidGoIconFile from 'public/assets/common/guide-go.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -117,9 +119,11 @@ export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
 export const ArrowLeft = ArrowLeftIcon;
+export const ArrowRight = ArrowRightIcon;
 export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
 export const SawWheelIcon = SawWheelIconFile;
+export const GuidGoIcon = GuidGoIconFile;
 
 //Index
 export const MainBanner = MainBannerImage;
