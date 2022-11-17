@@ -27,7 +27,6 @@ const MainContainerBlock = styled.div`
   .container {
     width: 100%;
     padding: 48px 48px 100px;
-    overflow: hidden;
     & > div {
       max-width: 1504px;
     }
@@ -38,6 +37,7 @@ const MainContainerBlock = styled.div`
     .container {
       width: 100%;
       padding: 8px 16px 60px;
+      overflow: hidden;
     }
   }
 `;
@@ -49,6 +49,7 @@ const MainContainer = styled.div`
   & > div:nth-child(2) {
     width: calc(100% - 228px);
     flex: 1;
+    min-height: 100vh;
   }
 `;
 const TopHeaderSpacer = styled.div`

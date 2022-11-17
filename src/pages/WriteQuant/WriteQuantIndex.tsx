@@ -1,4 +1,5 @@
 import UserLayout from '@/src/components/layout/UserLayout';
+import WriteQuantBottom from '@/src/components/writeQuant/WriteQuantBottom';
 import WriteQuantLayout from '@/src/components/writeQuant/WriteQuantLayout';
 import WriteQuantTop from '@/src/components/writeQuant/WriteQuantTop';
 import { NextPage } from 'next';
@@ -9,6 +10,7 @@ const WriteQuantIndex: NextPage = () => {
     <UserLayout>
       <WriteQuantLayout>
         <WriteQuantTop />
+        <WriteQuantBottom />
       </WriteQuantLayout>
     </UserLayout>
   );

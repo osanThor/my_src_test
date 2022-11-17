@@ -64,6 +64,8 @@ import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 import SawWheelIconFile from 'public/assets/common/saw-toothdwheel.svg';
 import GuidGoIconFile from 'public/assets/common/guide-go.svg';
+import MarkBlackIconFile from 'public/assets/common/mark_black.svg';
+import SelectButtonIconFile from 'public/assets/common/select-button.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -124,6 +126,8 @@ export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
 export const SawWheelIcon = SawWheelIconFile;
 export const GuidGoIcon = GuidGoIconFile;
+export const Mark = MarkBlackIconFile;
+export const SelectButtonIcon = SelectButtonIconFile;
 
 //Index
 export const MainBanner = MainBannerImage;
