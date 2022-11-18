@@ -60,6 +60,7 @@ const MyPositionArea = () => {
 
 const MyPositionAreaBlock = styled.div`
   width: 100%;
+  margin-bottom: 24px;
 
   .positoin_top {
     width: 100%;
@@ -99,7 +100,9 @@ const MyPositionAreaBlock = styled.div`
     }
     .switch_box {
       label.moreInfoLabel {
-        /* transform: translateY(2px); */
+        display: flex;
+        align-items: center;
+        color: ${colors.gray[4]};
         cursor: pointer;
         & > div {
           margin-left: 8px;

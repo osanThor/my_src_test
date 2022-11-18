@@ -8,6 +8,9 @@ export type LocalStateType = {
   order: boolean;
   quantity: boolean;
   option: boolean;
+  orderMessage: boolean;
+  noSignMessage: boolean;
+  errorMessage: boolean;
 };
 
 const initialState: LocalStateType = {
@@ -18,6 +21,10 @@ const initialState: LocalStateType = {
   order: false,
   quantity: false,
   option: false,
+  //message state
+  orderMessage: true,
+  noSignMessage: false,
+  errorMessage: false,
 };
 
 const localSlice = createSlice({
@@ -59,6 +66,22 @@ const localSlice = createSlice({
       state.order = false;
       state.quantity = false;
       state.option = true;
+    },
+    //message Page Actions
+    gotoOrderMessage(state) {
+      state.orderMessage = true;
+      state.noSignMessage = false;
+      state.errorMessage = false;
+    },
+    gotoNoSignMessage(state) {
+      state.orderMessage = false;
+      state.noSignMessage = true;
+      state.errorMessage = false;
+    },
+    gotoErrorMessage(state) {
+      state.orderMessage = false;
+      state.noSignMessage = false;
+      state.errorMessage = true;
     },
   },
 });

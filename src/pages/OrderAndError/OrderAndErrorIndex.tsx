@@ -1,10 +1,14 @@
 import UserLayout from '@/src/components/layout/UserLayout';
+import MessageTop from '@/src/components/orderAndError/MessageTop';
+import OrderAndErrorLayout from '@/src/components/orderAndError/OrderAndErrorLayout';
 import React from 'react';
 
 const OrderAndErrorIndex = () => {
   return (
     <UserLayout>
-      <div>주문내역 및 에러메세지</div>
+      <OrderAndErrorLayout>
+        <MessageTop />
+      </OrderAndErrorLayout>
     </UserLayout>
   );
 };
