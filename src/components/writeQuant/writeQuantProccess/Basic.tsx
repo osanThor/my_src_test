@@ -54,7 +54,7 @@ const Basic = () => {
 };
 const BasicBlock = styled.div`
   width: 100%;
-  min-height: 538px;
+  min-height: 583px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -62,7 +62,7 @@ const BasicBlock = styled.div`
   .basic_form {
     width: 100%;
     display: flex;
-    margin-bottom: 100px;
+    margin-bottom: 145px;
     & > div {
       width: 50%;
       max-width: 732px;

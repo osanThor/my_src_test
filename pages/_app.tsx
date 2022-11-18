@@ -53,8 +53,6 @@ function MyApp({
     const user = localStorage.getItem('user');
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
-    }
-    if (loadAuthDone.message != 'CREATED') {
       if (loadAuthDone.accessToken) {
         dispatch(userActions.getUserProfile());
       }

@@ -1,13 +1,16 @@
 import colors from '@/src/assets/Colors';
 import { Mark, Notice } from '@/src/assets/Images';
+import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import CustomSelect from '../item/CustomSelect';
 
 const Quantity = () => {
+  const dispatch = useDispatch();
   const [orderCaption, setOrderCaption] = useState(false);
   const [standardCaption, setStandardCaption] = useState(false);
 
@@ -120,8 +123,10 @@ const Quantity = () => {
             <StyledButton blue>메세지 작성</StyledButton>
           </div>
           <div className="bottom_btns">
-            <StyledButton>이전</StyledButton>
-            <StyledButton lightBlue>다음</StyledButton>
+            <StyledButton onClick={() => dispatch(localActions.gotoOrder())}>이전</StyledButton>
+            <StyledButton lightBlue onClick={() => dispatch(localActions.gotoOption())}>
+              다음
+            </StyledButton>
           </div>
         </div>
       </div>
@@ -131,7 +136,7 @@ const Quantity = () => {
 
 const QuantityBlock = styled.div`
   width: 100%;
-  min-height: 538px;
+  min-height: 583px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -142,7 +147,7 @@ const QuantityBlock = styled.div`
   .quantity_form {
     width: 100%;
     display: flex;
-    margin-bottom: 100px;
+    margin-bottom: 145px;
     & > div {
       width: 50%;
       max-width: 732px;
@@ -160,6 +165,7 @@ const QuantityBlock = styled.div`
           margin-bottom: 0;
         }
         .radio_title {
+          min-width: 93px;
           text-align: center;
           white-space: nowrap;
           border-radius: 8px;
@@ -167,7 +173,7 @@ const QuantityBlock = styled.div`
           font-size: 16px;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           label {
             display: flex;
             align-items: center;
@@ -190,7 +196,8 @@ const QuantityBlock = styled.div`
           font-size: 14px;
           word-break: keep-all;
           color: ${colors.gray[4]};
-          transform: translateY(110%);
+          transform: translateY(130%);
+          padding-left: 117px;
           .notice {
             width: 18px;
             height: 18px;
@@ -205,6 +212,7 @@ const QuantityBlock = styled.div`
           & > .info {
             align-items: flex-start;
             flex-direction: column;
+            transform: translateY(100%);
           }
         }
       }
@@ -248,6 +256,8 @@ const QuantityBlock = styled.div`
         .write_quant_item {
           margin-bottom: 24px;
           .radio_title {
+            justify-content: space-between;
+            min-width: 176px;
             .mo_info_box {
               cursor: pointer;
               position: relative;

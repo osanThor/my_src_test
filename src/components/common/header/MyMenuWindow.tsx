@@ -181,4 +181,4 @@ const MyMenuWindowBlock = styled.div`
   }
 `;
 
-export default MyMenuWindow;
+export default React.memo(MyMenuWindow);

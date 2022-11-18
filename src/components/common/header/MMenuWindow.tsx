@@ -232,4 +232,4 @@ const MMenuWindowBlock = styled.div`
   }
 `;
 
-export default MMenuWindow;
+export default React.memo(MMenuWindow);
