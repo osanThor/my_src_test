@@ -46,6 +46,8 @@ import MyDefaultIconFile from 'public/assets/common/profile/my.svg';
 
 import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
+import CheckCircleIcon from 'public/assets/common/circle_check_default.svg';
+import CheckedCircleIcon from 'public/assets/common/circle_check_checked.svg';
 
 import NoticeIcon from 'public/assets/common/notice.svg';
 import NoticeErrIcon from 'public/assets/common/notice_err.svg';
@@ -67,6 +69,8 @@ import GuidGoIconFile from 'public/assets/common/guide-go.svg';
 import MarkBlackIconFile from 'public/assets/common/mark_black.svg';
 import SelectButtonIconFile from 'public/assets/common/select-button.svg';
 import SmailBlueIcon from 'public/assets/common/smail.svg';
+import PlusIconFile from 'public/assets/common/plus.svg';
+import MinusIconFile from 'public/assets/common/minus.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -111,6 +115,7 @@ export const CloseRed = CloseRedIcon;
 export const CloseWhite = CloseWhiteIcon;
 export const CheckSquare = CheckSquareIcon;
 export const CheckedSqquare = CheckedSquareIcon;
+export const CheckCircle = [CheckCircleIcon, CheckedCircleIcon];
 export const PreviewBg = previewBgImage;
 
 export const Notice = [NoticeIcon, NoticeErrIcon];
@@ -130,6 +135,7 @@ export const GuidGoIcon = GuidGoIconFile;
 export const Mark = MarkBlackIconFile;
 export const SelectButtonIcon = SelectButtonIconFile;
 export const SmailBlue = SmailBlueIcon;
+export const NumberButton = [PlusIconFile, MinusIconFile];
 
 //Index
 export const MainBanner = MainBannerImage;

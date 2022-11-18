@@ -1,13 +1,17 @@
 import colors from '@/src/assets/Colors';
 import { Mark, Notice } from '@/src/assets/Images';
+import { orderType, priceType, side } from '@/src/assets/Options';
+import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import CustomSelect from '../item/CustomSelect';
 
 const OrderInfo = () => {
+  const dispatch = useDispatch();
   return (
     <OrderInfoBlock>
       <div className="intro_box">
@@ -25,15 +29,15 @@ const OrderInfo = () => {
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">주문유형</div>
-            <CustomSelect />
+            <CustomSelect place="주문유형을 선택해요" options={orderType} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">주문방법</div>
-            <CustomSelect />
+            <CustomSelect place="기본계정" options={side} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">주문가격</div>
-            <CustomSelect />
+            <CustomSelect place="주문가격을 선택해요" options={priceType} />
             <StyledInput autoComplete="order_price" placeholder="주문가격을 입력해요" disabled />
           </div>
         </div>
@@ -52,8 +56,10 @@ const OrderInfo = () => {
       </div>
       <div className="write_quant_bottom">
         <div className="btns">
-          <StyledButton>이전</StyledButton>
-          <StyledButton lightBlue>다음</StyledButton>
+          <StyledButton onClick={() => dispatch(localActions.gotoBasic())}>이전</StyledButton>
+          <StyledButton lightBlue onClick={() => dispatch(localActions.gotoQuantity())}>
+            다음
+          </StyledButton>
         </div>
       </div>
     </OrderInfoBlock>
@@ -62,10 +68,15 @@ const OrderInfo = () => {
 
 const OrderInfoBlock = styled.div`
   width: 100%;
+  min-height: 583px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   .order_form {
     width: 100%;
     display: flex;
-    margin-bottom: 100px;
+    margin-bottom: 145px;
     & > div {
       width: 50%;
       max-width: 732px;
@@ -99,13 +110,14 @@ const OrderInfoBlock = styled.div`
           width: 100%;
           display: flex;
           align-items: center;
+          padding-left: 178px;
           position: absolute;
           bottom: 0;
           font-size: 14px;
           left: 0;
           word-break: keep-all;
           color: ${colors.gray[4]};
-          transform: translateY(110%);
+          transform: translateY(130%);
           .notice {
             width: 18px;
             height: 18px;
@@ -175,6 +187,9 @@ const OrderInfoBlock = styled.div`
             border-radius: 8px;
             background-color: inherit;
             margin-bottom: 8px;
+          }
+          .info {
+            padding-left: 0;
           }
         }
       }

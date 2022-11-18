@@ -3,9 +3,16 @@ import { SelectButtonIcon } from '@/src/assets/Images';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const CustomSelect = () => {
-  const [currentValue, setCurrentValue] = useState('거래소를 선택하세요');
+const CustomSelect = ({
+  place,
+  options,
+}: {
+  place: string;
+  options: { name: string; value: string; txt: string }[];
+}) => {
+  const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
+  const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
 
   const handleOnChangeSelectValue = (e: any) => {
@@ -24,13 +31,21 @@ const CustomSelect = () => {
     };
   });
 
+  useEffect(() => {
+    if (place === currentValue) {
+      setPlaceHoder(true);
+    } else {
+      setPlaceHoder(false);
+    }
+  }, [currentValue]);
+
   return (
     <CustomSelectBox ref={selectRef} epect={showOptions} onClick={() => setShowOptions((prev) => !prev)}>
-      <Label place={showOptions}>{currentValue}</Label>
+      <Label place={placeHold}>{currentValue}</Label>
       <SelectOptions show={showOptions}>
-        <Option onClick={handleOnChangeSelectValue}>option1</Option>
-        <Option onClick={handleOnChangeSelectValue}>option2</Option>
-        <Option onClick={handleOnChangeSelectValue}>option3</Option>
+        {options.map((opt) => (
+          <Option onClick={handleOnChangeSelectValue}>{opt.txt}</Option>
+        ))}
       </SelectOptions>
     </CustomSelectBox>
   );
@@ -98,4 +113,4 @@ const Option = styled.li`
   }
 `;
 
-export default CustomSelect;
+export default React.memo(CustomSelect);

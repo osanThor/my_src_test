@@ -161,6 +161,9 @@ const WriteQuantBottomBlock = styled.div`
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 20px;
+      .intro_title {
+        margin-bottom: 4px;
+      }
     }
   }
 `;

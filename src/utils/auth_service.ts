@@ -1,4 +1,3 @@
-import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
@@ -20,8 +19,10 @@ class AuthService {
     const user = localStorage.getItem('user');
     let auth = localStorage.getItem('Authorization');
     let timeoutId: NodeJS.Timeout;
+    console.log(loadAuthDone);
 
     if (user) {
+      dispatch(authActions.refreshToken());
       timeoutId = setTimeout(() => {
         if (!auth) return;
         if (loadAuthDone.message === 'ACCESS_DENIED') {
@@ -35,10 +36,19 @@ class AuthService {
         dispatch(authActions.refreshToken());
       }, loadAuthDone.expiryTime - 30000);
     } else {
+      if (loadAuthDone.message === 'ACCESS_DENIED') {
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        localStorage.clear();
+        console.log('토큰 만료');
+        this.router.push('/auth/login');
+        clearTimeout(timeoutId);
+        return;
+      }
       clearTimeout(timeoutId);
       console.log('Not User');
       return;
     }
+
     axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
   }
 

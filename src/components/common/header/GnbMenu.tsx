@@ -251,4 +251,4 @@ const GnbMenuList = styled.div`
   }
 `;
 
-export default GnbMenu;
+export default React.memo(GnbMenu);
