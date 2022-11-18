@@ -8,6 +8,7 @@ import { media } from '@/styles/theme';
 import Button from '../../common/Button';
 import { useDispatch } from 'react-redux';
 import { localActions } from '@/src/store/reducers';
+import { alias, market, platform, symbol } from '@/src/assets/Options';
 
 const Basic = () => {
   const dispatch = useDispatch();
@@ -26,21 +27,21 @@ const Basic = () => {
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">거래소</div>
-            <CustomSelect />
+            <CustomSelect place="거래소를 선택해요" options={platform} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">거래마켓</div>
-            <CustomSelect />
+            <CustomSelect place="거래할 마켓을 선택해요" options={market} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">계정</div>
-            <CustomSelect />
+            <CustomSelect place="기본계정" options={alias} />
           </div>
         </div>
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">거래코인</div>
-            <CustomSelect />
+            <CustomSelect place="거래할 코인을 선택해요" options={symbol} />
           </div>
         </div>
       </div>

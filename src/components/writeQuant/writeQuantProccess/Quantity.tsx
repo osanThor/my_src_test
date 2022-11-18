@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { Mark, Notice } from '@/src/assets/Images';
+import { equityType, qtyType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
@@ -64,7 +65,7 @@ const Quantity = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect />
+              <CustomSelect place="주문수량을 선택해요" options={qtyType} />
               <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
               <div className="info gray">
                 <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
@@ -99,7 +100,7 @@ const Quantity = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect />
+              <CustomSelect place="기준자산을 선택해요" options={equityType} />
               <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" />
               <div className="info">
                 <div className="notice">

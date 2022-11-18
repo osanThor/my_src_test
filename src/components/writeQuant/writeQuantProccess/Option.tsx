@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { CheckCircle, Mark, Notice, NumberButton, SmailBlue } from '@/src/assets/Images';
+import { conditionType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
@@ -148,7 +149,7 @@ const Option = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect />
+              <CustomSelect place="주문가격을 선택해요" options={conditionType} />
               <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
             </div>
             <div className="write_quant_item">

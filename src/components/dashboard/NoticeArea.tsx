@@ -44,6 +44,15 @@ const NoticeArea = () => {
             </div>
           </Link>
         </SwiperSlide>
+        <SwiperSlide>
+          <Link href="/">
+            <div className="notice_item">
+              <div className="notice_num"></div>
+              <div className="notice_title">파트너십 체결: Dune Analytics Analytics Analytics</div>
+              <span>NEW</span>
+            </div>
+          </Link>
+        </SwiperSlide>
       </Swiper>
     </NoticeAreaBlock>
   );
