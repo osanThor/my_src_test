@@ -54,6 +54,10 @@ const Basic = () => {
 };
 const BasicBlock = styled.div`
   width: 100%;
+  min-height: 538px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .basic_form {
     width: 100%;

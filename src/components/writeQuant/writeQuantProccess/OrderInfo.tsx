@@ -62,6 +62,11 @@ const OrderInfo = () => {
 
 const OrderInfoBlock = styled.div`
   width: 100%;
+  min-height: 538px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   .order_form {
     width: 100%;
     display: flex;

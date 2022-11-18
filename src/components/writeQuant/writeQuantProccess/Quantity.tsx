@@ -10,54 +10,79 @@ import CustomSelect from '../item/CustomSelect';
 const Quantity = () => {
   return (
     <QuantityBlock>
-      <div className="intro_box">
-        <div className="intro_title">
-          <div className="mark">
-            <Image src={Mark} alt="mark" />
+      <div>
+        <div className="intro_box">
+          <div className="intro_title">
+            <div className="mark">
+              <Image src={Mark} alt="mark" />
+            </div>
+            <span className="txt">수량정보</span>
           </div>
-          <span className="txt">수량정보</span>
+          <div className="description">주문수량을 입력하실땐 USDT와 코인갯수로 주문해요</div>
         </div>
-        <div className="description">주문수량을 입력하실땐 USDT와 코인갯수로 주문해요</div>
-      </div>
-      <div className="quantity_form">
-        <div className="first_con">
-          <div className="write_quant_item">
-            <div className="radio_title">
-              <label>
-                <input type="radio" name="quantity_option" defaultChecked /> 주문수량
-              </label>
-            </div>
-            <CustomSelect />
-            <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
-            <div className="info gray">
-              <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
-              <span>USDT 코인 갯수 입력 : 500을 입력하면 500USDT의 값어치에 맞는 BTC 구입</span>
-            </div>
-          </div>
-        </div>
-        <div className="first_con">
-          <div className="write_quant_item">
-            <div className="radio_title">
-              <label>
-                <input type="radio" name="quantity_option" />
-                기준자산
-              </label>
-            </div>
-            <CustomSelect />
-            <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" />
-            <div className="info">
-              <div className="notice">
-                <Image src={Notice[0]} alt="notice" />
+        <div className="quantity_form">
+          <div className="first_con">
+            <div className="write_quant_item">
+              <div className="radio_title">
+                <label>
+                  <input type="radio" name="quantity_option" defaultChecked /> 주문수량
+                </label>
+                <div className="mo_info_box">
+                  <div className="notice">
+                    <Image src={Notice[0]} alt="notice" />
+                  </div>
+                  도움말
+                </div>
               </div>
-              주문방법에서 청산선택시 주문수량을 입력하지 않을 경우 100% 청산돼요
+              <CustomSelect />
+              <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
+              <div className="info gray">
+                <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
+                <span>USDT 코인 갯수 입력 : 500을 입력하면 500USDT의 값어치에 맞는 BTC 구입</span>
+              </div>
+            </div>
+          </div>
+          <div className="first_con">
+            <div className="write_quant_item">
+              <div className="radio_title">
+                <label>
+                  <input type="radio" name="quantity_option" />
+                  기준자산
+                </label>
+                <div className="mo_info_box">
+                  <div className="notice">
+                    <Image src={Notice[0]} alt="notice" />
+                  </div>
+                  도움말
+                </div>
+              </div>
+              <CustomSelect />
+              <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" />
+              <div className="info">
+                <div className="notice">
+                  <Image src={Notice[0]} alt="notice" />
+                </div>
+                주문방법에서 청산선택시 주문수량을 입력하지 않을 경우 100% 청산돼요
+                <div className="info gray">
+                  <span>잔액대비 입력 : 현재 보유중인 포지션(코인)을 제외한 남은 잔액</span>
+                  <span>총 자산대비 입력 : 현재 보유중인 포지션(코인)을 포함한 남은 잔액</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="write_quant_bottom">
         <div className="btns">
-          <StyledButton>이전</StyledButton>
-          <StyledButton lightBlue>다음</StyledButton>
+          <div className="message_btns">
+            <StyledButton blue>메세지 저장</StyledButton>
+            <StyledButton blue>메세지 작성</StyledButton>
+          </div>
+          <div className="bottom_btns">
+            <StyledButton>이전</StyledButton>
+            <StyledButton lightBlue>다음</StyledButton>
+          </div>
         </div>
       </div>
     </QuantityBlock>
@@ -66,6 +91,14 @@ const Quantity = () => {
 
 const QuantityBlock = styled.div`
   width: 100%;
+  min-height: 538px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .mo_info_box {
+    display: none;
+  }
   .quantity_form {
     width: 100%;
     display: flex;
@@ -129,12 +162,34 @@ const QuantityBlock = styled.div`
               color: ${colors.gray[3]};
             }
           }
+          & > .info {
+            align-items: flex-start;
+            flex-direction: column;
+          }
         }
       }
     }
   }
   .write_quant_bottom {
     display: flex;
+    .btns {
+      display: flex;
+      flex-direction: column;
+      .message_btns {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+        button {
+          width: 100%;
+          margin-right: 0;
+
+          &:first-child {
+            margin-bottom: 16px;
+          }
+        }
+      }
+    }
     button:first-child {
       margin-right: 1rem;
     }
@@ -153,6 +208,19 @@ const QuantityBlock = styled.div`
         .write_quant_item {
           margin-bottom: 24px;
           .radio_title {
+            .mo_info_box {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              margin-left: 1rem;
+              font-size: 14px;
+              color: ${colors.gray[3]};
+              .notice {
+                width: 18px;
+                height: 18px;
+                margin-right: 8px;
+              }
+            }
           }
           .info {
             display: none;
@@ -165,29 +233,13 @@ const QuantityBlock = styled.div`
     .quantity_form {
       & > div {
         .write_quant_item {
-          .radio_title {
-          }
-        }
-      }
-    }
-    .write_quant_bottom {
-      width: 100%;
-      flex-direction: column;
-      button:first-child {
-        margin-right: 0;
-        margin-bottom: 20px;
-      }
-    }
-  }
-  ${media.mobile} {
-    .quantity_form {
-      margin-bottom: 60px;
-      & > div {
-        .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
           .radio_title {
+            width: 100%;
+            justify-content: space-between;
             padding: 0;
+            margin-right: 0;
             min-width: auto;
             text-align: center;
             white-space: nowrap;
@@ -197,6 +249,37 @@ const QuantityBlock = styled.div`
           }
         }
       }
+    }
+    .write_quant_bottom {
+      width: 100%;
+      flex-direction: column;
+      .btns {
+        .message_btns {
+          margin-bottom: 20px;
+          button {
+            width: 100%;
+            margin-right: 0;
+
+            &:first-child {
+              margin-bottom: 20px;
+            }
+          }
+        }
+        button:first-child {
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
+        .bottom_btns {
+          button:first-child {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  ${media.mobile} {
+    .quantity_form {
+      margin-bottom: 60px;
     }
   }
 `;
@@ -237,7 +320,7 @@ const StyledInput = styled.input`
     outline: none;
   }
 
-  ${media.mobile} {
+  ${media.tablet} {
     max-width: none;
     min-height: 56px;
     margin-top: 8px;
