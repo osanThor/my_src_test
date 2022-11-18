@@ -2,12 +2,32 @@ import colors from '@/src/assets/Colors';
 import { Mark, Notice } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import CustomSelect from '../item/CustomSelect';
 
 const Quantity = () => {
+  const [orderCaption, setOrderCaption] = useState(false);
+  const [standardCaption, setStandardCaption] = useState(false);
+
+  const orderRef = useRef<HTMLDivElement>(null);
+  const standardRef = useRef<HTMLDivElement>(null);
+  const handleClickOutSide = (e: any) => {
+    if (orderCaption && !orderRef.current.contains(e.target)) {
+      setOrderCaption(false);
+    }
+    if (standardCaption && !standardRef.current.contains(e.target)) {
+      setStandardCaption(false);
+    }
+  };
+  useEffect(() => {
+    if (orderCaption || standardCaption) document.addEventListener('mousedown', handleClickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutSide);
+    };
+  });
+
   return (
     <QuantityBlock>
       <div>
@@ -27,11 +47,18 @@ const Quantity = () => {
                 <label>
                   <input type="radio" name="quantity_option" defaultChecked /> 주문수량
                 </label>
-                <div className="mo_info_box">
+                <div ref={orderRef} className="mo_info_box" onClick={() => setOrderCaption(!orderCaption)}>
                   <div className="notice">
                     <Image src={Notice[0]} alt="notice" />
                   </div>
                   도움말
+                  {orderCaption && (
+                    <div className="mo_caption">
+                      <div className="cap_title">주문수량</div>
+                      <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
+                      <span>USDT 코인 갯수 입력 : 500을 입력하면 500USDT의 값어치에 맞는 BTC 구입</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <CustomSelect />
@@ -49,11 +76,24 @@ const Quantity = () => {
                   <input type="radio" name="quantity_option" />
                   기준자산
                 </label>
-                <div className="mo_info_box">
+                <div ref={standardRef} className="mo_info_box" onClick={() => setStandardCaption(!standardCaption)}>
                   <div className="notice">
                     <Image src={Notice[0]} alt="notice" />
                   </div>
                   도움말
+                  {standardCaption && (
+                    <div className="mo_caption">
+                      <div className="cap_title">기준자산</div>
+                      <div className="mo_info">
+                        <div className="notice">
+                          <Image src={Notice[0]} alt="notice" />
+                        </div>
+                        주문방법에서 청산선택시 주문수량을 입력하지 않을 경우 100% 청산돼요
+                      </div>
+                      <span>잔액대비 입력 : 현재 보유중인 포지션(코인)을 제외한 남은 잔액</span>
+                      <span>총 자산대비 입력 : 현재 보유중인 포지션(코인)을 포함한 남은 잔액</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <CustomSelect />
@@ -210,6 +250,8 @@ const QuantityBlock = styled.div`
           .radio_title {
             .mo_info_box {
               cursor: pointer;
+              position: relative;
+              word-break: keep-all;
               display: flex;
               align-items: center;
               margin-left: 1rem;
@@ -219,6 +261,42 @@ const QuantityBlock = styled.div`
                 width: 18px;
                 height: 18px;
                 margin-right: 8px;
+              }
+              .mo_caption {
+                width: calc(100vw - 2rem);
+                max-width: 240px;
+                position: absolute;
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                z-index: 991;
+                box-shadow: ${({ theme }) => theme.boxShadow};
+                border-radius: 8px;
+                padding: 12px;
+                align-items: flex-start;
+                top: 100%;
+                right: 0;
+                .cap_title {
+                  width: 100%;
+                  font-size: 16px;
+                  margin-bottom: 4px;
+                  color: ${colors.gray[5]};
+                }
+                .mo_info {
+                  width: 100%;
+                  display: flex;
+                  white-space: normal;
+                  text-align: left;
+                  margin-bottom: 4px;
+                  .notice {
+                    min-width: 18px;
+                  }
+                }
+
+                span {
+                  text-align: left;
+                  white-space: normal;
+                }
               }
             }
           }
@@ -328,22 +406,4 @@ const StyledInput = styled.input`
   }
 `;
 
-const CustomInput = styled.input`
-  width: 100%;
-  min-height: 56px;
-  flex: 1;
-  border: none;
-  padding: 1rem 24px;
-  background-color: ${colors.blue[0]};
-  border-radius: 8px;
-  font-size: 1rem;
-  color: ${colors.blue[2]};
-  &::placeholder {
-    font-size: 1rem;
-    color: ${colors.blue[1]};
-  }
-  &:focus {
-    outline: none;
-  }
-`;
 export default Quantity;

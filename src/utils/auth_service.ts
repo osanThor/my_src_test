@@ -1,4 +1,3 @@
-import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { Dispatch } from 'react';
 import { AnyAction } from 'redux';
@@ -20,6 +19,7 @@ class AuthService {
     const user = localStorage.getItem('user');
     let auth = localStorage.getItem('Authorization');
     let timeoutId: NodeJS.Timeout;
+    console.log(loadAuthDone);
 
     if (user) {
       dispatch(authActions.refreshToken());
