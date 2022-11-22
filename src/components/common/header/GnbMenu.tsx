@@ -149,6 +149,7 @@ const GnbMenuList = styled.div`
       width: 100%;
       margin-bottom: 8px;
       color: ${colors.gray[4]};
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -167,7 +168,8 @@ const GnbMenuList = styled.div`
           margin-right: 12px;
         }
         & > span {
-          /* transform: translateY(2px); */
+          transform: translateY(2px);
+          font-size: 14px;
         }
       }
       &:nth-child(1) > a > .headerIcon {
@@ -251,4 +253,4 @@ const GnbMenuList = styled.div`
   }
 `;
 
-export default GnbMenu;
+export default React.memo(GnbMenu);

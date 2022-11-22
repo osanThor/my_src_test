@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import '../styles/fonts.css';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -53,8 +54,6 @@ function MyApp({
     const user = localStorage.getItem('user');
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
-    }
-    if (loadAuthDone.message != 'CREATED') {
       if (loadAuthDone.accessToken) {
         dispatch(userActions.getUserProfile());
       }
@@ -71,7 +70,7 @@ function MyApp({
   // token
   useEffect(() => {
     authService.userRefreshToken(dispatch, loadAuthDone);
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);

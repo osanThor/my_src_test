@@ -32,6 +32,7 @@ const BalanceLayout = styled.div`
     }
     .tit {
       font-weight: 800;
+      font-family: 'GmarketSansBold';
       font-size: 16px;
       color: ${colors.blue[2]};
       margin-bottom: 8px;
@@ -55,8 +56,10 @@ const BalanceBlock = styled.div`
   justify-content: space-between;
   span.tit {
     font-size: 24px;
+    transform: translateY(2px);
   }
   .balance_price {
+    font-family: 'GmarketSansBold';
     font-weight: 800;
     font-size: 26px;
     letter-spacing: 2px;

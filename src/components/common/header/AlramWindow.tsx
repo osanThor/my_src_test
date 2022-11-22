@@ -24,4 +24,4 @@ const AlramWindowBlock = styled.div`
   color: ${colors.gray[5]};
 `;
 
-export default AlramWindow;
+export default React.memo(AlramWindow);

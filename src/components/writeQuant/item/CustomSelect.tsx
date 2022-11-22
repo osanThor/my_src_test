@@ -1,11 +1,20 @@
 import colors from '@/src/assets/Colors';
 import { SelectButtonIcon } from '@/src/assets/Images';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const CustomSelect = () => {
-  const [currentValue, setCurrentValue] = useState('거래소를 선택하세요');
+const CustomSelect = ({
+  place,
+  options,
+  disable,
+}: {
+  place: string;
+  options: { name: string; value: string; txt: string }[];
+  disable: boolean;
+}) => {
+  const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
+  const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
 
   const handleOnChangeSelectValue = (e: any) => {
@@ -24,16 +33,38 @@ const CustomSelect = () => {
     };
   });
 
+  useEffect(() => {
+    if (place === currentValue) {
+      setPlaceHoder(true);
+    } else {
+      setPlaceHoder(false);
+    }
+  }, [currentValue]);
+
   return (
-    <CustomSelectBox ref={selectRef} epect={showOptions} onClick={() => setShowOptions((prev) => !prev)}>
-      <Label place={showOptions}>{currentValue}</Label>
+    <CustomSelectBox
+      ref={selectRef}
+      disable={disable}
+      epect={showOptions}
+      onClick={() => setShowOptions((prev) => !prev)}
+    >
+      <Label className="label" place={placeHold}>
+        {currentValue}
+      </Label>
       <SelectOptions show={showOptions}>
-        <Option onClick={handleOnChangeSelectValue}>option1</Option>
-        <Option onClick={handleOnChangeSelectValue}>option2</Option>
-        <Option onClick={handleOnChangeSelectValue}>option3</Option>
+        {options.map((opt) => (
+          <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+            {opt.txt}
+          </Option>
+        ))}
       </SelectOptions>
     </CustomSelectBox>
   );
+};
+
+type PropsType = {
+  epect: boolean;
+  disable: boolean;
 };
 
 const CustomSelectBox = styled.div`
@@ -44,11 +75,13 @@ const CustomSelectBox = styled.div`
   padding: 1rem 24px;
   border-radius: 12px;
   background-color: #ffffff;
+  transition: all 0.2s;
   align-self: center;
   border: 1px solid ${colors.gray[2]};
   cursor: pointer;
   white-space: nowrap;
   text-overflow: ellipsis;
+
   &::before {
     content: '';
     width: 32px;
@@ -58,11 +91,25 @@ const CustomSelectBox = styled.div`
     right: 24px;
     color: #49c181;
     font-size: 20px;
-    transform: ${(props: { epect: boolean }) =>
-      props.epect ? `translateY(-50%) rotate(180deg);` : `translateY(-50%);`};
+    transform: ${(props: PropsType) => (props.epect ? `translateY(-50%) rotate(180deg);` : `translateY(-50%);`)};
     background: url(${SelectButtonIcon.src}) no-repeat 50% / cover;
     transition: all 0.2s;
   }
+
+  ${(props: PropsType) =>
+    props.disable &&
+    css`
+      background-color: ${colors.gray[1]};
+      color: ${colors.gray[3]};
+      pointer-events: none;
+      &::before {
+        background: ${colors.gray[1]};
+        border-radius: 50%;
+      }
+      .label {
+        color: ${colors.gray[3]};
+      }
+    `}
 `;
 const Label = styled.label`
   width: 100%;
@@ -98,4 +145,4 @@ const Option = styled.li`
   }
 `;
 
-export default CustomSelect;
+export default React.memo(CustomSelect);

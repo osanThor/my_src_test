@@ -333,8 +333,8 @@ const GnbHeader = styled.div`
       }
 
       & > div {
-        width: 28px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
         margin-right: 12px;
         display: flex;
         justify-content: center;

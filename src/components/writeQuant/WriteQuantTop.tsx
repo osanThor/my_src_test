@@ -25,7 +25,7 @@ const WriteQuantTop = () => {
             <Button lightBlue>
               <span className="dis_p">복사하기</span>
               <span className="dis_m">
-                <Image src={GuidGoIcon} alt="button" />
+                <Image src={GuidGoIcon[1]} alt="button" />
               </span>
             </Button>
           </div>
@@ -39,7 +39,7 @@ const WriteQuantTop = () => {
             <Button blue>
               <span className="dis_p">복사하기</span>
               <span className="dis_m">
-                <Image src={GuidGoIcon} alt="button" />
+                <Image src={GuidGoIcon[1]} alt="button" />
               </span>
             </Button>
             <span>간단한 텍스트 수정이 가능해요</span>

@@ -44,6 +44,15 @@ const NoticeArea = () => {
             </div>
           </Link>
         </SwiperSlide>
+        <SwiperSlide>
+          <Link href="/">
+            <div className="notice_item">
+              <div className="notice_num"></div>
+              <div className="notice_title">파트너십 체결: Dune Analytics Analytics Analytics</div>
+              <span>NEW</span>
+            </div>
+          </Link>
+        </SwiperSlide>
       </Swiper>
     </NoticeAreaBlock>
   );
@@ -79,8 +88,11 @@ const NoticeAreaBlock = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       margin-right: 20px;
+      transform: translateY(2px);
     }
     span {
+      font-family: 'GmarketSansBold';
+      transform: translateY(2px);
       font-weight: 800;
       color: ${colors.red[1]};
     }

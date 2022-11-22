@@ -60,6 +60,7 @@ const MyPositionArea = () => {
 
 const MyPositionAreaBlock = styled.div`
   width: 100%;
+  margin-bottom: 24px;
 
   .positoin_top {
     width: 100%;
@@ -86,7 +87,7 @@ const MyPositionAreaBlock = styled.div`
         .btn_txt {
           display: flex;
           justify-content: space-between;
-          /* transform: translateY(2px); */
+          transform: translateY(2px);
           .title {
             margin-right: 12px;
           }
@@ -99,13 +100,19 @@ const MyPositionAreaBlock = styled.div`
     }
     .switch_box {
       label.moreInfoLabel {
-        /* transform: translateY(2px); */
+        display: flex;
+        align-items: center;
+        transform: translateY(2px);
+        color: ${colors.gray[4]};
         cursor: pointer;
         & > div {
           margin-left: 8px;
         }
       }
       label.moreInfoLabel.on {
+        color: ${colors.blue[2]};
+      }
+      input:checked + label.moreInfoLabel {
         color: ${colors.blue[2]};
       }
     }
