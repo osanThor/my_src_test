@@ -48,6 +48,8 @@ import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
 import CheckCircleIcon from 'public/assets/common/circle_check_default.svg';
 import CheckedCircleIcon from 'public/assets/common/circle_check_checked.svg';
+import CheckRadioIcon from 'public/assets/common/checkbox.svg';
+import CheckedRadioIcon from 'public/assets/common/checkbox_checked.svg';
 
 import NoticeIcon from 'public/assets/common/notice.svg';
 import NoticeErrIcon from 'public/assets/common/notice_err.svg';
@@ -116,6 +118,7 @@ export const CloseWhite = CloseWhiteIcon;
 export const CheckSquare = CheckSquareIcon;
 export const CheckedSqquare = CheckedSquareIcon;
 export const CheckCircle = [CheckCircleIcon, CheckedCircleIcon];
+export const CheckRadio = [CheckRadioIcon, CheckedRadioIcon];
 export const PreviewBg = previewBgImage;
 
 export const Notice = [NoticeIcon, NoticeErrIcon];

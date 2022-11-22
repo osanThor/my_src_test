@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Mark, Notice } from '@/src/assets/Images';
+import { CheckRadio, Mark, Notice } from '@/src/assets/Images';
 import { equityType, qtyType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
@@ -72,7 +72,8 @@ const Quantity = () => {
                     name="quantity_option"
                     value="order"
                     checked={isOrder}
-                  />{' '}
+                  />
+                  <span className="radio"></span>
                   주문수량
                 </label>
                 <div ref={orderRef} className="mo_info_box" onClick={() => setOrderCaption(!orderCaption)}>
@@ -108,6 +109,7 @@ const Quantity = () => {
                     value="standard"
                     checked={isStandard}
                   />
+                  <span className="radio"></span>
                   기준자산
                 </label>
                 <div ref={standardRef} className="mo_info_box" onClick={() => setStandardCaption(!standardCaption)}>
@@ -211,9 +213,19 @@ const QuantityBlock = styled.div`
             cursor: pointer;
 
             input {
-              width: 20px;
-              height: 20px;
-              margin-right: 6.5px;
+              display: none;
+            }
+            span.radio {
+              width: 24px;
+              height: 24px;
+              margin-right: 4px;
+              background: url(${CheckRadio[0].src}) no-repeat 50% / cover;
+              transition: all 0.2s;
+              transform: translateY(-2px);
+            }
+
+            input:checked + span.radio {
+              background: url(${CheckRadio[1].src}) no-repeat 50% / cover;
             }
           }
         }

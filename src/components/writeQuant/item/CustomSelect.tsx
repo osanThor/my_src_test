@@ -48,7 +48,9 @@ const CustomSelect = ({
       epect={showOptions}
       onClick={() => setShowOptions((prev) => !prev)}
     >
-      <Label place={placeHold}>{currentValue}</Label>
+      <Label className="label" place={placeHold}>
+        {currentValue}
+      </Label>
       <SelectOptions show={showOptions}>
         {options.map((opt) => (
           <Option key={opt.value} onClick={handleOnChangeSelectValue}>
@@ -100,8 +102,11 @@ const CustomSelectBox = styled.div`
       color: ${colors.gray[3]};
       pointer-events: none;
       &::before {
-        background: ${colors.gray[2]};
+        background: ${colors.gray[1]};
         border-radius: 50%;
+      }
+      .label {
+        color: ${colors.gray[3]};
       }
     `}
 `;
