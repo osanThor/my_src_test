@@ -3,6 +3,7 @@ import { Mark, Notice } from '@/src/assets/Images';
 import { equityType, qtyType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
+import { Console } from 'console';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -12,6 +13,22 @@ import CustomSelect from '../item/CustomSelect';
 
 const Quantity = () => {
   const dispatch = useDispatch();
+
+  // input disabled
+  const [isOrder, setIsOrder] = useState(true);
+  const [isStandard, setIsStandard] = useState(false);
+  const handleCheckRadio = (e: any) => {
+    const _this = e.target;
+    if (_this.value === 'order') {
+      setIsOrder(true);
+      setIsStandard(false);
+    } else {
+      setIsOrder(false);
+      setIsStandard(true);
+    }
+  };
+
+  // caption event
   const [orderCaption, setOrderCaption] = useState(false);
   const [standardCaption, setStandardCaption] = useState(false);
 
@@ -49,7 +66,14 @@ const Quantity = () => {
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" defaultChecked /> 주문수량
+                  <input
+                    type="radio"
+                    onChange={handleCheckRadio}
+                    name="quantity_option"
+                    value="order"
+                    checked={isOrder}
+                  />{' '}
+                  주문수량
                 </label>
                 <div ref={orderRef} className="mo_info_box" onClick={() => setOrderCaption(!orderCaption)}>
                   <div className="notice">
@@ -65,8 +89,8 @@ const Quantity = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect place="주문수량을 선택해요" options={qtyType} />
-              <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
+              <CustomSelect place="주문수량을 선택해요" options={qtyType} disable={!isOrder} />
+              <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" disabled={!isOrder} />
               <div className="info gray">
                 <span>BTC 코인 갯수 입력 : 0.5를 입력하면 0.5개의 BTC 구입</span>
                 <span>USDT 코인 갯수 입력 : 500을 입력하면 500USDT의 값어치에 맞는 BTC 구입</span>
@@ -77,7 +101,13 @@ const Quantity = () => {
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" />
+                  <input
+                    type="radio"
+                    onChange={handleCheckRadio}
+                    name="quantity_option"
+                    value="standard"
+                    checked={isStandard}
+                  />
                   기준자산
                 </label>
                 <div ref={standardRef} className="mo_info_box" onClick={() => setStandardCaption(!standardCaption)}>
@@ -100,8 +130,8 @@ const Quantity = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect place="기준자산을 선택해요" options={equityType} />
-              <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" />
+              <CustomSelect place="기준자산을 선택해요" options={equityType} disable={!isStandard} />
+              <StyledInput autoComplete="order_price" placeholder="잔액대비 n%를 입력해요" disabled={!isStandard} />
               <div className="info">
                 <div className="notice">
                   <Image src={Notice[0]} alt="notice" />
@@ -400,9 +430,9 @@ const StyledInput = styled.input`
     color: ${colors.blue[1]};
   }
   &:disabled {
-    background-color: ${colors.gray[0]};
+    background-color: ${colors.gray[1]};
     &::placeholder {
-      color: ${colors.gray[2]};
+      color: ${colors.gray[3]};
     }
   }
   &:focus {

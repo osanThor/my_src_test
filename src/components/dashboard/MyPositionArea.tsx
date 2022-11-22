@@ -112,6 +112,9 @@ const MyPositionAreaBlock = styled.div`
       label.moreInfoLabel.on {
         color: ${colors.blue[2]};
       }
+      input:checked + label.moreInfoLabel {
+        color: ${colors.blue[2]};
+      }
     }
   }
 

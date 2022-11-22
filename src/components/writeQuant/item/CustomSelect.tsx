@@ -1,14 +1,16 @@
 import colors from '@/src/assets/Colors';
 import { SelectButtonIcon } from '@/src/assets/Images';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const CustomSelect = ({
   place,
   options,
+  disable,
 }: {
   place: string;
   options: { name: string; value: string; txt: string }[];
+  disable: boolean;
 }) => {
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
@@ -40,7 +42,12 @@ const CustomSelect = ({
   }, [currentValue]);
 
   return (
-    <CustomSelectBox ref={selectRef} epect={showOptions} onClick={() => setShowOptions((prev) => !prev)}>
+    <CustomSelectBox
+      ref={selectRef}
+      disable={disable}
+      epect={showOptions}
+      onClick={() => setShowOptions((prev) => !prev)}
+    >
       <Label place={placeHold}>{currentValue}</Label>
       <SelectOptions show={showOptions}>
         {options.map((opt) => (
@@ -51,6 +58,11 @@ const CustomSelect = ({
       </SelectOptions>
     </CustomSelectBox>
   );
+};
+
+type PropsType = {
+  epect: boolean;
+  disable: boolean;
 };
 
 const CustomSelectBox = styled.div`
@@ -66,6 +78,7 @@ const CustomSelectBox = styled.div`
   cursor: pointer;
   white-space: nowrap;
   text-overflow: ellipsis;
+
   &::before {
     content: '';
     width: 32px;
@@ -75,11 +88,22 @@ const CustomSelectBox = styled.div`
     right: 24px;
     color: #49c181;
     font-size: 20px;
-    transform: ${(props: { epect: boolean }) =>
-      props.epect ? `translateY(-50%) rotate(180deg);` : `translateY(-50%);`};
+    transform: ${(props: PropsType) => (props.epect ? `translateY(-50%) rotate(180deg);` : `translateY(-50%);`)};
     background: url(${SelectButtonIcon.src}) no-repeat 50% / cover;
     transition: all 0.2s;
   }
+
+  ${(props: PropsType) =>
+    props.disable &&
+    css`
+      background-color: ${colors.gray[1]};
+      color: ${colors.gray[3]};
+      pointer-events: none;
+      &::before {
+        background: ${colors.gray[2]};
+        border-radius: 50%;
+      }
+    `}
 `;
 const Label = styled.label`
   width: 100%;

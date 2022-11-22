@@ -29,15 +29,15 @@ const OrderInfo = () => {
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">주문유형</div>
-            <CustomSelect place="주문유형을 선택해요" options={orderType} />
+            <CustomSelect place="주문유형을 선택해요" options={orderType} disable={false} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">주문방법</div>
-            <CustomSelect place="기본계정" options={side} />
+            <CustomSelect place="기본계정" options={side} disable={false} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">주문가격</div>
-            <CustomSelect place="주문가격을 선택해요" options={priceType} />
+            <CustomSelect place="주문가격을 선택해요" options={priceType} disable={false} />
             <StyledInput autoComplete="order_price" placeholder="주문가격을 입력해요" disabled />
           </div>
         </div>
@@ -94,7 +94,7 @@ const OrderInfoBlock = styled.div`
           margin-bottom: 0;
         }
         .bg_title {
-          min-width: 162px;
+          min-width: 124px;
           padding: 1rem;
           text-align: center;
           white-space: nowrap;
@@ -110,7 +110,7 @@ const OrderInfoBlock = styled.div`
           width: 100%;
           display: flex;
           align-items: center;
-          padding-left: 178px;
+          padding-left: 194px;
           position: absolute;
           bottom: 0;
           font-size: 14px;
@@ -148,7 +148,7 @@ const OrderInfoBlock = styled.div`
         .write_quant_item {
           margin-bottom: 24px;
           .bg_title {
-            min-width: 162px;
+            min-width: 174px;
           }
         }
       }
@@ -224,9 +224,9 @@ const StyledInput = styled.input`
     color: ${colors.blue[1]};
   }
   &:disabled {
-    background-color: ${colors.gray[0]};
+    background-color: ${colors.gray[1]};
     &::placeholder {
-      color: ${colors.gray[2]};
+      color: ${colors.gray[3]};
     }
   }
   &:focus {

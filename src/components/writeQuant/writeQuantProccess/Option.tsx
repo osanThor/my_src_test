@@ -149,7 +149,7 @@ const Option = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect place="주문가격을 선택해요" options={conditionType} />
+              <CustomSelect place="주문가격을 선택해요" options={conditionType} disable={false} />
               <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
             </div>
             <div className="write_quant_item">
@@ -311,7 +311,7 @@ const OptionBlock = styled.div`
           margin-bottom: 0;
         }
         .radio_title {
-          min-width: 93px;
+          min-width: 104px;
           text-align: center;
           white-space: nowrap;
           border-radius: 8px;
@@ -343,7 +343,7 @@ const OptionBlock = styled.div`
           word-break: keep-all;
           color: ${colors.gray[4]};
           transform: translateY(130%);
-          padding-left: 117px;
+          padding-left: 128px;
           .notice {
             width: 18px;
             height: 18px;
