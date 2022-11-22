@@ -22,7 +22,7 @@ const LicensesTop = () => {
           <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
         </div>
         <div className="profile_info">
-          <div className="nickname">{nickname}</div>
+          <div className="nickname">{nickname ? nickname : '로딩중...'}</div>
           <div className="licenses">이용권을 등록해주세요</div>
         </div>
       </div>
@@ -68,7 +68,7 @@ const LicensesTopBlock = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 122px;
+  margin-bottom: 100px;
   .dis_m {
     display: none;
   }
@@ -118,6 +118,9 @@ const LicensesTopBlock = styled.div`
   .information {
     width: 50%;
     max-width: 748px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .info_top {
       display: flex;
       justify-content: space-between;

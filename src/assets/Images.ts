@@ -77,6 +77,7 @@ import SmailBlueIcon from 'public/assets/common/smail.svg';
 import PlusIconFile from 'public/assets/common/plus.svg';
 import MinusIconFile from 'public/assets/common/minus.svg';
 import TelegramAlramBotIcon from 'public/assets/common/noticebot.svg';
+import CheckBlueOneIcon from 'public/assets/common/check_blue.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -144,6 +145,7 @@ export const SelectButtonIcon = SelectButtonIconFile;
 export const SmailBlue = SmailBlueIcon;
 export const NumberButton = [PlusIconFile, MinusIconFile];
 export const TelegramAlramBot = TelegramAlramBotIcon;
+export const CheckBlueIcon = CheckBlueOneIcon;
 
 //Index
 export const MainBanner = MainBannerImage;
