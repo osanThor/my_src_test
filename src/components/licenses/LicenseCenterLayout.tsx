@@ -3,13 +3,13 @@ import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { GuidGoIcon } from '@/src/assets/Images';
+import { GuidGoIcon, Mark } from '@/src/assets/Images';
 import QuantroBenefit from './item/QuantroBenefit';
 
 const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <LicenseCenterLayoutBlock>
-      <div className="lecense_title">
+      <div className="license_title">
         <h2>이용권 등록</h2>
         <div className="how_to_api_btn dis_p">
           <span>인증키등록 & 구매가이드</span>
@@ -24,13 +24,19 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
           <QuantroBenefit />
         </div>
       </div>
-      <div className="lecense_bot dis_m">
+      <div className="license_bot dis_m">
         <div className="how_to_api_btn dis_m">
           <span>인증키등록 & 구매가이드</span>
           <div className="icon">
             <Image src={GuidGoIcon[0]} alt="quide" />
           </div>
         </div>
+      </div>
+      <div className="notice">
+        <div className="icon">
+          <Image src={Mark} alt="mark" />
+        </div>
+        <span>자동매매할 거래소의 API Key를 생성한 후 아래의 해당 입력란에 저장해주세요</span>
       </div>
     </LicenseCenterLayoutBlock>
   );
@@ -64,7 +70,7 @@ const LicenseCenterLayoutBlock = styled.div`
       background-color: ${colors.gray[2]};
     }
   }
-  .lecense_title {
+  .license_title {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -79,6 +85,7 @@ const LicenseCenterLayoutBlock = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     .license_main_con {
       width: 100%;
@@ -90,21 +97,51 @@ const LicenseCenterLayoutBlock = styled.div`
     }
   }
 
-  ${media.tablet} {
+  .notice {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: ${colors.gray[0]};
+    padding: 14px 24px;
+    border-radius: 8px;
+    .icon {
+      width: 18px;
+      min-width: 18px;
+      height: 18px;
+      margin-right: 8px;
+    }
+    & > span {
+      color: ${colors.gray[4]};
+      transform: translateY(2px);
+    }
+  }
+
+  ${media.custom(1200)} {
     .dis_p {
       display: none;
     }
     .dis_m {
       display: flex;
     }
-    .lecense_title {
+    .license_title {
       h2 {
         font-size: 16px;
       }
     }
-    .lecense_bot {
+    .license_main {
+      flex-direction: column;
+      .license_main_con {
+        margin-bottom: 20px;
+      }
+      .license_description {
+        width: 100%;
+        max-width: none;
+      }
+    }
+    .license_bot {
       display: flex;
       justify-content: flex-end;
+      margin-bottom: 20px;
     }
   }
 `;

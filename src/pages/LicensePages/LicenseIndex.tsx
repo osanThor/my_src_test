@@ -5,7 +5,7 @@ import LicensesTop from '@/src/components/licenses/LicensesTop';
 import LicenseIndex from '@/src/components/licenses/process/LicenseIndex';
 import React from 'react';
 
-const ApiIndex = () => {
+const LicensePageIndex = () => {
   return (
     <UserLayout>
       <LicensesLayout>
@@ -18,4 +18,4 @@ const ApiIndex = () => {
   );
 };
 
-export default ApiIndex;
+export default LicensePageIndex;

@@ -1,1 +1,1 @@
-export { default } from '@/src/pages/ApiAndKey/ApiIndex';
+export { default } from '@/src/pages/LicensePages/LicenseIndex';

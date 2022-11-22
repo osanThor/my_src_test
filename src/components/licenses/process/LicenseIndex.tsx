@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import { media } from '@/styles/theme';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
@@ -9,7 +10,10 @@ const LicenseIndex = () => {
       <div className="chose_package">
         <div className="referral">
           <div className="package_con">
-            <h2>QUANTRO REFERRAL PACKAGE</h2>
+            <h2>
+              QUANTRO
+              <br /> REFERRAL PACKAGE
+            </h2>
             <div className="price">평생무료</div>
             <StyledButton>레퍼럴 등록</StyledButton>
           </div>
@@ -24,7 +28,10 @@ const LicenseIndex = () => {
         </div>
         <div className="basic">
           <div className="package_con">
-            <h2>QUANTRO BASIC PACKAGE</h2>
+            <h2>
+              QUANTRO
+              <br /> BASIC PACKAGE
+            </h2>
             <div className="price">29,900원(월)</div>
             <StyledButton blue>결제하기</StyledButton>
           </div>
@@ -59,20 +66,23 @@ const LicenseIndexBlock = styled.div`
     text-align: center;
 
     & > div {
+      flex: 1;
       width: 50%;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       & > div {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex: 1;
       }
       .package_con {
         width: 100%;
         border: 1px solid ${colors.gray[1]};
         border-radius: 14px;
-        padding: 40px;
+        padding: 40px 0;
         margin-bottom: 20px;
         h2 {
           font-size: 14px;
@@ -80,11 +90,15 @@ const LicenseIndexBlock = styled.div`
           word-break: keep-all;
           margin-bottom: 20px;
           color: ${colors.gray[5]};
+          br {
+            display: none;
+          }
         }
         .price {
           font-size: 28px;
           color: ${colors.dark[1]};
           margin-bottom: 20px;
+          white-space: nowrap;
         }
       }
       &.basic {
@@ -132,11 +146,124 @@ const LicenseIndexBlock = styled.div`
     ul {
       list-style-position: inside;
       li {
-        margin-bottom: 6px;
+        margin-bottom: 4px;
         transform: translateY(2px);
+        font-size: 14px;
 
         &:last-child {
           margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  ${media.custom(1200)} {
+    .chose_package {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      word-break: keep-all;
+      text-align: center;
+
+      & > div {
+        .package_con {
+          padding: 20px;
+          h2 {
+            font-size: 12px;
+            margin-bottom: 20px;
+          }
+          .price {
+            font-size: 20px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+          }
+        }
+        &.basic {
+          .package_con {
+            h2 {
+              color: ${colors.blue[2]};
+            }
+          }
+        }
+
+        &:first-child {
+          margin-right: 8px;
+        }
+
+        .benefit {
+          width: 100%;
+          background-color: ${colors.gray[0]};
+          border-radius: 14px;
+          padding: 28px;
+          .bold {
+            font-family: 'GmarketSansBold';
+          }
+          h3 {
+            font-size: 1rem;
+          }
+          p {
+            color: ${colors.gray[4]};
+          }
+        }
+
+        &:last-child {
+          .benefit {
+            background-color: ${colors.blue[0]};
+          }
+        }
+      }
+    }
+  }
+  ${media.tablet} {
+    .chose_package {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      word-break: keep-all;
+      text-align: center;
+
+      & > div {
+        .package_con {
+          padding: 20px;
+          h2 {
+            font-size: 12px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            br {
+              display: block;
+            }
+          }
+          .price {
+            font-size: 20px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+          }
+        }
+
+        &:first-child {
+          margin-right: 8px;
+        }
+
+        .benefit {
+          width: 100%;
+          padding: 20px;
+          .bold {
+            font-family: 'GmarketSansBold';
+          }
+          h3 {
+            font-size: 1rem;
+          }
+          p {
+            color: ${colors.gray[4]};
+          }
+        }
+
+        &:last-child {
+          .benefit {
+            background-color: ${colors.blue[0]};
+          }
         }
       }
     }
@@ -150,6 +277,12 @@ const StyledButton = styled(Button)`
   font-size: 1.25rem;
   min-height: auto;
   border-radius: 32px;
+
+  ${media.tablet} {
+    width: 100%;
+    height: 56px;
+    font-size: 16px;
+  }
 `;
 
 export default LicenseIndex;

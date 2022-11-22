@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { CheckBlueIcon } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
@@ -90,6 +91,11 @@ const QuantroBenefitBlock = styled.div`
         }
       }
     }
+  }
+
+  ${media.tablet} {
+    padding: 20px;
+    min-height: auto;
   }
 `;
 export default QuantroBenefit;
