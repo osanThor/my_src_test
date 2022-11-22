@@ -44,7 +44,9 @@ const CustomSelect = ({
       <Label place={placeHold}>{currentValue}</Label>
       <SelectOptions show={showOptions}>
         {options.map((opt) => (
-          <Option onClick={handleOnChangeSelectValue}>{opt.txt}</Option>
+          <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+            {opt.txt}
+          </Option>
         ))}
       </SelectOptions>
     </CustomSelectBox>
