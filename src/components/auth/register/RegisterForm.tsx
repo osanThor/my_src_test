@@ -348,6 +348,7 @@ const RegisterFormBlock = styled.div`
       margin-bottom: 1rem;
       & > div:last-child {
         margin-bottom: 0;
+        transform: translateY(2px);
       }
       .emailVerify {
         width: 100%;

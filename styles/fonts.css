@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'GmarketSans';
+  src: local('GmarketSans'), url('/assets/fonts/GmarketSansTTFLight.ttf') format('truetype'),
+    url('/assets/fonts/GmarketSansTTFLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: local('GmarketSans'), url('/assets/fonts/GmarketSansTTFMedium.ttf') format('truetype'),
+    url('/assets/fonts/GmarketSansTTFMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSansBold';
+  src: local('GmarketSans'), url('/assets/fonts/GmarketSansTTFBold.ttf') format('truetype'),
+    url('/assets/fonts/GmarketSansTTFBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GmarketSansBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}

@@ -48,6 +48,10 @@ import CheckSquareIcon from 'public/assets/common/checkSquare.svg';
 import CheckedSquareIcon from 'public/assets/common/checkedSquare.svg';
 import CheckCircleIcon from 'public/assets/common/circle_check_default.svg';
 import CheckedCircleIcon from 'public/assets/common/circle_check_checked.svg';
+import CheckCircleType2Icon from 'public/assets/common/circle_check_type2_default.svg';
+import CheckedCircleType2Icon from 'public/assets/common/circle_check_type2_checked.svg';
+import CheckRadioIcon from 'public/assets/common/checkbox.svg';
+import CheckedRadioIcon from 'public/assets/common/checkbox_checked.svg';
 
 import NoticeIcon from 'public/assets/common/notice.svg';
 import NoticeErrIcon from 'public/assets/common/notice_err.svg';
@@ -60,17 +64,23 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import ArrowBottomDarkIcon from 'public/assets/common/arrowBottom_dark.svg';
 import ArrowLeftIcon from 'public/assets/common/arrowLeft.svg';
 import ArrowRightIcon from 'public/assets/common/arrowRight.svg';
 import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
 import StickArrowRightIcon from 'public/assets/common/stickArrowRight.svg';
 import SawWheelIconFile from 'public/assets/common/saw-toothdwheel.svg';
-import GuidGoIconFile from 'public/assets/common/guide-go.svg';
+import GuidGoBlueIconFile from 'public/assets/common/guide-go.svg';
+import GuidGoGrayIconFile from 'public/assets/common/guide-go-gray.svg';
 import MarkBlackIconFile from 'public/assets/common/mark_black.svg';
 import SelectButtonIconFile from 'public/assets/common/select-button.svg';
 import SmailBlueIcon from 'public/assets/common/smail.svg';
 import PlusIconFile from 'public/assets/common/plus.svg';
 import MinusIconFile from 'public/assets/common/minus.svg';
+import TelegramAlramBotIcon from 'public/assets/common/noticebot.svg';
+import CheckBlueOneIcon from 'public/assets/common/check_blue.svg';
+import LocationIconfile from 'public/assets/common/location.svg';
+import AcountPlusIconfile from 'public/assets/common/acountplus.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -115,7 +125,8 @@ export const CloseRed = CloseRedIcon;
 export const CloseWhite = CloseWhiteIcon;
 export const CheckSquare = CheckSquareIcon;
 export const CheckedSqquare = CheckedSquareIcon;
-export const CheckCircle = [CheckCircleIcon, CheckedCircleIcon];
+export const CheckCircle = [CheckCircleIcon, CheckedCircleIcon, CheckCircleType2Icon, CheckedCircleType2Icon];
+export const CheckRadio = [CheckRadioIcon, CheckedRadioIcon];
 export const PreviewBg = previewBgImage;
 
 export const Notice = [NoticeIcon, NoticeErrIcon];
@@ -126,16 +137,21 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const ArrowBottomDark = ArrowBottomDarkIcon;
 export const ArrowLeft = ArrowLeftIcon;
 export const ArrowRight = ArrowRightIcon;
 export const ArrowRightBlue = ArrowRightBlueIcon;
 export const StickArrowRight = StickArrowRightIcon;
 export const SawWheelIcon = SawWheelIconFile;
-export const GuidGoIcon = GuidGoIconFile;
+export const GuidGoIcon = [GuidGoGrayIconFile, GuidGoBlueIconFile];
 export const Mark = MarkBlackIconFile;
 export const SelectButtonIcon = SelectButtonIconFile;
 export const SmailBlue = SmailBlueIcon;
 export const NumberButton = [PlusIconFile, MinusIconFile];
+export const TelegramAlramBot = TelegramAlramBotIcon;
+export const CheckBlueIcon = CheckBlueOneIcon;
+export const LocationIcon = LocationIconfile;
+export const AcountPlusIcon = AcountPlusIconfile;
 
 //Index
 export const MainBanner = MainBannerImage;

@@ -1,16 +1,16 @@
 import colors from '@/src/assets/Colors';
-import { SelectButtonIcon } from '@/src/assets/Images';
+import { ArrowBottomDark, LocationIcon } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const CustomSelect = ({
   place,
   options,
-  disable,
 }: {
   place: string;
-  options: { name: string; value: string; txt: string }[];
-  disable: boolean;
+  options: { name: string; value: string; txt: string }[] | [];
 }) => {
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
@@ -42,13 +42,11 @@ const CustomSelect = ({
   }, [currentValue]);
 
   return (
-    <CustomSelectBox
-      ref={selectRef}
-      disable={disable}
-      epect={showOptions}
-      onClick={() => setShowOptions((prev) => !prev)}
-    >
+    <CustomSelectBox ref={selectRef} epect={showOptions} onClick={() => setShowOptions((prev) => !prev)}>
       <Label className="label" place={placeHold}>
+        <div className="icon">
+          <Image src={LocationIcon} alt="location" />
+        </div>
         {currentValue}
       </Label>
       <SelectOptions show={showOptions}>
@@ -64,15 +62,17 @@ const CustomSelect = ({
 
 type PropsType = {
   epect: boolean;
-  disable: boolean;
 };
 
 const CustomSelectBox = styled.div`
   position: relative;
-  max-height: 56px;
+  height: 48px;
+  max-height: 48px;
   width: 100%;
+  margin-left: 16px;
+  min-width: 260px;
   flex: 1;
-  padding: 1rem 24px;
+  padding: 12px 16px;
   border-radius: 12px;
   background-color: #ffffff;
   transition: all 0.2s;
@@ -84,43 +84,50 @@ const CustomSelectBox = styled.div`
 
   &::before {
     content: '';
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
     position: absolute;
     top: 50%;
-    right: 24px;
+    right: 16px;
     color: #49c181;
     font-size: 20px;
     transform: ${(props: PropsType) => (props.epect ? `translateY(-50%) rotate(180deg);` : `translateY(-50%);`)};
-    background: url(${SelectButtonIcon.src}) no-repeat 50% / cover;
+    background: url(${ArrowBottomDark.src}) no-repeat 50% / cover;
     transition: all 0.2s;
   }
 
-  ${(props: PropsType) =>
-    props.disable &&
-    css`
-      background-color: ${colors.gray[1]};
-      color: ${colors.gray[3]};
-      pointer-events: none;
-      &::before {
-        background: ${colors.gray[1]};
-        border-radius: 50%;
-      }
-      .label {
-        color: ${colors.gray[3]};
-      }
-    `}
+  &:hover {
+    background-color: ${colors.gray[0]};
+  }
+
+  ${media.custom(1000)} {
+    margin-left: 0;
+    height: 40px;
+    padding: 10px 16px;
+  }
+  ${media.mobile} {
+    min-width: auto;
+  }
 `;
 const Label = styled.label`
   width: 100%;
-  font-size: 16px;
+  font-size: 14px;
   margin-left: 4px;
   text-align: center;
-  color: ${(props: { place: boolean }) => (props.place ? `${colors.gray[2]}` : `${colors.dark[2]}`)};
+  color: ${(props: { place: boolean }) => (props.place ? `${colors.gray[5]}` : `${colors.dark[2]}`)};
   white-space: nowrap;
   overflow: hidden;
+  display: flex;
   text-overflow: ellipsis;
+
+  .icon {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    margin-right: 12px;
+  }
 `;
+
 const SelectOptions = styled.ul`
   position: absolute;
   z-index: 960;

@@ -27,21 +27,21 @@ const Basic = () => {
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">거래소</div>
-            <CustomSelect place="거래소를 선택해요" options={platform} />
+            <CustomSelect place="거래소를 선택해요" options={platform} disable={false} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">거래마켓</div>
-            <CustomSelect place="거래할 마켓을 선택해요" options={market} />
+            <CustomSelect place="거래할 마켓을 선택해요" options={market} disable={false} />
           </div>
           <div className="write_quant_item">
             <div className="bg_title">계정</div>
-            <CustomSelect place="기본계정" options={alias} />
+            <CustomSelect place="기본계정" options={alias} disable={false} />
           </div>
         </div>
         <div className="first_con">
           <div className="write_quant_item">
             <div className="bg_title">거래코인</div>
-            <CustomSelect place="거래할 코인을 선택해요" options={symbol} />
+            <CustomSelect place="거래할 코인을 선택해요" options={symbol} disable={false} />
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@ const BasicBlock = styled.div`
           margin-bottom: 0;
         }
         .bg_title {
-          min-width: 162px;
+          min-width: 124px;
           padding: 1rem;
           text-align: center;
           white-space: nowrap;

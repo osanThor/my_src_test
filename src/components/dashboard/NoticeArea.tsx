@@ -88,8 +88,11 @@ const NoticeAreaBlock = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       margin-right: 20px;
+      transform: translateY(2px);
     }
     span {
+      font-family: 'GmarketSansBold';
+      transform: translateY(2px);
       font-weight: 800;
       color: ${colors.red[1]};
     }

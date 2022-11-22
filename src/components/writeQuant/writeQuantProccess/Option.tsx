@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { CheckCircle, Mark, Notice, NumberButton, SmailBlue } from '@/src/assets/Images';
+import { CheckCircle, CheckRadio, Mark, Notice, NumberButton, SmailBlue } from '@/src/assets/Images';
 import { conditionType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
@@ -12,6 +12,45 @@ import CustomSelect from '../item/CustomSelect';
 
 const Option = () => {
   const dispatch = useDispatch();
+  // check disabled
+  const [leverageSt, setLeverageSt] = useState(true);
+  const [conditionSt, setConditionSt] = useState(true);
+  const [trailingStopSt, setTrailingStopSt] = useState(true);
+  const [slLoPctSt, setSlLoPctSt] = useState(true);
+  const [tpLoPctSt, setTpLoPctSt] = useState(true);
+
+  const handleSelectLevarage = (e: any) => {
+    console.log(e.target.name);
+    if (e.target.name === 'leverage') {
+      setLeverageSt(!leverageSt);
+      return;
+    } else if (e.target.name === 'condition') {
+      setConditionSt(!conditionSt);
+      setTrailingStopSt(true);
+      setSlLoPctSt(true);
+      setTpLoPctSt(true);
+      return;
+    } else if (e.target.name === 'trailingStop') {
+      setTrailingStopSt(!trailingStopSt);
+      setConditionSt(true);
+      return;
+    } else if (e.target.name === 'slLoPct') {
+      setSlLoPctSt(!slLoPctSt);
+      setConditionSt(true);
+      return;
+    } else if (e.target.name === 'tpLoPct') {
+      setTpLoPctSt(!tpLoPctSt);
+      setConditionSt(true);
+      return;
+    }
+    // setLeverageSt(true);
+    // setConditionSt(true);
+    // setTrailingStopSt(true);
+    // setSlLoPctSt(true);
+    // setTpLoPctSt(true);
+  };
+
+  // caption
   const [leverageCaption, setLeverageCaption] = useState(false);
   const [conditionCaption, setConditionCaption] = useState(false);
   const [breakCaption, setBreakCaption] = useState(false);
@@ -78,7 +117,8 @@ const Option = () => {
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="leverage" /> 레버리지
+                  <input type="checkbox" onChange={handleSelectLevarage} name="leverage" checked={!leverageSt} />
+                  <span className="radio"></span>레버리지
                 </label>
                 <div ref={leverageRef} className="mo_info_box" onClick={() => setLeverageCaption(!leverageCaption)}>
                   <div className="notice">
@@ -101,19 +141,19 @@ const Option = () => {
               <div className="leverage_con">
                 <div className="select_leverage">
                   <label>
-                    <input type="radio" name="leverageType" />
+                    <input type="radio" name="leverageType" disabled={leverageSt} />
                     <span>격리</span>
                   </label>
                   <label>
-                    <input type="radio" name="leverageType" />
+                    <input type="radio" name="leverageType" disabled={leverageSt} />
                     <span>교차</span>
                   </label>
                 </div>
-                <div className="leverage_input_box">
+                <div className={leverageSt ? 'leverage_input_box disabled' : 'leverage_input_box'}>
                   <div className="button plus">
                     <Image src={NumberButton[1]} alt="minusButton" />
                   </div>
-                  <input type="number" step="0.1" />
+                  <input type="number" step="0.1" disabled={leverageSt} />
                   <div className="button minus">
                     <Image src={NumberButton[0]} alt="minusButton" />
                   </div>
@@ -129,7 +169,8 @@ const Option = () => {
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" /> 조건부주문
+                  <input type="checkbox" onChange={handleSelectLevarage} name="condition" checked={!conditionSt} />
+                  <span className="radio"></span> 조건부주문
                 </label>
                 <div ref={conditionRef} className="mo_info_box" onClick={() => setConditionCaption(!conditionCaption)}>
                   <div className="notice">
@@ -149,13 +190,19 @@ const Option = () => {
                   )}
                 </div>
               </div>
-              <CustomSelect place="주문가격을 선택해요" options={conditionType} />
-              <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" />
+              <CustomSelect place="주문가격을 선택해요" options={conditionType} disable={conditionSt} />
+              <StyledInput autoComplete="order_price" placeholder="개수를 입력해요" disabled={conditionSt} />
             </div>
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" /> 추적손절매
+                  <input
+                    type="checkbox"
+                    onChange={handleSelectLevarage}
+                    name="trailingStop"
+                    checked={!trailingStopSt}
+                  />
+                  <span className="radio"></span> 추적손절매
                 </label>
                 {/* <div ref={orderRef} className="mo_info_box" onClick={() => setOrderCaption(!orderCaption)}>
                   <div className="notice">
@@ -171,14 +218,15 @@ const Option = () => {
                   )}
                 </div> */}
               </div>
-              <CustomInput autoComplete="order_price" placeholder="퍼센트를 직접 입력해요" />
+              <CustomInput autoComplete="order_price" placeholder="퍼센트를 직접 입력해요" disabled={trailingStopSt} />
             </div>
           </div>
           <div className="first_con">
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" /> 손절가격
+                  <input type="checkbox" onChange={handleSelectLevarage} name="slLoPct" checked={!slLoPctSt} />
+                  <span className="radio"></span> 손절가격
                 </label>
                 <div ref={breakRef} className="mo_info_box" onClick={() => setBreakCaption(!breakCaption)}>
                   <div className="notice">
@@ -193,7 +241,7 @@ const Option = () => {
                   )}
                 </div>
               </div>
-              <CustomInput autoComplete="order_price" placeholder="손절가(%)를 입력해주세요" />
+              <CustomInput autoComplete="order_price" placeholder="손절가(%)를 입력해주세요" disabled={slLoPctSt} />
               <div className="info gray">
                 <span>진입가격 대비 손절가격 +-%를 지정해요</span>
               </div>
@@ -201,7 +249,8 @@ const Option = () => {
             <div className="write_quant_item">
               <div className="radio_title">
                 <label>
-                  <input type="radio" name="quantity_option" /> 목표가격
+                  <input type="checkbox" onChange={handleSelectLevarage} name="tpLoPct" checked={!tpLoPctSt} />
+                  <span className="radio"></span> 목표가격
                 </label>
                 <div ref={goalRef} className="mo_info_box" onClick={() => setGoalCaption(!goalCaption)}>
                   <div className="notice">
@@ -216,7 +265,7 @@ const Option = () => {
                   )}
                 </div>
               </div>
-              <CustomInput autoComplete="order_price" placeholder="목표가(%)를 입력해주세요" />
+              <CustomInput autoComplete="order_price" placeholder="목표가(%)를 입력해주세요" disabled={tpLoPctSt} />
               <div className="info gray">
                 <span>진입가격 대비 목표가격 +-%를 지정해요</span>
               </div>
@@ -311,7 +360,7 @@ const OptionBlock = styled.div`
           margin-bottom: 0;
         }
         .radio_title {
-          min-width: 93px;
+          min-width: 104px;
           text-align: center;
           white-space: nowrap;
           border-radius: 8px;
@@ -326,9 +375,19 @@ const OptionBlock = styled.div`
             cursor: pointer;
 
             input {
-              width: 20px;
-              height: 20px;
-              margin-right: 6.5px;
+              display: none;
+            }
+            span.radio {
+              width: 24px;
+              height: 24px;
+              margin-right: 4px;
+              background: url(${CheckRadio[0].src}) no-repeat 50% / cover;
+              transition: all 0.2s;
+              transform: translateY(-2px);
+            }
+
+            input:checked + span.radio {
+              background: url(${CheckRadio[1].src}) no-repeat 50% / cover;
             }
           }
         }
@@ -343,7 +402,7 @@ const OptionBlock = styled.div`
           word-break: keep-all;
           color: ${colors.gray[4]};
           transform: translateY(130%);
-          padding-left: 117px;
+          padding-left: 128px;
           .notice {
             width: 18px;
             height: 18px;
@@ -402,6 +461,16 @@ const OptionBlock = styled.div`
                     border-color: ${colors.blue[1]};
                   }
                 }
+                input:disabled + span {
+                  cursor: not-allowed;
+                  background-color: ${colors.gray[1]};
+                  border-color: ${colors.gray[1]};
+                  color: ${colors.gray[5]};
+                  &:hover {
+                    background-color: ${colors.gray[1]};
+                    border-color: ${colors.gray[1]};
+                  }
+                }
                 &:first-child {
                   margin-right: 1rem;
                 }
@@ -439,6 +508,14 @@ const OptionBlock = styled.div`
                 transition: all 0.2s;
                 &:hover {
                   opacity: 0.7;
+                }
+              }
+
+              &.disabled {
+                background-color: ${colors.gray[1]};
+                pointer-events: none;
+                .button {
+                  cursor: not-allowed;
                 }
               }
             }
@@ -616,12 +693,14 @@ const StyledInput = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   color: ${colors.blue[2]};
+  transition: all 0.2s;
   &::placeholder {
     font-size: 1rem;
     color: ${colors.blue[1]};
   }
   &:disabled {
     background-color: ${colors.gray[1]};
+    color: ${colors.gray[3]};
     &::placeholder {
       color: ${colors.gray[3]};
     }
@@ -646,12 +725,15 @@ const CustomInput = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   color: ${colors.blue[2]};
+  transition: all 0.2s;
   &::placeholder {
     font-size: 1rem;
     color: ${colors.blue[1]};
   }
   &:disabled {
     background-color: ${colors.gray[1]};
+    color: ${colors.gray[3]};
+
     &::placeholder {
       color: ${colors.gray[3]};
     }

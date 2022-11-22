@@ -66,7 +66,7 @@ const WriteQuantMenuBlock = styled.div`
     background-color: ${colors.gray[1]};
     color: ${colors.gray[5]};
     span {
-      /* transform: translateY(2px); */
+      transform: translateY(2px);
     }
 
     &.on {
@@ -75,7 +75,7 @@ const WriteQuantMenuBlock = styled.div`
     }
   }
   .arrow {
-    /* transform: translateY(2px); */
+    transform: translateY(2px);
     min-width: 9px;
     margin: 0 6.5px;
     position: relative;

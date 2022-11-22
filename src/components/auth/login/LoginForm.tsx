@@ -106,6 +106,7 @@ const LoginFormBlock = styled.div`
 
   span.or {
     font-weight: 800;
+    font-family: 'GmarketSansBold';
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;

@@ -98,8 +98,10 @@ const MyExchaingeAreaBlock = styled.div`
     justify-content: space-between;
     .dashboard_title {
       font-size: 20px;
+      font-family: 'GmarketSansBold';
       font-weight: 800;
       span {
+        font-family: 'GmarketSansBold';
         font-weight: 800;
         margin-right: 7px;
         color: ${colors.gray[5]};
@@ -108,7 +110,9 @@ const MyExchaingeAreaBlock = styled.div`
     .gainAndLoss_info {
       font-size: 20px;
       font-weight: 800;
+      font-family: 'GmarketSansBold';
       span {
+        font-family: 'GmarketSansBold';
         font-weight: 800;
         color: ${colors.gray[5]};
       }
@@ -138,6 +142,7 @@ const MyExchaingeAreaBlock = styled.div`
         .exchange_title {
           min-width: 112px;
           font-size: 24px;
+          font-family: 'GmarketSansBold';
           font-weight: 800;
         }
         .replace_exchange_btn {
@@ -247,6 +252,7 @@ const MyExchaingeAreaBlock = styled.div`
             margin-bottom: 0;
           }
           span.bold {
+            font-family: 'GmarketSansBold';
             font-weight: 800;
             font-size: 20px;
             text-align: right;
