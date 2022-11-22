@@ -64,6 +64,7 @@ import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
+import ArrowBottomDarkIcon from 'public/assets/common/arrowBottom_dark.svg';
 import ArrowLeftIcon from 'public/assets/common/arrowLeft.svg';
 import ArrowRightIcon from 'public/assets/common/arrowRight.svg';
 import ArrowRightBlueIcon from 'public/assets/common/arrowRight_blue.svg';
@@ -78,6 +79,8 @@ import PlusIconFile from 'public/assets/common/plus.svg';
 import MinusIconFile from 'public/assets/common/minus.svg';
 import TelegramAlramBotIcon from 'public/assets/common/noticebot.svg';
 import CheckBlueOneIcon from 'public/assets/common/check_blue.svg';
+import LocationIconfile from 'public/assets/common/location.svg';
+import AcountPlusIconfile from 'public/assets/common/acountplus.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -134,6 +137,7 @@ export const Email = EmailIcon;
 export const Lock = LockIcon;
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
+export const ArrowBottomDark = ArrowBottomDarkIcon;
 export const ArrowLeft = ArrowLeftIcon;
 export const ArrowRight = ArrowRightIcon;
 export const ArrowRightBlue = ArrowRightBlueIcon;
@@ -146,6 +150,8 @@ export const SmailBlue = SmailBlueIcon;
 export const NumberButton = [PlusIconFile, MinusIconFile];
 export const TelegramAlramBot = TelegramAlramBotIcon;
 export const CheckBlueIcon = CheckBlueOneIcon;
+export const LocationIcon = LocationIconfile;
+export const AcountPlusIcon = AcountPlusIconfile;
 
 //Index
 export const MainBanner = MainBannerImage;

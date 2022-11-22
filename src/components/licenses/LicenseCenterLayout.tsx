@@ -43,6 +43,8 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
 };
 
 const LicenseCenterLayoutBlock = styled.div`
+  width: 100%;
+  margin-bottom: 48px;
   .dis_m {
     display: none;
   }
@@ -117,6 +119,7 @@ const LicenseCenterLayoutBlock = styled.div`
   }
 
   ${media.custom(1200)} {
+    margin-bottom: 24px;
     .dis_p {
       display: none;
     }
