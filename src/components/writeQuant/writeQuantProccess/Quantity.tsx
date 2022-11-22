@@ -3,7 +3,6 @@ import { CheckRadio, Mark, Notice } from '@/src/assets/Images';
 import { equityType, qtyType } from '@/src/assets/Options';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import { Console } from 'console';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';

@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import '../styles/fonts.css';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
