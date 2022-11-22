@@ -433,6 +433,7 @@ const StyledInput = styled.input`
   border: none;
   padding: 1rem 24px;
   background-color: ${colors.blue[0]};
+  transition: all 0.2s;
   border-radius: 8px;
   font-size: 1rem;
   color: ${colors.blue[2]};

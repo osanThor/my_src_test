@@ -75,6 +75,7 @@ const CustomSelectBox = styled.div`
   padding: 1rem 24px;
   border-radius: 12px;
   background-color: #ffffff;
+  transition: all 0.2s;
   align-self: center;
   border: 1px solid ${colors.gray[2]};
   cursor: pointer;

@@ -693,6 +693,7 @@ const StyledInput = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   color: ${colors.blue[2]};
+  transition: all 0.2s;
   &::placeholder {
     font-size: 1rem;
     color: ${colors.blue[1]};
@@ -724,6 +725,7 @@ const CustomInput = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   color: ${colors.blue[2]};
+  transition: all 0.2s;
   &::placeholder {
     font-size: 1rem;
     color: ${colors.blue[1]};
