@@ -104,7 +104,7 @@ const MyMenuWindowBlock = styled.div`
     padding: 4px 0;
 
     span {
-      /* transform: translateY(2px); */
+      transform: translateY(2px);
     }
 
     .menuBtn {

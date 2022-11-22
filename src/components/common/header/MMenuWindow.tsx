@@ -124,7 +124,7 @@ const MMenuWindowBlock = styled.div`
     }
     .header_edit_title {
       font-size: 16px;
-      /* transform: translateY(2px); */
+      transform: translateY(2px);
     }
     .spacer {
       width: 24px;
@@ -154,7 +154,7 @@ const MMenuWindowBlock = styled.div`
       }
 
       span {
-        /* transform: translateY(2px); */
+        transform: translateY(2px);
       }
 
       .menuBtn {

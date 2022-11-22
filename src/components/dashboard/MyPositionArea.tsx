@@ -87,7 +87,7 @@ const MyPositionAreaBlock = styled.div`
         .btn_txt {
           display: flex;
           justify-content: space-between;
-          /* transform: translateY(2px); */
+          transform: translateY(2px);
           .title {
             margin-right: 12px;
           }
@@ -102,6 +102,7 @@ const MyPositionAreaBlock = styled.div`
       label.moreInfoLabel {
         display: flex;
         align-items: center;
+        transform: translateY(2px);
         color: ${colors.gray[4]};
         cursor: pointer;
         & > div {

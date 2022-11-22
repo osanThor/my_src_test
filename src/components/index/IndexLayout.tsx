@@ -110,6 +110,7 @@ const IndexLayoutBlock = styled.div`
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
+      font-family: 'GmarketSansBold';
     }
   }
   .main_con {
