@@ -1,6 +1,6 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -20,10 +20,15 @@ const MyProfileBox = () => {
       <div className="profile_image">
         <Image src={photoUrl} alt="profile" layout="fill" />
       </div>
-      <div className="profile_info">
+      <div className="profile_con">
         <div className="name">
-          <div className="nickname">{nickname}</div>
-          <div className="email">{email}</div>
+          <div className="profile_image">
+            <Image src={photoUrl} alt="profile" layout="fill" />
+          </div>
+          <div className="profile_info">
+            <div className="nickname">{nickname}</div>
+            <div className="email">{email}</div>
+          </div>
         </div>
         <div className="licenses">
           <div className="license">이용권을 등록해주세요</div>
@@ -58,20 +63,27 @@ const MyProfileBoxBlock = styled.div`
     margin-right: 32px;
     background-color: ${colors.blue[2]};
   }
-  .profile_info {
+  .profile_con {
     flex: 1;
     .name {
       display: flex;
       align-items: center;
       margin-bottom: 8px;
-      .nickname {
-        font-family: 'GmarketSansBold';
-        font-size: 20px;
-        margin-right: 12px;
+      .profile_image {
+        display: none;
       }
-      .email {
-        font-size: 14px;
-        color: ${colors.gray[4]};
+      .profile_info {
+        display: flex;
+        align-items: center;
+        .nickname {
+          font-family: 'GmarketSansBold';
+          font-size: 20px;
+          margin-right: 12px;
+        }
+        .email {
+          font-size: 14px;
+          color: ${colors.gray[4]};
+        }
       }
     }
     .licenses {
@@ -104,6 +116,50 @@ const MyProfileBoxBlock = styled.div`
         color: ${colors.gray[4]};
         span {
           color: ${colors.gray[5]};
+        }
+      }
+    }
+  }
+
+  ${media.tablet} {
+    padding: 16px;
+    margin-bottom: 20px;
+    .profile_image {
+      display: none;
+    }
+    .profile_con {
+      .name {
+        margin-bottom: 12px;
+        .profile_image {
+          display: block;
+          width: 48px;
+          min-width: 48px;
+          height: 48px;
+          margin-right: 16px;
+        }
+        .profile_info {
+          flex-direction: column;
+          align-items: flex-start;
+          .nickname {
+            font-size: 16px;
+          }
+        }
+      }
+      .licenses {
+        .license {
+          border-radius: 38px;
+          max-width: none;
+          font-size: 14px;
+          color: ${colors.blue[2]};
+          padding: 8px 20px;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 8px;
+        }
+      }
+      .counts {
+        & > div {
+          margin-right: 20px;
         }
       }
     }
