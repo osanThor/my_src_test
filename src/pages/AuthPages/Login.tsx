@@ -79,6 +79,12 @@ const Login: NextPage = () => {
   //Error handler
   useEffect(() => {
     if (loadAuthError) {
+      if (loadAuthDone.message === 'ACCESS_DENIED') {
+        setModalOpen(true);
+        setMessage('세션이 만료되었어요. 다시 로그인해주세요');
+        setModalSt(true);
+        return;
+      }
       setModalOpen(true);
       setMessage(loadAuthError);
       setModalSt(true);

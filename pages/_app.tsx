@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import '../styles/fonts.css';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';

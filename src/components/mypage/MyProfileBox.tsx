@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import { Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
@@ -18,12 +19,12 @@ const MyProfileBox = () => {
   return (
     <MyProfileBoxBlock>
       <div className="profile_image">
-        <Image src={photoUrl} alt="profile" layout="fill" />
+        <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
       </div>
       <div className="profile_con">
         <div className="name">
           <div className="profile_image">
-            <Image src={photoUrl} alt="profile" layout="fill" />
+            <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
           </div>
           <div className="profile_info">
             <div className="nickname">{nickname}</div>

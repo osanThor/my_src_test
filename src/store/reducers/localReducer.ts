@@ -11,6 +11,8 @@ export type LocalStateType = {
   orderMessage: boolean;
   noSignMessage: boolean;
   errorMessage: boolean;
+  editMyProfile: boolean;
+  myBoards: boolean;
 };
 
 const initialState: LocalStateType = {
@@ -25,6 +27,9 @@ const initialState: LocalStateType = {
   orderMessage: true,
   noSignMessage: false,
   errorMessage: false,
+  //mypage state
+  editMyProfile: false,
+  myBoards: false,
 };
 
 const localSlice = createSlice({
@@ -82,6 +87,15 @@ const localSlice = createSlice({
       state.orderMessage = false;
       state.noSignMessage = false;
       state.errorMessage = true;
+    },
+    //mypage Page Actions
+    gotoEditMyProfile(state) {
+      state.editMyProfile = true;
+      state.myBoards = false;
+    },
+    gotoMyBoards(state) {
+      state.editMyProfile = false;
+      state.myBoards = true;
     },
   },
 });
