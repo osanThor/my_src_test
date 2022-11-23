@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import ImageFileModal from './ImageFileModal';
 import ImageModal from './ImageModal';
 
 const EditMyProfile = () => {
@@ -25,11 +26,17 @@ const EditMyProfile = () => {
   const [profileImg, setProfileImg] = useState('');
   const [nicknameSt, setNicknameSt] = useState('');
   const [introSt, setIntroSt] = useState('');
-  const [stylesSt, setStylesSt] = useState(Array<string>);
+  const [stylesSt, setStylesSt] = useState<string[]>([]);
 
+  // default icon modal
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
+  };
+  // image file modal
+  const [imagefileModalOpen, setImageFileModalOpen] = useState(false);
+  const handleCloseImageFileModal = () => {
+    setImageFileModalOpen(false);
   };
 
   useEffect(() => {
@@ -82,13 +89,13 @@ const EditMyProfile = () => {
             </div>
             <div className="profile_image">
               <div className="profile_thumbnail">
-                <Image src={profileImg ? profileImg : Profile1[1]} alt="profile" layout="fill" />
+                <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
               </div>
               <div className="profile_con">
                 <div className="description">JPG, GIF 또는 PNG 최대크기 700KB</div>
                 <div className="profile_ctrl">
                   <Button onClick={() => setImageModalOpen(true)}>이미지 변경</Button>
-                  <Button>이미지 업로드</Button>
+                  <Button onClick={() => setImageFileModalOpen(true)}>이미지 업로드</Button>
                 </div>
               </div>
             </div>
@@ -214,6 +221,13 @@ const EditMyProfile = () => {
       <ImageModal
         open={imageModalOpen}
         onClose={handleCloseImageModal}
+        photoUrl={profileImg}
+        setProfileImg={setProfileImg}
+        handleChangeMyProfile={handleChangeMyProfile}
+      />
+      <ImageFileModal
+        open={imagefileModalOpen}
+        onClose={handleCloseImageFileModal}
         photoUrl={profileImg}
         setProfileImg={setProfileImg}
         handleChangeMyProfile={handleChangeMyProfile}
