@@ -62,6 +62,7 @@ import previewBgImage from 'public/assets/common/profile/preview_bg.png';
 
 import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
+import LockGrayIcon from 'public/assets/common/Lock_gray.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
 import ArrowBottomDarkIcon from 'public/assets/common/arrowBottom_dark.svg';
@@ -138,7 +139,7 @@ export const Camera = CameraIcon;
 export const CameraBlue = CameraBlueIcon;
 export const Profile = ProfileIcon;
 export const Email = EmailIcon;
-export const Lock = LockIcon;
+export const Lock = [LockGrayIcon, LockIcon];
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
 export const ArrowBottomDark = ArrowBottomDarkIcon;

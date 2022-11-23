@@ -1,4 +1,6 @@
 import UserLayout from '@/src/components/layout/UserLayout';
+import MyBoards from '@/src/components/mypage/boards/MyBoards';
+import EditMyProfile from '@/src/components/mypage/edit/EditMyProfile';
 import MyPageLayout from '@/src/components/mypage/MyPageLayout';
 import { RootState } from '@/src/store/configureStore';
 import { localActions, userActions } from '@/src/store/reducers';
@@ -34,8 +36,8 @@ const MypageIndex = () => {
   return (
     <UserLayout>
       <MyPageLayout>
-        {editMyProfile && <div>정보변경</div>}
-        {myBoards && <div>게시판관리</div>}
+        {editMyProfile && <EditMyProfile />}
+        {myBoards && <MyBoards />}
       </MyPageLayout>
     </UserLayout>
   );

@@ -26,9 +26,9 @@ function MyApp({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
+  const { isDark, email } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
-    photoUrl: user.photoUrl,
+    email: user.email,
   }));
   const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
@@ -56,7 +56,7 @@ function MyApp({
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
       if (loadAuthDone.accessToken) {
-        if (!photoUrl) {
+        if (!email) {
           dispatch(userActions.getUserProfile());
         }
       }

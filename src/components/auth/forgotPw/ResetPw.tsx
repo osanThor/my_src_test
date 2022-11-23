@@ -91,7 +91,7 @@ const ResetPw = ({
           <StyleInput
             type="password"
             name="pw"
-            icon={Lock}
+            icon={Lock[1]}
             onChange={onChange}
             value={pw}
             placeholder="비밀번호를 다시 설정해요"
@@ -101,7 +101,7 @@ const ResetPw = ({
           <StyleInput
             type="password"
             name="pwConfirm"
-            icon={Lock}
+            icon={Lock[1]}
             onChange={onChange}
             value={pwConfirm}
             placeholder="비밀번호를 한번 더 입력해요"
