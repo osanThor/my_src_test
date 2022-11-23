@@ -41,7 +41,6 @@ const AcountTable = () => {
 
 const TableRow = () => {
   const [editable, setEditable] = useState(false);
-  console.log(editable);
 
   return (
     <div className="tr">

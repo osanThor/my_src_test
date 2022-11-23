@@ -32,7 +32,7 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
     <MyMenuWindowBlock ref={MyMenuRef}>
       <div className="menuItem">
         <span>내정보 변경</span>
-        <Link href="/">
+        <Link href="/mypage">
           <a className="menuBtn">
             <Image src={ProfileEditIcon} alt="profile edit" />
           </a>
@@ -40,7 +40,7 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
       </div>
       <div className="menuItem">
         <span>게시글 변경</span>
-        <Link href="/">
+        <Link href="/mypage">
           <a className="menuBtn">
             <Image src={EditIcon} alt="edit" />
           </a>
