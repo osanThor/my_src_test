@@ -25,6 +25,7 @@ import GnbMenu from './GnbMenu';
 import DashBoardMenu from './mobileHeaderAdded/DashBoardMenu';
 import WriteQuantMenu from './mobileHeaderAdded/WriteQuantMenu';
 import MessageMenu from './mobileHeaderAdded/MessageMenu';
+import MyPageMenu from './mobileHeaderAdded/MyPageMenu';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -98,6 +99,7 @@ const MHeader = () => {
   const [dashBoard, setDashBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
   const [message, setMessage] = useState(false);
+  const [myPage, setMyPage] = useState(false);
   useEffect(() => {
     if (router.pathname === '/dashboard') {
       setDashBoard(true);
@@ -113,6 +115,12 @@ const MHeader = () => {
       setMessage(true);
     } else {
       setMessage(false);
+    }
+
+    if (router.pathname === '/mypage') {
+      setMyPage(true);
+    } else {
+      setMyPage(false);
     }
   }, []);
 
@@ -140,6 +148,7 @@ const MHeader = () => {
         {dashBoard && <DashBoardMenu />}
         {writeQuant && <WriteQuantMenu />}
         {message && <MessageMenu />}
+        {myPage && <MyPageMenu />}
       </MHeaderMain>
       <MHeaderTopSpacer />
       {openGnbMenu && (

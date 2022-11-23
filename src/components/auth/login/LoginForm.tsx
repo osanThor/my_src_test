@@ -62,7 +62,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
           name="pw"
           onChange={handleErrorChange}
           placeholder="비밀번호를 입력해요"
-          icon={pwError ? CloseRed : Lock}
+          icon={pwError ? CloseRed : Lock[1]}
           error={pwError ? true : false}
           value={pw}
         />

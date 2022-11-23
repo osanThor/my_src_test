@@ -46,7 +46,7 @@ const MMenuWindow = ({ handleCloseMenu }: { handleCloseMenu: () => void }) => {
       <div className="header_edit_menu">
         <div className="menuItem">
           <span>내정보 변경</span>
-          <Link href="/">
+          <Link href="/mypage?state=edit">
             <a className="menuBtn">
               <Image src={ProfileEditIcon} alt="profile edit" />
             </a>
@@ -54,7 +54,7 @@ const MMenuWindow = ({ handleCloseMenu }: { handleCloseMenu: () => void }) => {
         </div>
         <div className="menuItem">
           <span>게시글 변경</span>
-          <Link href="/">
+          <Link href="/mypage?state=boards">
             <a className="menuBtn">
               <Image src={EditIcon} alt="edit" />
             </a>

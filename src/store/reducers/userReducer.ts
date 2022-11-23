@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   CheckNicknamePayload,
+  EditMyProfilePayload,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
@@ -82,6 +83,14 @@ const userSlice = createSlice({
     },
     changeTelegramField(state, action: PayloadAction<TelegramPayload>) {
       state.username = action.payload.username;
+    },
+    changeMyProfileField(state, action: PayloadAction<EditMyProfilePayload>) {
+      state.pw = action.payload.pw;
+      state.pwConfirm = action.payload.pwConfirm;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.introduction = action.payload.introduction;
+      state.styles = action.payload.styles;
     },
     checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
       state.loadUserLoading = true;

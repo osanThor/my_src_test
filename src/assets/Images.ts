@@ -62,6 +62,7 @@ import previewBgImage from 'public/assets/common/profile/preview_bg.png';
 
 import EmailIcon from 'public/assets/common/email.svg';
 import LockIcon from 'public/assets/common/lock.svg';
+import LockGrayIcon from 'public/assets/common/Lock_gray.svg';
 import KeyIcon from 'public/assets/common/key.svg';
 import ArrowBottomIcon from 'public/assets/common/arrowBottom.svg';
 import ArrowBottomDarkIcon from 'public/assets/common/arrowBottom_dark.svg';
@@ -81,6 +82,10 @@ import TelegramAlramBotIcon from 'public/assets/common/noticebot.svg';
 import CheckBlueOneIcon from 'public/assets/common/check_blue.svg';
 import LocationIconfile from 'public/assets/common/location.svg';
 import AcountPlusIconfile from 'public/assets/common/acountplus.svg';
+import EditGrayIconFile from 'public/assets/common/edit_gray.svg';
+import EditDarkIconFile from 'public/assets/common/edit_dark.svg';
+import CancelGrayIconFile from 'public/assets/common/cancel_gray.svg';
+import CancelRedIconFile from 'public/assets/common/cancel_red.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -134,7 +139,7 @@ export const Camera = CameraIcon;
 export const CameraBlue = CameraBlueIcon;
 export const Profile = ProfileIcon;
 export const Email = EmailIcon;
-export const Lock = LockIcon;
+export const Lock = [LockGrayIcon, LockIcon];
 export const Key = KeyIcon;
 export const ArrowBottom = ArrowBottomIcon;
 export const ArrowBottomDark = ArrowBottomDarkIcon;
@@ -152,6 +157,8 @@ export const TelegramAlramBot = TelegramAlramBotIcon;
 export const CheckBlueIcon = CheckBlueOneIcon;
 export const LocationIcon = LocationIconfile;
 export const AcountPlusIcon = AcountPlusIconfile;
+export const EditPenIcon = [EditGrayIconFile, EditDarkIconFile];
+export const CancelIcon = [CancelGrayIconFile, CancelRedIconFile];
 
 //Index
 export const MainBanner = MainBannerImage;

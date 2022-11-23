@@ -208,7 +208,7 @@ const RegisterForm = ({
                 type="password"
                 placeholder="비밀번호를 설정해요"
                 value={pw}
-                icon={Lock}
+                icon={Lock[1]}
                 onChange={onChange}
                 onBlur={handlePwBlur}
               />
@@ -217,7 +217,7 @@ const RegisterForm = ({
                 type="password"
                 placeholder="비밀번호를 한번 더 설정해요"
                 value={pwConfirm}
-                icon={Lock}
+                icon={Lock[1]}
                 onChange={onChange}
               />
               {pwError && (

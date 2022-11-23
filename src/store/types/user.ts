@@ -19,6 +19,14 @@ export type RegisterBody = {
 export type TelegramPayload = {
   username: string | null;
 };
+export type EditMyProfilePayload = {
+  pw: string | null;
+  pwConfirm: string | null;
+  nickname: string | null;
+  photoUrl: string | null;
+  introduction: string | null;
+  styles: Array<string> | [];
+};
 
 export type ThemePayload = {
   isDark: boolean;

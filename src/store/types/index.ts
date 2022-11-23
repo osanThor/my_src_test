@@ -32,6 +32,7 @@ export type {
   LoadUserResponse,
   ThemePayload,
   TelegramPayload,
+  EditMyProfilePayload,
   UserProfilePayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
