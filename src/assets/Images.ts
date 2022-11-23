@@ -81,6 +81,10 @@ import TelegramAlramBotIcon from 'public/assets/common/noticebot.svg';
 import CheckBlueOneIcon from 'public/assets/common/check_blue.svg';
 import LocationIconfile from 'public/assets/common/location.svg';
 import AcountPlusIconfile from 'public/assets/common/acountplus.svg';
+import EditGrayIconFile from 'public/assets/common/edit_gray.svg';
+import EditDarkIconFile from 'public/assets/common/edit_dark.svg';
+import CancelGrayIconFile from 'public/assets/common/cancel_gray.svg';
+import CancelRedIconFile from 'public/assets/common/cancel_red.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -152,6 +156,8 @@ export const TelegramAlramBot = TelegramAlramBotIcon;
 export const CheckBlueIcon = CheckBlueOneIcon;
 export const LocationIcon = LocationIconfile;
 export const AcountPlusIcon = AcountPlusIconfile;
+export const EditPenIcon = [EditGrayIconFile, EditDarkIconFile];
+export const CancelIcon = [CancelGrayIconFile, CancelRedIconFile];
 
 //Index
 export const MainBanner = MainBannerImage;

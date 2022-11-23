@@ -3,7 +3,7 @@ import { ArrowBottomDark, LocationIcon } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const CustomSelect = ({
   place,

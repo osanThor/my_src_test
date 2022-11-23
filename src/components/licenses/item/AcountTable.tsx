@@ -1,8 +1,8 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
+import { CancelIcon, EditPenIcon, Profile1 } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
@@ -26,148 +26,48 @@ const AcountTable = () => {
         </div>
       </div>
       <div className="tbody">
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
-        <div className="tr">
-          <div className="td">
-            <div className="thumbnail">
-              <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
-            </div>
-            <span>거래소명</span>
-          </div>
-          <div className="td">
-            <input value="계정명" />
-          </div>
-          <div className="td">
-            <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" />
-          </div>
-          <div className="td">
-            <input type="password" value="-pC4shZY3C77BRPna" />
-            <div className="status">미등록</div>
-            <Button></Button>
-            <Button></Button>
-          </div>
-        </div>
+        <TableRow />
+        <TableRow />
+        <TableRow />
+        <TableRow />
+        <TableRow />
+        <TableRow />
+        <TableRow />
+        <TableRow />
       </div>
     </AcountTableBlock>
+  );
+};
+
+const TableRow = () => {
+  const [editable, setEditable] = useState(false);
+  console.log(editable);
+
+  return (
+    <div className="tr">
+      <div className="td">
+        <div className="thumbnail">
+          <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
+        </div>
+        <span>거래소명</span>
+      </div>
+      <div className="td">
+        <input value="계정명" disabled={!editable} />
+      </div>
+      <div className="td">
+        <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" disabled={!editable} />
+      </div>
+      <div className="td">
+        <input type="password" value="-pC4shZY3C77BRPna" disabled={!editable} />
+        <div className="status">미등록</div>
+        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
+          <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
+        </Button>
+        <Button className={editable && 'editable cancel'} disabled={!editable}>
+          <Image src={editable ? CancelIcon[1] : CancelIcon[0]} alt="cancel" />
+        </Button>
+      </div>
+    </div>
   );
 };
 const AcountTableBlock = styled.div`
@@ -286,6 +186,7 @@ const AcountTableBlock = styled.div`
 
         .status {
           background: ${colors.gray[0]};
+          color: ${colors.gray[4]};
           line-height: 40px;
           border-radius: 20px;
           padding: 0 1rem;
@@ -299,8 +200,17 @@ const AcountTableBlock = styled.div`
           height: 40px;
           border-radius: 50%;
           margin-right: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           &:last-child {
             margin-right: 0;
+          }
+          &.editable.cancel {
+            background-color: ${colors.red[0]};
+            &:hover {
+              opacity: 0.7;
+            }
           }
         }
       }
@@ -310,6 +220,11 @@ const AcountTableBlock = styled.div`
   ${media.pc} {
     overflow: auto;
     padding: 0 7px 0;
+    .thead {
+      .th {
+        padding: 0 16px;
+      }
+    }
     .tbody {
       width: 100%;
       .tr {
@@ -322,11 +237,34 @@ const AcountTableBlock = styled.div`
     .td {
       margin-right: 8px;
     }
+  }
+  ${media.mobile} {
     .tbody {
-      width: 100%;
       .tr {
-        padding: 8px 16px;
-        margin-bottom: 20px;
+        .td {
+          .thumbnail {
+            width: 32px;
+            min-width: 32px;
+            height: 32px;
+          }
+          input {
+            width: 100%;
+            height: 32px;
+            padding: 0 8px;
+          }
+
+          .status {
+            line-height: 32px;
+            margin-right: 8px;
+          }
+          button {
+            padding: 0;
+            min-height: auto;
+            width: 32px;
+            min-width: 32px;
+            height: 32px;
+          }
+        }
       }
     }
   }
