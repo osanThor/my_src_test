@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import '../styles/fonts.css';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
@@ -26,8 +26,9 @@ function MyApp({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    photoUrl: user.photoUrl,
   }));
   const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
@@ -55,7 +56,9 @@ function MyApp({
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
       if (loadAuthDone.accessToken) {
-        dispatch(userActions.getUserProfile());
+        if (!photoUrl) {
+          dispatch(userActions.getUserProfile());
+        }
       }
     }
   }, [loadAuthDone]);

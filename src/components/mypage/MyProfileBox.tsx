@@ -27,7 +27,7 @@ const MyProfileBox = () => {
             <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
           </div>
           <div className="profile_info">
-            <div className="nickname">{nickname}</div>
+            <div className="nickname">{nickname ? nickname : '로딩중'}</div>
             <div className="email">{email}</div>
           </div>
         </div>
