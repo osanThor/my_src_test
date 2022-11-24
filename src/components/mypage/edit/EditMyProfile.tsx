@@ -1,14 +1,15 @@
 import colors from '@/src/assets/Colors';
 import { Lock, Notice, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
-import { userActions } from '@/src/store/reducers';
+import { localActions, userActions } from '@/src/store/reducers';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
+import DeleteUserWin from './DeleteUserWin';
 import ImageFileModal from './ImageFileModal';
 import ImageModal from './ImageModal';
 
@@ -180,6 +181,26 @@ const EditMyProfile = () => {
     setModalOpen(false);
   };
 
+  // delete user
+  const [deleteUser, setDeleteUser] = useState(false);
+  const deleteRef = useRef<HTMLDivElement>(null);
+  const handleOpenDeleteUser = () => {
+    setDeleteUser(true);
+    dispatch(localActions.isLocalBgBlur());
+  };
+  const handleClickOutSide = (e: any) => {
+    if (deleteUser && !deleteRef.current.contains(e.target)) {
+      setDeleteUser(false);
+      dispatch(localActions.isNotLocalBgBlur());
+    }
+  };
+  useEffect(() => {
+    if (deleteUser) document.addEventListener('mousedown', handleClickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutSide);
+    };
+  });
+
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
@@ -345,7 +366,9 @@ const EditMyProfile = () => {
               <div className={changePw ? 'change_pw_btn on' : 'change_pw_btn'} onClick={() => setChangePw(!changePw)}>
                 비밀번호 변경하기
               </div>
-              <div className="change_pw_btn">탈퇴하기</div>
+              <div className="change_pw_btn" onClick={handleOpenDeleteUser}>
+                탈퇴하기
+              </div>
             </div>
           </div>
         </div>
@@ -368,6 +391,7 @@ const EditMyProfile = () => {
         handleChangeMyProfile={handleChangeMyProfile}
       />
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
+      {deleteUser && <DeleteUserWin deleteRef={deleteRef} />}
     </>
   );
 };
