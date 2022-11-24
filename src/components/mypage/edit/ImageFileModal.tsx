@@ -7,7 +7,7 @@ import Button from '../../common/Button';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 
-const ImageModal = ({
+const ImageFileModal = ({
   onClose,
   open,
   photoUrl,
@@ -33,7 +33,7 @@ const ImageModal = ({
     <DialogBlock onClose={onClose} open={open}>
       <ModalCon>
         <div className="imageTypes">
-          <div className="description">변경하실 기본 이미지를 선택해주세요</div>
+          <div className="description">변경하실 이미지를 업로드해주세요</div>
           <div className="charIcon">
             <ul>
               <li onClick={handleClickIcon}>
@@ -271,5 +271,4 @@ const StyledButton = styled(Button)`
     opacity: 0.7;
   }
 `;
-
-export default ImageModal;
+export default ImageFileModal;
