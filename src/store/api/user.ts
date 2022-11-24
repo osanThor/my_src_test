@@ -1,7 +1,12 @@
-import { ChangePwPayload, TelegramPayload } from './../types/user';
 import { axiosInstance } from '.';
 
-import type { LoadUserBody, LoadUserResponse } from '../types';
+import type {
+  LoadUserBody,
+  LoadUserResponse,
+  ChangePwPayload,
+  TelegramPayload,
+  UpdateUserProfilePayload,
+} from '../types';
 
 // 닉네임 중복확인
 export const apiCheckNickname = ({ nickname }: LoadUserBody) =>
@@ -36,7 +41,8 @@ export const apiTelegramUsername = ({ username }: TelegramPayload) =>
 export const apiGetUserProfile = () => axiosInstance.get('/users/profile');
 
 // update user profile
-export const apiUpdateUserProfile = () => axiosInstance.put('/users/profile');
+export const apiUpdateUserProfile = ({ photoUrl, nickname, introduction, styles }: UpdateUserProfilePayload) =>
+  axiosInstance.put('/users/profile', { photoUrl, nickname, introduction, styles });
 
 // change user pw
 export const apiChangePw = ({ oldPw, newPw }: ChangePwPayload) =>

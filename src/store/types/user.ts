@@ -70,3 +70,10 @@ export type UserProfilePayload = {
     comments: number | null;
   };
 };
+
+export type UpdateUserProfilePayload = {
+  photoUrl: string | null;
+  nickname: string | null;
+  styles: Array<string> | [];
+  introduction: string | null;
+};

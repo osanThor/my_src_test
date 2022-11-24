@@ -18,9 +18,9 @@ export {
   apiCheckNickname,
   apiRegister,
   apiGoogleRegister,
-  apiGetUserProfile,
   apiChangeTheme,
   apiTelegramUsername,
+  apiGetUserProfile,
   apiUpdateUserProfile,
   apiChangePw,
 } from './user';

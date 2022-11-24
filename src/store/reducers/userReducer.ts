@@ -12,6 +12,7 @@ import {
   ResponseFailure,
   TelegramPayload,
   ThemePayload,
+  UpdateUserProfilePayload,
   UserProfilePayload,
 } from '../types';
 
@@ -153,6 +154,13 @@ const userSlice = createSlice({
       state.styles = action.payload.styles;
       state.introduction = action.payload.introduction;
       state._count = action.payload._count;
+    },
+    updateUserProfile(state, action: PayloadAction<UpdateUserProfilePayload>) {
+      state.loadUserLoading = true;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.styles = action.payload.styles;
+      state.introduction = action.payload.introduction;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

@@ -36,6 +36,7 @@ export type {
   ChangePwPayload,
   EditMyProfilePayload,
   UserProfilePayload,
+  UpdateUserProfilePayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
 export type { LoadExchangeBody } from './exchange';

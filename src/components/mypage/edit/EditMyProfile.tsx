@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { Lock, Notice, Profile1 } from '@/src/assets/Images';
+import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { localActions, userActions } from '@/src/store/reducers';
 import Image from 'next/image';
@@ -16,18 +17,29 @@ import ImageModal from './ImageModal';
 const EditMyProfile = () => {
   const dispatch = useDispatch();
 
-  const { oldPw, newPw, pwConfirm, photoUrl, nickname, introduction, styles, loadUserDone, loadUserError } =
-    useSelector(({ user }: RootState) => ({
-      oldPw: user.oldPw,
-      newPw: user.newPw,
-      pwConfirm: user.pwConfirm,
-      photoUrl: user.photoUrl,
-      nickname: user.nickname,
-      introduction: user.introduction,
-      styles: user.styles,
-      loadUserDone: user.loadUserDone,
-      loadUserError: user.loadUserError,
-    }));
+  const {
+    oldPw,
+    newPw,
+    pwConfirm,
+    photoUrl,
+    nickname,
+    nicknamePrev,
+    introduction,
+    styles,
+    loadUserDone,
+    loadUserError,
+  } = useSelector(({ user }: RootState) => ({
+    oldPw: user.oldPw,
+    newPw: user.newPw,
+    pwConfirm: user.pwConfirm,
+    photoUrl: user.photoUrl,
+    nickname: user.nickname,
+    nicknamePrev: user.nicknamePrev,
+    introduction: user.introduction,
+    styles: user.styles,
+    loadUserDone: user.loadUserDone,
+    loadUserError: user.loadUserError,
+  }));
 
   // update profile state
   const [profileImg, setProfileImg] = useState('');
@@ -54,7 +66,7 @@ const EditMyProfile = () => {
   }, [photoUrl, nickname, introduction, styles]);
 
   const handleChangeMyProfile = (e: React.ChangeEvent<any>) => {
-    const { name, value, checked, type }: { name: string; value: any; checked: boolean; type: string } = e.target;
+    const { name, value, checked }: { name: string; value: any; checked: boolean; type: string } = e.target;
     if (name === 'nickname') {
       setNicknameSt(value);
     } else if (name === 'introduction') {
@@ -67,6 +79,66 @@ const EditMyProfile = () => {
       } else {
         setStylesSt(stylesSt.filter((val) => val != value));
       }
+    }
+  };
+  //nicknamepev
+  const [isNicknamePrev, setIsNicknamePrev] = useState(false);
+
+  useEffect(() => {
+    if (nicknamePrev) {
+      setIsNicknamePrev(true);
+    }
+  }, [nicknamePrev]);
+
+  // api request
+  const handleUpdateUserProfile = () => {
+    console.log(profileImg, nicknameSt, stylesSt, introSt);
+    if (!nicknameSt) {
+      setModalOpen(true);
+      setModalMessage('닉네임을 입력해주세요');
+      setModalErr(true);
+      return;
+    } else if (nicknameSt.length < 3 || nicknameSt.length > 8) {
+      setModalOpen(true);
+      setModalMessage('닉네임은 최소 3자, 최대 8자이며 한글, 영문, 숫자로만 이루어질 수 있어요');
+      setModalErr(true);
+      return;
+    } else if (introSt.length < 5 || introSt.length > 100) {
+      setModalOpen(true);
+      setModalMessage('소개는 최소 5자, 최대 100자이며 한글, 영문, 숫자로만 이루어질 수 있어요');
+      setModalErr(true);
+      return;
+    } else if (!nicknamePrev) {
+      return axiosInstance
+        .get(`/users/nickname/exist?nickname=${nicknameSt}`)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data) {
+            setModalOpen(true);
+            setModalMessage('이미 사용되고 있는 닉네임이에요');
+            setModalErr(true);
+            return;
+          } else {
+            dispatch(
+              userActions.updateUserProfile({
+                photoUrl: profileImg,
+                nickname: nicknameSt,
+                styles: stylesSt,
+                introduction: introSt,
+              }),
+            );
+          }
+        })
+        .catch((err) => alert(err));
+    } else {
+      dispatch(
+        userActions.updateUserProfile({
+          photoUrl: profileImg,
+          nickname: nicknameSt,
+          styles: stylesSt,
+          introduction: introSt,
+        }),
+      );
     }
   };
 
@@ -164,10 +236,16 @@ const EditMyProfile = () => {
       setModalErr(true);
       return;
     } else if (loadUserDone === 'CHANGED') {
-      setModalOpen(true);
-      setModalMessage('비밀번호가 변경되었어요.');
-      setModalErr(false);
-      setChangePw(false);
+      if (changePw) {
+        setModalOpen(true);
+        setModalMessage('비밀번호가 변경되었어요.');
+        setModalErr(false);
+        setChangePw(false);
+      } else {
+        setModalOpen(true);
+        setModalMessage('프로필이 변경되었어요.');
+        setModalErr(false);
+      }
     }
   }, [loadUserDone, loadUserError]);
 
@@ -223,7 +301,11 @@ const EditMyProfile = () => {
             </div>
             <div className="profile_image">
               <div className="profile_thumbnail">
-                <Image src={profileImg ? profileImg : Profile1[1]} alt="profile" layout="fill" />
+                <Image
+                  src={profileImg && profileImg != 'default.com' ? profileImg : Profile1[1]}
+                  alt="profile"
+                  layout="fill"
+                />
               </div>
               <div className="profile_con">
                 <div className="description">JPG, GIF 또는 PNG 최대크기 700KB</div>
@@ -240,7 +322,12 @@ const EditMyProfile = () => {
               <span>유저네임은 딱 한번만 바꿀 수 있어요</span>
             </div>
             <div className="nickname_con">
-              <StyledInput name="nickname" onChange={handleChangeMyProfile} value={nicknameSt} />
+              <StyledInput
+                name="nickname"
+                onChange={handleChangeMyProfile}
+                value={nicknameSt}
+                disabled={isNicknamePrev}
+              />
             </div>
           </div>
           <div className="introduce">
@@ -383,7 +470,9 @@ const EditMyProfile = () => {
         </div>
       </EditMyProfileBlock>
       <BottomBtn>
-        <Button blue>변경내용 저장하기</Button>
+        <Button blue onClick={handleUpdateUserProfile}>
+          변경내용 저장하기
+        </Button>
       </BottomBtn>
       <ImageModal
         open={imageModalOpen}
@@ -600,6 +689,10 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
     border-color: ${colors.gray[3]};
+  }
+  &:disabled {
+    background-color: white;
+    color: ${colors.blue[2]};
   }
 `;
 
