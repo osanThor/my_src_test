@@ -15,6 +15,7 @@ import ImageModal from './ImageModal';
 
 const EditMyProfile = () => {
   const dispatch = useDispatch();
+
   const { oldPw, newPw, pwConfirm, photoUrl, nickname, introduction, styles, loadUserDone, loadUserError } =
     useSelector(({ user }: RootState) => ({
       oldPw: user.oldPw,
@@ -27,8 +28,8 @@ const EditMyProfile = () => {
       loadUserDone: user.loadUserDone,
       loadUserError: user.loadUserError,
     }));
-  const [changePw, setChangePw] = useState(false);
 
+  // update profile state
   const [profileImg, setProfileImg] = useState('');
   const [nicknameSt, setNicknameSt] = useState('');
   const [introSt, setIntroSt] = useState('');
@@ -56,12 +57,6 @@ const EditMyProfile = () => {
     const { name, value, checked, type }: { name: string; value: any; checked: boolean; type: string } = e.target;
     if (name === 'nickname') {
       setNicknameSt(value);
-    } else if (name === 'photoUrl') {
-      if (type === 'radio') {
-        setProfileImg(value);
-      } else {
-        console.log(value);
-      }
     } else if (name === 'introduction') {
       console.log(value);
       console.log(typeof value);
@@ -74,7 +69,10 @@ const EditMyProfile = () => {
       }
     }
   };
+
   // change pw
+  const [changePw, setChangePw] = useState(false);
+
   const handleChangePwForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let oldPwSt = oldPw;
@@ -225,7 +223,7 @@ const EditMyProfile = () => {
             </div>
             <div className="profile_image">
               <div className="profile_thumbnail">
-                <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
+                <Image src={profileImg ? profileImg : Profile1[1]} alt="profile" layout="fill" />
               </div>
               <div className="profile_con">
                 <div className="description">JPG, GIF 또는 PNG 최대크기 700KB</div>
@@ -392,14 +390,12 @@ const EditMyProfile = () => {
         onClose={handleCloseImageModal}
         photoUrl={profileImg}
         setProfileImg={setProfileImg}
-        handleChangeMyProfile={handleChangeMyProfile}
       />
       <ImageFileModal
         open={imagefileModalOpen}
         onClose={handleCloseImageFileModal}
         photoUrl={profileImg}
         setProfileImg={setProfileImg}
-        handleChangeMyProfile={handleChangeMyProfile}
       />
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
       {deleteUser && <DeleteUserWin deleteRef={deleteRef} />}

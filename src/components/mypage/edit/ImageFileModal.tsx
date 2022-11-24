@@ -1,57 +1,112 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { Camera, PreviewBg, Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
+import { Camera, PreviewBg } from '@/src/assets/Images';
 import Button from '../../common/Button';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import { useDispatch } from 'react-redux';
+import { fileActions } from '@/src/store/reducers';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
 
 const ImageFileModal = ({
   onClose,
   open,
   photoUrl,
   setProfileImg,
-  handleChangeMyProfile,
 }: {
   onClose: () => void;
   open: boolean;
   photoUrl: string;
   setProfileImg: Dispatch<SetStateAction<string>>;
-  handleChangeMyProfile: (e: React.ChangeEvent) => void;
 }) => {
-  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer>('');
+  const dispatch = useDispatch();
+  const { loadFileDone, loadFileError } = useSelector(({ file }: RootState) => ({
+    loadFileDone: file.loadFileDone,
+    loadFileError: file.loadFileError,
+  }));
+  // image data form
   const data = new FormData();
+
+  //window local state
+  const [localImageFile, setLocalImageFile] = useState<File | string>('');
+  useEffect(() => {
+    setLocalImageFile(photoUrl);
+  }, [photoUrl]);
+
+  // input click
   const handleClickInput = (e: any) => {
     e.currentTarget.children[0].click();
   };
+  // preview image src
+  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer>('');
+
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileBlob = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    data.append('file', fileBlob);
-    console.log(data.get('file'));
-    console.log(typeof data);
-    return new Promise<void>((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
+    const fileSize = e.target.files[0].size;
+    const maxSize = 700 * 1024; //700kb
+
+    if (fileBlob === undefined) {
+      return;
+    } else if (fileSize > maxSize) {
+      alert('이미지 용량은 700KB 이내로 가능해요');
+      return;
+    } else {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileBlob);
+      setLocalImageFile(fileBlob);
+      console.log(fileSize);
+      return new Promise<void>((resolve) => {
+        reader.onload = () => {
+          setImageSrc(reader.result);
+          resolve();
+        };
+      });
+    }
+  };
+  //append dataform
+  useEffect(() => {
+    data.append('file', localImageFile);
+  }, [imageSrc]);
+
+  // dispatch file api
+  const handleSelectImage = () => {
+    if (data.get('file')) {
+      dispatch(fileActions.uploadProfileImage(data));
+    } else {
+      handleNoImageClose();
+    }
   };
 
-  const handleSelectImage = () => {
-    setProfileImg(photoUrl);
+  // event handler
+  useEffect(() => {
+    if (loadFileError) {
+      alert(loadFileError);
+      return;
+    }
+
+    if (loadFileDone.message === 'ADDED') {
+      setProfileImg(loadFileDone.url);
+      dispatch(fileActions.initializeFileState());
+      setImageSrc('');
+      onClose();
+    }
+  }, [loadFileDone, loadFileError]);
+
+  const handleNoImageClose = () => {
+    setImageSrc('');
     onClose();
   };
 
   return (
-    <DialogBlock onClose={onClose} open={open}>
+    <DialogBlock onClose={handleNoImageClose} open={open}>
       <ModalCon>
         <div className="imageTypes">
           <div className="description">변경하실 이미지를 업로드해주세요</div>
           <div className={imageSrc ? 'ImageCon on' : 'ImageCon'} onClick={handleClickInput}>
-            <input type="file" name="photoUrl" onChange={handleChangeImage} />
+            <input type="file" accept=".gif, .jpg, .png" name="photoUrl" onChange={handleChangeImage} />
             <Image
               src={imageSrc ? imageSrc : Camera}
               alt="select Image file"

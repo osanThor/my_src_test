@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
 import { Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
@@ -11,20 +11,29 @@ const ImageModal = ({
   open,
   photoUrl,
   setProfileImg,
-  handleChangeMyProfile,
 }: {
   onClose: () => void;
   open: boolean;
   photoUrl: string;
   setProfileImg: Dispatch<SetStateAction<string>>;
-  handleChangeMyProfile: (e: React.ChangeEvent) => void;
 }) => {
+  // input checked
   const handleClickIcon = (e: any) => {
     e.currentTarget.children[0].checked = true;
   };
-
+  //window local state
+  const [localImage, setLocalImage] = useState('');
+  useEffect(() => {
+    setLocalImage(photoUrl);
+  }, [photoUrl]);
+  //changeEvet
+  const handleChangeDefaultIcon = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setLocalImage(value);
+  };
+  //select Image
   const handleSelectImage = () => {
-    setProfileImg(photoUrl);
+    setProfileImg(localImage);
     onClose();
   };
 
@@ -40,10 +49,10 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  onChange={handleChangeMyProfile}
+                  onChange={handleChangeDefaultIcon}
                   value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/01.png"
                   checked={
-                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/01.png'
+                    localImage === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/01.png'
                       ? true
                       : false
                   }
@@ -55,10 +64,10 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  onChange={handleChangeMyProfile}
+                  onChange={handleChangeDefaultIcon}
                   value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/02.png"
                   checked={
-                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/02.png'
+                    localImage === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/02.png'
                       ? true
                       : false
                   }
@@ -70,10 +79,10 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  onChange={handleChangeMyProfile}
+                  onChange={handleChangeDefaultIcon}
                   value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/03.png"
                   checked={
-                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/03.png'
+                    localImage === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/03.png'
                       ? true
                       : false
                   }
@@ -85,10 +94,10 @@ const ImageModal = ({
                   className="checkIcon"
                   type="radio"
                   name="photoUrl"
-                  onChange={handleChangeMyProfile}
+                  onChange={handleChangeDefaultIcon}
                   value="https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/04.png"
                   checked={
-                    photoUrl === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/04.png'
+                    localImage === 'https://quantro-app.s3.ap-northeast-2.amazonaws.com/app/default-picture/04.png'
                       ? true
                       : false
                   }
