@@ -4,11 +4,12 @@ import { RootState } from '@/src/store/configureStore';
 import { authActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
+import Modal from '../../common/Modal';
 
 const ResetPw = ({
   onChange,
@@ -36,12 +37,34 @@ const ResetPw = ({
   React.useEffect(() => {
     var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (pw.length != 0) {
+      // if (pw.length < 8 || pw.length > 20) {
+      //   setPwErr(true);
+      //   setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
+      // } else if (reg.test(pw) === false) {
+      //   setPwErr(true);
+      //   setPwErrMessage('비밀번호 형식이 잘못되었어요');
+      // } else {
+      //   setPwErr(false);
+      //   setPwErrMessage('');
+      // }
+    } else {
+      setPwErr(false);
+      setPwErrMessage('');
+    }
+    if (pwConfirm.length != 0) {
+      setPwErr(false);
+      setPwErrMessage('');
+    }
+  }, [pw, pwConfirm, pwErr]);
+  const handlePwBlur = () => {
+    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    if (pw.length != 0) {
       if (pw.length < 8 || pw.length > 20) {
         setPwErr(true);
-        setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
+        setPwErrMessage('비밀번호는 최소 8자, 최대 20자로 설정할 수 있어요');
       } else if (reg.test(pw) === false) {
         setPwErr(true);
-        setPwErrMessage('비밀번호 형식이 잘못되었어요');
+        setPwErrMessage('영문 대/소문자, 숫자, 특수문자 중 3종류 이상 섞어주세요');
       } else {
         setPwErr(false);
         setPwErrMessage('');
@@ -50,16 +73,7 @@ const ResetPw = ({
       setPwErr(false);
       setPwErrMessage('');
     }
-    if (pwConfirm.length != 0) {
-      if (pw != pwConfirm) {
-        setPwErr(true);
-        setPwErrMessage('비밀번호가 일치하지 않아요.');
-      } else {
-        setPwErr(false);
-        setPwErrMessage('');
-      }
-    }
-  }, [pw, pwConfirm, pwErr]);
+  };
 
   React.useEffect(() => {
     if (pw.length > 0 && pwConfirm.length > 0) {
@@ -69,10 +83,27 @@ const ResetPw = ({
     } else {
       setNextBtn(true);
     }
-  }, [pwErr]);
+  }, [pw, pwConfirm, pwErr]);
 
   // reset pw
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [message, setMessage] = useState('');
+  const [modalSt, setModalSt] = useState(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
   const onClick = () => {
+    if (pw === '') {
+      setModalOpen(true);
+      setMessage('비밀번호를 입력해주세요');
+      setModalSt(true);
+      return;
+    } else if (pw != pwConfirm) {
+      setModalOpen(true);
+      setMessage('비밀번호가 일치하지 않아요');
+      setModalSt(true);
+      return;
+    }
     dispatch(authActions.userResetPw({ email, pw }));
   };
 
@@ -83,43 +114,47 @@ const ResetPw = ({
   }, [loadAuthDone]);
 
   return (
-    <ResetPwBlock>
-      <h2>Forgot password</h2>
-      <p className="descript">비밀번호를 재설정 하세요!</p>
-      <div className="form">
-        <div className="input_area">
-          <StyleInput
-            type="password"
-            name="pw"
-            icon={Lock[1]}
-            onChange={onChange}
-            value={pw}
-            placeholder="비밀번호를 다시 설정해요"
-          />
-        </div>
-        <div className="input_area">
-          <StyleInput
-            type="password"
-            name="pwConfirm"
-            icon={Lock[1]}
-            onChange={onChange}
-            value={pwConfirm}
-            placeholder="비밀번호를 한번 더 입력해요"
-          />
-        </div>
-        {pwErr && (
-          <div className="err">
-            <div>
-              <Image src={Notice[1]} alt="notice" />
-            </div>
-            <span className="error">{pwErrMessage}</span>
+    <>
+      <ResetPwBlock>
+        <h2>Forgot password</h2>
+        <p className="descript">비밀번호를 재설정 하세요!</p>
+        <div className="form">
+          <div className="input_area">
+            <StyleInput
+              type="password"
+              name="pw"
+              icon={Lock[1]}
+              onChange={onChange}
+              value={pw}
+              placeholder="비밀번호를 다시 설정해요"
+              onBlur={handlePwBlur}
+            />
           </div>
-        )}
-      </div>
-      <StyledButton fullWidth lightBlue disabled={nextBtn} onClick={onClick}>
-        다음
-      </StyledButton>
-    </ResetPwBlock>
+          <div className="input_area">
+            <StyleInput
+              type="password"
+              name="pwConfirm"
+              icon={Lock[1]}
+              onChange={onChange}
+              value={pwConfirm}
+              placeholder="비밀번호를 한번 더 입력해요"
+            />
+          </div>
+          {pwErr && (
+            <div className="err">
+              <div>
+                <Image src={Notice[1]} alt="notice" />
+              </div>
+              <span className="error">{pwErrMessage}</span>
+            </div>
+          )}
+        </div>
+        <StyledButton fullWidth lightBlue disabled={nextBtn} onClick={onClick}>
+          다음
+        </StyledButton>
+      </ResetPwBlock>
+      <Modal open={modalOpen} close={handleModalClose} message={message} error={modalSt} />
+    </>
   );
 };
 const ResetPwBlock = styled.div`
