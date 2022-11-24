@@ -22,6 +22,7 @@ const ExplaneBlock = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   h2 {
+    font-size: 20px;
     font-weight: 700;
   }
   .description {
@@ -30,6 +31,12 @@ const ExplaneBlock = styled.div`
     margin-bottom: 1rem;
     overflow-y: auto;
     padding: 1rem;
+  }
+
+  ${media.tablet} {
+    h2 {
+      font-size: 18px;
+    }
   }
 `;
 const StyledButton = styled(Button)`

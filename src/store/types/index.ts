@@ -37,6 +37,7 @@ export type {
   EditMyProfilePayload,
   UserProfilePayload,
   UpdateUserProfilePayload,
+  DeleteUserPayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
 export type { LoadExchangeBody } from './exchange';

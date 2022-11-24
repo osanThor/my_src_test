@@ -2,7 +2,7 @@ import colors from '@/src/assets/Colors';
 import { Lock, Notice, Profile1 } from '@/src/assets/Images';
 import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
-import { localActions, userActions } from '@/src/store/reducers';
+import { authActions, localActions, userActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -231,10 +231,17 @@ const EditMyProfile = () => {
       }
     }
     if (loadUserDone === 'NO_MATCH_USER') {
-      setModalOpen(true);
-      setModalMessage('비밀번호가 일치하지 않아요.');
-      setModalErr(true);
-      return;
+      if (changePw) {
+        setModalOpen(true);
+        setModalMessage('비밀번호가 일치하지 않아요.');
+        setModalErr(true);
+        return;
+      } else {
+        setModalOpen(true);
+        setModalMessage('정보가 일치하지 않아요');
+        setModalErr(true);
+        return;
+      }
     } else if (loadUserDone === 'CHANGED') {
       if (changePw) {
         setModalOpen(true);
@@ -246,6 +253,12 @@ const EditMyProfile = () => {
         setModalMessage('프로필이 변경되었어요.');
         setModalErr(false);
       }
+    } else if (loadUserDone === 'DELETED') {
+      setDeleteUserDone(true);
+      localStorage.clear();
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      dispatch(authActions.initializeAuthForm());
+      dispatch(userActions.initializeUserForm());
     }
   }, [loadUserDone, loadUserError]);
 
@@ -259,23 +272,28 @@ const EditMyProfile = () => {
 
   // delete user
   const [deleteUser, setDeleteUser] = useState(false);
+  const [deleteUserDone, setDeleteUserDone] = useState(false);
   const deleteRef = useRef<HTMLDivElement>(null);
   const handleOpenDeleteUser = () => {
     setDeleteUser(true);
     dispatch(localActions.isLocalBgBlur());
   };
-  const handleClickOutSide = (e: any) => {
-    if (deleteUser && !deleteRef.current.contains(e.target)) {
-      setDeleteUser(false);
-      dispatch(localActions.isNotLocalBgBlur());
-    }
+  const handleCloseDeleteUser = () => {
+    setDeleteUser(false);
+    dispatch(localActions.isNotLocalBgBlur());
   };
-  useEffect(() => {
-    if (deleteUser) document.addEventListener('mousedown', handleClickOutSide);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutSide);
-    };
-  });
+  // const handleClickOutSide = (e: any) => {
+  //   if (deleteUser && !deleteRef.current.contains(e.target)) {
+  //     setDeleteUser(false);
+  //     dispatch(localActions.isNotLocalBgBlur());
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (deleteUser) document.addEventListener('mousedown', handleClickOutSide);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutSide);
+  //   };
+  // });
 
   //google
   const [isGoogle, setIsGoogle] = useState(false);
@@ -487,7 +505,16 @@ const EditMyProfile = () => {
         setProfileImg={setProfileImg}
       />
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
-      {deleteUser && <DeleteUserWin deleteRef={deleteRef} />}
+      {deleteUser && (
+        <DeleteUserWin
+          deleteRef={deleteRef}
+          onClose={handleCloseDeleteUser}
+          setModalOpen={setModalOpen}
+          setModalMessage={setModalMessage}
+          setModalErr={setModalErr}
+          deleteUserDone={deleteUserDone}
+        />
+      )}
     </>
   );
 };

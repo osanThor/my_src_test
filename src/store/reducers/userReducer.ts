@@ -5,6 +5,7 @@ import {
   ChangePwFormPayload,
   ChangePwPayload,
   CheckNicknamePayload,
+  DeleteUserPayload,
   EditMyProfilePayload,
   LoadUserResponse,
   RegisterBody,
@@ -161,6 +162,10 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.styles = action.payload.styles;
       state.introduction = action.payload.introduction;
+    },
+    deleteUser(state, action: PayloadAction<DeleteUserPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

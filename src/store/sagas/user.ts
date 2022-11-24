@@ -12,6 +12,7 @@ import type {
   ChangePwPayload,
   UserProfilePayload,
   UpdateUserProfilePayload,
+  DeleteUserPayload,
 } from '../types';
 
 // api
@@ -24,6 +25,7 @@ import {
   apiGoogleRegister,
   apiChangePw,
   apiUpdateUserProfile,
+  apiDeleteUser,
 } from '../api';
 
 // 테마변경
@@ -169,7 +171,7 @@ function* updateUserProfileSaga(action: PayloadAction<UpdateUserProfilePayload>)
   }
 }
 // change user pw
-function* changeUserPw(action: PayloadAction<ChangePwPayload>) {
+function* changeUserPwSaga(action: PayloadAction<ChangePwPayload>) {
   try {
     yield put(userActions.loadUserRequest());
     const { data } = yield call(apiChangePw, action.payload);
@@ -177,6 +179,23 @@ function* changeUserPw(action: PayloadAction<ChangePwPayload>) {
     yield put(userActions.loadUserSuccess(data));
   } catch (error: any) {
     console.error('userSaga changeUserPw >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
+  }
+}
+// delete user
+function* deleteUserSaga(action: PayloadAction<DeleteUserPayload>) {
+  try {
+    yield put(userActions.loadUserRequest());
+    const { data } = yield call(apiDeleteUser, action.payload);
+    console.log(data);
+    yield put(userActions.loadUserSuccess(data));
+  } catch (error: any) {
+    console.error('userSaga deleteUserSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -194,7 +213,8 @@ function* watchLoadUser() {
   yield takeLatest(userActions.telegramUsername, telegramUsernameSaga);
   yield takeLatest(userActions.getUserProfile, getUserProfileSaga);
   yield takeLatest(userActions.updateUserProfile, updateUserProfileSaga);
-  yield takeLatest(userActions.ChangePw, changeUserPw);
+  yield takeLatest(userActions.ChangePw, changeUserPwSaga);
+  yield takeLatest(userActions.deleteUser, deleteUserSaga);
 }
 
 export default function* userSaga() {

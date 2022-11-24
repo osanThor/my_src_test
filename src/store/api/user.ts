@@ -6,6 +6,7 @@ import type {
   ChangePwPayload,
   TelegramPayload,
   UpdateUserProfilePayload,
+  DeleteUserPayload,
 } from '../types';
 
 // 닉네임 중복확인
@@ -47,3 +48,7 @@ export const apiUpdateUserProfile = ({ photoUrl, nickname, introduction, styles 
 // change user pw
 export const apiChangePw = ({ oldPw, newPw }: ChangePwPayload) =>
   axiosInstance.put('/users/password', { oldPw, newPw });
+
+//delete user
+export const apiDeleteUser = ({ email, pw }: DeleteUserPayload) =>
+  axiosInstance.delete<LoadUserResponse>('/users', { data: { email, pw } });

@@ -53,10 +53,6 @@ export type RegisterPayload = {
   nickname: string | null;
   photoUrl: string | null;
 };
-export type LoadUserResponse = {
-  message: string | boolean | null;
-};
-
 export type UserProfilePayload = {
   photoUrl: string | null;
   email: string | null;
@@ -76,4 +72,13 @@ export type UpdateUserProfilePayload = {
   nickname: string | null;
   styles: Array<string> | [];
   introduction: string | null;
+};
+
+export type DeleteUserPayload = {
+  email: string | null;
+  pw: string | null;
+};
+
+export type LoadUserResponse = {
+  message: string | boolean | null;
 };

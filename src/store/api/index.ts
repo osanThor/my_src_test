@@ -23,6 +23,7 @@ export {
   apiGetUserProfile,
   apiUpdateUserProfile,
   apiChangePw,
+  apiDeleteUser,
 } from './user';
 
 export { apiUploadFile } from './file';
