@@ -19,12 +19,12 @@ const MyProfileBox = () => {
   return (
     <MyProfileBoxBlock>
       <div className="profile_image">
-        <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
+        <Image src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
       </div>
       <div className="profile_con">
         <div className="name">
           <div className="profile_image">
-            <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
+            <Image src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
           </div>
           <div className="profile_info">
             <div className="nickname">{nickname ? nickname : '로딩중'}</div>

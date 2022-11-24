@@ -35,16 +35,24 @@ export type CheckNicknamePayload = {
   nickname: string | null;
 };
 export type CheckNicknameRes = {};
+
+export type ChangePwFormPayload = {
+  oldPw: string | null;
+  newPw: string | null;
+  pwConfirm: string | null;
+};
+
+export type ChangePwPayload = {
+  oldPw: string | null;
+  newPw: string | null;
+};
+
 export type RegisterPayload = {
   email: string | null;
   pw: string | null;
   nickname: string | null;
   photoUrl: string | null;
 };
-export type LoadUserResponse = {
-  message: string | boolean | null;
-};
-
 export type UserProfilePayload = {
   photoUrl: string | null;
   email: string | null;
@@ -57,4 +65,20 @@ export type UserProfilePayload = {
     boards: number | null;
     comments: number | null;
   };
+};
+
+export type UpdateUserProfilePayload = {
+  photoUrl: string | null;
+  nickname: string | null;
+  styles: Array<string> | [];
+  introduction: string | null;
+};
+
+export type DeleteUserPayload = {
+  email: string | null;
+  pw: string | null;
+};
+
+export type LoadUserResponse = {
+  message: string | boolean | null;
 };

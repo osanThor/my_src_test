@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  ChangePwFormPayload,
+  ChangePwPayload,
   CheckNicknamePayload,
+  DeleteUserPayload,
   EditMyProfilePayload,
   LoadUserResponse,
   RegisterBody,
@@ -10,12 +13,15 @@ import {
   ResponseFailure,
   TelegramPayload,
   ThemePayload,
+  UpdateUserProfilePayload,
   UserProfilePayload,
 } from '../types';
 
 export type UserStateType = {
   email: string | null;
   pw: string | null;
+  oldPw: string | null;
+  newPw: string | null;
   pwConfirm: string | null;
   nickname: string | null;
   checkNicknameResult: boolean | null;
@@ -41,6 +47,8 @@ export type UserStateType = {
 const initialState: UserStateType = {
   email: '',
   pw: '',
+  oldPw: '',
+  newPw: '',
   pwConfirm: '',
   nickname: '',
   checkNicknameResult: null,
@@ -128,6 +136,15 @@ const userSlice = createSlice({
         comments: 0,
       };
     },
+    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+      state.pwConfirm = action.payload.pwConfirm;
+    },
+    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+    },
     getUserProfileResult(state, action: PayloadAction<UserProfilePayload>) {
       state.loadUserLoading = false;
       state.email = action.payload.email;
@@ -138,6 +155,17 @@ const userSlice = createSlice({
       state.styles = action.payload.styles;
       state.introduction = action.payload.introduction;
       state._count = action.payload._count;
+    },
+    updateUserProfile(state, action: PayloadAction<UpdateUserProfilePayload>) {
+      state.loadUserLoading = true;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.styles = action.payload.styles;
+      state.introduction = action.payload.introduction;
+    },
+    deleteUser(state, action: PayloadAction<DeleteUserPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

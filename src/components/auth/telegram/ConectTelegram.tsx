@@ -72,7 +72,11 @@ const ConnectTelegramBlock = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 1rem;
+  h2 {
+    font-size: 20px;
 
+    font-weight: 700;
+  }
   a {
     display: block;
     width: 100%;

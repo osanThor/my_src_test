@@ -203,7 +203,6 @@ const Register: NextPage = () => {
   const [pwErrMessage, setPwErrMessage] = useState<string>('');
 
   const handlePwBlur = () => {
-    console.log('됨?');
     var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (pw.length != 0) {
       if (pw.length < 8 || pw.length > 20) {

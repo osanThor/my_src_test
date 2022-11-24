@@ -1,10 +1,6 @@
-import type { ResponseData, ResponseStatus } from '.';
-
-export type LoadFileBody = {
-  file: string | null;
-};
+export type LoadFileBody = FormData;
 
 export type LoadFileResponse = {
   message: string | null;
-  urls: string | null;
+  url: string | null;
 };

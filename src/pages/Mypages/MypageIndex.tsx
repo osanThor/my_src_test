@@ -19,7 +19,7 @@ const MypageIndex = () => {
 
   useEffect(() => {
     dispatch(userActions.getUserProfile());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(localActions.initializeAuthForm());
