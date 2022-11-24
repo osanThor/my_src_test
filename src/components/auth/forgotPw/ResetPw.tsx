@@ -35,18 +35,7 @@ const ResetPw = ({
   }));
 
   React.useEffect(() => {
-    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (pw.length != 0) {
-      // if (pw.length < 8 || pw.length > 20) {
-      //   setPwErr(true);
-      //   setPwErrMessage('비밀번호는 최소 8자리, 최대 20자리까지에요.');
-      // } else if (reg.test(pw) === false) {
-      //   setPwErr(true);
-      //   setPwErrMessage('비밀번호 형식이 잘못되었어요');
-      // } else {
-      //   setPwErr(false);
-      //   setPwErrMessage('');
-      // }
     } else {
       setPwErr(false);
       setPwErrMessage('');

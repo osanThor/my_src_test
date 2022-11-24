@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Lock, Profile1 } from '@/src/assets/Images';
+import { Lock, Notice, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
 import Image from 'next/image';
@@ -14,15 +14,18 @@ import ImageModal from './ImageModal';
 
 const EditMyProfile = () => {
   const dispatch = useDispatch();
-  const { oldPw, newPw, pwConfirm, photoUrl, nickname, introduction, styles } = useSelector(({ user }: RootState) => ({
-    oldPw: user.oldPw,
-    newPw: user.newPw,
-    pwConfirm: user.pwConfirm,
-    photoUrl: user.photoUrl,
-    nickname: user.nickname,
-    introduction: user.introduction,
-    styles: user.styles,
-  }));
+  const { oldPw, newPw, pwConfirm, photoUrl, nickname, introduction, styles, loadUserDone, loadUserError } =
+    useSelector(({ user }: RootState) => ({
+      oldPw: user.oldPw,
+      newPw: user.newPw,
+      pwConfirm: user.pwConfirm,
+      photoUrl: user.photoUrl,
+      nickname: user.nickname,
+      introduction: user.introduction,
+      styles: user.styles,
+      loadUserDone: user.loadUserDone,
+      loadUserError: user.loadUserError,
+    }));
   const [changePw, setChangePw] = useState(false);
 
   const [profileImg, setProfileImg] = useState('');
@@ -91,11 +94,83 @@ const EditMyProfile = () => {
       }),
     );
   };
+  // pw 유효성 검사
+  const [pwErr, setPwErr] = React.useState(true);
+  const [pwErrMessage, setPwErrMessage] = React.useState('');
+  const [clickAble, setClickAble] = useState(false);
+  useEffect(() => {
+    if (newPw.length <= 0) {
+      setPwErr(false);
+    }
+  }, [newPw]);
+
+  useEffect(() => {
+    if (!oldPw || !newPw || !pwConfirm) {
+      setClickAble(false);
+    } else {
+      if (!pwErr) {
+        setClickAble(true);
+      }
+    }
+  }, [oldPw, newPw, pwConfirm]);
+
+  const handlePwBlur = () => {
+    var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    if (newPw.length != 0) {
+      if (newPw.length < 8 || newPw.length > 20) {
+        setPwErr(true);
+        setPwErrMessage('비밀번호는 최소 8자, 최대 20자로 설정할 수 있어요');
+      } else if (reg.test(newPw) === false) {
+        setPwErr(true);
+        setPwErrMessage('영문 대/소문자, 숫자, 특수문자 중 3종류 이상 섞어주세요');
+      } else {
+        setPwErr(false);
+        setPwErrMessage('');
+      }
+    } else {
+      setPwErr(false);
+      setPwErrMessage('');
+    }
+  };
+
   const handleChangePw = () => {
-    console.log(oldPw);
-    console.log(newPw);
+    if (!oldPw || !newPw || !pwConfirm) {
+      return;
+    } else if (oldPw === newPw) {
+      setModalOpen(true);
+      setModalMessage('현재와 같은 비밀번호에요.');
+      setModalErr(true);
+      return;
+    } else if (newPw != pwConfirm) {
+      setModalOpen(true);
+      setModalMessage('비밀번호가 일치하지 않아요.');
+      setModalErr(true);
+      return;
+    }
     dispatch(userActions.ChangePw({ oldPw, newPw }));
   };
+
+  useEffect(() => {
+    if (profileImg) {
+      if (loadUserError) {
+        setModalOpen(true);
+        setModalMessage(loadUserError);
+        setModalErr(true);
+        return;
+      }
+    }
+    if (loadUserDone === 'NO_MATCH_USER') {
+      setModalOpen(true);
+      setModalMessage('비밀번호가 일치하지 않아요.');
+      setModalErr(true);
+      return;
+    } else if (loadUserDone === 'CHANGED') {
+      setModalOpen(true);
+      setModalMessage('비밀번호가 변경되었어요.');
+      setModalErr(false);
+      setChangePw(false);
+    }
+  }, [loadUserDone, loadUserError]);
 
   // modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -239,6 +314,7 @@ const EditMyProfile = () => {
                         placeholder="비밀번호를 변경해요"
                         onChange={handleChangePwForm}
                         value={newPw || ''}
+                        onBlur={handlePwBlur}
                       />
                     </div>
                     <div className="input">
@@ -250,8 +326,16 @@ const EditMyProfile = () => {
                         value={pwConfirm || ''}
                       />
                     </div>
+                    {pwErr && (
+                      <div className="pw_error">
+                        <div className="notice">
+                          <Image src={Notice[1]} alt="공지" />
+                        </div>
+                        {pwErrMessage}
+                      </div>
+                    )}
                   </div>
-                  <StyledButton blue onClick={handleChangePw}>
+                  <StyledButton blue onClick={handleChangePw} disabled={!clickAble}>
                     변경하기
                   </StyledButton>
                 </div>
@@ -412,6 +496,7 @@ const EditMyProfileBlock = styled.div`
       display: flex;
       align-items: flex-end;
       margin-bottom: 28px;
+      position: relative;
       .change_pw_form {
         flex: 1;
         margin-right: 16px;
@@ -419,7 +504,7 @@ const EditMyProfileBlock = styled.div`
         .input {
           position: relative;
           margin-bottom: 12px;
-          &:last-child {
+          &:nth-child(3) {
             margin-bottom: 0;
           }
 
@@ -433,6 +518,19 @@ const EditMyProfileBlock = styled.div`
             transform: translateY(-50%);
             background: url(${Lock[0].src}) no-repeat 50% / cover;
           }
+        }
+      }
+      .pw_error {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        font-size: 14px;
+        color: ${colors.red[2]};
+        top: 100%;
+        transform: translateY(50%);
+        .notice {
+          margin-right: 8px;
+          position: relative;
         }
       }
     }
@@ -517,6 +615,7 @@ const BottomBtn = styled.div`
   display: flex;
   justify-content: flex-end;
   button {
+    border-radius: 8px;
     min-height: auto;
     height: 50px;
   }
@@ -527,6 +626,12 @@ const StyledButton = styled(Button)`
   max-width: 148px;
   min-height: auto;
   height: 48px;
+  border-radius: 8px;
+
+  &:disabled {
+    background-color: ${colors.gray[2]};
+    color: ${colors.gray[3]};
+  }
 `;
 
 export default EditMyProfile;
