@@ -3,6 +3,7 @@ import { Lock, Notice, Profile1 } from '@/src/assets/Images';
 import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { authActions, localActions, userActions } from '@/src/store/reducers';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -702,6 +703,161 @@ const EditMyProfileBlock = styled.div`
       }
     }
   }
+  ${media.tablet} {
+    flex-direction: column;
+    & > div {
+      padding: 16px;
+      &:first-child {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+    .title {
+      h2 {
+        font-size: 16px;
+      }
+    }
+    .profile_image {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .profile_thumbnail {
+        width: 64px;
+        min-width: 64px;
+        height: 64px;
+        position: relative;
+        margin-right: 16px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: ${colors.blue[2]};
+      }
+      .profile_con {
+        .description {
+          font-size: 12px;
+        }
+        .profile_ctrl {
+          display: flex;
+          button {
+            border-radius: 28px;
+          }
+        }
+      }
+    }
+    .trading {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .trading_style {
+        width: 100%;
+        margin-bottom: 40px;
+        .title {
+          flex-wrap: wrap;
+        }
+        .select_styles {
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+
+          label {
+            width: 100%;
+            max-width: 122.8px;
+            margin-right: 12px;
+            margin-bottom: 12px;
+
+            span {
+              display: inline-block;
+              width: 100%;
+              cursor: pointer;
+              height: 40px;
+              background-color: white;
+              border: 1px solid;
+              padding: 8px;
+              text-align: center;
+              color: ${colors.gray[5]};
+              border-radius: 28px;
+              transition: all 0.2s;
+
+              &:hover {
+                opacity: 0.7;
+              }
+            }
+            input {
+              display: none;
+            }
+
+            input:checked + span {
+              color: ${colors.blue[2]};
+            }
+          }
+        }
+      }
+      .change_pw_con {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 28px;
+        position: relative;
+        .change_pw_form {
+          width: 100%;
+          flex: 1;
+          margin-right: 0;
+          margin-bottom: 16px;
+          .input {
+            position: relative;
+            margin-bottom: 12px;
+            &:nth-child(3) {
+              margin-bottom: 0;
+            }
+
+            &::after {
+              content: '';
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              top: 50%;
+              right: 26px;
+              transform: translateY(-50%);
+              background: url(${Lock[0].src}) no-repeat 50% / cover;
+            }
+          }
+        }
+        .pw_error {
+          position: absolute;
+          width: 100%;
+          display: flex;
+          font-size: 14px;
+          color: ${colors.red[2]};
+          top: 100%;
+          transform: translateY(50%);
+          .notice {
+            margin-right: 8px;
+            position: relative;
+          }
+        }
+      }
+      .ctrl_btns {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        & > div {
+          cursor: pointer;
+          transition: all 0.2s;
+          color: ${colors.gray[3]};
+          &:hover {
+            color: ${colors.gray[4]};
+          }
+          &:first-child {
+            margin-right: 9px;
+          }
+          &.on {
+            color: ${colors.gray[5]};
+          }
+        }
+      }
+    }
+  }
 `;
 
 const StyledInput = styled.input`
@@ -770,6 +926,12 @@ const BottomBtn = styled.div`
     min-height: auto;
     height: 50px;
   }
+
+  ${media.tablet} {
+    button {
+      width: 100%;
+    }
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -782,6 +944,10 @@ const StyledButton = styled(Button)`
   &:disabled {
     background-color: ${colors.gray[2]};
     color: ${colors.gray[3]};
+  }
+  ${media.tablet} {
+    width: 100%;
+    max-width: none;
   }
 `;
 
