@@ -201,6 +201,15 @@ const EditMyProfile = () => {
     };
   });
 
+  //google
+  const [isGoogle, setIsGoogle] = useState(false);
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      setIsGoogle(true);
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
@@ -363,9 +372,11 @@ const EditMyProfile = () => {
               </>
             )}
             <div className="ctrl_btns">
-              <div className={changePw ? 'change_pw_btn on' : 'change_pw_btn'} onClick={() => setChangePw(!changePw)}>
-                비밀번호 변경하기
-              </div>
+              {!isGoogle && (
+                <div className={changePw ? 'change_pw_btn on' : 'change_pw_btn'} onClick={() => setChangePw(!changePw)}>
+                  비밀번호 변경하기
+                </div>
+              )}
               <div className="change_pw_btn" onClick={handleOpenDeleteUser}>
                 탈퇴하기
               </div>

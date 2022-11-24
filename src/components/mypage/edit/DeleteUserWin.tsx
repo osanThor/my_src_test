@@ -1,10 +1,18 @@
 import colors from '@/src/assets/Colors';
 import { Email, Lock } from '@/src/assets/Images';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const DeleteUserWin = ({ deleteRef }: { deleteRef: React.MutableRefObject<HTMLDivElement> }) => {
+  //google
+  const [isGoogle, setIsGoogle] = useState(false);
+  useEffect(() => {
+    const gId = localStorage.getItem('gId');
+    if (gId) {
+      setIsGoogle(true);
+    }
+  }, []);
   return (
     <DeleteUserWinBlock ref={deleteRef}>
       <div className="delete_title">
@@ -15,9 +23,11 @@ const DeleteUserWin = ({ deleteRef }: { deleteRef: React.MutableRefObject<HTMLDi
         <div className="input">
           <StyledInput name="oldPw" placeholder="이메일 입력해요" />
         </div>
-        <div className="input">
-          <StyledInput name="newPw" type="password" placeholder="비밀번호를 변경해요" />
-        </div>
+        {!isGoogle && (
+          <div className="input">
+            <StyledInput name="newPw" type="password" placeholder="비밀번호를 변경해요" />
+          </div>
+        )}
       </div>
       <div className="bnts">
         <StyledButton disabled>탈퇴하기</StyledButton>
@@ -38,7 +48,7 @@ const DeleteUserWinBlock = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 14px;
-  z-index: 999;
+  z-index: 990;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +71,7 @@ const DeleteUserWinBlock = styled.div`
     .input {
       position: relative;
       margin-bottom: 16px;
-      &:nth-child(2) {
+      &:last-child {
         margin-bottom: 0;
         &::after {
           background: url(${Lock[1].src}) no-repeat 50% / cover;
