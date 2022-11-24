@@ -21,4 +21,6 @@ export {
   apiGetUserProfile,
   apiChangeTheme,
   apiTelegramUsername,
+  apiUpdateUserProfile,
+  apiChangePw,
 } from './user';

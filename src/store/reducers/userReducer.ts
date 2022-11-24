@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  ChangePwFormPayload,
+  ChangePwPayload,
   CheckNicknamePayload,
   EditMyProfilePayload,
   LoadUserResponse,
@@ -16,6 +18,8 @@ import {
 export type UserStateType = {
   email: string | null;
   pw: string | null;
+  oldPw: string | null;
+  newPw: string | null;
   pwConfirm: string | null;
   nickname: string | null;
   checkNicknameResult: boolean | null;
@@ -41,6 +45,8 @@ export type UserStateType = {
 const initialState: UserStateType = {
   email: '',
   pw: '',
+  oldPw: '',
+  newPw: '',
   pwConfirm: '',
   nickname: '',
   checkNicknameResult: null,
@@ -127,6 +133,15 @@ const userSlice = createSlice({
         boards: 0,
         comments: 0,
       };
+    },
+    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+      state.pwConfirm = action.payload.pwConfirm;
+    },
+    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
     },
     getUserProfileResult(state, action: PayloadAction<UserProfilePayload>) {
       state.loadUserLoading = false;

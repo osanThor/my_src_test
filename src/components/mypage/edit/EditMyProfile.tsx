@@ -8,13 +8,15 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import Modal from '../../common/Modal';
 import ImageFileModal from './ImageFileModal';
 import ImageModal from './ImageModal';
 
 const EditMyProfile = () => {
   const dispatch = useDispatch();
-  const { pw, pwConfirm, photoUrl, nickname, introduction, styles } = useSelector(({ user }: RootState) => ({
-    pw: user.pw,
+  const { oldPw, newPw, pwConfirm, photoUrl, nickname, introduction, styles } = useSelector(({ user }: RootState) => ({
+    oldPw: user.oldPw,
+    newPw: user.newPw,
     pwConfirm: user.pwConfirm,
     photoUrl: user.photoUrl,
     nickname: user.nickname,
@@ -47,21 +49,15 @@ const EditMyProfile = () => {
   }, [photoUrl, nickname, introduction, styles]);
 
   const handleChangeMyProfile = (e: React.ChangeEvent<any>) => {
-    const { name, value, checked }: { name: string; value: any; checked: boolean } = e.target;
-    let pwVal = pw;
-    let pwConVal = pwConfirm;
-    // let nickVal = nickname;
-    // let photoVal = photoUrl;
-    // let introVal = introduction;
-    // let styleVal = styles;
-    if (name === 'pw') {
-      pwVal = value;
-    } else if (name === 'pwConfirm') {
-      pwConVal = value;
-    } else if (name === 'nickname') {
+    const { name, value, checked, type }: { name: string; value: any; checked: boolean; type: string } = e.target;
+    if (name === 'nickname') {
       setNicknameSt(value);
     } else if (name === 'photoUrl') {
-      setProfileImg(value);
+      if (type === 'radio') {
+        setProfileImg(value);
+      } else {
+        console.log(value);
+      }
     } else if (name === 'introduction') {
       console.log(value);
       console.log(typeof value);
@@ -74,6 +70,41 @@ const EditMyProfile = () => {
       }
     }
   };
+  // change pw
+  const handleChangePwForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let oldPwSt = oldPw;
+    let newPwSt = newPw;
+    let pwConfirmSt = pwConfirm;
+    if (name === 'oldPw') {
+      oldPwSt = value;
+    } else if (name === 'newPw') {
+      newPwSt = value;
+    } else if (name === 'pwConfirm') {
+      pwConfirmSt = value;
+    }
+    dispatch(
+      userActions.ChangePwForm({
+        oldPw: oldPwSt,
+        newPw: newPwSt,
+        pwConfirm: pwConfirmSt,
+      }),
+    );
+  };
+  const handleChangePw = () => {
+    console.log(oldPw);
+    console.log(newPw);
+    dispatch(userActions.ChangePw({ oldPw, newPw }));
+  };
+
+  // modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalErr, setModalErr] = useState(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {
     dispatch(userActions.initializeUserForm());
   }, [dispatch]);
@@ -112,7 +143,7 @@ const EditMyProfile = () => {
           <div className="introduce">
             <div className="title">
               <h2>내 소개</h2>
-              <span>내 소개를 작성해요</span>
+              <span></span>
             </div>
             <div className="introduce_con">
               <StyledTextarea
@@ -193,16 +224,36 @@ const EditMyProfile = () => {
                 <div className="change_pw_con">
                   <div className="change_pw_form">
                     <div className="input">
-                      <StyledPwInput placeholder="기존 비밀번호를 확인할게요" />
+                      <StyledPwInput
+                        name="oldPw"
+                        type="password"
+                        placeholder="기존 비밀번호를 확인할게요"
+                        onChange={handleChangePwForm}
+                        value={oldPw || ''}
+                      />
                     </div>
                     <div className="input">
-                      <StyledPwInput placeholder="새 비밀번호를 입력해요" />
+                      <StyledPwInput
+                        name="newPw"
+                        type="password"
+                        placeholder="비밀번호를 변경해요"
+                        onChange={handleChangePwForm}
+                        value={newPw || ''}
+                      />
                     </div>
                     <div className="input">
-                      <StyledPwInput placeholder="다시한번 비밀번호를 작성해요" />
+                      <StyledPwInput
+                        name="pwConfirm"
+                        type="password"
+                        placeholder="다시한번 비밀번호를 작성해요"
+                        onChange={handleChangePwForm}
+                        value={pwConfirm || ''}
+                      />
                     </div>
                   </div>
-                  <StyledButton blue>변경하기</StyledButton>
+                  <StyledButton blue onClick={handleChangePw}>
+                    변경하기
+                  </StyledButton>
                 </div>
               </>
             )}
@@ -232,6 +283,7 @@ const EditMyProfile = () => {
         setProfileImg={setProfileImg}
         handleChangeMyProfile={handleChangeMyProfile}
       />
+      <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
     </>
   );
 };

@@ -35,6 +35,18 @@ export type CheckNicknamePayload = {
   nickname: string | null;
 };
 export type CheckNicknameRes = {};
+
+export type ChangePwFormPayload = {
+  oldPw: string | null;
+  newPw: string | null;
+  pwConfirm: string | null;
+};
+
+export type ChangePwPayload = {
+  oldPw: string | null;
+  newPw: string | null;
+};
+
 export type RegisterPayload = {
   email: string | null;
   pw: string | null;

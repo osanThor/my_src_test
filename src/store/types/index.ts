@@ -32,6 +32,8 @@ export type {
   LoadUserResponse,
   ThemePayload,
   TelegramPayload,
+  ChangePwFormPayload,
+  ChangePwPayload,
   EditMyProfilePayload,
   UserProfilePayload,
 } from './user';

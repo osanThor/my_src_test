@@ -1,8 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
-import Image from 'next/image';
-import { Close, Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
+import { Profile1, Profile2, Profile3, Profile4 } from '@/src/assets/Images';
 import Button from '../../common/Button';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';

@@ -1,4 +1,4 @@
-import { TelegramPayload } from './../types/user';
+import { ChangePwPayload, TelegramPayload } from './../types/user';
 import { axiosInstance } from '.';
 
 import type { LoadUserBody, LoadUserResponse } from '../types';
@@ -32,5 +32,12 @@ export const apiGoogleRegister = ({ email, pw, nickname, photoUrl }: LoadUserBod
 export const apiTelegramUsername = ({ username }: TelegramPayload) =>
   axiosInstance.put<LoadUserResponse>(`/users/telegram?username=${username}`);
 
-// user profile
+// get user profile
 export const apiGetUserProfile = () => axiosInstance.get('/users/profile');
+
+// update user profile
+export const apiUpdateUserProfile = () => axiosInstance.put('/users/profile');
+
+// change user pw
+export const apiChangePw = ({ oldPw, newPw }: ChangePwPayload) =>
+  axiosInstance.put('/users/password', { oldPw, newPw });
