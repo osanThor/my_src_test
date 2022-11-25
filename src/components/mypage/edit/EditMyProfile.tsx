@@ -386,9 +386,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Day_Trading"
+                  value="SHORT_HIT"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Day_Trading')}
+                  checked={stylesSt.includes('SHORT_HIT')}
                 />
                 <span>#단타</span>
               </label>
@@ -396,9 +396,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Swing"
+                  value="SWING"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Swing')}
+                  checked={stylesSt.includes('SWING')}
                 />
                 <span>#스윙</span>
               </label>
@@ -406,9 +406,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Trend_Following"
+                  value="TREND"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Trend_Following')}
+                  checked={stylesSt.includes('TREND')}
                 />
                 <span>#추세매매</span>
               </label>
@@ -416,9 +416,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Counter_Trend"
+                  value="R_TREND "
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Counter_Trend')}
+                  checked={stylesSt.includes('R_TREND ')}
                 />
                 <span>#역추세매매</span>
               </label>
