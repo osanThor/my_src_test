@@ -1,4 +1,5 @@
 import CommunityLayout from '@/src/components/community/CommunityLayout';
+import BoardsTable from '@/src/components/community/table/BoardsTable';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
 import { localActions } from '@/src/store/reducers';
@@ -24,8 +25,8 @@ const CommunityIndex = () => {
   return (
     <UserLayout>
       <CommunityLayout>
-        {communityDiscussion && <div>전략토론</div>}
-        {communityNotice && <div>공지</div>}
+        {communityDiscussion && <BoardsTable />}
+        {communityNotice && <BoardsTable />}
       </CommunityLayout>
     </UserLayout>
   );
