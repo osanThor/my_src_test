@@ -2,112 +2,116 @@ import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 import React from 'react';
 import styled from 'styled-components';
+import BoardsTableBottom from './BoardsTableBottom';
 
 const BoardsTable = () => {
   return (
-    <BoardsTableBlock>
-      <div className="thead">
-        <div className="th">
-          <div className="td">번호</div>
-          <div className="td title">제목</div>
-          <div className="td dark_gray">작성자</div>
-          <div className="td">조회수</div>
-          <div className="td">작성일</div>
-        </div>
-      </div>
-      <div className="tbody">
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+    <>
+      <BoardsTableBlock>
+        <div className="thead">
+          <div className="th">
+            <div className="td">번호</div>
+            <div className="td title">제목</div>
+            <div className="td dark_gray">작성자</div>
+            <div className="td">조회수</div>
+            <div className="td">작성일</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
         </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+        <div className="tbody">
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
-        </div>
-        <div className="tr">
-          <div className="td">87516</div>
-          <div className="td title dark_gray pointer">
-            게시글의 제목이 들어가는 자리입니다 <span className="comments">0</span>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
           </div>
-          <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-          <div className="td">6553</div>
-          <div className="td">2022.12.25</div>
+          <div className="tr">
+            <div className="td">87516</div>
+            <div className="td title dark_gray pointer">
+              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+            </div>
+            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
+            <div className="td">6553</div>
+            <div className="td">2022.12.25</div>
+          </div>
         </div>
-      </div>
-    </BoardsTableBlock>
+      </BoardsTableBlock>
+      <BoardsTableBottom />
+    </>
   );
 };
 
@@ -156,6 +160,10 @@ const BoardsTableBlock = styled.div`
         margin-left: 8px;
         color: ${colors.blue[2]};
       }
+    }
+    span.tit {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &.pointer {
       cursor: pointer;
