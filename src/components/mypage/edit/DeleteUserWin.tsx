@@ -54,10 +54,17 @@ const DeleteUserWin = ({
     }
   };
   useEffect(() => {
+    const gId = localStorage.getItem('gId');
+
     if (localEmail && pw) {
       setClickAble(true);
     } else {
       setClickAble(false);
+    }
+    if (gId) {
+      if (localEmail) {
+        setClickAble(true);
+      }
     }
   }, [localEmail, pw]);
 
