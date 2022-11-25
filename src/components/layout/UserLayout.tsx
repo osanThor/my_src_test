@@ -10,7 +10,7 @@ import Container from './Container';
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
-  const isDesk = useMediaQuery('(min-width: 769px)');
+  const isDesk = useMediaQuery('(min-width: 1025px)');
   const { isDark } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
   }));

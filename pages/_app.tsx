@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
-import { authActions, userActions } from '@/src/store/reducers';
+import { authActions, localActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
@@ -34,6 +34,9 @@ function MyApp({
     loadAuthDone: auth.loadAuthDone,
     loadAuthError: auth.loadAuthError,
   }));
+  const { bgBlur } = useSelector(({ local }: RootState) => ({
+    bgBlur: local.bgBlur,
+  }));
 
   // auto login
   useEffect(() => {
@@ -43,11 +46,14 @@ function MyApp({
     dispatch(authActions.userLogin({ email, pw }));
   }, []);
 
-  //next auth session reset
+  //next auth session reset and localDispatch
   useEffect(() => {
     const gId = localStorage.getItem('gId');
     if (gId) {
       signOut({ redirect: false });
+    }
+    if (bgBlur) {
+      dispatch(localActions.isNotLocalBgBlur());
     }
   }, [router]);
 

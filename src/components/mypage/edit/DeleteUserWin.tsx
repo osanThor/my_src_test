@@ -2,6 +2,7 @@ import colors from '@/src/assets/Colors';
 import { Email, Lock } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
+import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -26,9 +27,8 @@ const DeleteUserWin = ({
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { email, loadUserDone } = useSelector(({ user }: RootState) => ({
+  const { email } = useSelector(({ user }: RootState) => ({
     email: user.email,
-    loadUserDone: user.loadUserDone,
   }));
   //google
   const [isGoogle, setIsGoogle] = useState(false);
@@ -54,10 +54,17 @@ const DeleteUserWin = ({
     }
   };
   useEffect(() => {
+    const gId = localStorage.getItem('gId');
+
     if (localEmail && pw) {
       setClickAble(true);
     } else {
       setClickAble(false);
+    }
+    if (gId) {
+      if (localEmail) {
+        setClickAble(true);
+      }
     }
   }, [localEmail, pw]);
 
@@ -145,8 +152,6 @@ const DeleteUserWin = ({
 };
 
 const DeleteUserWinBlock = styled.div`
-  width: calc(100% - 32px);
-  max-width: 528px !important;
   background-color: ${({ theme }) => theme.bgColor};
   box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 40px 64px 48px;
@@ -159,6 +164,7 @@ const DeleteUserWinBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .delete_title {
     text-align: center;
     margin-bottom: 24px;
@@ -205,6 +211,27 @@ const DeleteUserWinBlock = styled.div`
       margin-bottom: 16px;
     }
   }
+  ${media.tablet} {
+    padding: 20px;
+    .bnts {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+      button {
+        height: 56px;
+      }
+      button:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  ${media.custom(472)} {
+    width: calc(100% - 32px);
+    .delete_form {
+      width: 100%;
+    }
+  }
 `;
 const StyledInput = styled.input`
   width: 100%;
@@ -224,6 +251,9 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${colors.blue[1]};
     font-size: 1rem;
+  }
+  ${media.tablet} {
+    height: 56px;
   }
 `;
 

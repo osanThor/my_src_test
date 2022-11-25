@@ -13,6 +13,8 @@ export type LocalStateType = {
   errorMessage: boolean;
   editMyProfile: boolean;
   myBoards: boolean;
+  communityDiscussion: boolean;
+  communityNotice: boolean;
 };
 
 const initialState: LocalStateType = {
@@ -30,6 +32,9 @@ const initialState: LocalStateType = {
   //mypage state
   editMyProfile: false,
   myBoards: false,
+  //community
+  communityDiscussion: false,
+  communityNotice: false,
 };
 
 const localSlice = createSlice({
@@ -96,6 +101,15 @@ const localSlice = createSlice({
     gotoMyBoards(state) {
       state.editMyProfile = false;
       state.myBoards = true;
+    },
+    // community Actions
+    gotoComDiscussion(state) {
+      state.communityDiscussion = true;
+      state.communityNotice = false;
+    },
+    gotoComNotice(state) {
+      state.communityDiscussion = false;
+      state.communityNotice = true;
     },
   },
 });

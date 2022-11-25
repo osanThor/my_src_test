@@ -184,7 +184,7 @@ const StyledInputForm = styled.div`
       font-size: 14px;
       color: ${colors.blue[1]};
     }
-    @media (max-width: 768px) {
+    ${media.tablet} {
       height: 56px;
       font-size: 14px;
       padding: 0 1rem;

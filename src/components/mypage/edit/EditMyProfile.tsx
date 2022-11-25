@@ -93,7 +93,7 @@ const EditMyProfile = () => {
 
   // api request
   const handleUpdateUserProfile = () => {
-    console.log(profileImg, nicknameSt, stylesSt, introSt);
+    setChangePw(false);
     if (!nicknameSt) {
       setModalOpen(true);
       setModalMessage('닉네임을 입력해주세요');
@@ -276,6 +276,7 @@ const EditMyProfile = () => {
   const [deleteUserDone, setDeleteUserDone] = useState(false);
   const deleteRef = useRef<HTMLDivElement>(null);
   const handleOpenDeleteUser = () => {
+    setChangePw(false);
     setDeleteUser(true);
     dispatch(localActions.isLocalBgBlur());
   };
@@ -385,9 +386,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Day_Trading"
+                  value="SHORT_HIT"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Day_Trading')}
+                  checked={stylesSt.includes('SHORT_HIT')}
                 />
                 <span>#단타</span>
               </label>
@@ -395,9 +396,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Swing"
+                  value="SWING"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Swing')}
+                  checked={stylesSt.includes('SWING')}
                 />
                 <span>#스윙</span>
               </label>
@@ -405,9 +406,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Trend_Following"
+                  value="TREND"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Trend_Following')}
+                  checked={stylesSt.includes('TREND')}
                 />
                 <span>#추세매매</span>
               </label>
@@ -415,9 +416,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="Counter_Trend"
+                  value="R_TREND "
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('Counter_Trend')}
+                  checked={stylesSt.includes('R_TREND ')}
                 />
                 <span>#역추세매매</span>
               </label>
@@ -606,11 +607,13 @@ const EditMyProfileBlock = styled.div`
       .select_styles {
         width: 100%;
         display: flex;
-
+        justify-content: space-between;
         label {
-          width: 100%;
-          max-width: 122.8px;
+          width: calc(25% - 12px);
           margin-right: 12px;
+          &:last-child {
+            margin-right: 0;
+          }
 
           span {
             display: inline-block;
@@ -624,6 +627,7 @@ const EditMyProfileBlock = styled.div`
             color: ${colors.gray[5]};
             border-radius: 28px;
             transition: all 0.2s;
+            white-space: nowrap;
 
             &:hover {
               opacity: 0.7;
@@ -675,7 +679,7 @@ const EditMyProfileBlock = styled.div`
         font-size: 14px;
         color: ${colors.red[2]};
         top: 100%;
-        transform: translateY(50%);
+        transform: translateY(22%);
         .notice {
           margin-right: 8px;
           position: relative;
@@ -699,6 +703,133 @@ const EditMyProfileBlock = styled.div`
         }
         &.on {
           color: ${colors.gray[5]};
+        }
+      }
+    }
+  }
+  ${media.custom(1200)} {
+    .title {
+      flex-wrap: wrap;
+      h2 {
+        font-size: 16px;
+      }
+    }
+    .profile_image {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .profile_thumbnail {
+        width: 64px;
+        min-width: 64px;
+        height: 64px;
+        position: relative;
+        margin-right: 16px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: ${colors.blue[2]};
+      }
+      .profile_con {
+        .description {
+          font-size: 12px;
+        }
+        .profile_ctrl {
+          display: flex;
+          button {
+            border-radius: 28px;
+          }
+        }
+      }
+    }
+    .trading {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .trading_style {
+        width: 100%;
+        margin-bottom: 40px;
+        .title {
+          flex-wrap: wrap;
+        }
+        .select_styles {
+          flex-wrap: wrap;
+
+          label {
+            width: calc(50% - 6px);
+            min-width: 120px;
+            margin-right: 0;
+            margin-bottom: 12px;
+
+            span {
+              display: inline-block;
+              width: 100%;
+              cursor: pointer;
+              height: 40px;
+              background-color: white;
+              border: 1px solid;
+              padding: 8px;
+              text-align: center;
+              color: ${colors.gray[5]};
+              border-radius: 28px;
+              transition: all 0.2s;
+
+              &:hover {
+                opacity: 0.7;
+              }
+            }
+            input {
+              display: none;
+            }
+
+            input:checked + span {
+              color: ${colors.blue[2]};
+            }
+          }
+        }
+      }
+      .change_pw_con {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 28px;
+        position: relative;
+        .change_pw_form {
+          width: 100%;
+          flex: 1;
+          margin-right: 0;
+          margin-bottom: 16px;
+        }
+        .pw_error {
+          position: absolute;
+          width: 100%;
+          display: flex;
+          font-size: 12px;
+          color: ${colors.red[2]};
+          top: 100%;
+          .notice {
+            margin-right: 8px;
+            position: relative;
+          }
+        }
+      }
+      .ctrl_btns {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        & > div {
+          cursor: pointer;
+          transition: all 0.2s;
+          color: ${colors.gray[3]};
+          &:hover {
+            color: ${colors.gray[4]};
+          }
+          &:first-child {
+            margin-right: 9px;
+          }
+          &.on {
+            color: ${colors.gray[5]};
+          }
         }
       }
     }
@@ -754,13 +885,10 @@ const EditMyProfileBlock = styled.div`
           flex-wrap: wrap;
         }
         .select_styles {
-          width: 100%;
-          display: flex;
           flex-wrap: wrap;
 
           label {
-            width: 100%;
-            max-width: 122.8px;
+            width: 20%;
             margin-right: 12px;
             margin-bottom: 12px;
 
@@ -803,33 +931,99 @@ const EditMyProfileBlock = styled.div`
           flex: 1;
           margin-right: 0;
           margin-bottom: 16px;
-          .input {
-            position: relative;
-            margin-bottom: 12px;
-            &:nth-child(3) {
-              margin-bottom: 0;
-            }
-
-            &::after {
-              content: '';
-              width: 24px;
-              height: 24px;
-              position: absolute;
-              top: 50%;
-              right: 26px;
-              transform: translateY(-50%);
-              background: url(${Lock[0].src}) no-repeat 50% / cover;
-            }
-          }
         }
         .pw_error {
           position: absolute;
           width: 100%;
           display: flex;
-          font-size: 14px;
+          font-size: 12px;
           color: ${colors.red[2]};
           top: 100%;
-          transform: translateY(50%);
+          .notice {
+            margin-right: 8px;
+            position: relative;
+          }
+        }
+      }
+      .ctrl_btns {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        & > div {
+          cursor: pointer;
+          transition: all 0.2s;
+          color: ${colors.gray[3]};
+          &:hover {
+            color: ${colors.gray[4]};
+          }
+          &:first-child {
+            margin-right: 9px;
+          }
+          &.on {
+            color: ${colors.gray[5]};
+          }
+        }
+      }
+    }
+  }
+  ${media.mobile} {
+    .trading {
+      .trading_style {
+        .select_styles {
+          justify-content: space-between;
+          label {
+            width: 49%;
+            margin-right: 0;
+            margin-bottom: 12px;
+
+            span {
+              display: inline-block;
+              width: 100%;
+              cursor: pointer;
+              height: 40px;
+              background-color: white;
+              border: 1px solid;
+              padding: 8px;
+              text-align: center;
+              color: ${colors.gray[5]};
+              border-radius: 28px;
+              transition: all 0.2s;
+
+              &:hover {
+                opacity: 0.7;
+              }
+            }
+            input {
+              display: none;
+            }
+
+            input:checked + span {
+              color: ${colors.blue[2]};
+            }
+          }
+        }
+      }
+      .change_pw_con {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 28px;
+        position: relative;
+        .change_pw_form {
+          width: 100%;
+          flex: 1;
+          margin-right: 0;
+          margin-bottom: 16px;
+        }
+        .pw_error {
+          position: absolute;
+          width: 100%;
+          display: flex;
+          font-size: 12px;
+          color: ${colors.red[2]};
+          top: 100%;
           .notice {
             margin-right: 8px;
             position: relative;
@@ -945,7 +1139,7 @@ const StyledButton = styled(Button)`
     background-color: ${colors.gray[2]};
     color: ${colors.gray[3]};
   }
-  ${media.tablet} {
+  ${media.custom(1200)} {
     width: 100%;
     max-width: none;
   }

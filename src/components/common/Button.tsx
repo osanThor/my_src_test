@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { css } from 'styled-components';
 import colors from '../../assets/Colors';
+import { media } from '@/styles/theme';
 
 const Button = (props: any) => {
   return props.href ? <StyledLink {...props} /> : <StyledButton {...props} />;
@@ -55,7 +56,7 @@ const buttonStyle = css`
     color: ${colors.gray[3]};
     cursor: not-allowed;
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     height: 56px;
     min-height: 56px;
     font-size: 14px;

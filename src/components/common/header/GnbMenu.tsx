@@ -123,7 +123,7 @@ const GnbMenu = () => {
           </Link>
         </div>
         <div className="gnb_menu">
-          <Link href="/community">
+          <Link href="/community?category=discussion">
             <a className={community ? 'on' : ''}>
               <div className="headerIcon" />
               <span>커뮤니티</span>

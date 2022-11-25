@@ -1,4 +1,5 @@
 import { RootState } from '@/src/store/configureStore';
+import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -299,7 +300,7 @@ const TermsBlock = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     width: calc(100% - 32px);
     justify-content: flex-start;
     overflow-y: auto;

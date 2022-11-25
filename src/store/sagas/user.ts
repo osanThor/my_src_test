@@ -10,7 +10,6 @@ import type {
   LoadUserResponse,
   LoadUserBody,
   ChangePwPayload,
-  UserProfilePayload,
   UpdateUserProfilePayload,
   DeleteUserPayload,
 } from '../types';
