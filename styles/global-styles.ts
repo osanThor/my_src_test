@@ -1,6 +1,6 @@
 // styles/global-styles.ts
 import { createGlobalStyle } from 'styled-components';
-import { themeType } from './theme';
+import { media, themeType } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
 #__next{
@@ -49,7 +49,7 @@ aside {
   display: block;
 }
 
-@media (max-width: 768px) {
+${media.tablet}  {
   html,
   body {
     font-size: 14px;

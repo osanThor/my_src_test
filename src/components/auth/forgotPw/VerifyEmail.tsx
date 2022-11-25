@@ -218,7 +218,7 @@ const StyledInputBlock = styled.div`
     align-items: center;
     cursor: text;
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     .inputIcon {
       right: 1rem;
     }
@@ -245,7 +245,7 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${colors.blue[1]};
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     height: 56px;
     font-size: 14px;
     padding: 0 1rem;

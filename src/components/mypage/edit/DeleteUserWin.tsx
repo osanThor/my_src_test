@@ -26,9 +26,8 @@ const DeleteUserWin = ({
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { email, loadUserDone } = useSelector(({ user }: RootState) => ({
+  const { email } = useSelector(({ user }: RootState) => ({
     email: user.email,
-    loadUserDone: user.loadUserDone,
   }));
   //google
   const [isGoogle, setIsGoogle] = useState(false);

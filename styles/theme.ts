@@ -29,6 +29,6 @@ const customMediaQuery = (maxWidth: number): string => `@media (max-width: ${max
 export const media = {
   custom: customMediaQuery,
   pc: customMediaQuery(1440),
-  tablet: customMediaQuery(768),
-  mobile: customMediaQuery(576),
+  tablet: customMediaQuery(1024),
+  mobile: customMediaQuery(768),
 };
