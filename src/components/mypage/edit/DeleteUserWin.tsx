@@ -71,6 +71,7 @@ const DeleteUserWin = ({
   const handleDeleteUser = () => {
     console.log(email);
     console.log(localEmail);
+    console.log(pw);
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(localEmail)) {

@@ -260,6 +260,10 @@ const EditMyProfile = () => {
       delete axiosInstance.defaults.headers.common['Authorization'];
       dispatch(authActions.initializeAuthForm());
       dispatch(userActions.initializeUserForm());
+    }else if(loadUserDone==="PW_REQUIRED"){
+      setModalOpen(true);
+      setModalMessage('비밀번호가 필요해요');
+      setModalErr(true);
     }
   }, [loadUserDone, loadUserError]);
 
