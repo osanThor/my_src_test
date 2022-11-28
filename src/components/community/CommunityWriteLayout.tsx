@@ -1,33 +1,29 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
+import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const CommunityLayout = ({ children }: { children: React.ReactNode }) => {
+const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
+  const dispatch = useDispatch();
+  const { communityDiscussion } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
   }));
+
   return (
     <CommunityLayoutBlock className="container">
-      <CommunityLayoutSpacer />
+      <h2 className="write_title">게시판</h2>
       <div className="community_top">
         <div className="community_tab">
           <div
             className={communityDiscussion ? 'button on' : 'button'}
-            onClick={() => router.push('/community?category=discussion')}
+            onClick={() => dispatch(localActions.gotoComDiscussion())}
           >
             전략토론
-          </div>
-          <div
-            className={communityNotice ? 'button on' : 'button'}
-            onClick={() => router.push('/community?category=notice')}
-          >
-            공지사항
           </div>
         </div>
       </div>
@@ -40,6 +36,11 @@ const CommunityLayoutBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  .write_title {
+    font-size: 18px;
+    color: ${colors.gray[5]};
+    margin-bottom: 12px;
+  }
   .community_top {
     display: flex;
     align-items: center;
@@ -83,15 +84,10 @@ const CommunityLayoutBlock = styled.div`
     }
   }
   ${media.tablet} {
-    .community_top {
+    .write_title {
       display: none;
     }
   }
 `;
-const CommunityLayoutSpacer = styled.div`
-  ${media.tablet} {
-    width: 100%;
-    height: 56px;
-  }
-`;
-export default CommunityLayout;
+
+export default CommunityWriteLayout;
