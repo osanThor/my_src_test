@@ -43,7 +43,6 @@ const MainContainerBlock = styled.div`
 `;
 const MainContainer = styled.div`
   width: 100%;
-  overflow-y: auto;
   display: flex;
 
   & > div:nth-child(2) {
