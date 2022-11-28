@@ -11,6 +11,11 @@ export type LocalStateType = {
   errorMessage: boolean;
   editMyProfile: boolean;
   myBoards: boolean;
+  myWritenBoards: boolean;
+  myComments: boolean;
+  myLikes: boolean;
+  myCollections: boolean;
+  myInquiries: boolean;
   communityDiscussion: boolean;
   communityNotice: boolean;
 };
@@ -30,6 +35,11 @@ const initialState: LocalStateType = {
   //mypage state
   editMyProfile: false,
   myBoards: false,
+  myWritenBoards: false,
+  myComments: false,
+  myLikes: false,
+  myCollections: false,
+  myInquiries: false,
   //community
   communityDiscussion: false,
   communityNotice: false,
@@ -99,6 +109,41 @@ const localSlice = createSlice({
     gotoMyBoards(state) {
       state.editMyProfile = false;
       state.myBoards = true;
+    },
+    gotoMyWritenBoards(state) {
+      state.myWritenBoards = true;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyComments(state) {
+      state.myWritenBoards = false;
+      state.myComments = true;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyLikes(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = true;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyCollections(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = true;
+      state.myInquiries = false;
+    },
+    gotoMyInquiries(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = true;
     },
     // community Actions
     gotoComDiscussion(state) {
