@@ -2,13 +2,11 @@ import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { communityDiscussion } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
