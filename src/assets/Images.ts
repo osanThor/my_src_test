@@ -88,6 +88,7 @@ import EditGrayIconFile from 'public/assets/common/edit_gray.svg';
 import EditDarkIconFile from 'public/assets/common/edit_dark.svg';
 import CancelGrayIconFile from 'public/assets/common/cancel_gray.svg';
 import CancelRedIconFile from 'public/assets/common/cancel_red.svg';
+import SearchGrayIconFile from 'public/assets/common/search_gray.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -107,7 +108,7 @@ export const Menu7 = [MarkIcon, MarkBluIcon];
 export const ApiKeyMenu = [ApiKeyBoxFile, ApiKeyBoxDarkFile];
 export const MApiKeyMenu = [MApiKeyBoxFile, MApiKeyBoxDarkFile];
 export const LogOutIcon = LogOutSvgIcon;
-export const SearchIcon = SearchIconFile;
+export const SearchIcon = [SearchGrayIconFile, SearchIconFile];
 export const ResetIcon = [RetryIconFile, ResetIconFile];
 export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
 export const ProfileEditIcon = ProfileEditDefaultIcon;

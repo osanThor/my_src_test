@@ -45,6 +45,12 @@ const BoardsTableBottomBlock = styled.div`
   }
 
   ${media.tablet} {
+    .first {
+      margin-bottom: 0;
+    }
+    .second {
+      justify-content: center;
+    }
     .search_form {
       margin-top: 20px;
       order: 2;

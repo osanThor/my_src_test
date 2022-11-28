@@ -96,9 +96,10 @@ const CustomSelectBox = styled.div`
     background-color: ${colors.gray[0]};
   }
 
-  ${media.custom(1000)} {
+  ${media.tablet} {
     height: 40px;
     padding: 10px 16px;
+    margin-right: 8px;
   }
   ${media.mobile} {
     min-width: auto;
