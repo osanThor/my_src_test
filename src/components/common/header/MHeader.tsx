@@ -248,7 +248,6 @@ const MHeaderMain = styled.div`
   z-index: 997;
 
   .menu_bar {
-    width: 62px;
     height: 20px;
     img {
       width: 20px;
@@ -256,6 +255,10 @@ const MHeaderMain = styled.div`
   }
   .main_logo {
     max-width: 120px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   .menu_right {
     display: flex;
