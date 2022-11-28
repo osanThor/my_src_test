@@ -7,6 +7,8 @@ import {
   CheckNicknamePayload,
   DeleteUserPayload,
   EditMyProfilePayload,
+  GetUserBoardsPayload,
+  getUserBoardsResult,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
@@ -38,6 +40,19 @@ export type UserStateType = {
     boards: number | null;
     comments: number | null;
   };
+  category: string | null;
+  page: number | null;
+  getUserBoardsDone:
+    | Array<{
+        id: number;
+        title: string;
+        hits: number;
+        createdAt: string;
+        _count: {
+          comments: number;
+        };
+      }>
+    | [];
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
   loadUserError: null | string;
@@ -66,6 +81,9 @@ const initialState: UserStateType = {
     boards: 0,
     comments: 0,
   },
+  category: '',
+  page: 1,
+  getUserBoardsDone: [],
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
@@ -168,6 +186,15 @@ const userSlice = createSlice({
     deleteUser(state, action: PayloadAction<DeleteUserPayload>) {
       state.email = action.payload.email;
       state.pw = action.payload.pw;
+    },
+    getUserBoards(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadUserLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
+      state.loadUserLoading = false;
+      state.getUserBoardsDone = action.payload;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);
