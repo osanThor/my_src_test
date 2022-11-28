@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { LoadBoardsBody, LoadBoardsResponse, ResponseFailure } from '../types';
+import { LoadBoardsBody, LoadBoardsPayload, LoadBoardsResponse, ResponseFailure } from '../types';
 
 export type BoardsStateType = {
   category: string | null;
@@ -21,7 +21,9 @@ const initialState: BoardsStateType = {
   content: '',
   fileUrls: [],
   loadBoardsLoading: false,
-  loadBoardsDone: null,
+  loadBoardsDone: {
+    message: '',
+  },
   loadBoardsError: null,
 };
 
@@ -35,24 +37,31 @@ const boardsSlice = createSlice({
     },
     // boards payload
     changeBoardsField(state, action: PayloadAction<LoadBoardsBody>) {
+      state.category = action.payload.category;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    //action
+    createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
     },
-    loadUserRequest(state) {
+    loadBoardsRequest(state) {
       state.loadBoardsLoading = true;
-      state.loadBoardsDone = null;
+      state.loadBoardsDone = { message: '' };
       state.loadBoardsError = null;
     },
-    loadUserSuccess(state, action: PayloadAction<LoadBoardsResponse>) {
+    loadBoardsSuccess(state, action: PayloadAction<LoadBoardsResponse>) {
       state.loadBoardsLoading = false;
       state.loadBoardsDone = action.payload;
     },
-    loadUserFailure(state, action: PayloadAction<ResponseFailure>) {
+    loadBoardsFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadBoardsLoading = false;
-      state.loadBoardsDone = null;
+      state.loadBoardsDone = { message: '' };
       state.loadBoardsError = action.payload.message;
     },
   },

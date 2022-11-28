@@ -1,6 +1,6 @@
 import { axiosInstance } from '.';
-import { LoadBoardsBody, LoadBoardsResponse } from '../types';
+import { LoadBoardsBody, LoadBoardsPayload, LoadBoardsResponse } from '../types';
 
 // create board
-export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsBody) =>
+export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });

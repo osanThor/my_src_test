@@ -16,12 +16,16 @@ const CommunityWrite: NextPage = () => {
   const { communityDiscussion } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
   }));
-  const { content, category, title, fileUrls } = useSelector(({ boards }: RootState) => ({
-    content: boards.content,
-    category: boards.category,
-    title: boards.title,
-    fileUrls: boards.fileUrls,
-  }));
+  const { content, category, title, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(
+    ({ boards }: RootState) => ({
+      content: boards.content,
+      category: boards.category,
+      title: boards.title,
+      fileUrls: boards.fileUrls,
+      loadBoardsDone: boards.loadBoardsDone,
+      loadBoardsError: boards.loadBoardsError,
+    }),
+  );
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
@@ -93,7 +97,27 @@ const CommunityWrite: NextPage = () => {
       setModalErr(true);
       return;
     }
+    dispatch(
+      boardsActions.createBoards({
+        content,
+        category,
+        title,
+        fileUrls,
+      }),
+    );
   };
+
+  useEffect(() => {
+    if (loadBoardsError) {
+      setModalOpen(true);
+      setModalMessage(loadBoardsError);
+      setModalErr(true);
+      return;
+    }
+    if (loadBoardsDone.message === 'CREATED') {
+      router.push('/community?category=discussion');
+    }
+  }, [loadBoardsDone, loadBoardsError]);
 
   //modal
   const [modalOpen, setModalOpen] = useState(false);
