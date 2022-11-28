@@ -19,6 +19,7 @@ import {
   ArrowLeft,
   MApiKeyMenu,
   ProfileEditIcon,
+  PencilIcon,
 } from '@/src/assets/Images';
 import MMenuWindow from './MMenuWindow';
 import GnbMenu from './GnbMenu';
@@ -27,6 +28,7 @@ import WriteQuantMenu from './mobileHeaderAdded/WriteQuantMenu';
 import MessageMenu from './mobileHeaderAdded/MessageMenu';
 import MyPageMenu from './mobileHeaderAdded/MyPageMenu';
 import CommunityMenu from './mobileHeaderAdded/CommunityMenu';
+import MWriteHeader from './MWriteHeader';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -102,6 +104,8 @@ const MHeader = () => {
   const [message, setMessage] = useState(false);
   const [myPage, setMyPage] = useState(false);
   const [community, setCommunity] = useState(false);
+  const [isWrite, setIsWrite] = useState(false);
+
   useEffect(() => {
     if (router.pathname === '/dashboard') {
       setDashBoard(true);
@@ -128,35 +132,50 @@ const MHeader = () => {
     } else {
       setCommunity(false);
     }
+    if (router.pathname === '/community/write') {
+      setIsWrite(true);
+    } else {
+      setIsWrite(false);
+    }
   }, []);
 
   return (
     <MHeaderBlock>
-      <MHeaderMain>
-        <div className="menu_bar">
-          <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
-        </div>
-        <div className="main_logo">
-          <Link href="/">
-            <a>
-              <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
-            </a>
-          </Link>
-        </div>
-        <div className="menu_right">
-          <div className="reset">
-            <Image src={ResetIcon[0]} alt="reset" />
+      {isWrite || (
+        <MHeaderMain>
+          <div className="menu_bar">
+            <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
           </div>
-          <div className="alram" onClick={handleOpenAlram}>
-            <Image src={AlramIcon[0]} alt="reset" />
+          <div className="main_logo">
+            <Link href="/">
+              <a>
+                <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
+              </a>
+            </Link>
           </div>
-        </div>
-        {dashBoard && <DashBoardMenu />}
-        {writeQuant && <WriteQuantMenu />}
-        {message && <MessageMenu />}
-        {myPage && <MyPageMenu />}
-        {community && <CommunityMenu />}
-      </MHeaderMain>
+          <div className="menu_right">
+            {dashBoard && (
+              <div className="reset">
+                <Image src={ResetIcon[0]} alt="reset" />
+              </div>
+            )}
+            <div className="alram" onClick={handleOpenAlram}>
+              <Image src={AlramIcon[0]} alt="reset" />
+            </div>
+            {community && (
+              <div className="write" onClick={() => router.push('/community/write')}>
+                <Image src={PencilIcon} alt="reset" />
+              </div>
+            )}
+          </div>
+          {dashBoard && <DashBoardMenu />}
+          {writeQuant && <WriteQuantMenu />}
+          {message && <MessageMenu />}
+          {myPage && <MyPageMenu />}
+          {community && <CommunityMenu />}
+        </MHeaderMain>
+      )}
+      {isWrite && <MWriteHeader />}
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>

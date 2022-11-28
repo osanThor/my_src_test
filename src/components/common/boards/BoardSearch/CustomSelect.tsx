@@ -1,7 +1,6 @@
 import colors from '@/src/assets/Colors';
-import { ArrowBottomDark, LocationIcon } from '@/src/assets/Images';
+import { ArrowBottomDark } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
-import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 

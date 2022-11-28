@@ -1,34 +1,51 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
+import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const CommunityLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
   }));
+  const [isWrite, setIsWrtie] = useState(false);
+  useEffect(() => {
+    if (router.pathname === '/community') {
+      setIsWrtie(false);
+    } else if (router.pathname === '/community/write') {
+      setIsWrtie(true);
+    }
+  }, [router]);
   return (
     <CommunityLayoutBlock className="container">
-      <CommunityLayoutSpacer />
+      {isWrite || <CommunityLayoutSpacer />}
+      {isWrite && <h2 className="write_title">게시글</h2>}
       <div className="community_top">
         <div className="community_tab">
           <div
             className={communityDiscussion ? 'button on' : 'button'}
-            onClick={() => router.push('/community?category=discussion')}
+            onClick={
+              isWrite
+                ? () => dispatch(localActions.gotoComDiscussion())
+                : () => router.push('/community?category=discussion')
+            }
           >
             전략토론
           </div>
-          <div
-            className={communityNotice ? 'button on' : 'button'}
-            onClick={() => router.push('/community?category=notice')}
-          >
-            공지사항
-          </div>
+          {isWrite || (
+            <div
+              className={communityNotice ? 'button on' : 'button'}
+              onClick={() => router.push('/community?category=notice')}
+            >
+              공지사항
+            </div>
+          )}
         </div>
       </div>
       {children}
@@ -40,6 +57,11 @@ const CommunityLayoutBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  .write_title {
+    font-size: 18px;
+    color: ${colors.gray[5]};
+    margin-bottom: 12px;
+  }
   .community_top {
     display: flex;
     align-items: center;
@@ -83,6 +105,9 @@ const CommunityLayoutBlock = styled.div`
     }
   }
   ${media.tablet} {
+    .write_title {
+      display: none;
+    }
     .community_top {
       display: none;
     }

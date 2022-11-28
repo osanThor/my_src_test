@@ -1,4 +1,5 @@
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import BoardSearchLayout from '../../common/boards/BoardSearch/BoardSearchLayout';
@@ -8,6 +9,7 @@ import Button from '../../common/Button';
 import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
+  const router = useRouter();
   return (
     <BoardsTableBottomBlock>
       <div className="first">
@@ -19,7 +21,9 @@ const BoardsTableBottom = () => {
           <SearchForm />
         </BoardSearchLayout>
         <div className="btn">
-          <StyledButton lightBlue>글쓰기</StyledButton>
+          <StyledButton lightBlue onClick={() => router.push('/community/write')}>
+            글쓰기
+          </StyledButton>
         </div>
       </div>
     </BoardsTableBottomBlock>

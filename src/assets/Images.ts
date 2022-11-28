@@ -33,6 +33,7 @@ import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg
 import EditDefaultIcon from 'public/assets/common/header/edit-Icon.svg';
 import LangKrIcon from 'public/assets/common/header/language_kr.svg';
 import MobileMenuIcon from 'public/assets/common/header/m_menu_bar.svg';
+import PencilIconFile from 'public/assets/common/header/pencil.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
 import ProfileIcon2 from 'public/assets/common/profile/profile_icon2.svg';
@@ -113,6 +114,7 @@ export const ResetIcon = [RetryIconFile, ResetIconFile];
 export const AlramIcon = [AlramIconFile, AlramActiveIconFile];
 export const ProfileEditIcon = ProfileEditDefaultIcon;
 export const EditIcon = EditDefaultIcon;
+export const PencilIcon = PencilIconFile;
 
 export const LangKr = LangKrIcon;
 
