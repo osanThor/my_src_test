@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import { CheckedSqquare, CheckSquare } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
@@ -6,46 +7,37 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const BoardsTable = () => {
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
-  }));
-  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
+    getUserBoardsDone: user.getUserBoardsDone,
   }));
 
-  const [isNotice, setIsNotice] = useState(false);
-  useEffect(() => {
-    if (communityNotice) {
-      setIsNotice(true);
-    } else if (communityDiscussion) {
-      setIsNotice(false);
-    }
-  }, [loadGetBoardsDone]);
-
-  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
+            <div className="td"></div>
             <div className="td">번호</div>
             <div className="td title">제목</div>
-            <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
             <div className="td">작성일</div>
           </div>
         </div>
         <div className="tbody">
-          {loadGetBoardsDone.map((board) => (
+          {getUserBoardsDone.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
+              <div className="td">
+                <label>
+                  <input type="checkbox" />
+                  <span />
+                </label>
+              </div>
+              <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
               <div className="td">{board.hits}</div>
-              <div className="td">2022.12.25</div>
+              <div className="td">{board.createdAt}</div>
             </div>
           ))}
         </div>
@@ -53,16 +45,6 @@ const BoardsTable = () => {
     </>
   );
 };
-
-const NoticeCon = () => {
-  return <NoticeSpan>공지</NoticeSpan>;
-};
-const NoticeSpan = styled.span`
-  background-color: ${colors.blue[0]};
-  color: ${colors.blue[2]};
-  padding: 4px 8px;
-  border-radius: 16px;
-`;
 
 const BoardsTableBlock = styled.div`
   width: 100%;
@@ -78,16 +60,16 @@ const BoardsTableBlock = styled.div`
     text-overflow: ellipsis;
 
     &:nth-child(1) {
+      width: 10%;
+      max-width: 64px;
+    }
+    &:nth-child(2) {
       width: 20%;
       max-width: 112px;
     }
-    &:nth-child(2) {
+    &:nth-child(3) {
       width: 100%;
       max-width: 1000px;
-    }
-    &:nth-child(3) {
-      width: 30%;
-      max-width: 160px;
     }
     &:nth-child(4) {
       width: 30%;
@@ -146,6 +128,23 @@ const BoardsTableBlock = styled.div`
       border-bottom: 1px solid ${colors.gray[2]};
       .td {
         padding: 20px 16px;
+
+        label {
+          cursor: pointer;
+          span {
+            width: 24px;
+            height: 24px;
+            display: block;
+            background: url(${CheckSquare.src}) no-repeat 50% / cover;
+          }
+
+          input:checked + span {
+            background: url(${CheckedSqquare.src}) no-repeat 50% / cover;
+          }
+        }
+        input {
+          display: none;
+        }
       }
     }
   }
@@ -162,19 +161,23 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 20%;
-        display: none;
+        width: 40px;
         max-width: none;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
       &:nth-child(2) {
-        width: 100%;
-        max-width: none;
-        margin-bottom: 4px;
-      }
-      &:nth-child(3) {
         width: auto;
         max-width: none;
         margin-right: 16px;
+        display: none;
+      }
+      &:nth-child(3) {
+        width: 100%;
+        max-width: none;
+        margin-bottom: 4px;
       }
       &:nth-child(4) {
         width: auto;
@@ -200,6 +203,8 @@ const BoardsTableBlock = styled.div`
         flex-wrap: wrap;
         justify-content: flex-start;
         border-bottom: 1px solid ${colors.gray[2]};
+        position: relative;
+        padding-left: 40px;
         .td {
           padding: 0;
         }
