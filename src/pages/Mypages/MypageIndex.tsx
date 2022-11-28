@@ -4,12 +4,13 @@ import EditMyProfile from '@/src/components/mypage/edit/EditMyProfile';
 import MyPageLayout from '@/src/components/mypage/MyPageLayout';
 import { RootState } from '@/src/store/configureStore';
 import { localActions, userActions } from '@/src/store/reducers';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-const MypageIndex = () => {
+const MypageIndex: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { editMyProfile, myBoards } = useSelector(({ local }: RootState) => ({

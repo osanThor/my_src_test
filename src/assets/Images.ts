@@ -57,6 +57,7 @@ import CheckedRadioIcon from 'public/assets/common/checkbox_checked.svg';
 import NoticeIcon from 'public/assets/common/notice.svg';
 import NoticeErrIcon from 'public/assets/common/notice_err.svg';
 import CameraIcon from 'public/assets/common/camera.svg';
+import CameraDarkIcon from 'public/assets/common/camera_dark.svg';
 import CameraBlueIcon from 'public/assets/common/cameraIcon.svg';
 import ProfileIcon from 'public/assets/common/name.svg';
 import previewBgImage from 'public/assets/common/profile/preview_bg.png';
@@ -90,6 +91,21 @@ import EditDarkIconFile from 'public/assets/common/edit_dark.svg';
 import CancelGrayIconFile from 'public/assets/common/cancel_gray.svg';
 import CancelRedIconFile from 'public/assets/common/cancel_red.svg';
 import SearchGrayIconFile from 'public/assets/common/search_gray.svg';
+
+import BGrayIconFile from 'public/assets/common/editor/B.svg';
+import BBlueIconFile from 'public/assets/common/editor/B_blue.svg';
+import IGrayIconFile from 'public/assets/common/editor/I.svg';
+import IBlueIconFile from 'public/assets/common/editor/I_blue.svg';
+import UnderLineGrayIconFile from 'public/assets/common/editor/underLine.svg';
+import UnderLineBlueIconFile from 'public/assets/common/editor/underLine_blue.svg';
+import StrikeLineGrayIconFile from 'public/assets/common/editor/strikeLine.svg';
+import StrikeLineBlueIconFile from 'public/assets/common/editor/strikeLine_blue.svg';
+import AlignLeftGrayIconFile from 'public/assets/common/editor/alignLeft.svg';
+import AlignLeftBlueIconFile from 'public/assets/common/editor/alignLeft_blue.svg';
+import AlignCenterGrayIconFile from 'public/assets/common/editor/alignCenter.svg';
+import AlignCenterBlueIconFile from 'public/assets/common/editor/alignCenter_blue.svg';
+import AlignRightGrayIconFile from 'public/assets/common/editor/alignRight.svg';
+import AlignRightBlueIconFile from 'public/assets/common/editor/alignRight_blue.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -141,6 +157,7 @@ export const PreviewBg = previewBgImage;
 
 export const Notice = [NoticeIcon, NoticeErrIcon];
 export const Camera = CameraIcon;
+export const CameraDark = CameraDarkIcon;
 export const CameraBlue = CameraBlueIcon;
 export const Profile = ProfileIcon;
 export const Email = EmailIcon;
@@ -165,6 +182,15 @@ export const LocationIcon = LocationIconfile;
 export const AcountPlusIcon = AcountPlusIconfile;
 export const EditPenIcon = [EditGrayIconFile, EditDarkIconFile];
 export const CancelIcon = [CancelGrayIconFile, CancelRedIconFile];
+
+//editor
+export const Bold = [BGrayIconFile, BBlueIconFile];
+export const Iteric = [IGrayIconFile, IBlueIconFile];
+export const UnderLine = [UnderLineGrayIconFile, UnderLineBlueIconFile];
+export const StrikeLine = [StrikeLineGrayIconFile, StrikeLineBlueIconFile];
+export const AlignLeft = [AlignLeftGrayIconFile, AlignLeftBlueIconFile];
+export const AlignCenter = [AlignCenterGrayIconFile, AlignCenterBlueIconFile];
+export const AlignRight = [AlignRightGrayIconFile, AlignRightBlueIconFile];
 
 //Index
 export const MainBanner = MainBannerImage;
