@@ -1,14 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { LoadBoardsBody, LoadBoardsPayload, LoadBoardsResponse, ResponseFailure } from '../types';
+import {
+  getBoardsPayload,
+  getBoardsResult,
+  LoadBoardsBody,
+  LoadBoardsPayload,
+  LoadBoardsResponse,
+  ResponseFailure,
+} from '../types';
 
 export type BoardsStateType = {
   category: string | null;
+  page: number | null;
+  user: string | null;
+  comment: string | null;
   title: string | null;
   content: string | null;
   fileUrls: Array<[string]> | [];
   loadBoardsLoading: boolean;
+  loadGetBoardsDone:
+    | Array<{
+        id: number;
+        title: string;
+        hits: number;
+        createdAt: string;
+        user: {
+          nickname: string;
+        };
+        _count: {
+          comments: number;
+        };
+      }>
+    | [];
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -17,10 +41,14 @@ export type BoardsStateType = {
 
 const initialState: BoardsStateType = {
   category: '',
+  page: 1,
+  user: '',
+  comment: '',
   title: '',
   content: '',
   fileUrls: [],
   loadBoardsLoading: false,
+  loadGetBoardsDone: [],
   loadBoardsDone: {
     message: '',
   },
@@ -43,6 +71,17 @@ const boardsSlice = createSlice({
       state.fileUrls = action.payload.fileUrls;
     },
     //action
+    getBoards(state, action: PayloadAction<getBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+      state.user = action.payload.user;
+      state.comment = action.payload.comment;
+    },
+    getBoardsResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetBoardsDone = action.payload;
+    },
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;

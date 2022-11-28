@@ -28,4 +28,4 @@ export {
 
 export { apiUploadFile } from './file';
 
-export { apiCreateBoard } from './boards';
+export { apiGetBoards, apiCreateBoard } from './boards';

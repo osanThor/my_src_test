@@ -41,4 +41,10 @@ export type {
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
 export type { LoadExchangeBody } from './exchange';
-export type { LoadBoardsBody, getBoardsPayload, LoadBoardsPayload, LoadBoardsResponse } from './boards';
+export type {
+  LoadBoardsBody,
+  getBoardsPayload,
+  getBoardsResult,
+  LoadBoardsPayload,
+  LoadBoardsResponse,
+} from './boards';

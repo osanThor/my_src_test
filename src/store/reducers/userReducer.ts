@@ -124,6 +124,15 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.photoUrl = action.payload.photoUrl;
     },
+    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+      state.pwConfirm = action.payload.pwConfirm;
+    },
+    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+    },
     getUserProfile(state) {
       state.loadUserLoading = true;
       state.email = '';
@@ -137,15 +146,6 @@ const userSlice = createSlice({
         boards: 0,
         comments: 0,
       };
-    },
-    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
-      state.oldPw = action.payload.oldPw;
-      state.newPw = action.payload.newPw;
-      state.pwConfirm = action.payload.pwConfirm;
-    },
-    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
-      state.oldPw = action.payload.oldPw;
-      state.newPw = action.payload.newPw;
     },
     getUserProfileResult(state, action: PayloadAction<UserProfilePayload>) {
       state.loadUserLoading = false;
