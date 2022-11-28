@@ -24,6 +24,11 @@ export {
   apiUpdateUserProfile,
   apiChangePw,
   apiDeleteUser,
+  apiGetUserBoards,
+  apiGetUserComments,
+  apiGetUserLikes,
+  apiGetUserCollection,
+  apiGetUserInquiries,
 } from './user';
 
 export { apiUploadFile } from './file';

@@ -37,6 +37,8 @@ export type {
   EditMyProfilePayload,
   UserProfilePayload,
   UpdateUserProfilePayload,
+  GetUserBoardsPayload,
+  getUserBoardsResult,
   DeleteUserPayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
