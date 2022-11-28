@@ -27,3 +27,5 @@ export {
 } from './user';
 
 export { apiUploadFile } from './file';
+
+export { apiGetBoards, apiCreateBoard } from './boards';

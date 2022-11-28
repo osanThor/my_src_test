@@ -31,7 +31,8 @@ export type UserStateType = {
   isDark: boolean;
   nicknamePrev: string | null;
   licenses: Array<string> | [];
-  styles: Array<string> | [];
+  styles: Array<{ name: string }> | [];
+  stylesSt: Array<string> | [];
   introduction: string | null;
   _count: {
     boards: number | null;
@@ -59,6 +60,7 @@ const initialState: UserStateType = {
   nicknamePrev: '',
   licenses: [],
   styles: [],
+  stylesSt: [],
   introduction: '',
   _count: {
     boards: 0,
@@ -122,6 +124,15 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.photoUrl = action.payload.photoUrl;
     },
+    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+      state.pwConfirm = action.payload.pwConfirm;
+    },
+    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+    },
     getUserProfile(state) {
       state.loadUserLoading = true;
       state.email = '';
@@ -135,15 +146,6 @@ const userSlice = createSlice({
         boards: 0,
         comments: 0,
       };
-    },
-    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
-      state.oldPw = action.payload.oldPw;
-      state.newPw = action.payload.newPw;
-      state.pwConfirm = action.payload.pwConfirm;
-    },
-    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
-      state.oldPw = action.payload.oldPw;
-      state.newPw = action.payload.newPw;
     },
     getUserProfileResult(state, action: PayloadAction<UserProfilePayload>) {
       state.loadUserLoading = false;
@@ -160,7 +162,7 @@ const userSlice = createSlice({
       state.loadUserLoading = true;
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
-      state.styles = action.payload.styles;
+      state.stylesSt = action.payload.styles;
       state.introduction = action.payload.introduction;
     },
     deleteUser(state, action: PayloadAction<DeleteUserPayload>) {

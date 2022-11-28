@@ -63,9 +63,15 @@ const EditMyProfile = () => {
     setProfileImg(photoUrl);
     setNicknameSt(nickname);
     setIntroSt(introduction);
-    setStylesSt(styles);
+    styles.map((obj) => {
+      console.log(obj);
+      setStylesSt((style) => {
+        return [...style, obj.name];
+      });
+    });
   }, [photoUrl, nickname, introduction, styles]);
 
+  console.log(stylesSt);
   const handleChangeMyProfile = (e: React.ChangeEvent<any>) => {
     const { name, value, checked }: { name: string; value: any; checked: boolean; type: string } = e.target;
     if (name === 'nickname') {
@@ -260,7 +266,7 @@ const EditMyProfile = () => {
       delete axiosInstance.defaults.headers.common['Authorization'];
       dispatch(authActions.initializeAuthForm());
       dispatch(userActions.initializeUserForm());
-    }else if(loadUserDone==="PW_REQUIRED"){
+    } else if (loadUserDone === 'PW_REQUIRED') {
       setModalOpen(true);
       setModalMessage('비밀번호가 필요해요');
       setModalErr(true);
@@ -420,9 +426,9 @@ const EditMyProfile = () => {
                 <input
                   type="checkbox"
                   name="styles"
-                  value="R_TREND "
+                  value="R_TREND"
                   onChange={handleChangeMyProfile}
-                  checked={stylesSt.includes('R_TREND ')}
+                  checked={stylesSt.includes('R_TREND')}
                 />
                 <span>#역추세매매</span>
               </label>

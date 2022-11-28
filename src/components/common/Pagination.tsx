@@ -80,11 +80,17 @@ const PaginationBlock = styled.div`
 
   ${media.tablet} {
     .prev_btns {
+      .btn {
+        display: flex;
+      }
       .btn:first-child {
         display: none;
       }
     }
     .next_btns {
+      .btn {
+        display: flex;
+      }
       .btn:last-child {
         display: none;
       }

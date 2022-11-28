@@ -1,10 +1,30 @@
 import colors from '@/src/assets/Colors';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 
 const BoardsTable = () => {
+  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
+    communityDiscussion: local.communityDiscussion,
+    communityNotice: local.communityNotice,
+  }));
+  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+    loadGetBoardsDone: boards.loadGetBoardsDone,
+  }));
+
+  const [isNotice, setIsNotice] = useState(false);
+  useEffect(() => {
+    if (communityNotice) {
+      setIsNotice(true);
+    } else if (communityDiscussion) {
+      setIsNotice(false);
+    }
+  }, [loadGetBoardsDone]);
+
+  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>
@@ -18,102 +38,33 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
+          {loadGetBoardsDone.map((board) => (
+            <div className="tr" key={board.id}>
+              <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
+              <div className="td title dark_gray pointer">
+                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+              </div>
+              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+              <div className="td">{board.hits}</div>
+              <div className="td">2022.12.25</div>
             </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
-          <div className="tr">
-            <div className="td">87516</div>
-            <div className="td title dark_gray pointer">
-              <span className="tit">게시글의 제목이 들어가는 자리입니다</span> <span className="comments">0</span>
-            </div>
-            <div className="td dark_gray pointer">다른 사용자 닉네임</div>
-            <div className="td">6553</div>
-            <div className="td">2022.12.25</div>
-          </div>
+          ))}
         </div>
       </BoardsTableBlock>
       <BoardsTableBottom />
     </>
   );
 };
+
+const NoticeCon = () => {
+  return <NoticeSpan>공지</NoticeSpan>;
+};
+const NoticeSpan = styled.span`
+  background-color: ${colors.blue[0]};
+  color: ${colors.blue[2]};
+  padding: 4px 8px;
+  border-radius: 16px;
+`;
 
 const BoardsTableBlock = styled.div`
   width: 100%;

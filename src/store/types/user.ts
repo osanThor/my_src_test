@@ -25,7 +25,7 @@ export type EditMyProfilePayload = {
   nickname: string | null;
   photoUrl: string | null;
   introduction: string | null;
-  styles: Array<string> | [];
+  styles: Array<{ name: string }> | [];
 };
 
 export type ThemePayload = {
@@ -59,7 +59,7 @@ export type UserProfilePayload = {
   nicknamePrev: string | null;
   nickname: string | null;
   licenses: Array<string> | [];
-  styles: Array<string> | [];
+  styles: Array<{ name: string }> | [];
   introduction: string | null;
   _count: {
     boards: number | null;
