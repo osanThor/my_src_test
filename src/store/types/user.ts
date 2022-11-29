@@ -89,15 +89,18 @@ export type CreateUserInquiruesPayload = {
   content: string | null;
   fileUrls: Array<string> | [];
 };
-export type getUserBoardsResult = Array<{
-  id: number;
-  title: string;
-  hits: number;
-  createdAt: string;
-  _count: {
-    comments: number;
-  };
-}>;
+export type getUserBoardsResult = {
+  total: number | null;
+  boards: Array<{
+    id: number;
+    title: string;
+    hits: number;
+    createdAt: string;
+    _count: {
+      comments: number;
+    };
+  }>;
+};
 export type LoadUserResponse = {
   message: string | boolean | null;
 };

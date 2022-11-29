@@ -36,7 +36,7 @@ const MyBoards = () => {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());
         if (myWritenBoards) {
-          if (getUserBoardsDone.length === 0) {
+          if (getUserBoardsDone.boards.length === 0) {
             dispatch(userActions.getUserBoards({ category, page }));
           }
         }

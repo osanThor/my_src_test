@@ -25,7 +25,6 @@ const BoardsTable = () => {
     }
   }, [loadGetBoardsDone]);
 
-  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>

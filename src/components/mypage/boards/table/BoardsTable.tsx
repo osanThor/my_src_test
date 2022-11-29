@@ -10,9 +10,11 @@ import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
 
 const BoardsTable = () => {
-  const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
+  const { getUserBoardsDone, page } = useSelector(({ user }: RootState) => ({
     getUserBoardsDone: user.getUserBoardsDone,
+    page: user.page,
   }));
+  const { total } = getUserBoardsDone;
 
   return (
     <>
@@ -27,7 +29,7 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getUserBoardsDone.map((board) => (
+          {getUserBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">
                 <label>
@@ -50,12 +52,12 @@ const BoardsTable = () => {
           ))}
         </div>
       </BoardsTableBlock>
-      <MyBoardBottom />
+      <MyBoardBottom page={page} total={total} />
     </>
   );
 };
 
-const MyBoardBottom = () => {
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
   return (
     <MyBoardBottomBlock>
       <label>
@@ -63,7 +65,7 @@ const MyBoardBottom = () => {
         <span className="checkbox" />
         <span className="txt">전체선택</span>
       </label>
-      {/* <Pagination /> */}
+      <Pagination page={page} total={total} />
       <Button disabled>삭제하기</Button>
     </MyBoardBottomBlock>
   );
