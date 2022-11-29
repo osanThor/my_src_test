@@ -5,6 +5,7 @@ import { media } from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import Moment from 'react-moment';
 
 const BoardsTable = () => {
   const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
@@ -37,7 +38,10 @@ const BoardsTable = () => {
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
               <div className="td">{board.hits}</div>
-              <div className="td">{board.createdAt}</div>
+              <div className="td">
+                {' '}
+                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+              </div>
             </div>
           ))}
         </div>

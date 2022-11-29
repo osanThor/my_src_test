@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
+import Moment from 'react-moment';
 
 const BoardsTable = () => {
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
@@ -46,7 +47,9 @@ const BoardsTable = () => {
               </div>
               <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
               <div className="td">{board.hits}</div>
-              <div className="td">2022.12.25</div>
+              <div className="td">
+                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+              </div>
             </div>
           ))}
         </div>
