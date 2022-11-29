@@ -8,8 +8,10 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
+import { useRouter } from 'next/router';
 
 const MyInquiriesTable = () => {
+  const router = useRouter();
   const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
     getUserBoardsDone: user.getUserBoardsDone,
   }));
@@ -29,7 +31,7 @@ const MyInquiriesTable = () => {
             <div className="tr" key={board.id}>
               <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                <span className="tit">{board.title}</span>
               </div>
               <div className="td">
                 <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
@@ -42,13 +44,16 @@ const MyInquiriesTable = () => {
     </>
   );
 };
+// Inquiries
 
 const MyBoardBottom = () => {
+  const router = useRouter();
+
   return (
     <MyBoardBottomBlock>
       <label></label>
       <Pagination />
-      <Button>문의하기</Button>
+      <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
 };

@@ -132,7 +132,7 @@ const MHeader = () => {
     } else {
       setCommunity(false);
     }
-    if (router.pathname === '/community/write') {
+    if (router.pathname === '/community/write' || router.pathname === '/mypage/inquiries/write') {
       setIsWrite(true);
     } else {
       setIsWrite(false);
