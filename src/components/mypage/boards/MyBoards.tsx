@@ -7,6 +7,10 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MyBoardTab from './MyBoardTab';
 import BoardsTable from './table/BoardsTable';
+import MyCollectionsTable from './table/MyCollectionsTable';
+import MyCommentsTable from './table/MyCommentsTable';
+import MyInquiriesTable from './table/MyInquiriesTable';
+import MyLikesTable from './table/MyLikesTable';
 
 const MyBoards = () => {
   const router = useRouter();
@@ -76,6 +80,10 @@ const MyBoards = () => {
     <MyBoardsBlock>
       <MyBoardTab />
       {myWritenBoards && <BoardsTable />}
+      {myComments && <MyCommentsTable />}
+      {myLikes && <MyLikesTable />}
+      {myCollections && <MyCollectionsTable />}
+      {myInquiries && <MyInquiriesTable />}
     </MyBoardsBlock>
   );
 };
