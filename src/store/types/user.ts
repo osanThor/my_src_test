@@ -83,6 +83,12 @@ export type GetUserBoardsPayload = {
   category: string | null;
   page: number | null;
 };
+
+export type CreateUserInquiruesPayload = {
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
 export type getUserBoardsResult = Array<{
   id: number;
   title: string;

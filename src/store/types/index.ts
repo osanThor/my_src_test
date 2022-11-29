@@ -39,6 +39,7 @@ export type {
   UpdateUserProfilePayload,
   GetUserBoardsPayload,
   getUserBoardsResult,
+  CreateUserInquiruesPayload,
   DeleteUserPayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';

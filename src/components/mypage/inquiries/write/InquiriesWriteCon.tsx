@@ -1,19 +1,53 @@
 import colors from '@/src/assets/Colors';
 import Button from '@/src/components/common/Button';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const InquiriesWriteCon = () => {
+const InquiriesWriteCon = ({
+  hadnleChangeInquiriesField,
+  handleChangeFileUrls,
+  file1name,
+  file2name,
+  file3name,
+}: {
+  hadnleChangeInquiriesField: (e: React.ChangeEvent<any>) => void;
+  handleChangeFileUrls: (e: React.ChangeEvent<any>) => void;
+  file1name: string | null;
+  file2name: string | null;
+  file3name: string | null;
+}) => {
+  const { title, content, fileUrls } = useSelector(({ user }: RootState) => ({
+    title: user.title,
+    content: user.content,
+    fileUrls: user.fileUrls,
+  }));
   const [textCount, setTextCount] = useState(0);
+  const handleChangeContentsLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    hadnleChangeInquiriesField(e);
+    setTextCount(value.length);
+  };
   return (
     <InquiriesWriteBlock>
       <div className="top_text">
         받는사람 <span>퀀트로</span>
       </div>
-      <StyledInput placeholder="제목을 입력해 주세요" />
+      <StyledInput
+        name="title"
+        placeholder="제목을 입력해 주세요"
+        value={title}
+        onChange={hadnleChangeInquiriesField}
+      />
       <div className="contents_box">
-        <StyledTextArea placeholder="문의 내용을 작성 후 보내기를 눌러주세요" />
+        <StyledTextArea
+          name="content"
+          value={content}
+          placeholder="문의 내용을 작성 후 보내기를 눌러주세요"
+          onChange={handleChangeContentsLength}
+        />
         <div className="count_area">
           <div className="count">{textCount} / 1000자</div>
         </div>
@@ -23,26 +57,26 @@ const InquiriesWriteCon = () => {
           <div className="file_con">
             <div className="file_title">첨부파일 1</div>
             <label>
-              <input type="file" accept=".gif, .jpg, .png" />
+              <input name="file1" type="file" accept=".gif, .jpg, .png" onChange={handleChangeFileUrls} />
               <span className="file_button">파일 선택</span>
             </label>
-            <span className="fileName">선택된 파일 없음</span>
+            <span className="fileName">{file1name ? file1name : '선택된 파일 없음'}</span>
           </div>
           <div className="file_con">
             <div className="file_title">첨부파일 2</div>
             <label>
-              <input type="file" accept=".gif, .jpg, .png" />
+              <input name="file2" type="file" accept=".gif, .jpg, .png" onChange={handleChangeFileUrls} />
               <span className="file_button">파일 선택</span>
             </label>
-            <span className="fileName">선택된 파일 없음</span>
+            <span className="fileName">{file2name ? file2name : '선택된 파일 없음'}</span>
           </div>
           <div className="file_con">
             <div className="file_title">첨부파일 3</div>
             <label>
-              <input type="file" accept=".gif, .jpg, .png" />
+              <input name="file3" type="file" accept=".gif, .jpg, .png" onChange={handleChangeFileUrls} />
               <span className="file_button">파일 선택</span>
             </label>
-            <span className="fileName">선택된 파일 없음</span>
+            <span className="fileName">{file3name ? file3name : '선택된 파일 없음'}</span>
           </div>
         </div>
         <Button lightBlue>보내기</Button>
