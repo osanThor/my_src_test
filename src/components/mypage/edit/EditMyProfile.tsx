@@ -1106,6 +1106,7 @@ const StyledTextarea = styled.textarea`
   transition: all 0.2s;
   font-size: 14px;
   color: ${colors.gray[5]};
+  resize: none;
   &:focus {
     outline: none;
     border-color: ${colors.gray[3]};
