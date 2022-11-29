@@ -3,21 +3,49 @@ import { Arrow } from '@/src/assets/Images';
 import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const Pagination = ({ total, page }: { total: number; page: number }) => {
   const dispatch = useDispatch();
-  // const numPages = Math.ceil(total / 10);
-  const numPages = 17;
-  const [currPage, setCurrPage] = useState(page);
-  let firstNum = currPage - (currPage % 5) + 1;
-  let lastNum = currPage - (currPage % 5) + 5;
-  let lastCurr = Math.ceil(total / 5) * 5;
-  console.log(lastCurr);
+  const limit = 5;
+  const numPages = Math.ceil(total / 10);
 
-  console.log({ 'currPage is': currPage, 'firsNum is': firstNum, 'lastNum is': lastNum, 'page is': page });
+  const [currentPageArray, setCurrentPageArray] = useState([]);
+  const [totalPageArray, setTotalPageArray] = useState([]);
+  useEffect(() => {
+    if (page % limit === 1) {
+      setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
+    } else if (page % limit === 0) {
+      setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
+    }
+  }, [page, total]);
+
+  useEffect(() => {
+    const slicedPageArray = sliceArrayByLimit(numPages, limit);
+    setTotalPageArray(slicedPageArray);
+    setCurrentPageArray(slicedPageArray[0]);
+  }, [numPages]);
+
+  const sliceArrayByLimit = (totalPage: number, limit: number) => {
+    const totalPageArray = Array(totalPage)
+      .fill(0)
+      .map((_, i) => i);
+    return Array(Math.ceil(totalPage / limit))
+      .fill(0)
+      .map(() => totalPageArray.splice(0, limit));
+  };
+
+  useEffect(() => {
+    if (page % limit === 1) {
+      setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
+    } else if (page % limit === 0) {
+      setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
+    } else {
+      setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
+    }
+  }, [page]);
 
   return (
     <PaginationBlock className="pagination">
@@ -26,7 +54,6 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
           className={page === 1 ? 'btn disabled' : 'btn'}
           onClick={() => {
             dispatch(boardsActions.changePage({ page: 1 }));
-            setCurrPage(1);
           }}
         >
           <Image src={Arrow[1]} alt="arrow" />
@@ -35,52 +62,27 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
           className={page === 1 ? 'btn disabled' : 'btn'}
           onClick={() => {
             dispatch(boardsActions.changePage({ page: page - 1 }));
-            setCurrPage(page - 2);
           }}
         >
           <Image src={Arrow[0]} alt="arrow" />
         </div>
       </div>
       <div className="numbers">
-        <div
-          className={page === firstNum ? 'num on' : 'num'}
-          onClick={() => dispatch(boardsActions.changePage({ page: firstNum }))}
-        >
-          {firstNum}
-        </div>
-
-        {Array(numPages)
-          .fill(0, 0, 4)
-          .map((_, i) => {
-            if (i <= 2) {
-              return (
-                <div
-                  key={i + 1}
-                  className={page === firstNum + 1 + i ? 'num on' : 'num'}
-                  onClick={() => dispatch(boardsActions.changePage({ page: firstNum + 1 + i }))}
-                >
-                  {firstNum + 1 + i}
-                </div>
-              );
-            } else if (i >= 3) {
-              return (
-                <div
-                  key={i + 1}
-                  className={page === lastNum ? 'num on' : 'num'}
-                  onClick={() => dispatch(boardsActions.changePage({ page: lastNum }))}
-                >
-                  {lastNum}
-                </div>
-              );
-            }
-          })}
+        {currentPageArray?.map((i) => (
+          <div
+            key={i + 1}
+            className={page === i + 1 ? 'num on' : 'num'}
+            onClick={() => dispatch(boardsActions.changePage({ page: i + 1 }))}
+          >
+            {i + 1}
+          </div>
+        ))}
       </div>
       <div className="next_btns">
         <div
           className={page === numPages ? 'btn disabled' : 'btn'}
           onClick={() => {
             dispatch(boardsActions.changePage({ page: page + 1 }));
-            setCurrPage(page);
           }}
         >
           <Image src={Arrow[0]} alt="arrow" />
@@ -89,7 +91,6 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
           className={page === numPages ? 'btn disabled' : 'btn'}
           onClick={() => {
             dispatch(boardsActions.changePage({ page: numPages }));
-            setCurrPage(lastCurr);
           }}
         >
           <Image src={Arrow[1]} alt="arrow" />

@@ -15,7 +15,7 @@ const MyInquiriesTable = () => {
   const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
     getUserBoardsDone: user.getUserBoardsDone,
   }));
-
+  console.log(getUserBoardsDone);
   return (
     <>
       <BoardsTableBlock>
@@ -27,7 +27,7 @@ const MyInquiriesTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getUserBoardsDone.map((board) => (
+          {getUserBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">

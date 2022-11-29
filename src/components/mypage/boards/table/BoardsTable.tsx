@@ -27,7 +27,7 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getUserBoardsDone.map((board) => (
+          {getUserBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">
                 <label>

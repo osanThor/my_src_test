@@ -43,17 +43,18 @@ export type UserStateType = {
   };
   category: string | null;
   page: number | null;
-  getUserBoardsDone:
-    | Array<{
-        id: number;
-        title: string;
-        hits: number;
-        createdAt: string;
-        _count: {
-          comments: number;
-        };
-      }>
-    | [];
+  getUserBoardsDone: {
+    total: number | null;
+    boards: Array<{
+      id: number;
+      title: string;
+      hits: number;
+      createdAt: string;
+      _count: {
+        comments: number;
+      };
+    }>;
+  };
   title: string | null;
   content: string | null;
   fileUrls: Array<string> | [];
@@ -87,7 +88,7 @@ const initialState: UserStateType = {
   },
   category: '',
   page: 1,
-  getUserBoardsDone: [],
+  getUserBoardsDone: { total: 0, boards: [] },
   title: '',
   content: '',
   fileUrls: [],
