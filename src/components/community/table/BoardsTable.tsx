@@ -39,7 +39,7 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {loadGetBoardsDone.map((board) => (
+          {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
               <div className="td title dark_gray pointer">

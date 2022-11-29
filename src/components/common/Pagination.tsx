@@ -1,11 +1,16 @@
 import colors from '@/src/assets/Colors';
 import { Arrow } from '@/src/assets/Images';
+import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const Pagination = () => {
+const Pagination = ({ total, page }: { total: number; page: number }) => {
+  const dispatch = useDispatch();
+  const numPages = Math.ceil(total / 10);
+  console.log(numPages);
   return (
     <PaginationBlock className="pagination">
       <div className="prev_btns">
@@ -17,11 +22,17 @@ const Pagination = () => {
         </div>
       </div>
       <div className="numbers">
-        <div className="num on">1</div>
-        <div className="num">2</div>
-        <div className="num">3</div>
-        <div className="num">4</div>
-        <div className="num">5</div>
+        {Array<number>(numPages)
+          .fill(0)
+          .map((_, i) => (
+            <div
+              key={i + 1}
+              className={page === i + 1 ? 'num on' : 'num'}
+              onClick={() => dispatch(boardsActions.changePage({ page: i + 1 }))}
+            >
+              {i + 1}
+            </div>
+          ))}
       </div>
       <div className="next_btns">
         <div className="btn">

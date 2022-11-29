@@ -50,4 +50,5 @@ export type {
   getBoardsResult,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  changePage,
 } from './boards';

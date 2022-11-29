@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changePage,
   getBoardsPayload,
   getBoardsResult,
   LoadBoardsBody,
@@ -19,20 +20,23 @@ export type BoardsStateType = {
   content: string | null;
   fileUrls: Array<[string]> | [];
   loadBoardsLoading: boolean;
-  loadGetBoardsDone:
-    | Array<{
-        id: number;
-        title: string;
-        hits: number;
-        createdAt: string;
-        user: {
-          nickname: string;
-        };
-        _count: {
-          comments: number;
-        };
-      }>
-    | [];
+  loadGetBoardsDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -48,7 +52,7 @@ const initialState: BoardsStateType = {
   content: '',
   fileUrls: [],
   loadBoardsLoading: false,
-  loadGetBoardsDone: [],
+  loadGetBoardsDone: { total: 0, boards: [] },
   loadBoardsDone: {
     message: '',
   },
@@ -88,6 +92,9 @@ const boardsSlice = createSlice({
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
+    },
+    changePage(state, action: PayloadAction<changePage>) {
+      state.page = action.payload.page;
     },
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;

@@ -29,7 +29,7 @@ const MyCollectionsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {loadGetBoardsDone.map((board) => (
+          {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">
@@ -53,11 +53,7 @@ const MyCollectionsTable = () => {
 };
 
 const MyBoardBottom = () => {
-  return (
-    <MyBoardBottomBlock>
-      <Pagination />
-    </MyBoardBottomBlock>
-  );
+  return <MyBoardBottomBlock>{/* <Pagination /> */}</MyBoardBottomBlock>;
 };
 
 const MyBoardBottomBlock = styled.div`

@@ -52,7 +52,7 @@ const MyBoardBottom = () => {
   return (
     <MyBoardBottomBlock>
       <label></label>
-      <Pagination />
+      {/* <Pagination /> */}
       <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
@@ -62,7 +62,6 @@ const MyBoardBottomBlock = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem;
   align-items: center;
   label {
     cursor: pointer;
