@@ -213,7 +213,7 @@ function* getUserBoardsSaga(action: PayloadAction<getBoardsPayload>) {
     console.log(data);
     yield put(userActions.getUserBoardsResult(data));
   } catch (error: any) {
-    console.error('userSaga deleteUserSaga >> ', error);
+    console.error('userSaga getUserBoardsSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';

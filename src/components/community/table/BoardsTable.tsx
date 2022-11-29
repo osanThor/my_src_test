@@ -46,7 +46,10 @@ const BoardsTable = () => {
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
               <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
-              <div className="td">{board.hits}</div>
+              <div className="td">
+                <span className="ver_m">조회수</span>
+                {board.hits}
+              </div>
               <div className="td">
                 <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
               </div>
@@ -72,6 +75,9 @@ const NoticeSpan = styled.span`
 const BoardsTableBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
+  .ver_m {
+    display: none;
+  }
   .td {
     font-size: 14px;
     display: flex;
@@ -156,6 +162,10 @@ const BoardsTableBlock = styled.div`
   }
 
   ${media.tablet} {
+    .ver_m {
+      display: inline-block;
+      margin-right: 8px;
+    }
     .td {
       font-size: 14px;
       display: flex;
