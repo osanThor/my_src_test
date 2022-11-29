@@ -1,6 +1,5 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
-import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -10,7 +9,6 @@ import styled from 'styled-components';
 
 const MyBoardTab = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const { _count } = useSelector(({ user }: RootState) => ({
     _count: user._count,
   }));

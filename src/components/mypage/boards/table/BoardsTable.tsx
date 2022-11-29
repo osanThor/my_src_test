@@ -6,6 +6,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Moment from 'react-moment';
+import Pagination from '@/src/components/common/Pagination';
+import Button from '@/src/components/common/Button';
 
 const BoardsTable = () => {
   const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
@@ -48,9 +50,82 @@ const BoardsTable = () => {
           ))}
         </div>
       </BoardsTableBlock>
+      <MyBoardBottom />
     </>
   );
 };
+
+const MyBoardBottom = () => {
+  return (
+    <MyBoardBottomBlock>
+      <label>
+        <input type="checkbox" />
+        <span className="checkbox" />
+        <span className="txt">전체선택</span>
+      </label>
+      <Pagination />
+      <Button disabled>삭제하기</Button>
+    </MyBoardBottomBlock>
+  );
+};
+
+const MyBoardBottomBlock = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  label {
+    cursor: pointer;
+    display: flex;
+    padding-left: 1rem;
+    align-items: center;
+    input {
+      display: none;
+    }
+
+    span.checkbox {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: url(${CheckSquare.src}) no-repeat 50% / cover;
+      margin-right: 8px;
+    }
+    span.txt {
+      font-size: 14px;
+      color: ${colors.gray[5]};
+      transform: translateY(2px);
+    }
+    input:checked + span.checkbox {
+      background: url(${CheckedSqquare.src}) no-repeat 50% / cover;
+    }
+    input:checked + span.txt {
+      color: ${colors.blue[2]};
+    }
+  }
+
+  button {
+    min-height: auto;
+    height: 36px;
+    padding: 0 1rem;
+    border-radius: 8px;
+  }
+
+  ${media.tablet} {
+    flex-wrap: wrap;
+    label {
+      padding-left: 8px;
+    }
+    .pagination {
+      width: 100%;
+      order: 2;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    button {
+      order: 1;
+    }
+  }
+`;
 
 const BoardsTableBlock = styled.div`
   width: 100%;
@@ -69,7 +144,6 @@ const BoardsTableBlock = styled.div`
     text-overflow: ellipsis;
 
     &:nth-child(1) {
-      width: 10%;
       max-width: 64px;
     }
     &:nth-child(2) {

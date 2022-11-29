@@ -1,4 +1,3 @@
-import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { localActions, userActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
