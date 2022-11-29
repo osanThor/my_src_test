@@ -1,14 +1,14 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
-import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const MyBoardTab = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
   const { _count } = useSelector(({ user }: RootState) => ({
     _count: user._count,
   }));
@@ -24,25 +24,28 @@ const MyBoardTab = () => {
   const { boards, comments } = _count;
   return (
     <MyBoardTabBlock>
-      <div
-        className={myWritenBoards ? 'button on' : 'button'}
-        onClick={() => dispatch(localActions.gotoMyWritenBoards())}
-      >
+      <div className={myWritenBoards ? 'button on' : 'button'} onClick={() => router.push('/mypage?state=boards')}>
         작성글 <span>{boards}</span>
       </div>
-      <div className={myComments ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoMyComments())}>
+      <div
+        className={myComments ? 'button on' : 'button'}
+        onClick={() => router.push('/mypage?state=boards&board=comments')}
+      >
         작성댓글 <span>{comments}</span>
       </div>
-      <div className={myLikes ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoMyLikes())}>
+      <div className={myLikes ? 'button on' : 'button'} onClick={() => router.push('/mypage?state=boards&board=likes')}>
         좋아요한 글
       </div>
       <div
         className={myCollections ? 'button on' : 'button'}
-        onClick={() => dispatch(localActions.gotoMyCollections())}
+        onClick={() => router.push('/mypage?state=boards&board=collections')}
       >
         컬렉션한 글
       </div>
-      <div className={myInquiries ? 'button on' : 'button'} onClick={() => dispatch(localActions.gotoMyInquiries())}>
+      <div
+        className={myInquiries ? 'button on' : 'button'}
+        onClick={() => router.push('/mypage?state=boards&board=inquiries')}
+      >
         1:1 문의
       </div>
     </MyBoardTabBlock>

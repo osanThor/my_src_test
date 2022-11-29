@@ -12,18 +12,24 @@ export type getBoardsPayload = {
   comment: string | null;
 };
 
-export type getBoardsResult = Array<{
-  id: number;
-  title: string;
-  hits: number;
-  createdAt: string;
-  user: {
-    nickname: string;
-  };
-  _count: {
-    comments: number;
-  };
-}>;
+export type getBoardsResult = {
+  total: number;
+  boards: Array<{
+    id: number;
+    title: string;
+    hits: number;
+    createdAt: string;
+    user: {
+      nickname: string;
+    };
+    _count: {
+      comments: number;
+    };
+  }>;
+};
+export type changePage = {
+  page: number;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;

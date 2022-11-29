@@ -1,5 +1,4 @@
 import colors from '@/src/assets/Colors';
-import { CheckedSqquare, CheckSquare } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import React from 'react';
@@ -7,11 +6,14 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
-import Button from '@/src/components/common/Button';
 
-const BoardsTable = () => {
-  const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
-    getUserBoardsDone: user.getUserBoardsDone,
+const MyCommentsTable = () => {
+  // const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
+  //   communityDiscussion: local.communityDiscussion,
+  //   communityNotice: local.communityNotice,
+  // }));
+  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+    loadGetBoardsDone: boards.loadGetBoardsDone,
   }));
 
   return (
@@ -19,26 +21,21 @@ const BoardsTable = () => {
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td"></div>
             <div className="td">번호</div>
             <div className="td title">제목</div>
+            <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
             <div className="td">작성일</div>
           </div>
         </div>
         <div className="tbody">
-          {getUserBoardsDone.map((board) => (
+          {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">
-                <label>
-                  <input type="checkbox" />
-                  <span />
-                </label>
-              </div>
               <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
+              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
               <div className="td">
                 <span className="ver_m">조회수</span>
                 {board.hits}
@@ -56,76 +53,14 @@ const BoardsTable = () => {
 };
 
 const MyBoardBottom = () => {
-  return (
-    <MyBoardBottomBlock>
-      <label>
-        <input type="checkbox" />
-        <span className="checkbox" />
-        <span className="txt">전체선택</span>
-      </label>
-      {/* <Pagination /> */}
-      <Button disabled>삭제하기</Button>
-    </MyBoardBottomBlock>
-  );
+  return <MyBoardBottomBlock>{/* <Pagination /> */}</MyBoardBottomBlock>;
 };
 
 const MyBoardBottomBlock = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  label {
-    cursor: pointer;
-    display: flex;
-    padding-left: 1rem;
-    align-items: center;
-    input {
-      display: none;
-    }
-
-    span.checkbox {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background: url(${CheckSquare.src}) no-repeat 50% / cover;
-      margin-right: 8px;
-    }
-    span.txt {
-      font-size: 14px;
-      color: ${colors.gray[5]};
-      transform: translateY(2px);
-    }
-    input:checked + span.checkbox {
-      background: url(${CheckedSqquare.src}) no-repeat 50% / cover;
-    }
-    input:checked + span.txt {
-      color: ${colors.blue[2]};
-    }
-  }
-
-  button {
-    min-height: auto;
-    height: 36px;
-    padding: 0 1rem;
-    border-radius: 8px;
-  }
-
-  ${media.tablet} {
-    flex-wrap: wrap;
-    padding: 0;
-    label {
-      padding-left: 8px;
-    }
-    .pagination {
-      width: 100%;
-      order: 2;
-      justify-content: center;
-      margin-top: 12px;
-    }
-    button {
-      order: 1;
-    }
-  }
 `;
 
 const BoardsTableBlock = styled.div`
@@ -145,15 +80,16 @@ const BoardsTableBlock = styled.div`
     text-overflow: ellipsis;
 
     &:nth-child(1) {
-      max-width: 64px;
-    }
-    &:nth-child(2) {
       width: 20%;
       max-width: 112px;
     }
-    &:nth-child(3) {
+    &:nth-child(2) {
       width: 100%;
       max-width: 1000px;
+    }
+    &:nth-child(3) {
+      width: 30%;
+      max-width: 160px;
     }
     &:nth-child(4) {
       width: 30%;
@@ -212,23 +148,6 @@ const BoardsTableBlock = styled.div`
       border-bottom: 1px solid ${colors.gray[2]};
       .td {
         padding: 20px 16px;
-
-        label {
-          cursor: pointer;
-          span {
-            width: 24px;
-            height: 24px;
-            display: block;
-            background: url(${CheckSquare.src}) no-repeat 50% / cover;
-          }
-
-          input:checked + span {
-            background: url(${CheckedSqquare.src}) no-repeat 50% / cover;
-          }
-        }
-        input {
-          display: none;
-        }
       }
     }
   }
@@ -249,23 +168,19 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 40px;
+        width: 20%;
+        display: none;
         max-width: none;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
       }
       &:nth-child(2) {
-        width: auto;
-        max-width: none;
-        margin-right: 16px;
-        display: none;
-      }
-      &:nth-child(3) {
         width: 100%;
         max-width: none;
         margin-bottom: 4px;
+      }
+      &:nth-child(3) {
+        width: auto;
+        max-width: none;
+        margin-right: 16px;
       }
       &:nth-child(4) {
         width: auto;
@@ -291,8 +206,6 @@ const BoardsTableBlock = styled.div`
         flex-wrap: wrap;
         justify-content: flex-start;
         border-bottom: 1px solid ${colors.gray[2]};
-        position: relative;
-        padding-left: 40px;
         .td {
           padding: 0;
         }
@@ -301,4 +214,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default BoardsTable;
+export default MyCommentsTable;

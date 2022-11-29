@@ -1,5 +1,6 @@
 import CommunityLayout from '@/src/components/community/CommunityLayout';
 import BoardsTable from '@/src/components/community/table/BoardsTable';
+import NoticeTable from '@/src/components/community/table/NoticeTable';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions } from '@/src/store/reducers';
@@ -27,6 +28,7 @@ const CommunityIndex: NextPage = () => {
     comment: boards.comment,
   }));
   useEffect(() => {
+    dispatch(boardsActions.initializeBoardsForm());
     if (router.query.category === 'discussion') {
       dispatch(localActions.gotoComDiscussion());
     } else if (router.query.category === 'notice') {
@@ -40,12 +42,12 @@ const CommunityIndex: NextPage = () => {
     } else if (communityNotice) {
       dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
     }
-  }, [router, communityDiscussion, communityNotice]);
+  }, [category, page, user, title, comment, communityDiscussion, communityNotice]);
   return (
     <UserLayout>
       <CommunityLayout>
         {communityDiscussion && <BoardsTable />}
-        {communityNotice && <BoardsTable />}
+        {communityNotice && <NoticeTable />}
       </CommunityLayout>
     </UserLayout>
   );

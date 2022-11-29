@@ -1,33 +1,97 @@
 import colors from '@/src/assets/Colors';
 import { Arrow } from '@/src/assets/Images';
+import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const Pagination = () => {
+const Pagination = ({ total, page }: { total: number; page: number }) => {
+  const dispatch = useDispatch();
+  // const numPages = Math.ceil(total / 10);
+  const numPages = 17;
+  const [currPage, setCurrPage] = useState(page);
+  let firstNum = currPage - (currPage % 5) + 1;
+  let lastNum = currPage - (currPage % 5) + 5;
+  let lastCurr = Math.ceil(total / 5) * 5;
+  console.log(lastCurr);
+
+  console.log({ 'currPage is': currPage, 'firsNum is': firstNum, 'lastNum is': lastNum, 'page is': page });
+
   return (
     <PaginationBlock className="pagination">
       <div className="prev_btns">
-        <div className="btn">
+        <div
+          className={page === 1 ? 'btn disabled' : 'btn'}
+          onClick={() => {
+            dispatch(boardsActions.changePage({ page: 1 }));
+            setCurrPage(1);
+          }}
+        >
           <Image src={Arrow[1]} alt="arrow" />
         </div>
-        <div className="btn">
+        <div
+          className={page === 1 ? 'btn disabled' : 'btn'}
+          onClick={() => {
+            dispatch(boardsActions.changePage({ page: page - 1 }));
+            setCurrPage(page - 2);
+          }}
+        >
           <Image src={Arrow[0]} alt="arrow" />
         </div>
       </div>
       <div className="numbers">
-        <div className="num on">1</div>
-        <div className="num">2</div>
-        <div className="num">3</div>
-        <div className="num">4</div>
-        <div className="num">5</div>
+        <div
+          className={page === firstNum ? 'num on' : 'num'}
+          onClick={() => dispatch(boardsActions.changePage({ page: firstNum }))}
+        >
+          {firstNum}
+        </div>
+
+        {Array(numPages)
+          .fill(0, 0, 4)
+          .map((_, i) => {
+            if (i <= 2) {
+              return (
+                <div
+                  key={i + 1}
+                  className={page === firstNum + 1 + i ? 'num on' : 'num'}
+                  onClick={() => dispatch(boardsActions.changePage({ page: firstNum + 1 + i }))}
+                >
+                  {firstNum + 1 + i}
+                </div>
+              );
+            } else if (i >= 3) {
+              return (
+                <div
+                  key={i + 1}
+                  className={page === lastNum ? 'num on' : 'num'}
+                  onClick={() => dispatch(boardsActions.changePage({ page: lastNum }))}
+                >
+                  {lastNum}
+                </div>
+              );
+            }
+          })}
       </div>
       <div className="next_btns">
-        <div className="btn">
+        <div
+          className={page === numPages ? 'btn disabled' : 'btn'}
+          onClick={() => {
+            dispatch(boardsActions.changePage({ page: page + 1 }));
+            setCurrPage(page);
+          }}
+        >
           <Image src={Arrow[0]} alt="arrow" />
         </div>
-        <div className="btn">
+        <div
+          className={page === numPages ? 'btn disabled' : 'btn'}
+          onClick={() => {
+            dispatch(boardsActions.changePage({ page: numPages }));
+            setCurrPage(lastCurr);
+          }}
+        >
           <Image src={Arrow[1]} alt="arrow" />
         </div>
       </div>
@@ -48,6 +112,10 @@ const PaginationBlock = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    &.disabled {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
   .numbers {
     margin: 0 20px;

@@ -8,8 +8,10 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
+import { useRouter } from 'next/router';
 
-const BoardsTable = () => {
+const MyInquiriesTable = () => {
+  const router = useRouter();
   const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
     getUserBoardsDone: user.getUserBoardsDone,
   }));
@@ -19,29 +21,17 @@ const BoardsTable = () => {
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td"></div>
-            <div className="td">번호</div>
+            <div className="td">답변</div>
             <div className="td title">제목</div>
-            <div className="td">조회수</div>
             <div className="td">작성일</div>
           </div>
         </div>
         <div className="tbody">
           {getUserBoardsDone.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">
-                <label>
-                  <input type="checkbox" />
-                  <span />
-                </label>
-              </div>
               <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-              </div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {board.hits}
+                <span className="tit">{board.title}</span>
               </div>
               <div className="td">
                 <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
@@ -54,17 +44,16 @@ const BoardsTable = () => {
     </>
   );
 };
+// Inquiries
 
 const MyBoardBottom = () => {
+  const router = useRouter();
+
   return (
     <MyBoardBottomBlock>
-      <label>
-        <input type="checkbox" />
-        <span className="checkbox" />
-        <span className="txt">전체선택</span>
-      </label>
+      <label></label>
       {/* <Pagination /> */}
-      <Button disabled>삭제하기</Button>
+      <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
 };
@@ -145,22 +134,13 @@ const BoardsTableBlock = styled.div`
     text-overflow: ellipsis;
 
     &:nth-child(1) {
-      max-width: 64px;
-    }
-    &:nth-child(2) {
       width: 20%;
       max-width: 112px;
     }
-    &:nth-child(3) {
+    &:nth-child(2) {
       width: 100%;
-      max-width: 1000px;
     }
-    &:nth-child(4) {
-      width: 30%;
-      max-width: 96px;
-      order: 1;
-    }
-    &:nth-child(5) {
+    &:nth-child(3) {
       width: 30%;
       max-width: 136px;
       order: 2;
@@ -249,34 +229,16 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 40px;
-        max-width: none;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        width: 10%;
+        max-width: 62px;
       }
       &:nth-child(2) {
-        width: auto;
-        max-width: none;
-        margin-right: 16px;
-        display: none;
+        width: 80%;
       }
       &:nth-child(3) {
-        width: 100%;
-        max-width: none;
-        margin-bottom: 4px;
-      }
-      &:nth-child(4) {
         width: auto;
         max-width: none;
-        order: 2;
-      }
-      &:nth-child(5) {
-        width: auto;
-        max-width: none;
-        order: 1;
-        margin-right: 16px;
+        margin-top: 4px;
       }
     }
     .thead {
@@ -292,7 +254,6 @@ const BoardsTableBlock = styled.div`
         justify-content: flex-start;
         border-bottom: 1px solid ${colors.gray[2]};
         position: relative;
-        padding-left: 40px;
         .td {
           padding: 0;
         }
@@ -301,4 +262,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default BoardsTable;
+export default MyInquiriesTable;

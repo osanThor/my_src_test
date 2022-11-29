@@ -64,21 +64,17 @@ const EditMyProfile = () => {
     setNicknameSt(nickname);
     setIntroSt(introduction);
     styles.map((obj) => {
-      console.log(obj);
       setStylesSt((style) => {
         return [...style, obj.name];
       });
     });
   }, [photoUrl, nickname, introduction, styles]);
 
-  console.log(stylesSt);
   const handleChangeMyProfile = (e: React.ChangeEvent<any>) => {
     const { name, value, checked }: { name: string; value: any; checked: boolean; type: string } = e.target;
     if (name === 'nickname') {
       setNicknameSt(value);
     } else if (name === 'introduction') {
-      console.log(value);
-      console.log(typeof value);
       setIntroSt(value);
     } else if (name === 'styles') {
       if (checked) {
@@ -119,7 +115,6 @@ const EditMyProfile = () => {
       return axiosInstance
         .get(`/users/nickname/exist?nickname=${nicknameSt}`)
         .then((res) => {
-          console.log(res.data);
           if (res.data) {
             setModalOpen(true);
             setModalMessage('이미 사용되고 있는 닉네임이에요');
@@ -316,9 +311,9 @@ const EditMyProfile = () => {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(userActions.initializeUserForm());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(userActions.initializeUserForm());
+  // }, [dispatch]);
 
   return (
     <>
@@ -1111,6 +1106,7 @@ const StyledTextarea = styled.textarea`
   transition: all 0.2s;
   font-size: 14px;
   color: ${colors.gray[5]};
+  resize: none;
   &:focus {
     outline: none;
     border-color: ${colors.gray[3]};

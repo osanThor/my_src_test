@@ -8,6 +8,7 @@ import type {
   UpdateUserProfilePayload,
   DeleteUserPayload,
   GetUserBoardsPayload,
+  CreateUserInquiruesPayload,
 } from '../types';
 
 // 닉네임 중복확인
@@ -69,3 +70,7 @@ export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =
 // get user Inquiries
 export const apiGetUserInquiries = ({ page }: GetUserBoardsPayload) =>
   axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
+
+// create user Inquiries
+export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>
+  axiosInstance.post<LoadUserResponse>(`/users/inquiries`, { title, content, fileUrls });

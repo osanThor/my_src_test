@@ -5,6 +5,7 @@ import {
   ChangePwFormPayload,
   ChangePwPayload,
   CheckNicknamePayload,
+  CreateUserInquiruesPayload,
   DeleteUserPayload,
   EditMyProfilePayload,
   GetUserBoardsPayload,
@@ -53,6 +54,9 @@ export type UserStateType = {
         };
       }>
     | [];
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
   loadUserError: null | string;
@@ -84,6 +88,9 @@ const initialState: UserStateType = {
   category: '',
   page: 1,
   getUserBoardsDone: [],
+  title: '',
+  content: '',
+  fileUrls: [],
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
@@ -195,6 +202,11 @@ const userSlice = createSlice({
     getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
       state.loadUserLoading = false;
       state.getUserBoardsDone = action.payload;
+    },
+    changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

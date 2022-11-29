@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
+import Moment from 'react-moment';
 
 const BoardsTable = () => {
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
@@ -38,15 +39,20 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {loadGetBoardsDone.map((board) => (
+          {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
               <div className="td title dark_gray pointer">
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
               <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
-              <div className="td">{board.hits}</div>
-              <div className="td">2022.12.25</div>
+              <div className="td">
+                <span className="ver_m">조회수</span>
+                {board.hits}
+              </div>
+              <div className="td">
+                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+              </div>
             </div>
           ))}
         </div>
@@ -69,6 +75,9 @@ const NoticeSpan = styled.span`
 const BoardsTableBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
+  .ver_m {
+    display: none;
+  }
   .td {
     font-size: 14px;
     display: flex;
@@ -153,6 +162,10 @@ const BoardsTableBlock = styled.div`
   }
 
   ${media.tablet} {
+    .ver_m {
+      display: inline-block;
+      margin-right: 8px;
+    }
     .td {
       font-size: 14px;
       display: flex;

@@ -1,6 +1,8 @@
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardSearchLayout from '../../common/boards/BoardSearch/BoardSearchLayout';
 import CustomSelect from '../../common/boards/BoardSearch/CustomSelect';
@@ -10,10 +12,20 @@ import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
   const router = useRouter();
+  const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+    category: boards.category,
+    page: boards.page,
+    user: boards.user,
+    title: boards.title,
+    comment: boards.comment,
+    loadGetBoardsDone: boards.loadGetBoardsDone,
+  }));
+  const { total } = loadGetBoardsDone;
+
   return (
     <BoardsTableBottomBlock>
       <div className="first">
-        <Pagination />
+        <Pagination total={total} page={page} />
       </div>
       <div className="second">
         <BoardSearchLayout>
