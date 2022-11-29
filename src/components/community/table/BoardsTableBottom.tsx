@@ -21,7 +21,6 @@ const BoardsTableBottom = () => {
     loadGetBoardsDone: boards.loadGetBoardsDone,
   }));
   const { total } = loadGetBoardsDone;
-  console.log(total);
 
   return (
     <BoardsTableBottomBlock>
