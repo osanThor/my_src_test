@@ -73,13 +73,11 @@ export type BoardsStateType = {
   getBoardDone: {
     id: number;
     title: string | null;
-    user:
-      | {
-          photoUrl: string | null;
-          nickname: string | null;
-          styles: Array<{ name: string }> | [];
-        }
-      | { message: string };
+    user: {
+      photoUrl: string | null;
+      nickname: string | null;
+      styles: Array<{ name: string }> | [];
+    };
     createdAt: string | null;
     hits: number | null;
     content: string | null;

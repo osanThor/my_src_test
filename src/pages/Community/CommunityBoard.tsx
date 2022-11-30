@@ -1,4 +1,5 @@
-import BoardDetail from '@/src/components/community/detail/BoardDetail';
+import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayout';
+import BoardTop from '@/src/components/community/detail/BoardTop';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
@@ -12,6 +13,9 @@ const CommunityBoard = () => {
   const dispatch = useDispatch();
   const [boardIdSt, setBoardIdSt] = useState(0);
 
+  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthDone: auth.loadAuthDone,
+  }));
   const { boardId, getBoardDone } = useSelector(({ boards }: RootState) => ({
     boardId: boards.boardId,
     getBoardDone: boards.getBoardDone,
@@ -35,17 +39,27 @@ const CommunityBoard = () => {
   }, [bId]);
   console.log(boardId);
   console.log(boardIdSt);
+  const [once, setOnce] = useState(false);
 
   useEffect(() => {
-    if (boardIdSt != 0) {
-      console.log('야 되냐');
-      dispatch(boardsActions.getBoard({ boardId: boardIdSt }));
+    if (loadAuthDone.accessToken) {
+      setOnce(true);
     }
-  }, [boardId, boardIdSt, dispatch]);
+  }, [loadAuthDone]);
+
+  useEffect(() => {
+    if (once) {
+      if (boardIdSt != 0) {
+        dispatch(boardsActions.getBoard({ boardId: boardIdSt }));
+      }
+    }
+  }, [once]);
 
   return (
     <UserLayout>
-      <BoardDetail />
+      <BoardDetailLayout>
+        <BoardTop />
+      </BoardDetailLayout>
     </UserLayout>
   );
 };
