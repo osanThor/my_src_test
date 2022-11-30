@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
+import { useRouter } from 'next/router';
 
 const BoardsTable = () => {
+  const router = useRouter();
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
@@ -41,7 +43,7 @@ const BoardsTable = () => {
           {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
               <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
-              <div className="td title dark_gray pointer">
+              <div className="td title dark_gray pointer" onClick={() => router.push(`/community/board/${board.id}`)}>
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
               <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>

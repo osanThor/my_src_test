@@ -10,8 +10,6 @@ const GnbMenu = () => {
   const router = useRouter();
 
   const pathName = router.pathname;
-  const pathAs = router.asPath;
-  console.log(pathAs);
   // headHightLight
   const [dashboard, setDachBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
@@ -62,11 +60,7 @@ const GnbMenu = () => {
       setStrategy(true);
       setCommunity(false);
       setCenter(false);
-    } else if (
-      pathName === '/community' ||
-      pathName === '/community/write' ||
-      pathName === '/community/board/[...id]'
-    ) {
+    } else if (pathName === '/community' || pathName === '/community/write' || pathName === '/community/board/[bId]') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);

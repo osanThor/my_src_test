@@ -54,6 +54,27 @@ export type getUserInquiriesResult = {
     createdAt: string;
   }>;
 };
+
+export type getBoardPayload = {
+  boardId: number | null;
+};
+export type getBoardResult = {
+  id: number;
+  title: string | null;
+  user: {
+    photoUrl: string | null;
+    nickname: string | null;
+    styles: Array<{ name: string }> | [];
+  };
+  createdAt: string | null;
+  hits: number | null;
+  content: string | null;
+  files: [];
+  comments: [];
+  _count: {
+    likes: number | null;
+  };
+};
 export type changePage = {
   page: number;
 };

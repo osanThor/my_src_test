@@ -52,5 +52,7 @@ export type {
   GetUserInquiriesPayload,
   getUserInquiriesResult,
   GetUserBoardsPayload,
+  getBoardPayload,
+  getBoardResult,
   getUserBoardsResult,
 } from './boards';

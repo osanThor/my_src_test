@@ -1,5 +1,6 @@
 import { axiosInstance } from '.';
 import {
+  getBoardPayload,
   getBoardsPayload,
   GetUserBoardsPayload,
   GetUserInquiriesPayload,
@@ -33,3 +34,6 @@ export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });
+
+// get read board
+export const apiGetBoard = ({ boardId }: getBoardPayload) => axiosInstance.get(`/boards/${boardId}`);

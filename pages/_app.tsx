@@ -79,7 +79,7 @@ function MyApp({
   // token
   useEffect(() => {
     authService.userRefreshToken(dispatch, loadAuthDone);
-  }, [dispatch, router]);
+  }, [dispatch]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);

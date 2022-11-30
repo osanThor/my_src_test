@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   changePage,
+  getBoardPayload,
+  getBoardResult,
   getBoardsPayload,
   getBoardsResult,
   GetUserBoardsPayload,
@@ -67,6 +69,26 @@ export type BoardsStateType = {
   loadBoardsDone: {
     message: string | undefined;
   } | null;
+  boardId: number | null;
+  getBoardDone: {
+    id: number;
+    title: string | null;
+    user:
+      | {
+          photoUrl: string | null;
+          nickname: string | null;
+          styles: Array<{ name: string }> | [];
+        }
+      | { message: string };
+    createdAt: string | null;
+    hits: number | null;
+    content: string | null;
+    files: [];
+    comments: [];
+    _count: {
+      likes: number | null;
+    };
+  };
   loadBoardsError: string | null;
 };
 
@@ -84,6 +106,24 @@ const initialState: BoardsStateType = {
   getUserInquiriesDone: { total: 0, inquiries: [] },
   loadBoardsDone: {
     message: '',
+  },
+  boardId: 0,
+  getBoardDone: {
+    id: 0,
+    title: '',
+    user: {
+      photoUrl: '',
+      nickname: '',
+      styles: [],
+    },
+    createdAt: '',
+    hits: 0,
+    content: '',
+    files: [],
+    comments: [],
+    _count: {
+      likes: 0,
+    },
   },
   loadBoardsError: null,
 };
@@ -151,6 +191,14 @@ const boardsSlice = createSlice({
     },
     changePage(state, action: PayloadAction<changePage>) {
       state.page = action.payload.page;
+    },
+    getBoard(state, action: PayloadAction<getBoardPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    getBoardResult(state, action: PayloadAction<getBoardResult>) {
+      state.loadBoardsLoading = false;
+      state.getBoardDone = action.payload;
     },
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;
