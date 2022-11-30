@@ -10,18 +10,21 @@ import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
 
 const BoardsTable = () => {
-  const { getUserBoardsDone, page } = useSelector(({ user }: RootState) => ({
-    getUserBoardsDone: user.getUserBoardsDone,
-    page: user.page,
+  const { getUserBoardsDone, page } = useSelector(({ boards }: RootState) => ({
+    getUserBoardsDone: boards.getUserBoardsDone,
+    page: boards.page,
   }));
   const { total } = getUserBoardsDone;
+  console.log(getUserBoardsDone);
 
   return (
     <>
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td"></div>
+            <div className="td">
+              <span className="spacer" />
+            </div>
             <div className="td">번호</div>
             <div className="td title">제목</div>
             <div className="td">조회수</div>
@@ -148,6 +151,9 @@ const BoardsTableBlock = styled.div`
 
     &:nth-child(1) {
       max-width: 64px;
+      .spacer {
+        min-width: 24px;
+      }
     }
     &:nth-child(2) {
       width: 20%;

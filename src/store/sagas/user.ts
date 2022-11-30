@@ -205,23 +205,6 @@ function* deleteUserSaga(action: PayloadAction<DeleteUserPayload>) {
     yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
   }
 }
-//get user boards
-function* getUserBoardsSaga(action: PayloadAction<getBoardsPayload>) {
-  try {
-    yield put(userActions.loadUserRequest());
-    const { data } = yield call(apiGetUserBoards, action.payload);
-    console.log(data);
-    yield put(userActions.getUserBoardsResult(data));
-  } catch (error: any) {
-    console.error('userSaga getUserBoardsSaga >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
-  }
-}
 
 function* watchLoadUser() {
   yield takeLatest(userActions.changeTheme, changeThemeSaga);
@@ -233,7 +216,6 @@ function* watchLoadUser() {
   yield takeLatest(userActions.updateUserProfile, updateUserProfileSaga);
   yield takeLatest(userActions.ChangePw, changeUserPwSaga);
   yield takeLatest(userActions.deleteUser, deleteUserSaga);
-  yield takeLatest(userActions.getUserBoards, getUserBoardsSaga);
 }
 
 export default function* userSaga() {

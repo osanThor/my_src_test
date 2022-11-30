@@ -47,7 +47,7 @@ const Editor: NextPage<IEditor> = ({ onChange }) => {
       }
 
       // file 데이터 담아서 서버에 전달하여 이미지 업로드
-      const res = await axiosInstance.post(`/uploads/files/board`, formData, {
+      const res = await axiosInstance.post(`/uploads/files?zone=BOARD`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

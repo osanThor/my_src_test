@@ -5,6 +5,8 @@ import {
   changePage,
   getBoardsPayload,
   getBoardsResult,
+  GetUserBoardsPayload,
+  getUserBoardsResult,
   LoadBoardsBody,
   LoadBoardsPayload,
   LoadBoardsResponse,
@@ -37,6 +39,18 @@ export type BoardsStateType = {
         }>
       | [];
   };
+  getUserBoardsDone: {
+    total: number | null;
+    boards: Array<{
+      id: number;
+      title: string;
+      hits: number;
+      createdAt: string;
+      _count: {
+        comments: number;
+      };
+    }>;
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -53,6 +67,7 @@ const initialState: BoardsStateType = {
   fileUrls: [],
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
+  getUserBoardsDone: { total: 0, boards: [] },
   loadBoardsDone: {
     message: '',
   },
@@ -85,6 +100,15 @@ const boardsSlice = createSlice({
     getBoardsResult(state, action: PayloadAction<getBoardsResult>) {
       state.loadBoardsLoading = false;
       state.loadGetBoardsDone = action.payload;
+    },
+    getUserBoards(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.getUserBoardsDone = action.payload;
     },
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;

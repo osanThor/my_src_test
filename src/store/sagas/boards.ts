@@ -9,7 +9,7 @@ import { getBoardsPayload, getBoardsResult, LoadBoardsPayload, LoadBoardsRespons
 
 // api
 import type { AxiosResponse } from 'axios';
-import { apiCreateBoard, apiGetBoards } from '../api';
+import { apiCreateBoard, apiGetBoards, apiGetUserBoards } from '../api';
 
 // get boards
 function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
@@ -21,6 +21,23 @@ function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
     yield put(boardsActions.getBoardsResult(data));
   } catch (error: any) {
     console.error('boardsSaga getBoardsSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//get user boards
+function* getUserBoardsSaga(action: PayloadAction<getBoardsPayload>) {
+  try {
+    yield put(boardsActions.loadBoardsRequest());
+    const { data } = yield call(apiGetUserBoards, action.payload);
+    console.log(data);
+    yield put(boardsActions.getUserBoardsResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga getUserBoardsSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -50,6 +67,7 @@ function* createBoardsSaga(action: PayloadAction<LoadBoardsPayload>) {
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
+  yield takeLatest(boardsActions.getUserBoards, getUserBoardsSaga);
   yield takeLatest(boardsActions.getBoards, getBoardsSaga);
 }
 

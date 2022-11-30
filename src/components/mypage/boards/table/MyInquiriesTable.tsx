@@ -12,10 +12,9 @@ import { useRouter } from 'next/router';
 
 const MyInquiriesTable = () => {
   const router = useRouter();
-  const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
-    getUserBoardsDone: user.getUserBoardsDone,
+  const { getUserBoardsDone } = useSelector(({ boards }: RootState) => ({
+    getUserBoardsDone: boards.getUserBoardsDone,
   }));
-  console.log(getUserBoardsDone);
   return (
     <>
       <BoardsTableBlock>
