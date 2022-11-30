@@ -12,7 +12,6 @@ import { useRouter } from 'next/router';
 import NoBoards from '@/src/components/common/NoBoards';
 
 const MyInquiriesTable = () => {
-  const router = useRouter();
   const { page, getUserInquiriesDone } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
     getUserInquiriesDone: boards.getUserInquiriesDone,
