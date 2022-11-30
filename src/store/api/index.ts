@@ -24,6 +24,7 @@ export {
   apiUpdateUserProfile,
   apiChangePw,
   apiDeleteUser,
+  apiCreateUserInquiries,
 } from './user';
 
 export { apiUploadFile } from './file';

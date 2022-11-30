@@ -6,14 +6,18 @@ import { IFuncModalType } from '@/src/interfaces/iCommon/iModal';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 
-const FuncModal = ({ open, onClose, message, dubBtn, onClick }: IFuncModalType) => {
+const FuncModal = ({ open, onClose, message, dubBtn, onClick, onClick2 }: IFuncModalType) => {
   return (
     <FuncModalBlock open={open} onClose={onClose}>
       <FuncModalCon>
-        <div className="txt">{message.title}</div>
+        <div className="txt">
+          {message.title}
+          <br />
+          {message.description && <span>{message.description}</span>}
+        </div>
         {dubBtn ? (
           <div className=" btn btns">
-            <StyledButton onClick={onClose}>돌아가기</StyledButton>
+            <StyledButton onClick={onClick2}>돌아가기</StyledButton>
             <StyledButton onClick={onClick}>{message.btnTxt}</StyledButton>
           </div>
         ) : (
@@ -28,7 +32,6 @@ const FuncModal = ({ open, onClose, message, dubBtn, onClick }: IFuncModalType) 
 const FuncModalBlock = styled(Dialog)`
   .MuiPaper-root {
     max-width: none;
-    height: 236px;
     border-radius: 32px;
     position: relative;
     padding: 48px 28px;
@@ -54,13 +57,17 @@ const FuncModalCon = styled(DialogContent)`
     align-items: center;
 
     .txt {
-      width: 55%;
       text-align: center;
       word-break: keep-all;
+      margin-bottom: 16px;
+      span {
+        font-size: 1rem;
+      }
     }
     .btn {
       display: flex;
       justify-content: center;
+      white-space: nowrap;
       button:last-child {
         background-color: ${colors.blue[0]};
         color: ${colors.blue[1]};
@@ -84,9 +91,11 @@ const FuncModalCon = styled(DialogContent)`
       }
       .btn {
         width: 100%;
-        font-size: 1rem;
         button {
-          width: 100%;
+          width: 132px;
+          min-height: auto;
+          height: 48px;
+          font-size: 1rem;
           padding: 0;
         }
       }

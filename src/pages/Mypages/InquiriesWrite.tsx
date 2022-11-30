@@ -1,3 +1,5 @@
+import FuncModal from '@/src/components/common/FuncModal';
+import Modal from '@/src/components/common/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import InquiriesLayout from '@/src/components/mypage/inquiries/InquiriesLayout';
 import InquiriesWriteCon from '@/src/components/mypage/inquiries/write/InquiriesWriteCon';
@@ -5,17 +7,25 @@ import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 const InquiriesWrite: NextPage = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const { title, content, fileUrls } = useSelector(({ user }: RootState) => ({
+  const { title, content, fileUrls, loadUserDone, loadUserError } = useSelector(({ user }: RootState) => ({
     title: user.title,
     content: user.content,
     fileUrls: user.fileUrls,
+    loadUserDone: user.loadUserDone,
+    loadUserError: user.loadUserError,
   }));
+
+  useEffect(() => {
+    dispatch(userActions.initialInquiryFeild());
+  }, [dispatch]);
 
   const hadnleChangeInquiriesField = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
@@ -51,7 +61,7 @@ const InquiriesWrite: NextPage = () => {
       }
     }
 
-    const res = await axiosInstance.post(`/uploads/files/board`, formData, {
+    const res = await axiosInstance.post(`/uploads/files?zone=INQUIRY`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -69,22 +79,100 @@ const InquiriesWrite: NextPage = () => {
   };
 
   useEffect(() => {
-    setFileUrlsSt([file1UrlName, file2UrlName, file3UrlName]);
+    if (file1UrlName && !file2UrlName && !file3UrlName) {
+      setFileUrlsSt([file1UrlName]);
+    } else if (file1UrlName && file2UrlName && !file3UrlName) {
+      setFileUrlsSt([file1UrlName, file2UrlName]);
+    } else if (file1UrlName && !file2UrlName && file3UrlName) {
+      setFileUrlsSt([file1UrlName, file3UrlName]);
+    } else if (!file1UrlName && file2UrlName && !file3UrlName) {
+      setFileUrlsSt([file2UrlName]);
+    } else if (!file1UrlName && file2UrlName && file3UrlName) {
+      setFileUrlsSt([file2UrlName, file3UrlName]);
+    } else if (!file1UrlName && !file2UrlName && file3UrlName) {
+      setFileUrlsSt([file3UrlName]);
+    } else if (file1UrlName && file2UrlName && file3UrlName) {
+      setFileUrlsSt([file1UrlName, file2UrlName, file3UrlName]);
+    }
   }, [file1UrlName, file2UrlName, file3UrlName]);
-  console.log(fileUrlsSt);
+
+  const handleSubmitInquiry = () => {
+    if (!title) {
+      //no title
+      setModalOpen(true);
+      setModalMessage('제목을 입력해 주세요');
+      setModalerr(true);
+      return;
+    } else if (!content) {
+      //no content
+      setModalOpen(true);
+      setModalMessage('문의 내용을 입력해 주세요');
+      setModalerr(true);
+      return;
+    } else if (content.length > 1000) {
+      //content over 1000
+      setModalOpen(true);
+      setModalMessage('문의 내용은 최대 1000자까지 입력 가능해요');
+      setModalerr(true);
+      return;
+    }
+    dispatch(dispatch(userActions.createInquiries({ title, content, fileUrls: fileUrlsSt })));
+  };
+
+  useEffect(() => {
+    if (loadUserError) {
+      setModalOpen(true);
+      setModalMessage(loadUserError);
+      setModalerr(true);
+      return;
+    }
+    if (loadUserDone === 'CREATED') {
+      setfModalOpen(true);
+    }
+  }, [loadUserError, loadUserDone]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalErr, setModalerr] = useState(false);
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const [fModalOpen, setfModalOpen] = useState(false);
+  const handleCloseFuncModal = () => {
+    setfModalOpen(false);
+    router.push('/mypage?state=boards&board=inquiries');
+  };
 
   return (
-    <UserLayout>
-      <InquiriesLayout>
-        <InquiriesWriteCon
-          hadnleChangeInquiriesField={hadnleChangeInquiriesField}
-          handleChangeFileUrls={handleChangeFileUrls}
-          file1name={file1name}
-          file2name={file2name}
-          file3name={file3name}
-        />
-      </InquiriesLayout>
-    </UserLayout>
+    <>
+      <UserLayout>
+        <InquiriesLayout>
+          <InquiriesWriteCon
+            hadnleChangeInquiriesField={hadnleChangeInquiriesField}
+            handleChangeFileUrls={handleChangeFileUrls}
+            file1name={file1name}
+            file2name={file2name}
+            file3name={file3name}
+            handleSubmitInquiry={handleSubmitInquiry}
+          />
+        </InquiriesLayout>
+      </UserLayout>
+      <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
+      <FuncModal
+        open={fModalOpen}
+        onClose={handleCloseFuncModal}
+        message={{
+          title: '1:1 문의 감사해요.',
+          description: '확인 후 신속한 답변 남길게요.',
+          btnTxt: '문의 리스트',
+        }}
+        dubBtn={true}
+        onClick={() => router.push('/mypage?state=boards&board=inquiries')}
+        onClick2={() => router.push('/mypage?state=boards&board=inquiries')}
+      />
+    </>
   );
 };
 

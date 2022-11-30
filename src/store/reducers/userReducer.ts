@@ -8,8 +8,6 @@ import {
   CreateUserInquiruesPayload,
   DeleteUserPayload,
   EditMyProfilePayload,
-  GetUserBoardsPayload,
-  getUserBoardsResult,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
@@ -179,7 +177,18 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
+    initialInquiryFeild(state) {
+      state.title = '';
+      state.content = '';
+      state.fileUrls = [];
+    },
     changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.loadUserLoading = true;
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;

@@ -1,8 +1,5 @@
 import { RootState } from '@/src/store/configureStore';
-import { authActions, boardsActions, localActions, userActions } from '@/src/store/reducers';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MyBoardTab from './MyBoardTab';
@@ -13,9 +10,6 @@ import MyInquiriesTable from './table/MyInquiriesTable';
 import MyLikesTable from './table/MyLikesTable';
 
 const MyBoards = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const { myWritenBoards, myComments, myLikes, myCollections, myInquiries } = useSelector(({ local }: RootState) => ({
     myWritenBoards: local.myWritenBoards,
     myComments: local.myComments,

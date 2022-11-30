@@ -6,7 +6,7 @@ import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions, userActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
@@ -20,12 +20,10 @@ const MypageIndex: NextPage = () => {
   const { _count } = useSelector(({ user }: RootState) => ({
     _count: user._count,
   }));
-  const { category, getUserBoardsDone, page } = useSelector(({ boards }: RootState) => ({
+  const { category, page } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
-    getUserBoardsDone: boards.getUserBoardsDone,
     page: boards.page,
   }));
-  const [baordsLoading, setBaordsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(userActions.getUserProfile());

@@ -12,12 +12,14 @@ const InquiriesWriteCon = ({
   file1name,
   file2name,
   file3name,
+  handleSubmitInquiry,
 }: {
   hadnleChangeInquiriesField: (e: React.ChangeEvent<any>) => void;
   handleChangeFileUrls: (e: React.ChangeEvent<any>) => void;
   file1name: string | null;
   file2name: string | null;
   file3name: string | null;
+  handleSubmitInquiry: () => void;
 }) => {
   const { title, content, fileUrls } = useSelector(({ user }: RootState) => ({
     title: user.title,
@@ -79,7 +81,9 @@ const InquiriesWriteCon = ({
             <span className="fileName">{file3name ? file3name : '선택된 파일 없음'}</span>
           </div>
         </div>
-        <Button lightBlue>보내기</Button>
+        <Button lightBlue onClick={handleSubmitInquiry}>
+          보내기
+        </Button>
       </div>
     </InquiriesWriteBlock>
   );
