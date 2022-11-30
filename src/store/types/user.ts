@@ -79,28 +79,12 @@ export type DeleteUserPayload = {
   pw: string | null;
 };
 
-export type GetUserBoardsPayload = {
-  category: string | null;
-  page: number | null;
-};
-
 export type CreateUserInquiruesPayload = {
   title: string | null;
   content: string | null;
   fileUrls: Array<string> | [];
 };
-export type getUserBoardsResult = {
-  total: number | null;
-  boards: Array<{
-    id: number;
-    title: string;
-    hits: number;
-    createdAt: string;
-    _count: {
-      comments: number;
-    };
-  }>;
-};
+
 export type LoadUserResponse = {
   message: string | boolean | null;
 };

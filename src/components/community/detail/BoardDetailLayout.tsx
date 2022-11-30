@@ -6,24 +6,25 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
-const InquiriesLayout = ({ children }: { children: React.ReactNode }) => {
+const BoardDetailLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+
   return (
-    <InquiriesWriteLayoutBlock className="container">
+    <BoardDetailBlock className="container">
       <div className="top_con">
-        <div className="Inquiries_block" onClick={() => router.push('/mypage?state=boards&board=inquiries')}>
+        <div className="Inquiries_block" onClick={() => router.back()}>
           <div className="button">
             <Image src={ArrowLeft} alt="arrow left" />
           </div>
-          <span className="txt">1:1 문의 목록</span>
+          <span className="txt">목록</span>
         </div>
       </div>
       {children}
-    </InquiriesWriteLayoutBlock>
+    </BoardDetailBlock>
   );
 };
 
-const InquiriesWriteLayoutBlock = styled.div`
+const BoardDetailBlock = styled.div`
   width: 100%;
   .top_con {
     width: 100%;
@@ -62,7 +63,6 @@ const InquiriesWriteLayoutBlock = styled.div`
       }
     }
   }
-
   ${media.tablet} {
     .top_con {
       display: none;
@@ -70,4 +70,4 @@ const InquiriesWriteLayoutBlock = styled.div`
   }
 `;
 
-export default InquiriesLayout;
+export default BoardDetailLayout;

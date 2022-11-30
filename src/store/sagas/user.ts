@@ -13,6 +13,7 @@ import type {
   UpdateUserProfilePayload,
   DeleteUserPayload,
   getBoardsPayload,
+  CreateUserInquiruesPayload,
 } from '../types';
 
 // api
@@ -27,6 +28,7 @@ import {
   apiUpdateUserProfile,
   apiDeleteUser,
   apiGetUserBoards,
+  apiCreateUserInquiries,
 } from '../api';
 
 // 테마변경
@@ -205,15 +207,15 @@ function* deleteUserSaga(action: PayloadAction<DeleteUserPayload>) {
     yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
   }
 }
-//get user boards
-function* getUserBoardsSaga(action: PayloadAction<getBoardsPayload>) {
+// delete user
+function* createInquiry(action: PayloadAction<CreateUserInquiruesPayload>) {
   try {
     yield put(userActions.loadUserRequest());
-    const { data } = yield call(apiGetUserBoards, action.payload);
+    const { data } = yield call(apiCreateUserInquiries, action.payload);
     console.log(data);
-    yield put(userActions.getUserBoardsResult(data));
+    yield put(userActions.loadUserSuccess(data));
   } catch (error: any) {
-    console.error('userSaga getUserBoardsSaga >> ', error);
+    console.error('userSaga createInquiry >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -233,7 +235,7 @@ function* watchLoadUser() {
   yield takeLatest(userActions.updateUserProfile, updateUserProfileSaga);
   yield takeLatest(userActions.ChangePw, changeUserPwSaga);
   yield takeLatest(userActions.deleteUser, deleteUserSaga);
-  yield takeLatest(userActions.getUserBoards, getUserBoardsSaga);
+  yield takeLatest(userActions.createInquiries, createInquiry);
 }
 
 export default function* userSaga() {

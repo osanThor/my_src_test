@@ -24,13 +24,17 @@ export {
   apiUpdateUserProfile,
   apiChangePw,
   apiDeleteUser,
+  apiCreateUserInquiries,
+} from './user';
+
+export { apiUploadFile } from './file';
+
+export {
+  apiGetBoards,
   apiGetUserBoards,
   apiGetUserComments,
   apiGetUserLikes,
   apiGetUserCollection,
   apiGetUserInquiries,
-} from './user';
-
-export { apiUploadFile } from './file';
-
-export { apiGetBoards, apiCreateBoard } from './boards';
+  apiCreateBoard,
+} from './boards';

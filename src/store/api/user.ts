@@ -7,7 +7,6 @@ import type {
   TelegramPayload,
   UpdateUserProfilePayload,
   DeleteUserPayload,
-  GetUserBoardsPayload,
   CreateUserInquiruesPayload,
 } from '../types';
 
@@ -54,22 +53,6 @@ export const apiChangePw = ({ oldPw, newPw }: ChangePwPayload) =>
 //delete user
 export const apiDeleteUser = ({ email, pw }: DeleteUserPayload) =>
   axiosInstance.delete<LoadUserResponse>('/users', { data: { email, pw } });
-
-// get user boards
-export const apiGetUserBoards = ({ category, page }: GetUserBoardsPayload) =>
-  axiosInstance.get(`/users/boards${category || page ? `?category=${category}&page=${page}` : ''}`);
-// get user comments
-export const apiGetUserComments = ({ category, page }: GetUserBoardsPayload) =>
-  axiosInstance.get(`/users/comments${category || page ? `?category=${category}&page=${page}` : ''}`);
-// get user Likes
-export const apiGetUserLikes = ({ category, page }: GetUserBoardsPayload) =>
-  axiosInstance.get(`/users/likes${category || page ? `?category=${category}&page=${page}` : ''}`);
-// get user Collection
-export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =>
-  axiosInstance.get(`/users/collections${category || page ? `?category=${category}&page=${page}` : ''}`);
-// get user Inquiries
-export const apiGetUserInquiries = ({ page }: GetUserBoardsPayload) =>
-  axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
 
 // create user Inquiries
 export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>

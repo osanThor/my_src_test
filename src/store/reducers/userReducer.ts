@@ -8,8 +8,6 @@ import {
   CreateUserInquiruesPayload,
   DeleteUserPayload,
   EditMyProfilePayload,
-  GetUserBoardsPayload,
-  getUserBoardsResult,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
@@ -41,20 +39,7 @@ export type UserStateType = {
     boards: number | null;
     comments: number | null;
   };
-  category: string | null;
-  page: number | null;
-  getUserBoardsDone: {
-    total: number | null;
-    boards: Array<{
-      id: number;
-      title: string;
-      hits: number;
-      createdAt: string;
-      _count: {
-        comments: number;
-      };
-    }>;
-  };
+
   title: string | null;
   content: string | null;
   fileUrls: Array<string> | [];
@@ -86,9 +71,6 @@ const initialState: UserStateType = {
     boards: 0,
     comments: 0,
   },
-  category: '',
-  page: 1,
-  getUserBoardsDone: { total: 0, boards: [] },
   title: '',
   content: '',
   fileUrls: [],
@@ -195,16 +177,19 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
-    getUserBoards(state, action: PayloadAction<GetUserBoardsPayload>) {
-      state.loadUserLoading = true;
-      state.category = action.payload.category;
-      state.page = action.payload.page;
-    },
-    getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
-      state.loadUserLoading = false;
-      state.getUserBoardsDone = action.payload;
+    initialInquiryFeild(state) {
+      state.title = '';
+      state.content = '';
+      state.fileUrls = [];
+      state.loadUserDone = null;
     },
     changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.loadUserLoading = true;
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;

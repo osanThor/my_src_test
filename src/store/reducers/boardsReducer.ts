@@ -3,8 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   changePage,
+  getBoardPayload,
+  getBoardResult,
   getBoardsPayload,
   getBoardsResult,
+  GetUserBoardsPayload,
+  getUserBoardsResult,
+  GetUserInquiriesPayload,
+  getUserInquiriesResult,
   LoadBoardsBody,
   LoadBoardsPayload,
   LoadBoardsResponse,
@@ -37,9 +43,50 @@ export type BoardsStateType = {
         }>
       | [];
   };
+  getUserBoardsDone: {
+    total: number | null;
+    boards: Array<{
+      id: number;
+      title: string;
+      hits: number;
+      createdAt: string;
+      _count: {
+        comments: number;
+      };
+    }>;
+  };
+  getUserInquiriesDone: {
+    total: number | null;
+    inquiries:
+      | Array<{
+          id: number;
+          answer: string | null;
+          title: string | null;
+          createdAt: string;
+        }>
+      | [];
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
+  boardId: number | null;
+  getBoardDone: {
+    id: number;
+    title: string | null;
+    user: {
+      photoUrl: string | null;
+      nickname: string | null;
+      styles: Array<{ name: string }> | [];
+    };
+    createdAt: string | null;
+    hits: number | null;
+    content: string | null;
+    files: [];
+    comments: [];
+    _count: {
+      likes: number | null;
+    };
+  };
   loadBoardsError: string | null;
 };
 
@@ -53,8 +100,28 @@ const initialState: BoardsStateType = {
   fileUrls: [],
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
+  getUserBoardsDone: { total: 0, boards: [] },
+  getUserInquiriesDone: { total: 0, inquiries: [] },
   loadBoardsDone: {
     message: '',
+  },
+  boardId: 0,
+  getBoardDone: {
+    id: 0,
+    title: '',
+    user: {
+      photoUrl: '',
+      nickname: '',
+      styles: [],
+    },
+    createdAt: '',
+    hits: 0,
+    content: '',
+    files: [],
+    comments: [],
+    _count: {
+      likes: 0,
+    },
   },
   loadBoardsError: null,
 };
@@ -86,6 +153,33 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.loadGetBoardsDone = action.payload;
     },
+    getUserBoards(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.getUserBoardsDone = action.payload;
+    },
+    getUserLikes(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserCollections(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserInquiries(state, action: PayloadAction<GetUserInquiriesPayload>) {
+      state.loadBoardsLoading = true;
+      state.page = action.payload.page;
+    },
+    getUserInquiriesResult(state, action: PayloadAction<getUserInquiriesResult>) {
+      state.loadBoardsLoading = false;
+      state.getUserInquiriesDone = action.payload;
+    },
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
@@ -95,6 +189,14 @@ const boardsSlice = createSlice({
     },
     changePage(state, action: PayloadAction<changePage>) {
       state.page = action.payload.page;
+    },
+    getBoard(state, action: PayloadAction<getBoardPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    getBoardResult(state, action: PayloadAction<getBoardResult>) {
+      state.loadBoardsLoading = false;
+      state.getBoardDone = action.payload;
     },
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;

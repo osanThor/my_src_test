@@ -8,51 +8,61 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
+import NoBoards from '@/src/components/common/NoBoards';
 
 const BoardsTable = () => {
-  const { getUserBoardsDone, page } = useSelector(({ user }: RootState) => ({
-    getUserBoardsDone: user.getUserBoardsDone,
-    page: user.page,
+  const { getUserBoardsDone, page } = useSelector(({ boards }: RootState) => ({
+    getUserBoardsDone: boards.getUserBoardsDone,
+    page: boards.page,
   }));
   const { total } = getUserBoardsDone;
+  console.log(getUserBoardsDone);
 
   return (
     <>
-      <BoardsTableBlock>
-        <div className="thead">
-          <div className="th">
-            <div className="td"></div>
-            <div className="td">번호</div>
-            <div className="td title">제목</div>
-            <div className="td">조회수</div>
-            <div className="td">작성일</div>
-          </div>
-        </div>
-        <div className="tbody">
-          {getUserBoardsDone.boards.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">
-                <label>
-                  <input type="checkbox" />
-                  <span />
-                </label>
-              </div>
-              <div className="td">{board.id}</div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-              </div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+      {total != 0 ? (
+        <>
+          <BoardsTableBlock>
+            <div className="thead">
+              <div className="th">
+                <div className="td">
+                  <span className="spacer" />
+                </div>
+                <div className="td">번호</div>
+                <div className="td title">제목</div>
+                <div className="td">조회수</div>
+                <div className="td">작성일</div>
               </div>
             </div>
-          ))}
-        </div>
-      </BoardsTableBlock>
-      <MyBoardBottom page={page} total={total} />
+            <div className="tbody">
+              {getUserBoardsDone.boards.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">
+                    <label>
+                      <input type="checkbox" />
+                      <span />
+                    </label>
+                  </div>
+                  <div className="td">{board.id}</div>
+                  <div className="td title dark_gray pointer">
+                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                  </div>
+                  <div className="td">
+                    <span className="ver_m">조회수</span>
+                    {board.hits}
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BoardsTableBlock>
+          <MyBoardBottom page={page} total={total} />
+        </>
+      ) : (
+        <NoBoards />
+      )}
     </>
   );
 };
@@ -148,6 +158,9 @@ const BoardsTableBlock = styled.div`
 
     &:nth-child(1) {
       max-width: 64px;
+      .spacer {
+        min-width: 24px;
+      }
     }
     &:nth-child(2) {
       width: 20%;
@@ -155,7 +168,7 @@ const BoardsTableBlock = styled.div`
     }
     &:nth-child(3) {
       width: 100%;
-      max-width: 1000px;
+      max-width: 1103px;
     }
     &:nth-child(4) {
       width: 30%;

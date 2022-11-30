@@ -3,7 +3,7 @@ import MyBoards from '@/src/components/mypage/boards/MyBoards';
 import EditMyProfile from '@/src/components/mypage/edit/EditMyProfile';
 import MyPageLayout from '@/src/components/mypage/MyPageLayout';
 import { RootState } from '@/src/store/configureStore';
-import { localActions, userActions } from '@/src/store/reducers';
+import { boardsActions, localActions, userActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -17,14 +17,22 @@ const MypageIndex: NextPage = () => {
     editMyProfile: local.editMyProfile,
     myBoards: local.myBoards,
   }));
+  const { _count } = useSelector(({ user }: RootState) => ({
+    _count: user._count,
+  }));
+  const { category, page } = useSelector(({ boards }: RootState) => ({
+    category: boards.category,
+    page: boards.page,
+  }));
 
   useEffect(() => {
     dispatch(userActions.getUserProfile());
+    dispatch(localActions.initializeAuthForm());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(localActions.initializeAuthForm());
-  }, [dispatch]);
+    dispatch(boardsActions.initializeBoardsForm());
+  }, [router]);
 
   useEffect(() => {
     if (router.query.state === 'edit') {
@@ -33,6 +41,33 @@ const MypageIndex: NextPage = () => {
       dispatch(localActions.gotoMyBoards());
     }
   }, [router]);
+
+  useEffect(() => {
+    if (myBoards) {
+      if (!router.query.board) {
+        if (_count.boards) {
+          dispatch(localActions.gotoMyWritenBoards());
+          dispatch(boardsActions.getUserBoards({ category, page }));
+        }
+      }
+      if (router.query.board === 'comments') {
+        dispatch(localActions.gotoMyComments());
+        dispatch(boardsActions.getUserBoards({ category, page }));
+      }
+      if (router.query.board === 'likes') {
+        dispatch(localActions.gotoMyLikes());
+        dispatch(boardsActions.getUserLikes({ category, page }));
+      }
+      if (router.query.board === 'collections') {
+        dispatch(localActions.gotoMyCollections());
+        dispatch(boardsActions.getUserCollections({ category, page }));
+      }
+      if (router.query.board === 'inquiries') {
+        dispatch(localActions.gotoMyInquiries());
+        dispatch(boardsActions.getUserInquiries({ page }));
+      }
+    }
+  }, [router, category, page, myBoards, _count]);
 
   return (
     <UserLayout>

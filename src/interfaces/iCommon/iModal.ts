@@ -11,7 +11,8 @@ interface IModalProps {
 interface IFuncModalProps {
   open: boolean;
   onClose: () => void;
-  message: { title: string; btnTxt: string };
+  message: { title: string; description: string; btnTxt: string };
   dubBtn: boolean;
   onClick: () => void;
+  onClick2: () => void;
 }

@@ -62,6 +62,7 @@ const Telegram: NextPage = () => {
   const [open, setOpen] = React.useState(false);
   const message = {
     title: '이용권 등록 페이지에서 나중에 연동 가능해요~!',
+    description: '',
     btnTxt: '나중에',
   };
   const dubBtn = true;
@@ -92,7 +93,14 @@ const Telegram: NextPage = () => {
           <ExplaneService onClick={handleChangeType} />
         )}
       </TelegramLayout>
-      <FuncModal open={open} onClose={onClose} message={message} dubBtn={dubBtn} onClick={handleModalEvent} />
+      <FuncModal
+        open={open}
+        onClose={onClose}
+        message={message}
+        dubBtn={dubBtn}
+        onClick={handleModalEvent}
+        onClick2={onClose}
+      />
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
     </AuthLayout>
   );

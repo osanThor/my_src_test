@@ -9,50 +9,59 @@ import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
 import { useRouter } from 'next/router';
+import NoBoards from '@/src/components/common/NoBoards';
 
 const MyInquiriesTable = () => {
-  const router = useRouter();
-  const { getUserBoardsDone } = useSelector(({ user }: RootState) => ({
-    getUserBoardsDone: user.getUserBoardsDone,
+  const { page, getUserInquiriesDone } = useSelector(({ boards }: RootState) => ({
+    page: boards.page,
+    getUserInquiriesDone: boards.getUserInquiriesDone,
   }));
-  console.log(getUserBoardsDone);
+  const { total } = getUserInquiriesDone;
   return (
     <>
-      <BoardsTableBlock>
-        <div className="thead">
-          <div className="th">
-            <div className="td">답변</div>
-            <div className="td title">제목</div>
-            <div className="td">작성일</div>
-          </div>
-        </div>
-        <div className="tbody">
-          {getUserBoardsDone.boards.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">{board.id}</div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span>
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+      {total != 0 ? (
+        <>
+          <BoardsTableBlock>
+            <div className="thead">
+              <div className="th">
+                <div className="td">답변</div>
+                <div className="td title">제목</div>
+                <div className="td">작성일</div>
               </div>
             </div>
-          ))}
-        </div>
-      </BoardsTableBlock>
-      <MyBoardBottom />
+            <div className="tbody">
+              {getUserInquiriesDone.inquiries.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">
+                    <span className={board.answer ? 'answer on' : 'answer'}>{board.answer ? '답변' : '대기'}</span>
+                  </div>
+                  <div className="td title dark_gray pointer">
+                    <span className="tit">{board.title}</span>
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BoardsTableBlock>
+          <MyBoardBottom page={page} total={total} />
+        </>
+      ) : (
+        <NoBoards />
+      )}
     </>
   );
 };
 // Inquiries
 
-const MyBoardBottom = () => {
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
   const router = useRouter();
 
   return (
     <MyBoardBottomBlock>
       <label></label>
-      {/* <Pagination /> */}
+      <Pagination total={total} page={page} />
       <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
@@ -136,9 +145,20 @@ const BoardsTableBlock = styled.div`
     &:nth-child(1) {
       width: 20%;
       max-width: 112px;
+      span.answer {
+        padding: 4px 8px;
+        border-radius: 16px;
+        background-color: ${colors.gray[0]};
+        color: ${colors.gray[4]};
+        &.on {
+          background-color: ${colors.blue[0]};
+          color: ${colors.blue[2]};
+        }
+      }
     }
     &:nth-child(2) {
       width: 100%;
+      max-width: 1256px;
     }
     &:nth-child(3) {
       width: 30%;
@@ -159,6 +179,7 @@ const BoardsTableBlock = styled.div`
     span.tit {
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 100%;
     }
     &.pointer {
       cursor: pointer;
@@ -229,7 +250,7 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 10%;
+        width: auto;
         max-width: 62px;
       }
       &:nth-child(2) {
@@ -256,6 +277,10 @@ const BoardsTableBlock = styled.div`
         position: relative;
         .td {
           padding: 0;
+
+          &:nth-child(2) {
+            padding-left: 12px;
+          }
         }
       }
     }

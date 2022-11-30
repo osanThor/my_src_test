@@ -60,7 +60,7 @@ const GnbMenu = () => {
       setStrategy(true);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/community' || pathName === '/community/write') {
+    } else if (pathName === '/community' || pathName === '/community/write' || pathName === '/community/board/[bId]') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);

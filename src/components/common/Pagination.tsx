@@ -20,19 +20,18 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
     } else if (page % limit === 0) {
       setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
     }
-  }, [page, total]);
-
+  }, [page, totalPageArray]);
   useEffect(() => {
     const slicedPageArray = sliceArrayByLimit(numPages, limit);
     setTotalPageArray(slicedPageArray);
     setCurrentPageArray(slicedPageArray[0]);
   }, [numPages]);
 
-  const sliceArrayByLimit = (totalPage: number, limit: number) => {
-    const totalPageArray = Array(totalPage)
+  const sliceArrayByLimit = (numPages: number, limit: number) => {
+    const totalPageArray = Array(numPages)
       .fill(0)
       .map((_, i) => i);
-    return Array(Math.ceil(totalPage / limit))
+    return Array(Math.ceil(numPages / limit))
       .fill(0)
       .map(() => totalPageArray.splice(0, limit));
   };
@@ -45,7 +44,7 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
     } else {
       setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
     }
-  }, [page]);
+  }, [page, totalPageArray]);
 
   return (
     <PaginationBlock className="pagination">
