@@ -181,6 +181,7 @@ const userSlice = createSlice({
       state.title = '';
       state.content = '';
       state.fileUrls = [];
+      state.loadUserDone = null;
     },
     changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.title = action.payload.title;

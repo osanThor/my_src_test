@@ -46,7 +46,6 @@ const MypageIndex: NextPage = () => {
     if (myBoards) {
       if (!router.query.board) {
         if (_count.boards) {
-          console.log('야 되냐?');
           dispatch(localActions.gotoMyWritenBoards());
           dispatch(boardsActions.getUserBoards({ category, page }));
         }
@@ -77,11 +76,7 @@ const MypageIndex: NextPage = () => {
       }
       if (router.query.board === 'inquiries') {
         dispatch(localActions.gotoMyInquiries());
-        // if (myWritenBoards) {
-        //   if (getUserBoardsDone.length === 0) {
-        //     dispatch(userActions.getUserBoards({ category, page }));
-        //   }
-        // }
+        dispatch(boardsActions.getUserInquiries({ page }));
       }
     }
   }, [router, category, page, myBoards, _count]);

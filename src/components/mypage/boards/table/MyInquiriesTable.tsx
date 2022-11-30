@@ -12,9 +12,11 @@ import { useRouter } from 'next/router';
 
 const MyInquiriesTable = () => {
   const router = useRouter();
-  const { getUserBoardsDone } = useSelector(({ boards }: RootState) => ({
-    getUserBoardsDone: boards.getUserBoardsDone,
+  const { page, getUserInquiriesDone } = useSelector(({ boards }: RootState) => ({
+    page: boards.page,
+    getUserInquiriesDone: boards.getUserInquiriesDone,
   }));
+  const { total } = getUserInquiriesDone;
   return (
     <>
       <BoardsTableBlock>
@@ -26,9 +28,11 @@ const MyInquiriesTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getUserBoardsDone.boards.map((board) => (
+          {getUserInquiriesDone.inquiries.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">{board.id}</div>
+              <div className="td">
+                <span className={board.answer ? 'answer on' : 'answer'}>{board.answer ? '답변' : '대기'}</span>
+              </div>
               <div className="td title dark_gray pointer">
                 <span className="tit">{board.title}</span>
               </div>
@@ -39,19 +43,19 @@ const MyInquiriesTable = () => {
           ))}
         </div>
       </BoardsTableBlock>
-      <MyBoardBottom />
+      <MyBoardBottom page={page} total={total} />
     </>
   );
 };
 // Inquiries
 
-const MyBoardBottom = () => {
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
   const router = useRouter();
 
   return (
     <MyBoardBottomBlock>
       <label></label>
-      {/* <Pagination /> */}
+      <Pagination total={total} page={page} />
       <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
@@ -135,9 +139,20 @@ const BoardsTableBlock = styled.div`
     &:nth-child(1) {
       width: 20%;
       max-width: 112px;
+      span.answer {
+        padding: 4px 8px;
+        border-radius: 16px;
+        background-color: ${colors.gray[0]};
+        color: ${colors.gray[4]};
+        &.on {
+          background-color: ${colors.blue[0]};
+          color: ${colors.blue[2]};
+        }
+      }
     }
     &:nth-child(2) {
       width: 100%;
+      max-width: 1200px;
     }
     &:nth-child(3) {
       width: 30%;
@@ -158,6 +173,7 @@ const BoardsTableBlock = styled.div`
     span.tit {
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 100%;
     }
     &.pointer {
       cursor: pointer;
@@ -228,7 +244,7 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 10%;
+        width: auto;
         max-width: 62px;
       }
       &:nth-child(2) {
@@ -255,6 +271,10 @@ const BoardsTableBlock = styled.div`
         position: relative;
         .td {
           padding: 0;
+
+          &:nth-child(2) {
+            padding-left: 12px;
+          }
         }
       }
     }

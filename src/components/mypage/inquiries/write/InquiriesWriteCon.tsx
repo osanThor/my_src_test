@@ -21,10 +21,9 @@ const InquiriesWriteCon = ({
   file3name: string | null;
   handleSubmitInquiry: () => void;
 }) => {
-  const { title, content, fileUrls } = useSelector(({ user }: RootState) => ({
+  const { title, content } = useSelector(({ user }: RootState) => ({
     title: user.title,
     content: user.content,
-    fileUrls: user.fileUrls,
   }));
   const [textCount, setTextCount] = useState(0);
   const handleChangeContentsLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

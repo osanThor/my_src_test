@@ -7,6 +7,8 @@ import {
   getBoardsResult,
   GetUserBoardsPayload,
   getUserBoardsResult,
+  GetUserInquiriesPayload,
+  getUserInquiriesResult,
   LoadBoardsBody,
   LoadBoardsPayload,
   LoadBoardsResponse,
@@ -51,6 +53,17 @@ export type BoardsStateType = {
       };
     }>;
   };
+  getUserInquiriesDone: {
+    total: number | null;
+    inquiries:
+      | Array<{
+          id: number;
+          answer: string | null;
+          title: string | null;
+          createdAt: string;
+        }>
+      | [];
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -68,6 +81,7 @@ const initialState: BoardsStateType = {
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
+  getUserInquiriesDone: { total: 0, inquiries: [] },
   loadBoardsDone: {
     message: '',
   },
@@ -109,6 +123,14 @@ const boardsSlice = createSlice({
     getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
       state.loadBoardsLoading = false;
       state.getUserBoardsDone = action.payload;
+    },
+    getUserInquiries(state, action: PayloadAction<GetUserInquiriesPayload>) {
+      state.loadBoardsLoading = true;
+      state.page = action.payload.page;
+    },
+    getUserInquiriesResult(state, action: PayloadAction<getUserInquiriesResult>) {
+      state.loadBoardsLoading = false;
+      state.getUserInquiriesDone = action.payload;
     },
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;

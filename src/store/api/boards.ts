@@ -1,5 +1,11 @@
 import { axiosInstance } from '.';
-import { getBoardsPayload, GetUserBoardsPayload, LoadBoardsPayload, LoadBoardsResponse } from '../types';
+import {
+  getBoardsPayload,
+  GetUserBoardsPayload,
+  GetUserInquiriesPayload,
+  LoadBoardsPayload,
+  LoadBoardsResponse,
+} from '../types';
 
 // get board
 export const apiGetBoards = ({ category, page, title, user, comment }: getBoardsPayload) =>
@@ -21,7 +27,7 @@ export const apiGetUserLikes = ({ category, page }: GetUserBoardsPayload) =>
 export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =>
   axiosInstance.get(`/users/collections${category || page ? `?category=${category}&page=${page}` : ''}`);
 // get user Inquiries
-export const apiGetUserInquiries = ({ page }: GetUserBoardsPayload) =>
+export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
   axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
 
 // create board
