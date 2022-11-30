@@ -52,27 +52,15 @@ const MypageIndex: NextPage = () => {
       }
       if (router.query.board === 'comments') {
         dispatch(localActions.gotoMyComments());
-        // if (myWritenBoards) {
-        //   if (getUserBoardsDone.length === 0) {
-        //     dispatch(userActions.getUserBoards({ category, page }));
-        //   }
-        // }
+        dispatch(boardsActions.getUserBoards({ category, page }));
       }
       if (router.query.board === 'likes') {
         dispatch(localActions.gotoMyLikes());
-        // if (myWritenBoards) {
-        //   if (getUserBoardsDone.length === 0) {
-        //     dispatch(userActions.getUserBoards({ category, page }));
-        //   }
-        // }
+        dispatch(boardsActions.getUserLikes({ category, page }));
       }
       if (router.query.board === 'collections') {
         dispatch(localActions.gotoMyCollections());
-        // if (myWritenBoards) {
-        //   if (getUserBoardsDone.length === 0) {
-        //     dispatch(userActions.getUserBoards({ category, page }));
-        //   }
-        // }
+        dispatch(boardsActions.getUserCollections({ category, page }));
       }
       if (router.query.board === 'inquiries') {
         dispatch(localActions.gotoMyInquiries());

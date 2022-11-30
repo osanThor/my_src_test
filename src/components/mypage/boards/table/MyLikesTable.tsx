@@ -6,54 +6,64 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
+import NoBoards from '@/src/components/common/NoBoards';
 
 const MyLikesTable = () => {
-  // const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-  //   communityDiscussion: local.communityDiscussion,
-  //   communityNotice: local.communityNotice,
-  // }));
-  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { page, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+    page: boards.page,
     loadGetBoardsDone: boards.loadGetBoardsDone,
   }));
 
+  const { total } = loadGetBoardsDone;
+  console.log(total);
   return (
     <>
-      <BoardsTableBlock>
-        <div className="thead">
-          <div className="th">
-            <div className="td">번호</div>
-            <div className="td title">제목</div>
-            <div className="td dark_gray">작성자</div>
-            <div className="td">조회수</div>
-            <div className="td">작성일</div>
-          </div>
-        </div>
-        <div className="tbody">
-          {loadGetBoardsDone.boards.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">{board.id}</div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-              </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+      {total != 0 ? (
+        <>
+          <BoardsTableBlock>
+            <div className="thead">
+              <div className="th">
+                <div className="td">번호</div>
+                <div className="td title">제목</div>
+                <div className="td dark_gray">작성자</div>
+                <div className="td">조회수</div>
+                <div className="td">작성일</div>
               </div>
             </div>
-          ))}
-        </div>
-      </BoardsTableBlock>
-      <MyBoardBottom />
+            <div className="tbody">
+              {loadGetBoardsDone.boards.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">{board.id}</div>
+                  <div className="td title dark_gray pointer">
+                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                  </div>
+                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+                  <div className="td">
+                    <span className="ver_m">조회수</span>
+                    {board.hits}
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BoardsTableBlock>
+          <MyBoardBottom page={page} total={total} />
+        </>
+      ) : (
+        <NoBoards />
+      )}
     </>
   );
 };
 
-const MyBoardBottom = () => {
-  return <MyBoardBottomBlock>{/* <Pagination /> */}</MyBoardBottomBlock>;
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
+  return (
+    <MyBoardBottomBlock>
+      <Pagination page={page} total={total} />{' '}
+    </MyBoardBottomBlock>
+  );
 };
 
 const MyBoardBottomBlock = styled.div`

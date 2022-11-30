@@ -124,6 +124,16 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.getUserBoardsDone = action.payload;
     },
+    getUserLikes(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserCollections(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
     getUserInquiries(state, action: PayloadAction<GetUserInquiriesPayload>) {
       state.loadBoardsLoading = true;
       state.page = action.payload.page;

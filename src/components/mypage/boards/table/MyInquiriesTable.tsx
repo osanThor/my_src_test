@@ -9,6 +9,7 @@ import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
 import { useRouter } from 'next/router';
+import NoBoards from '@/src/components/common/NoBoards';
 
 const MyInquiriesTable = () => {
   const router = useRouter();
@@ -19,31 +20,37 @@ const MyInquiriesTable = () => {
   const { total } = getUserInquiriesDone;
   return (
     <>
-      <BoardsTableBlock>
-        <div className="thead">
-          <div className="th">
-            <div className="td">답변</div>
-            <div className="td title">제목</div>
-            <div className="td">작성일</div>
-          </div>
-        </div>
-        <div className="tbody">
-          {getUserInquiriesDone.inquiries.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">
-                <span className={board.answer ? 'answer on' : 'answer'}>{board.answer ? '답변' : '대기'}</span>
-              </div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span>
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+      {total != 0 ? (
+        <>
+          <BoardsTableBlock>
+            <div className="thead">
+              <div className="th">
+                <div className="td">답변</div>
+                <div className="td title">제목</div>
+                <div className="td">작성일</div>
               </div>
             </div>
-          ))}
-        </div>
-      </BoardsTableBlock>
-      <MyBoardBottom page={page} total={total} />
+            <div className="tbody">
+              {getUserInquiriesDone.inquiries.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">
+                    <span className={board.answer ? 'answer on' : 'answer'}>{board.answer ? '답변' : '대기'}</span>
+                  </div>
+                  <div className="td title dark_gray pointer">
+                    <span className="tit">{board.title}</span>
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </BoardsTableBlock>
+          <MyBoardBottom page={page} total={total} />
+        </>
+      ) : (
+        <NoBoards />
+      )}
     </>
   );
 };
@@ -152,7 +159,7 @@ const BoardsTableBlock = styled.div`
     }
     &:nth-child(2) {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1256px;
     }
     &:nth-child(3) {
       width: 30%;
