@@ -251,7 +251,7 @@ const boardsSlice = createSlice({
     //api res req
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;
-      state.loadBoardsDone = { message: '' };
+      state.loadBoardsDone = null;
       state.loadBoardsError = null;
     },
     loadBoardsSuccess(state, action: PayloadAction<LoadBoardsResponse>) {
@@ -260,7 +260,7 @@ const boardsSlice = createSlice({
     },
     loadBoardsFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadBoardsLoading = false;
-      state.loadBoardsDone = { message: '' };
+      state.loadBoardsDone = null;
       state.loadBoardsError = action.payload.message;
     },
   },

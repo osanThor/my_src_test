@@ -10,47 +10,32 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-const CommunityWrite: NextPage = () => {
+const CommunityModify: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { communityDiscussion } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-  }));
-  const { content, category, title, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(
+
+  const { content, category, title, fileUrls, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
       content: boards.content,
       category: boards.category,
       title: boards.title,
       fileUrls: boards.fileUrls,
+      getBoardDone: boards.getBoardDone,
       loadBoardsDone: boards.loadBoardsDone,
       loadBoardsError: boards.loadBoardsError,
     }),
   );
-  useEffect(() => {
-    dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
 
   useEffect(() => {
-    if (communityDiscussion) {
-      dispatch(
-        boardsActions.changeBoardsField({
-          content,
-          category: 'DISCUSSION',
-          title,
-          fileUrls,
-        }),
-      );
-    } else {
-      dispatch(
-        boardsActions.changeBoardsField({
-          content,
-          category: '',
-          title,
-          fileUrls,
-        }),
-      );
-    }
-  }, [communityDiscussion]);
+    dispatch(
+      boardsActions.changeBoardsField({
+        content: getBoardDone.content,
+        category: 'DISCUSSION',
+        title: getBoardDone.title,
+        fileUrls,
+      }),
+    );
+  }, [getBoardDone]);
 
   // title event
   const handleChangeCreateBoardsField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +65,7 @@ const CommunityWrite: NextPage = () => {
   };
 
   //submit
-  const handleCreateBoards = () => {
+  const handleUpdateBoards = () => {
     if (!category) {
       setModalOpen(true);
       setModalMessage('게시판을 선택해주세요');
@@ -135,7 +120,7 @@ const CommunityWrite: NextPage = () => {
         <CommunityEditor
           handleChangeCreateBoardsField={handleChangeCreateBoardsField}
           handleChangeContent={handleChangeContent}
-          handleCreateBoards={handleCreateBoards}
+          handleCreateBoards={handleUpdateBoards}
         />
       </CommunityWriteLayout>
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
@@ -143,4 +128,4 @@ const CommunityWrite: NextPage = () => {
   );
 };
 
-export default CommunityWrite;
+export default CommunityModify;
