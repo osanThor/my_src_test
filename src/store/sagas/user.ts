@@ -12,7 +12,6 @@ import type {
   ChangePwPayload,
   UpdateUserProfilePayload,
   DeleteUserPayload,
-  CreateUserInquiruesPayload,
 } from '../types';
 
 // api
@@ -26,7 +25,6 @@ import {
   apiChangePw,
   apiUpdateUserProfile,
   apiDeleteUser,
-  apiCreateUserInquiries,
 } from '../api';
 
 // 테마변경

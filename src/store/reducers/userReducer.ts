@@ -5,7 +5,6 @@ import {
   ChangePwFormPayload,
   ChangePwPayload,
   CheckNicknamePayload,
-  CreateUserInquiruesPayload,
   DeleteUserPayload,
   EditMyProfilePayload,
   LoadUserResponse,
