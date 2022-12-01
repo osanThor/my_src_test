@@ -76,7 +76,7 @@ const ForgotPassword: NextPage = () => {
     if (!loadAuthLoading) {
       if (loadAuthDone.message === 'SEND_VERIFY') {
         setMoOpen(true);
-        setMoMessage('이메일 인증이 되었어요');
+        setMoMessage('인증메일을 전송했어요');
         setMoSt(false);
         setOperEmail(true);
         setverifyAble(false);

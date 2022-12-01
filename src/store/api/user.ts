@@ -1,7 +1,14 @@
-import { TelegramPayload } from './../types/user';
 import { axiosInstance } from '.';
 
-import type { LoadUserBody, LoadUserResponse } from '../types';
+import type {
+  LoadUserBody,
+  LoadUserResponse,
+  ChangePwPayload,
+  TelegramPayload,
+  UpdateUserProfilePayload,
+  DeleteUserPayload,
+  CreateUserInquiruesPayload,
+} from '../types';
 
 // 닉네임 중복확인
 export const apiCheckNickname = ({ nickname }: LoadUserBody) =>
@@ -32,5 +39,21 @@ export const apiGoogleRegister = ({ email, pw, nickname, photoUrl }: LoadUserBod
 export const apiTelegramUsername = ({ username }: TelegramPayload) =>
   axiosInstance.put<LoadUserResponse>(`/users/telegram?username=${username}`);
 
-// user profile
+// get user profile
 export const apiGetUserProfile = () => axiosInstance.get('/users/profile');
+
+// update user profile
+export const apiUpdateUserProfile = ({ photoUrl, nickname, introduction, styles }: UpdateUserProfilePayload) =>
+  axiosInstance.put('/users/profile', { photoUrl, nickname, introduction, styles });
+
+// change user pw
+export const apiChangePw = ({ oldPw, newPw }: ChangePwPayload) =>
+  axiosInstance.put('/users/password', { oldPw, newPw });
+
+//delete user
+export const apiDeleteUser = ({ email, pw }: DeleteUserPayload) =>
+  axiosInstance.delete<LoadUserResponse>('/users', { data: { email, pw } });
+
+// create user Inquiries
+export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>
+  axiosInstance.post<LoadUserResponse>(`/users/inquiries`, { title, content, fileUrls });

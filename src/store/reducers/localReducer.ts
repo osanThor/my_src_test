@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { PayloadAction } from '@reduxjs/toolkit';
-
 export type LocalStateType = {
   bgBlur: boolean;
   basic: boolean;
@@ -11,6 +9,15 @@ export type LocalStateType = {
   orderMessage: boolean;
   noSignMessage: boolean;
   errorMessage: boolean;
+  editMyProfile: boolean;
+  myBoards: boolean;
+  myWritenBoards: boolean;
+  myComments: boolean;
+  myLikes: boolean;
+  myCollections: boolean;
+  myInquiries: boolean;
+  communityDiscussion: boolean;
+  communityNotice: boolean;
 };
 
 const initialState: LocalStateType = {
@@ -25,6 +32,17 @@ const initialState: LocalStateType = {
   orderMessage: true,
   noSignMessage: false,
   errorMessage: false,
+  //mypage state
+  editMyProfile: false,
+  myBoards: false,
+  myWritenBoards: false,
+  myComments: false,
+  myLikes: false,
+  myCollections: false,
+  myInquiries: false,
+  //community
+  communityDiscussion: false,
+  communityNotice: false,
 };
 
 const localSlice = createSlice({
@@ -82,6 +100,59 @@ const localSlice = createSlice({
       state.orderMessage = false;
       state.noSignMessage = false;
       state.errorMessage = true;
+    },
+    //mypage Page Actions
+    gotoEditMyProfile(state) {
+      state.editMyProfile = true;
+      state.myBoards = false;
+    },
+    gotoMyBoards(state) {
+      state.editMyProfile = false;
+      state.myBoards = true;
+    },
+    gotoMyWritenBoards(state) {
+      state.myWritenBoards = true;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyComments(state) {
+      state.myWritenBoards = false;
+      state.myComments = true;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyLikes(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = true;
+      state.myCollections = false;
+      state.myInquiries = false;
+    },
+    gotoMyCollections(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = true;
+      state.myInquiries = false;
+    },
+    gotoMyInquiries(state) {
+      state.myWritenBoards = false;
+      state.myComments = false;
+      state.myLikes = false;
+      state.myCollections = false;
+      state.myInquiries = true;
+    },
+    // community Actions
+    gotoComDiscussion(state) {
+      state.communityDiscussion = true;
+      state.communityNotice = false;
+    },
+    gotoComNotice(state) {
+      state.communityDiscussion = false;
+      state.communityNotice = true;
     },
   },
 });

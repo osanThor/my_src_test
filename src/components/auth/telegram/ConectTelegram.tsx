@@ -72,7 +72,11 @@ const ConnectTelegramBlock = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 1rem;
+  h2 {
+    font-size: 20px;
 
+    font-weight: 700;
+  }
   a {
     display: block;
     width: 100%;
@@ -180,7 +184,7 @@ const StyledInputForm = styled.div`
       font-size: 14px;
       color: ${colors.blue[1]};
     }
-    @media (max-width: 768px) {
+    ${media.tablet} {
       height: 56px;
       font-size: 14px;
       padding: 0 1rem;

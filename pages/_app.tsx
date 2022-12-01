@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
-import { authActions, userActions } from '@/src/store/reducers';
+import { authActions, localActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
@@ -26,12 +26,16 @@ function MyApp({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { isDark } = useSelector(({ user }: RootState) => ({
+  const { isDark, email } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
+    email: user.email,
   }));
   const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
     loadAuthError: auth.loadAuthError,
+  }));
+  const { bgBlur } = useSelector(({ local }: RootState) => ({
+    bgBlur: local.bgBlur,
   }));
 
   // auto login
@@ -42,11 +46,14 @@ function MyApp({
     dispatch(authActions.userLogin({ email, pw }));
   }, []);
 
-  //next auth session reset
+  //next auth session reset and localDispatch
   useEffect(() => {
     const gId = localStorage.getItem('gId');
     if (gId) {
       signOut({ redirect: false });
+    }
+    if (bgBlur) {
+      dispatch(localActions.isNotLocalBgBlur());
     }
   }, [router]);
 
@@ -55,7 +62,9 @@ function MyApp({
     if (loadAuthDone.message === 'LOGGED_IN' || user) {
       authService.userLogin(loadAuthDone);
       if (loadAuthDone.accessToken) {
-        dispatch(userActions.getUserProfile());
+        if (!email) {
+          dispatch(userActions.getUserProfile());
+        }
       }
     }
   }, [loadAuthDone]);
@@ -70,7 +79,7 @@ function MyApp({
   // token
   useEffect(() => {
     authService.userRefreshToken(dispatch, loadAuthDone);
-  }, [dispatch, router]);
+  }, [dispatch]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);

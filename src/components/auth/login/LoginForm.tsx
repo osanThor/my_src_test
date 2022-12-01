@@ -11,6 +11,7 @@ import { ILoginSubmit } from '@/src/interfaces/iAuth/iLogin';
 import GoogleLoginBtn from './GoogleLoginBtn';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
+import { media } from '@/styles/theme';
 
 const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }: ILoginSubmit) => {
   const [idError, setIdError] = useState(false);
@@ -62,7 +63,7 @@ const LoginForm = ({ email, pw, onChange, autoLogin, handleAutoLogin, onSubmit }
           name="pw"
           onChange={handleErrorChange}
           placeholder="비밀번호를 입력해요"
-          icon={pwError ? CloseRed : Lock}
+          icon={pwError ? CloseRed : Lock[1]}
           error={pwError ? true : false}
           value={pw}
         />
@@ -128,7 +129,7 @@ const LoginFormBlock = styled.div`
       margin-right: 1rem;
     }
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     h1.logo {
       width: 210px;
     }
@@ -175,7 +176,7 @@ const StyledInputBlock = styled.div`
     align-items: center;
     cursor: text;
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     margin-bottom: 1rem;
     .inputIcon {
       right: 1rem;
@@ -202,7 +203,7 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${colors.blue[1]};
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     height: 56px;
     font-size: 14px;
     padding: 0 1rem;

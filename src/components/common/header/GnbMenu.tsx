@@ -60,7 +60,7 @@ const GnbMenu = () => {
       setStrategy(true);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/community') {
+    } else if (pathName === '/community' || pathName === '/community/write' || pathName === '/community/board/[bId]') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);
@@ -123,7 +123,7 @@ const GnbMenu = () => {
           </Link>
         </div>
         <div className="gnb_menu">
-          <Link href="/community">
+          <Link href="/community?category=discussion">
             <a className={community ? 'on' : ''}>
               <div className="headerIcon" />
               <span>커뮤니티</span>

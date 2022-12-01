@@ -97,7 +97,7 @@ const AuthHead = styled.div`
     }
   }
   //react
-  @media (max-width: 768px) {
+  ${media.tablet} {
     padding: 1rem;
     .logo {
       width: 100px;

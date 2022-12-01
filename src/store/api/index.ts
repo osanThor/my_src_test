@@ -18,7 +18,23 @@ export {
   apiCheckNickname,
   apiRegister,
   apiGoogleRegister,
-  apiGetUserProfile,
   apiChangeTheme,
   apiTelegramUsername,
+  apiGetUserProfile,
+  apiUpdateUserProfile,
+  apiChangePw,
+  apiDeleteUser,
+  apiCreateUserInquiries,
 } from './user';
+
+export { apiUploadFile } from './file';
+
+export {
+  apiGetBoards,
+  apiGetUserBoards,
+  apiGetUserComments,
+  apiGetUserLikes,
+  apiGetUserCollection,
+  apiGetUserInquiries,
+  apiCreateBoard,
+} from './boards';

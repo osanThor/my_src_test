@@ -32,7 +32,27 @@ export type {
   LoadUserResponse,
   ThemePayload,
   TelegramPayload,
+  ChangePwFormPayload,
+  ChangePwPayload,
+  EditMyProfilePayload,
   UserProfilePayload,
+  UpdateUserProfilePayload,
+  CreateUserInquiruesPayload,
+  DeleteUserPayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
 export type { LoadExchangeBody } from './exchange';
+export type {
+  LoadBoardsBody,
+  getBoardsPayload,
+  getBoardsResult,
+  LoadBoardsPayload,
+  LoadBoardsResponse,
+  changePage,
+  GetUserInquiriesPayload,
+  getUserInquiriesResult,
+  GetUserBoardsPayload,
+  getBoardPayload,
+  getBoardResult,
+  getUserBoardsResult,
+} from './boards';

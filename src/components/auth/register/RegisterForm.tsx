@@ -208,7 +208,7 @@ const RegisterForm = ({
                 type="password"
                 placeholder="비밀번호를 설정해요"
                 value={pw}
-                icon={Lock}
+                icon={Lock[1]}
                 onChange={onChange}
                 onBlur={handlePwBlur}
               />
@@ -217,7 +217,7 @@ const RegisterForm = ({
                 type="password"
                 placeholder="비밀번호를 한번 더 설정해요"
                 value={pwConfirm}
-                icon={Lock}
+                icon={Lock[1]}
                 onChange={onChange}
               />
               {pwError && (
@@ -484,7 +484,7 @@ const StyledInputBlock = styled.div`
     align-items: center;
     cursor: text;
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     margin-bottom: 1rem;
     .inputIcon {
       right: 1rem;
@@ -512,7 +512,7 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${colors.blue[1]};
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     height: 56px;
     font-size: 14px;
     padding: 0 1rem;

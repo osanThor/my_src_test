@@ -2,19 +2,27 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  ChangePwFormPayload,
+  ChangePwPayload,
   CheckNicknamePayload,
+  CreateUserInquiruesPayload,
+  DeleteUserPayload,
+  EditMyProfilePayload,
   LoadUserResponse,
   RegisterBody,
   RegisterPayload,
   ResponseFailure,
   TelegramPayload,
   ThemePayload,
+  UpdateUserProfilePayload,
   UserProfilePayload,
 } from '../types';
 
 export type UserStateType = {
   email: string | null;
   pw: string | null;
+  oldPw: string | null;
+  newPw: string | null;
   pwConfirm: string | null;
   nickname: string | null;
   checkNicknameResult: boolean | null;
@@ -24,12 +32,17 @@ export type UserStateType = {
   isDark: boolean;
   nicknamePrev: string | null;
   licenses: Array<string> | [];
-  styles: Array<string> | [];
+  styles: Array<{ name: string }> | [];
+  stylesSt: Array<string> | [];
   introduction: string | null;
   _count: {
     boards: number | null;
     comments: number | null;
   };
+
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
   loadUserLoading: boolean;
   loadUserDone: boolean | string | null;
   loadUserError: null | string;
@@ -40,6 +53,8 @@ export type UserStateType = {
 const initialState: UserStateType = {
   email: '',
   pw: '',
+  oldPw: '',
+  newPw: '',
   pwConfirm: '',
   nickname: '',
   checkNicknameResult: null,
@@ -50,11 +65,15 @@ const initialState: UserStateType = {
   nicknamePrev: '',
   licenses: [],
   styles: [],
+  stylesSt: [],
   introduction: '',
   _count: {
     boards: 0,
     comments: 0,
   },
+  title: '',
+  content: '',
+  fileUrls: [],
   loadUserLoading: false,
   loadUserDone: '',
   loadUserError: '',
@@ -83,6 +102,14 @@ const userSlice = createSlice({
     changeTelegramField(state, action: PayloadAction<TelegramPayload>) {
       state.username = action.payload.username;
     },
+    changeMyProfileField(state, action: PayloadAction<EditMyProfilePayload>) {
+      state.pw = action.payload.pw;
+      state.pwConfirm = action.payload.pwConfirm;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.introduction = action.payload.introduction;
+      state.styles = action.payload.styles;
+    },
     checkNickName(state, action: PayloadAction<CheckNicknamePayload>) {
       state.loadUserLoading = true;
       state.nickname = action.payload.nickname;
@@ -104,6 +131,15 @@ const userSlice = createSlice({
       state.pw = action.payload.pw;
       state.nickname = action.payload.nickname;
       state.photoUrl = action.payload.photoUrl;
+    },
+    ChangePwForm(state, action: PayloadAction<ChangePwFormPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
+      state.pwConfirm = action.payload.pwConfirm;
+    },
+    ChangePw(state, action: PayloadAction<ChangePwPayload>) {
+      state.oldPw = action.payload.oldPw;
+      state.newPw = action.payload.newPw;
     },
     getUserProfile(state) {
       state.loadUserLoading = true;
@@ -129,6 +165,34 @@ const userSlice = createSlice({
       state.styles = action.payload.styles;
       state.introduction = action.payload.introduction;
       state._count = action.payload._count;
+    },
+    updateUserProfile(state, action: PayloadAction<UpdateUserProfilePayload>) {
+      state.loadUserLoading = true;
+      state.photoUrl = action.payload.photoUrl;
+      state.nickname = action.payload.nickname;
+      state.stylesSt = action.payload.styles;
+      state.introduction = action.payload.introduction;
+    },
+    deleteUser(state, action: PayloadAction<DeleteUserPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+    },
+    initialInquiryFeild(state) {
+      state.title = '';
+      state.content = '';
+      state.fileUrls = [];
+      state.loadUserDone = null;
+    },
+    changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.loadUserLoading = true;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
     },
     initializeUserForm(state) {
       Object.assign(state, initialState);

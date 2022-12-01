@@ -1,5 +1,6 @@
 import { Google } from '@/src/assets/Images';
 import { authActions } from '@/src/store/reducers';
+import { media } from '@/styles/theme';
 import { useSession, signIn } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react';
@@ -45,7 +46,7 @@ const GoogleLoginBtnBlock = styled(Button)`
     transform: translateY(-50%);
     display: flex;
   }
-  @media (max-width: 768px) {
+  ${media.tablet} {
     height: 56px;
     margin-bottom: 20px;
   }
