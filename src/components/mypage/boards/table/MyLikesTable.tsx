@@ -15,7 +15,6 @@ const MyLikesTable = () => {
   }));
 
   const { total } = loadGetBoardsDone;
-  console.log(total);
   return (
     <>
       {total != 0 ? (

@@ -17,9 +17,7 @@ const MypageIndex: NextPage = () => {
     editMyProfile: local.editMyProfile,
     myBoards: local.myBoards,
   }));
-  const { _count } = useSelector(({ user }: RootState) => ({
-    _count: user._count,
-  }));
+
   const { category, page } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
@@ -28,11 +26,8 @@ const MypageIndex: NextPage = () => {
   useEffect(() => {
     dispatch(userActions.getUserProfile());
     dispatch(localActions.initializeAuthForm());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-  }, [router]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (router.query.state === 'edit') {
@@ -43,29 +38,35 @@ const MypageIndex: NextPage = () => {
   }, [router]);
 
   useEffect(() => {
-    if (myBoards) {
-      if (!router.query.board) {
-        dispatch(localActions.gotoMyWritenBoards());
-        dispatch(boardsActions.getUserBoards({ category, page }));
-      }
-      if (router.query.board === 'comments') {
-        dispatch(localActions.gotoMyComments());
-        dispatch(boardsActions.getUserBoards({ category, page }));
-      }
-      if (router.query.board === 'likes') {
-        dispatch(localActions.gotoMyLikes());
-        dispatch(boardsActions.getUserLikes({ category, page }));
-      }
-      if (router.query.board === 'collections') {
-        dispatch(localActions.gotoMyCollections());
-        dispatch(boardsActions.getUserCollections({ category, page }));
-      }
-      if (router.query.board === 'inquiries') {
-        dispatch(localActions.gotoMyInquiries());
-        dispatch(boardsActions.getUserInquiries({ page }));
-      }
+    dispatch(boardsActions.initializeBoardsForm());
+    console.log(page);
+    if (!router.query.board) {
+      dispatch(localActions.gotoMyWritenBoards());
+      dispatch(boardsActions.getUserBoards({ category, page }));
     }
-  }, [router, category, page, myBoards, _count]);
+    if (router.query.board === 'comments') {
+      dispatch(localActions.gotoMyComments());
+      dispatch(boardsActions.getUserBoards({ category, page }));
+    }
+    if (router.query.board === 'likes') {
+      dispatch(localActions.gotoMyLikes());
+      dispatch(boardsActions.getUserLikes({ category, page }));
+    }
+    if (router.query.board === 'collections') {
+      dispatch(localActions.gotoMyCollections());
+      dispatch(boardsActions.getUserCollections({ category, page }));
+    }
+    if (router.query.board === 'inquiries') {
+      dispatch(localActions.gotoMyInquiries());
+      dispatch(boardsActions.getUserInquiries({ page }));
+    }
+
+    if (router.query.page) {
+      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
+    } else {
+      dispatch(boardsActions.changePage({ page: 1 }));
+    }
+  }, [router, category, page, myBoards]);
 
   return (
     <UserLayout>

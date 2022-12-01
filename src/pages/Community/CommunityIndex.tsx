@@ -36,6 +36,15 @@ const CommunityIndex: NextPage = () => {
     title: boards.title,
     comment: boards.comment,
   }));
+
+  const [isUser, setUser] = useState(false);
+
+  useEffect(() => {
+    if (loadAuthDone.accessToken) {
+      setUser(true);
+    }
+  }, [loadAuthDone]);
+
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
     if (router.query.category === 'discussion') {
@@ -56,15 +65,12 @@ const CommunityIndex: NextPage = () => {
     if (router.query.comment) {
       dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
     }
-  }, [router]);
-
-  const [isUser, setUser] = useState(false);
-
-  useEffect(() => {
-    if (loadAuthDone.accessToken) {
-      setUser(true);
+    if (router.query.page) {
+      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
+    } else {
+      dispatch(boardsActions.changePage({ page: 1 }));
     }
-  }, [loadAuthDone]);
+  }, [router]);
 
   useEffect(() => {
     if (communityDiscussion) {
@@ -89,6 +95,7 @@ const CommunityIndex: NextPage = () => {
       }
     }
   }, [category, page, user, title, comment, communityDiscussion, communityNotice, isUser]);
+
   return (
     <UserLayout>
       <CommunityLayout>
