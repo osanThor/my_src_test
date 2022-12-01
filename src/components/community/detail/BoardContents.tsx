@@ -94,6 +94,7 @@ const BoardContentsBlock = styled.div`
             display: flex;
             align-items: center;
             font-size: 12px;
+            color: ${colors.gray[5]};
           }
           &:hover {
             background-color: ${colors.gray[2]};
