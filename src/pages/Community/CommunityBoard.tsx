@@ -1,3 +1,4 @@
+import BoardContents from '@/src/components/community/detail/BoardContents';
 import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayout';
 import BoardTop from '@/src/components/community/detail/BoardTop';
 import UserLayout from '@/src/components/layout/UserLayout';
@@ -59,6 +60,7 @@ const CommunityBoard = () => {
     <UserLayout>
       <BoardDetailLayout>
         <BoardTop />
+        <BoardContents />
       </BoardDetailLayout>
     </UserLayout>
   );
