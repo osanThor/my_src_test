@@ -1,15 +1,24 @@
 import colors from '@/src/assets/Colors';
 import { GuidGoIcon, Like, ResetIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
+import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const BoardContents = ({ identity }: { identity: boolean }) => {
+const BoardContents = ({
+  identity,
+  handleOpenDeleteBoard,
+}: {
+  identity: boolean;
+  handleOpenDeleteBoard: () => void;
+}) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const ViewContentsRef = useRef<HTMLDivElement>(null);
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
@@ -42,10 +51,17 @@ const BoardContents = ({ identity }: { identity: boolean }) => {
                 <div className="button" onClick={() => router.push('/community/modify')}>
                   수정하기
                 </div>
-                <div className="button">삭제하기</div>
+                <div className="button" onClick={handleOpenDeleteBoard}>
+                  삭제하기
+                </div>
               </>
             )}
-            <div className="button">
+            <div
+              className="button"
+              onClick={() => {
+                dispatch(boardsActions.getBoard({ boardId: id }));
+              }}
+            >
               <Image src={ResetIcon[1]} alt="reset" />
             </div>
           </div>

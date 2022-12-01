@@ -237,6 +237,11 @@ const boardsSlice = createSlice({
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
     },
+    deleteBoard(state, action: PayloadAction<getBoardPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    //user mypage inquiry
     changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.title = action.payload.title;
       state.content = action.payload.content;
