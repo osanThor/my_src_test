@@ -5,7 +5,7 @@ import InquiriesLayout from '@/src/components/mypage/inquiries/InquiriesLayout';
 import InquiriesWriteCon from '@/src/components/mypage/inquiries/write/InquiriesWriteCon';
 import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
-import { userActions } from '@/src/store/reducers';
+import { boardsActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -15,24 +15,24 @@ import { useDispatch } from 'react-redux';
 const InquiriesWrite: NextPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { title, content, fileUrls, loadUserDone, loadUserError } = useSelector(({ user }: RootState) => ({
-    title: user.title,
-    content: user.content,
-    fileUrls: user.fileUrls,
-    loadUserDone: user.loadUserDone,
-    loadUserError: user.loadUserError,
+  const { title, content, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(({ boards }: RootState) => ({
+    title: boards.title,
+    content: boards.content,
+    fileUrls: boards.fileUrls,
+    loadBoardsDone: boards.loadBoardsDone,
+    loadBoardsError: boards.loadBoardsError,
   }));
 
   useEffect(() => {
-    dispatch(userActions.initialInquiryFeild());
+    dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
 
   const hadnleChangeInquiriesField = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     if (name === 'title') {
-      dispatch(userActions.changeInquiries({ title: value, content, fileUrls }));
+      dispatch(boardsActions.changeInquiries({ title: value, content, fileUrls }));
     } else if (name === 'content') {
-      dispatch(userActions.changeInquiries({ title, content: value, fileUrls }));
+      dispatch(boardsActions.changeInquiries({ title, content: value, fileUrls }));
     }
   };
 
@@ -116,20 +116,23 @@ const InquiriesWrite: NextPage = () => {
       setModalerr(true);
       return;
     }
-    dispatch(dispatch(userActions.createInquiries({ title, content, fileUrls: fileUrlsSt })));
+    console.log('호출!!!!!!!');
+    dispatch(boardsActions.createInquiries({ title, content, fileUrls: fileUrlsSt }));
   };
 
   useEffect(() => {
-    if (loadUserError) {
+    if (loadBoardsError) {
       setModalOpen(true);
-      setModalMessage(loadUserError);
+      setModalMessage(loadBoardsError);
       setModalerr(true);
       return;
     }
-    if (loadUserDone === 'CREATED') {
-      setfModalOpen(true);
+    if (loadBoardsDone) {
+      if (loadBoardsDone.message === 'CREATED') {
+        setfModalOpen(true);
+      }
     }
-  }, [loadUserError, loadUserDone]);
+  }, [loadBoardsError, loadBoardsDone]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');

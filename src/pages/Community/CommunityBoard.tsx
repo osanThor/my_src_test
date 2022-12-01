@@ -1,3 +1,4 @@
+import CommentsLayout from '@/src/components/common/boards/Comments/CommentsLayout';
 import BoardContents from '@/src/components/community/detail/BoardContents';
 import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayout';
 import BoardTop from '@/src/components/community/detail/BoardTop';
@@ -16,6 +17,10 @@ const CommunityBoard = () => {
 
   const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
+  }));
+
+  const { nickname } = useSelector(({ user }: RootState) => ({
+    nickname: user.nickname,
   }));
   const { boardId, getBoardDone } = useSelector(({ boards }: RootState) => ({
     boardId: boards.boardId,
@@ -56,11 +61,20 @@ const CommunityBoard = () => {
     }
   }, [once]);
 
+  const { user } = getBoardDone;
+  const [identity, setIdentity] = useState(false);
+  useEffect(() => {
+    if (nickname === user.nickname) {
+      setIdentity(true);
+    }
+  }, [nickname, user]);
+
   return (
     <UserLayout>
       <BoardDetailLayout>
         <BoardTop />
-        <BoardContents />
+        <BoardContents identity={identity} />
+        <CommentsLayout />
       </BoardDetailLayout>
     </UserLayout>
   );

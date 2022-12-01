@@ -79,12 +79,6 @@ export type DeleteUserPayload = {
   pw: string | null;
 };
 
-export type CreateUserInquiruesPayload = {
-  title: string | null;
-  content: string | null;
-  fileUrls: Array<string> | [];
-};
-
 export type LoadUserResponse = {
   message: string | boolean | null;
 };

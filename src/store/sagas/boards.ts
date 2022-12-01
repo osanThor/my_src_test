@@ -6,9 +6,11 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 // types
 import {
+  CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
   getBoardsResult,
+  getNoticePayload,
   GetUserBoardsPayload,
   GetUserInquiriesPayload,
   LoadBoardsPayload,
@@ -18,14 +20,16 @@ import {
 // api
 import type { AxiosResponse } from 'axios';
 import {
+  apiGetBoard,
+  apiGetNoice,
   apiCreateBoard,
   apiGetBoards,
   apiGetUserBoards,
   apiGetUserCollection,
   apiGetUserInquiries,
   apiGetUserLikes,
+  apiCreateUserInquiries,
 } from '../api';
-import { apiGetBoard } from '../api/boards';
 
 // get boards
 function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
@@ -37,6 +41,25 @@ function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
     yield put(boardsActions.getBoardsResult(data));
   } catch (error: any) {
     console.error('boardsSaga getBoardsSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+
+// get notice
+function* getNoticesSaga(action: PayloadAction<getNoticePayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetNoice, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.getNoticesResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga getNoticesSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -133,6 +156,23 @@ function* createBoardsSaga(action: PayloadAction<LoadBoardsPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// create user inpuiry
+function* createInquiry(action: PayloadAction<CreateUserInquiruesPayload>) {
+  try {
+    yield put(boardsActions.loadBoardsRequest());
+    const { data } = yield call(apiCreateUserInquiries, action.payload);
+    console.log(data);
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('userSaga createInquiry >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 // get board
 function* getBoardSaga(action: PayloadAction<getBoardPayload>) {
   yield put(boardsActions.loadBoardsRequest());
@@ -159,7 +199,9 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.getUserCollections, getUserCollectionsSaga);
   yield takeLatest(boardsActions.getUserInquiries, getUserInquiriesSaga);
   yield takeLatest(boardsActions.getBoards, getBoardsSaga);
+  yield takeLatest(boardsActions.getNotices, getNoticesSaga);
   yield takeLatest(boardsActions.getBoard, getBoardSaga);
+  yield takeLatest(boardsActions.createInquiries, createInquiry);
 }
 
 export default function* boardsSaga() {
