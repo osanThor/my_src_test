@@ -1,20 +1,28 @@
 import { axiosInstance } from '.';
 import {
+  CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
+  getNoticePayload,
   GetUserBoardsPayload,
   GetUserInquiriesPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  updateBoardPayload,
 } from '../types';
 
 // get board
 export const apiGetBoards = ({ category, page, title, user, comment }: getBoardsPayload) =>
-  axiosInstance.get<LoadBoardsResponse>(
+  axiosInstance.get(
     `/boards?category=${category}&page=${page}${title && `&title=${title}`}${user && `&user=${user}`}${
       comment && `&comment=${comment}`
     }`,
   );
+
+// get boards Notice
+export const apiGetNoice = ({ category }: getNoticePayload) =>
+  axiosInstance.get(`/boards/notices?category=${category}`);
+
 // get user boards
 export const apiGetUserBoards = ({ category, page }: GetUserBoardsPayload) =>
   axiosInstance.get(`/users/boards${category || page ? `?category=${category}&page=${page}` : ''}`);
@@ -34,6 +42,15 @@ export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });
+// create user Inquiries
+export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>
+  axiosInstance.post<LoadBoardsResponse>(`/users/inquiries`, { title, content, fileUrls });
 
 // get read board
 export const apiGetBoard = ({ boardId }: getBoardPayload) => axiosInstance.get(`/boards/${boardId}`);
+
+// update board
+export const apiUpdateBoard = ({ boardId, category, title, content, fileUrls }: updateBoardPayload) =>
+  axiosInstance.put(`/boards/${boardId}`, { category, title, content, fileUrls });
+// update board
+export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.delete(`/boards/${boardId}`);

@@ -21,9 +21,9 @@ const InquiriesWriteCon = ({
   file3name: string | null;
   handleSubmitInquiry: () => void;
 }) => {
-  const { title, content } = useSelector(({ user }: RootState) => ({
-    title: user.title,
-    content: user.content,
+  const { title, content } = useSelector(({ boards }: RootState) => ({
+    title: boards.title,
+    content: boards.content,
   }));
   const [textCount, setTextCount] = useState(0);
   const handleChangeContentsLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

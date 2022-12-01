@@ -2,14 +2,23 @@ export type LoadBoardsBody = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<[string]> | [];
+  fileUrls: Array<string> | [];
 };
+export type CreateUserInquiruesPayload = {
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+
 export type getBoardsPayload = {
   category: string | null;
   page: number | null;
   title: string | null;
   user: string | null;
   comment: string | null;
+};
+export type getNoticePayload = {
+  category: string | null;
 };
 export type GetUserBoardsPayload = {
   category: string | null;
@@ -33,6 +42,23 @@ export type getBoardsResult = {
     };
   }>;
 };
+export type getNoticeResult =
+  | Array<{
+      targetCategory: string | null;
+      board: {
+        id: number;
+        title: string;
+        hits: number;
+        createdAt: string;
+        user: {
+          nickname: string;
+        } | null;
+        _count: {
+          comments: number;
+        };
+      };
+    }>
+  | [];
 export type getUserBoardsResult = {
   total: number | null;
   boards: Array<{
@@ -75,14 +101,30 @@ export type getBoardResult = {
     likes: number | null;
   };
 };
+export type updateBoardPayload = {
+  boardId: number | null;
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
 export type changePage = {
   page: number;
+};
+export type changeTitle = {
+  title: string | null;
+};
+export type changeUser = {
+  user: string | null;
+};
+export type changeComment = {
+  comment: string | null;
 };
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<[string]> | [];
+  fileUrls: Array<string> | [];
 };
 
 export type LoadBoardsResponse = {

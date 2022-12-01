@@ -61,7 +61,9 @@ const EditMyProfile = () => {
 
   useEffect(() => {
     setProfileImg(photoUrl);
-    setNicknameSt(nickname);
+    if (nickname) {
+      setNicknameSt(nickname);
+    }
     setIntroSt(introduction);
     styles.map((obj) => {
       setStylesSt((style) => {
@@ -112,26 +114,37 @@ const EditMyProfile = () => {
       setModalErr(true);
       return;
     } else if (!nicknamePrev) {
-      return axiosInstance
-        .get(`/users/nickname/exist?nickname=${nicknameSt}`)
-        .then((res) => {
-          if (res.data) {
-            setModalOpen(true);
-            setModalMessage('이미 사용되고 있는 닉네임이에요');
-            setModalErr(true);
-            return;
-          } else {
-            dispatch(
-              userActions.updateUserProfile({
-                photoUrl: profileImg,
-                nickname: nicknameSt,
-                styles: stylesSt,
-                introduction: introSt,
-              }),
-            );
-          }
-        })
-        .catch((err) => alert(err));
+      if (nickname === nicknameSt) {
+        dispatch(
+          userActions.updateUserProfile({
+            photoUrl: profileImg,
+            nickname: '',
+            styles: stylesSt,
+            introduction: introSt,
+          }),
+        );
+      } else {
+        return axiosInstance
+          .get(`/users/nickname/exist?nickname=${nicknameSt}`)
+          .then((res) => {
+            if (res.data) {
+              setModalOpen(true);
+              setModalMessage('이미 사용되고 있는 닉네임이에요');
+              setModalErr(true);
+              return;
+            } else {
+              dispatch(
+                userActions.updateUserProfile({
+                  photoUrl: profileImg,
+                  nickname: nicknameSt,
+                  styles: stylesSt,
+                  introduction: introSt,
+                }),
+              );
+            }
+          })
+          .catch((err) => alert(err));
+      }
     } else {
       dispatch(
         userActions.updateUserProfile({
@@ -254,6 +267,7 @@ const EditMyProfile = () => {
         setModalOpen(true);
         setModalMessage('프로필이 변경되었어요.');
         setModalErr(false);
+        dispatch(userActions.getUserProfile());
       }
     } else if (loadUserDone === 'DELETED') {
       setDeleteUserDone(true);

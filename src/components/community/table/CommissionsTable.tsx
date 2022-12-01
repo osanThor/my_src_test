@@ -1,14 +1,16 @@
 import colors from '@/src/assets/Colors';
+import { Lock } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
-const BoardsTable = () => {
+const CommissionsTable = () => {
   const router = useRouter();
 
   const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
@@ -21,7 +23,7 @@ const BoardsTable = () => {
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td">번호</div>
+            <div className="td"></div>
             <div className="td title">제목</div>
             <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
@@ -52,7 +54,11 @@ const BoardsTable = () => {
           ))}
           {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">{board.id}</div>
+              <div className="td">
+                <div className="icon">
+                  <Image src={Lock[0]} alt="lock" />
+                </div>
+              </div>
               <div className="td title dark_gray pointer" onClick={() => router.push(`/community/board/${board.id}`)}>
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
@@ -234,4 +240,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default BoardsTable;
+export default CommissionsTable;

@@ -4,7 +4,13 @@ import { media } from '@/styles/theme';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const CustomSelect = ({ place }: { place: string }) => {
+const CustomSelect = ({
+  place,
+  setSearchName,
+}: {
+  place: string;
+  setSearchName: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
@@ -18,6 +24,7 @@ const CustomSelect = ({ place }: { place: string }) => {
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
     setCurrentValue(innerText);
+    setSearchName(e.target.children[0].value);
   };
   const handleClickOutSide = (e: any) => {
     if (showOptions && !selectRef.current.contains(e.target)) {
@@ -47,6 +54,7 @@ const CustomSelect = ({ place }: { place: string }) => {
       <SelectOptions show={showOptions}>
         {options.map((opt) => (
           <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+            <input type="hidden" value={opt.value} />
             {opt.txt}
           </Option>
         ))}

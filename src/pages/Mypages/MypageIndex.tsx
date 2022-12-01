@@ -45,10 +45,8 @@ const MypageIndex: NextPage = () => {
   useEffect(() => {
     if (myBoards) {
       if (!router.query.board) {
-        if (_count.boards) {
-          dispatch(localActions.gotoMyWritenBoards());
-          dispatch(boardsActions.getUserBoards({ category, page }));
-        }
+        dispatch(localActions.gotoMyWritenBoards());
+        dispatch(boardsActions.getUserBoards({ category, page }));
       }
       if (router.query.board === 'comments') {
         dispatch(localActions.gotoMyComments());

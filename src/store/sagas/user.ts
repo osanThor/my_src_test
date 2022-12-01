@@ -12,8 +12,6 @@ import type {
   ChangePwPayload,
   UpdateUserProfilePayload,
   DeleteUserPayload,
-  getBoardsPayload,
-  CreateUserInquiruesPayload,
 } from '../types';
 
 // api
@@ -27,8 +25,6 @@ import {
   apiChangePw,
   apiUpdateUserProfile,
   apiDeleteUser,
-  apiGetUserBoards,
-  apiCreateUserInquiries,
 } from '../api';
 
 // 테마변경
@@ -207,23 +203,6 @@ function* deleteUserSaga(action: PayloadAction<DeleteUserPayload>) {
     yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
   }
 }
-// delete user
-function* createInquiry(action: PayloadAction<CreateUserInquiruesPayload>) {
-  try {
-    yield put(userActions.loadUserRequest());
-    const { data } = yield call(apiCreateUserInquiries, action.payload);
-    console.log(data);
-    yield put(userActions.loadUserSuccess(data));
-  } catch (error: any) {
-    console.error('userSaga createInquiry >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(userActions.loadUserFailure({ status: { ok: false }, message }));
-  }
-}
 
 function* watchLoadUser() {
   yield takeLatest(userActions.changeTheme, changeThemeSaga);
@@ -235,7 +214,6 @@ function* watchLoadUser() {
   yield takeLatest(userActions.updateUserProfile, updateUserProfileSaga);
   yield takeLatest(userActions.ChangePw, changeUserPwSaga);
   yield takeLatest(userActions.deleteUser, deleteUserSaga);
-  yield takeLatest(userActions.createInquiries, createInquiry);
 }
 
 export default function* userSaga() {
