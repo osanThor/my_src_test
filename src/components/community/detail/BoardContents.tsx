@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const BoardContents = () => {
+const BoardContents = ({ identity }: { identity: boolean }) => {
   const ViewContentsRef = useRef<HTMLDivElement>(null);
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
@@ -35,8 +35,12 @@ const BoardContents = () => {
             </div>
           </div>
           <div className="right">
-            <div className="button">수정하기</div>
-            <div className="button">삭제하기</div>
+            {identity && (
+              <>
+                <div className="button">수정하기</div>
+                <div className="button">삭제하기</div>
+              </>
+            )}
             <div className="button">
               <Image src={ResetIcon[1]} alt="reset" />
             </div>
@@ -69,7 +73,7 @@ const BoardContentsBlock = styled.div`
       display: flex;
       justify-content: space-between;
       padding-bottom: 12px;
-      border-bottom: 1px solid ${colors.gray[3]};
+      border-bottom: 1px solid ${colors.gray[2]};
       .left {
         .button {
           cursor: pointer;

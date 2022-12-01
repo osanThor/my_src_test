@@ -45,23 +45,26 @@ const MyInquiriesTable = () => {
               ))}
             </div>
           </BoardsTableBlock>
-          <MyBoardBottom page={page} total={total} />
+          <MyBoardBottom isBoard={true} page={page} total={total} />
         </>
       ) : (
-        <NoBoards />
+        <>
+          <NoBoards />
+          <MyBoardBottom isBoard={false} page={page} total={total} />
+        </>
       )}
     </>
   );
 };
 // Inquiries
 
-const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
+const MyBoardBottom = ({ page, total, isBoard }: { page: number; total: number; isBoard: boolean }) => {
   const router = useRouter();
 
   return (
     <MyBoardBottomBlock>
       <label></label>
-      <Pagination total={total} page={page} />
+      {isBoard && <Pagination total={total} page={page} />}
       <Button onClick={() => router.push('/mypage/inquiries/write')}>문의하기</Button>
     </MyBoardBottomBlock>
   );
