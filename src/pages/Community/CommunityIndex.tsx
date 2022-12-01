@@ -1,4 +1,5 @@
 import CommunityLayout from '@/src/components/community/CommunityLayout';
+import RankLayout from '@/src/components/community/rank/RankLayout';
 import BoardsTable from '@/src/components/community/table/BoardsTable';
 import CommissionsTable from '@/src/components/community/table/CommissionsTable';
 import NoticeTable from '@/src/components/community/table/NoticeTable';
@@ -68,10 +69,10 @@ const CommunityIndex: NextPage = () => {
         dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
       }
     } else if (communityRank) {
-      // if (isUser) {
-      //   dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
-      // }
-      // dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
+      dispatch(boardsActions.getBoards({ category: 'COMMISSION', page, user, title, comment }));
+      if (isUser) {
+        dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
+      }
     } else if (communityNotice) {
       dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
       if (isUser) {
@@ -84,7 +85,7 @@ const CommunityIndex: NextPage = () => {
       <CommunityLayout>
         {communityDiscussion && <BoardsTable />}
         {communityCommission && <CommissionsTable />}
-        {communityRank && <BoardsTable />}
+        {communityRank && <RankLayout />}
         {communityNotice && <NoticeTable />}
       </CommunityLayout>
     </UserLayout>
