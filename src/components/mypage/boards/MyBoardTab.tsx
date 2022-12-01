@@ -24,38 +24,45 @@ const MyBoardTab = () => {
   const { boards, comments } = _count;
   return (
     <MyBoardTabBlock>
-      <div className={myWritenBoards ? 'button on' : 'button'} onClick={() => router.push('/mypage?state=boards')}>
-        작성글 <span>{boards}</span>
-      </div>
-      <div
-        className={myComments ? 'button on' : 'button'}
-        onClick={() => router.push('/mypage?state=boards&board=comments')}
-      >
-        작성댓글 <span>{comments}</span>
-      </div>
-      <div className={myLikes ? 'button on' : 'button'} onClick={() => router.push('/mypage?state=boards&board=likes')}>
-        좋아요한 글
-      </div>
-      <div
-        className={myCollections ? 'button on' : 'button'}
-        onClick={() => router.push('/mypage?state=boards&board=collections')}
-      >
-        컬렉션한 글
-      </div>
-      <div
-        className={myInquiries ? 'button on' : 'button'}
-        onClick={() => router.push('/mypage?state=boards&board=inquiries')}
-      >
-        1:1 문의
+      <div className="tabs">
+        <div className={myWritenBoards ? 'button on' : 'button'} onClick={() => router.push('/mypage?state=boards')}>
+          작성글 <span>{boards}</span>
+        </div>
+        <div
+          className={myComments ? 'button on' : 'button'}
+          onClick={() => router.push('/mypage?state=boards&board=comments')}
+        >
+          작성댓글 <span>{comments}</span>
+        </div>
+        <div
+          className={myLikes ? 'button on' : 'button'}
+          onClick={() => router.push('/mypage?state=boards&board=likes')}
+        >
+          좋아요한 글
+        </div>
+        <div
+          className={myCollections ? 'button on' : 'button'}
+          onClick={() => router.push('/mypage?state=boards&board=collections')}
+        >
+          컬렉션한 글
+        </div>
+        <div
+          className={myInquiries ? 'button on' : 'button'}
+          onClick={() => router.push('/mypage?state=boards&board=inquiries')}
+        >
+          1:1 문의
+        </div>
       </div>
     </MyBoardTabBlock>
   );
 };
 const MyBoardTabBlock = styled.div`
   width: 100%;
-  display: flex;
   margin-bottom: 12px;
-  overflow-x: auto;
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+  }
 
   .button {
     cursor: pointer;
