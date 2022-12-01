@@ -1,14 +1,13 @@
 import colors from '@/src/assets/Colors';
 import { Arrow } from '@/src/assets/Images';
-import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const Pagination = ({ total, page }: { total: number; page: number }) => {
-  const dispatch = useDispatch();
+  const router = useRouter();
   const limit = 5;
   const numPages = Math.ceil(total / 10);
 
@@ -52,7 +51,7 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
         <div
           className={page === 1 ? 'btn disabled' : 'btn'}
           onClick={() => {
-            dispatch(boardsActions.changePage({ page: 1 }));
+            router.replace({ query: { ...router.query, page: 1 } });
           }}
         >
           <Image src={Arrow[1]} alt="arrow" />
@@ -60,7 +59,7 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
         <div
           className={page === 1 ? 'btn disabled' : 'btn'}
           onClick={() => {
-            dispatch(boardsActions.changePage({ page: page - 1 }));
+            router.replace({ query: { ...router.query, page: page - 1 } });
           }}
         >
           <Image src={Arrow[0]} alt="arrow" />
@@ -71,7 +70,12 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
           <div
             key={i + 1}
             className={page === i + 1 ? 'num on' : 'num'}
-            onClick={() => dispatch(boardsActions.changePage({ page: i + 1 }))}
+            onClick={
+              () => {
+                router.replace({ query: { ...router.query, page: i + 1 } });
+              }
+              // dispatch(boardsActions.changePage({ page: i + 1 }))
+            }
           >
             {i + 1}
           </div>
@@ -81,7 +85,7 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
         <div
           className={page === numPages ? 'btn disabled' : 'btn'}
           onClick={() => {
-            dispatch(boardsActions.changePage({ page: page + 1 }));
+            router.replace({ query: { ...router.query, page: page + 1 } });
           }}
         >
           <Image src={Arrow[0]} alt="arrow" />
@@ -89,7 +93,7 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
         <div
           className={page === numPages ? 'btn disabled' : 'btn'}
           onClick={() => {
-            dispatch(boardsActions.changePage({ page: numPages }));
+            router.replace({ query: { ...router.query, page: numPages } });
           }}
         >
           <Image src={Arrow[1]} alt="arrow" />
