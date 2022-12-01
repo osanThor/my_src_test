@@ -267,6 +267,7 @@ const EditMyProfile = () => {
         setModalOpen(true);
         setModalMessage('프로필이 변경되었어요.');
         setModalErr(false);
+        dispatch(userActions.getUserProfile());
       }
     } else if (loadUserDone === 'DELETED') {
       setDeleteUserDone(true);

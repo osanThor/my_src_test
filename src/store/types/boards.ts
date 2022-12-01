@@ -4,6 +4,12 @@ export type LoadBoardsBody = {
   content: string | null;
   fileUrls: Array<string> | [];
 };
+export type CreateUserInquiruesPayload = {
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+
 export type getBoardsPayload = {
   category: string | null;
   page: number | null;
