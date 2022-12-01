@@ -3,7 +3,7 @@ import CommunityWriteLayout from '@/src/components/community/CommunityWriteLayou
 import CommunityEditor from '@/src/components/community/Editor/CommunityEditor';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions } from '@/src/store/reducers';
+import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -14,8 +14,9 @@ const CommunityModify: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { content, category, title, fileUrls, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(
+  const { boardId, content, category, title, fileUrls, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
+      boardId: boards.boardId,
       content: boards.content,
       category: boards.category,
       title: boards.title,
@@ -35,7 +36,10 @@ const CommunityModify: NextPage = () => {
         fileUrls,
       }),
     );
-  }, [getBoardDone]);
+    if (category === 'DISCUSSION') {
+      dispatch(localActions.gotoComDiscussion());
+    }
+  }, [getBoardDone, category]);
 
   // title event
   const handleChangeCreateBoardsField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,8 +86,10 @@ const CommunityModify: NextPage = () => {
       setModalErr(true);
       return;
     }
+    console.log('애 되냐');
     dispatch(
-      boardsActions.createBoards({
+      boardsActions.updateBoard({
+        boardId,
         content,
         category,
         title,
@@ -100,8 +106,8 @@ const CommunityModify: NextPage = () => {
       return;
     }
     if (loadBoardsDone) {
-      if (loadBoardsDone.message === 'CREATED') {
-        router.push('/community?category=discussion');
+      if (loadBoardsDone.message === 'UPDATED') {
+        router.push(`/community/board/${boardId}`);
       }
     }
   }, [loadBoardsDone, loadBoardsError]);

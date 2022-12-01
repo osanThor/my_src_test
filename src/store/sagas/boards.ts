@@ -15,6 +15,7 @@ import {
   GetUserInquiriesPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  updateBoardPayload,
 } from '../types';
 
 // api
@@ -29,6 +30,7 @@ import {
   apiGetUserInquiries,
   apiGetUserLikes,
   apiCreateUserInquiries,
+  apiUpdateBoard,
 } from '../api';
 
 // get boards
@@ -191,6 +193,24 @@ function* getBoardSaga(action: PayloadAction<getBoardPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// get board
+function* updateBoardSaga(action: PayloadAction<updateBoardPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiUpdateBoard, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga updateBoardSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -198,10 +218,11 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.getUserLikes, getUserLikesSaga);
   yield takeLatest(boardsActions.getUserCollections, getUserCollectionsSaga);
   yield takeLatest(boardsActions.getUserInquiries, getUserInquiriesSaga);
+  yield takeLatest(boardsActions.createInquiries, createInquiry);
   yield takeLatest(boardsActions.getBoards, getBoardsSaga);
   yield takeLatest(boardsActions.getNotices, getNoticesSaga);
   yield takeLatest(boardsActions.getBoard, getBoardSaga);
-  yield takeLatest(boardsActions.createInquiries, createInquiry);
+  yield takeLatest(boardsActions.updateBoard, updateBoardSaga);
 }
 
 export default function* boardsSaga() {
