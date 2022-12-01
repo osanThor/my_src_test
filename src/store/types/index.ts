@@ -46,6 +46,7 @@ export type {
   LoadBoardsBody,
   getBoardsPayload,
   getBoardsResult,
+  getNoticePayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
   changePage,

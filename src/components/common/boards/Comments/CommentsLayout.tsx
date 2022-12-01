@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { CameraDark, Close, CloseWhite, Profile1 } from '@/src/assets/Images';
+import { CameraDark, CloseWhite, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';

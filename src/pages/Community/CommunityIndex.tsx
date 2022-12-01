@@ -6,7 +6,7 @@ import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -19,6 +19,9 @@ const CommunityIndex: NextPage = () => {
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
+  }));
+  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthDone: auth.loadAuthDone,
   }));
   const { category, page, user, title, comment } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
@@ -36,10 +39,24 @@ const CommunityIndex: NextPage = () => {
     }
   }, [router]);
 
+  const [isUser, setUser] = useState(false);
+
+  useEffect(() => {
+    if (loadAuthDone.accessToken) {
+      setUser(true);
+    }
+  }, [loadAuthDone]);
+
   useEffect(() => {
     if (communityDiscussion) {
+      if (isUser) {
+        dispatch(boardsActions.getNotices({ category: 'DISCUSSION' }));
+      }
       dispatch(boardsActions.getBoards({ category: 'DISCUSSION', page, user, title, comment }));
     } else if (communityNotice) {
+      if (isUser) {
+        dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
+      }
       dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
     }
   }, [category, page, user, title, comment, communityDiscussion, communityNotice]);

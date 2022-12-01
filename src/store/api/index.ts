@@ -31,6 +31,8 @@ export { apiUploadFile } from './file';
 
 export {
   apiGetBoards,
+  apiGetNoice,
+  apiGetBoard,
   apiGetUserBoards,
   apiGetUserComments,
   apiGetUserLikes,

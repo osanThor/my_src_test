@@ -7,6 +7,7 @@ import {
   getBoardResult,
   getBoardsPayload,
   getBoardsResult,
+  getNoticePayload,
   GetUserBoardsPayload,
   getUserBoardsResult,
   GetUserInquiriesPayload,
@@ -69,6 +70,23 @@ export type BoardsStateType = {
   loadBoardsDone: {
     message: string | undefined;
   } | null;
+  getNoticesDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
   boardId: number | null;
   getBoardDone: {
     id: number;
@@ -102,6 +120,7 @@ const initialState: BoardsStateType = {
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
+  getNoticesDone: { total: 0, boards: [] },
   loadBoardsDone: {
     message: '',
   },
@@ -142,6 +161,7 @@ const boardsSlice = createSlice({
       state.fileUrls = action.payload.fileUrls;
     },
     //action
+    //boards
     getBoards(state, action: PayloadAction<getBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
@@ -153,6 +173,16 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.loadGetBoardsDone = action.payload;
     },
+    //notice
+    getNotices(state, action: PayloadAction<getNoticePayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+    },
+    getNoticesResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.getNoticesDone = action.payload;
+    },
+    //mypage boards
     getUserBoards(state, action: PayloadAction<GetUserBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
@@ -180,6 +210,7 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.getUserInquiriesDone = action.payload;
     },
+    //boards
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
@@ -190,6 +221,7 @@ const boardsSlice = createSlice({
     changePage(state, action: PayloadAction<changePage>) {
       state.page = action.payload.page;
     },
+    //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
@@ -198,6 +230,7 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.getBoardDone = action.payload;
     },
+    //api res req
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;
       state.loadBoardsDone = { message: '' };

@@ -2,6 +2,7 @@ import { axiosInstance } from '.';
 import {
   getBoardPayload,
   getBoardsPayload,
+  getNoticePayload,
   GetUserBoardsPayload,
   GetUserInquiriesPayload,
   LoadBoardsPayload,
@@ -10,11 +11,16 @@ import {
 
 // get board
 export const apiGetBoards = ({ category, page, title, user, comment }: getBoardsPayload) =>
-  axiosInstance.get<LoadBoardsResponse>(
+  axiosInstance.get(
     `/boards?category=${category}&page=${page}${title && `&title=${title}`}${user && `&user=${user}`}${
       comment && `&comment=${comment}`
     }`,
   );
+
+// get boards Notice
+export const apiGetNoice = ({ category }: getNoticePayload) =>
+  axiosInstance.get(`/boards/notices?category=${category}`);
+
 // get user boards
 export const apiGetUserBoards = ({ category, page }: GetUserBoardsPayload) =>
   axiosInstance.get(`/users/boards${category || page ? `?category=${category}&page=${page}` : ''}`);

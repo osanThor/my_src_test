@@ -11,6 +11,9 @@ export type getBoardsPayload = {
   user: string | null;
   comment: string | null;
 };
+export type getNoticePayload = {
+  category: string | null;
+};
 export type GetUserBoardsPayload = {
   category: string | null;
   page: number | null;
