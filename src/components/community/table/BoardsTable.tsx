@@ -10,22 +10,11 @@ import { useRouter } from 'next/router';
 
 const BoardsTable = () => {
   const router = useRouter();
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
-  }));
-  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
-  }));
 
-  const [isNotice, setIsNotice] = useState(false);
-  useEffect(() => {
-    if (communityNotice) {
-      setIsNotice(true);
-    } else if (communityDiscussion) {
-      setIsNotice(false);
-    }
-  }, [loadGetBoardsDone]);
+  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetBoardsDone: boards.loadGetBoardsDone,
+    getNoticesDone: boards.getNoticesDone,
+  }));
 
   return (
     <>
@@ -40,9 +29,30 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
+          {getNoticesDone.map((notice) => (
+            <div className="tr" key={notice.board.id}>
+              <div className="td">
+                <NoticeCon />
+              </div>
+              <div className="td title dark_gray pointer">
+                <span className="tit">{notice.board.title}</span>
+                <span className="comments">{notice.board._count.comments}</span>
+              </div>
+              <div className="td dark_gray pointer">
+                {(notice.board.user && notice.board.user.nickname) || '퀀트로'}
+              </div>
+              <div className="td">
+                <span className="ver_m">조회수</span>
+                {notice.board.hits}
+              </div>
+              <div className="td">
+                <Moment format="YYYY.MM.DD">{notice.board.createdAt}</Moment>
+              </div>
+            </div>
+          ))}
           {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
+              <div className="td">{board.id}</div>
               <div className="td title dark_gray pointer" onClick={() => router.push(`/community/board/${board.id}`)}>
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>

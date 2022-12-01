@@ -17,6 +17,8 @@ export type LocalStateType = {
   myCollections: boolean;
   myInquiries: boolean;
   communityDiscussion: boolean;
+  communityCommission: boolean;
+  communityRank: boolean;
   communityNotice: boolean;
 };
 
@@ -42,6 +44,8 @@ const initialState: LocalStateType = {
   myInquiries: false,
   //community
   communityDiscussion: false,
+  communityCommission: false,
+  communityRank: false,
   communityNotice: false,
 };
 
@@ -148,10 +152,26 @@ const localSlice = createSlice({
     // community Actions
     gotoComDiscussion(state) {
       state.communityDiscussion = true;
+      state.communityCommission = false;
+      state.communityRank = false;
+      state.communityNotice = false;
+    },
+    gotoComCommission(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = true;
+      state.communityRank = false;
+      state.communityNotice = false;
+    },
+    gotoComRank(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = true;
       state.communityNotice = false;
     },
     gotoComNotice(state) {
       state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = false;
       state.communityNotice = true;
     },
   },

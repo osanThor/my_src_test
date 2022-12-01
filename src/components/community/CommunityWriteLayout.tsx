@@ -8,8 +8,9 @@ import styled from 'styled-components';
 
 const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
-  const { communityDiscussion } = useSelector(({ local }: RootState) => ({
+  const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
+    communityCommission: local.communityCommission,
   }));
 
   return (
@@ -22,6 +23,12 @@ const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => dispatch(localActions.gotoComDiscussion())}
           >
             전략토론
+          </div>
+          <div
+            className={communityCommission ? 'button on' : 'button'}
+            onClick={() => dispatch(localActions.gotoComCommission())}
+          >
+            전략 개발 의뢰
           </div>
         </div>
       </div>

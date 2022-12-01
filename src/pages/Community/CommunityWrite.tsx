@@ -13,8 +13,9 @@ import { useDispatch } from 'react-redux';
 const CommunityWrite: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { communityDiscussion } = useSelector(({ local }: RootState) => ({
+  const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
+    communityCommission: local.communityCommission,
   }));
   const { content, category, title, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
@@ -40,6 +41,15 @@ const CommunityWrite: NextPage = () => {
           fileUrls,
         }),
       );
+    } else if (communityCommission) {
+      dispatch(
+        boardsActions.changeBoardsField({
+          content,
+          category: 'COMMISSION',
+          title,
+          fileUrls,
+        }),
+      );
     } else {
       dispatch(
         boardsActions.changeBoardsField({
@@ -50,7 +60,7 @@ const CommunityWrite: NextPage = () => {
         }),
       );
     }
-  }, [communityDiscussion]);
+  }, [communityDiscussion, communityCommission]);
 
   // title event
   const handleChangeCreateBoardsField = (e: React.ChangeEvent<HTMLInputElement>) => {

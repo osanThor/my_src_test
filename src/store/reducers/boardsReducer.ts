@@ -9,6 +9,7 @@ import {
   getBoardsPayload,
   getBoardsResult,
   getNoticePayload,
+  getNoticeResult,
   GetUserBoardsPayload,
   getUserBoardsResult,
   GetUserInquiriesPayload,
@@ -69,23 +70,21 @@ export type BoardsStateType = {
         }>
       | [];
   };
-  getNoticesDone: {
-    total: number | null;
-    boards:
-      | Array<{
+  getNoticesDone:
+    | Array<{
+        targetCategory: string | null;
+        board: {
           id: number;
           title: string;
           hits: number;
           createdAt: string;
           user: {
             nickname: string;
-          };
-          _count: {
-            comments: number;
-          };
-        }>
-      | [];
-  };
+          } | null;
+          _count: { comments: number };
+        };
+      }>
+    | [];
   boardId: number | null;
   getBoardDone: {
     id: number;
@@ -122,7 +121,7 @@ const initialState: BoardsStateType = {
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
-  getNoticesDone: { total: 0, boards: [] },
+  getNoticesDone: [],
   boardId: 0,
   getBoardDone: {
     id: 0,
@@ -178,7 +177,7 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
     },
-    getNoticesResult(state, action: PayloadAction<getBoardsResult>) {
+    getNoticesResult(state, action: PayloadAction<getNoticeResult>) {
       state.loadBoardsLoading = false;
       state.getNoticesDone = action.payload;
     },

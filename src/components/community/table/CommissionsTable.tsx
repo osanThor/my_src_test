@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import { Lock } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
@@ -6,32 +7,23 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
-const NoticeTable = () => {
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
-  }));
-  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+const CommissionsTable = () => {
+  const router = useRouter();
+
+  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
+    getNoticesDone: boards.getNoticesDone,
   }));
 
-  const [isNotice, setIsNotice] = useState(false);
-  useEffect(() => {
-    if (communityNotice) {
-      setIsNotice(true);
-    } else if (communityDiscussion) {
-      setIsNotice(false);
-    }
-  }, [loadGetBoardsDone]);
-
-  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td">번호</div>
+            <div className="td"></div>
             <div className="td title">제목</div>
             <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
@@ -39,13 +31,38 @@ const NoticeTable = () => {
           </div>
         </div>
         <div className="tbody">
+          {getNoticesDone.map((notice) => (
+            <div className="tr" key={notice.board.id}>
+              <div className="td">
+                <NoticeCon />
+              </div>
+              <div className="td title dark_gray pointer">
+                <span className="tit">{notice.board.title}</span>
+                <span className="comments">{notice.board._count.comments}</span>
+              </div>
+              <div className="td dark_gray pointer">
+                {(notice.board.user && notice.board.user.nickname) || '퀀트로'}
+              </div>
+              <div className="td">
+                <span className="ver_m">조회수</span>
+                {notice.board.hits}
+              </div>
+              <div className="td">
+                <Moment format="YYYY.MM.DD">{notice.board.createdAt}</Moment>
+              </div>
+            </div>
+          ))}
           {loadGetBoardsDone.boards.map((board) => (
             <div className="tr" key={board.id}>
-              <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
-              <div className="td title dark_gray pointer">
+              <div className="td">
+                <div className="icon">
+                  <Image src={Lock[0]} alt="lock" />
+                </div>
+              </div>
+              <div className="td title dark_gray pointer" onClick={() => router.push(`/community/board/${board.id}`)}>
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || '퀀트로'}</div>
+              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
               <div className="td">
                 <span className="ver_m">조회수</span>
                 {board.hits}
@@ -124,7 +141,6 @@ const BoardsTableBlock = styled.div`
     span.tit {
       overflow: hidden;
       text-overflow: ellipsis;
-      color: ${colors.blue[2]};
     }
     &.pointer {
       cursor: pointer;
@@ -178,15 +194,12 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 10%;
-        min-width: 45px;
+        width: 20%;
+        display: none;
         max-width: none;
-        justify-content: flex-start;
-        margin-bottom: 4px;
       }
       &:nth-child(2) {
-        width: auto;
-        flex: 1;
+        width: 100%;
         max-width: none;
         margin-bottom: 4px;
       }
@@ -227,4 +240,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default NoticeTable;
+export default CommissionsTable;

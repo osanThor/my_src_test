@@ -8,10 +8,14 @@ import styled from 'styled-components';
 
 const CommunityLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
-  }));
+  const { communityDiscussion, communityCommission, communityRank, communityNotice } = useSelector(
+    ({ local }: RootState) => ({
+      communityDiscussion: local.communityDiscussion,
+      communityCommission: local.communityCommission,
+      communityRank: local.communityRank,
+      communityNotice: local.communityNotice,
+    }),
+  );
   return (
     <CommunityLayoutBlock className="container">
       <CommunityLayoutSpacer />
@@ -22,6 +26,18 @@ const CommunityLayout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => router.push('/community?category=discussion')}
           >
             전략토론
+          </div>
+          <div
+            className={communityCommission ? 'button on' : 'button'}
+            onClick={() => router.push('/community?category=commission')}
+          >
+            전략 개발 의뢰
+          </div>
+          <div
+            className={communityRank ? 'button on' : 'button'}
+            onClick={() => router.push('/community?category=rank')}
+          >
+            랭킹
           </div>
           <div
             className={communityNotice ? 'button on' : 'button'}

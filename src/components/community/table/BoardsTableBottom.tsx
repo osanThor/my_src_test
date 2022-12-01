@@ -12,6 +12,14 @@ import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
   const router = useRouter();
+  const { communityDiscussion, communityCommission, communityRank, communityNotice } = useSelector(
+    ({ local }: RootState) => ({
+      communityDiscussion: local.communityDiscussion,
+      communityCommission: local.communityCommission,
+      communityRank: local.communityRank,
+      communityNotice: local.communityNotice,
+    }),
+  );
   const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
@@ -33,9 +41,16 @@ const BoardsTableBottom = () => {
           <SearchForm />
         </BoardSearchLayout>
         <div className="btn">
-          <StyledButton lightBlue onClick={() => router.push('/community/write')}>
-            글쓰기
-          </StyledButton>
+          {communityDiscussion && (
+            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
+              글쓰기
+            </StyledButton>
+          )}
+          {communityCommission && (
+            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
+              의뢰하기
+            </StyledButton>
+          )}
         </div>
       </div>
     </BoardsTableBottomBlock>

@@ -42,6 +42,23 @@ export type getBoardsResult = {
     };
   }>;
 };
+export type getNoticeResult =
+  | Array<{
+      targetCategory: string | null;
+      board: {
+        id: number;
+        title: string;
+        hits: number;
+        createdAt: string;
+        user: {
+          nickname: string;
+        } | null;
+        _count: {
+          comments: number;
+        };
+      };
+    }>
+  | [];
 export type getUserBoardsResult = {
   total: number | null;
   boards: Array<{

@@ -11,6 +11,7 @@ import {
   getBoardsPayload,
   getBoardsResult,
   getNoticePayload,
+  getNoticeResult,
   GetUserBoardsPayload,
   GetUserInquiriesPayload,
   LoadBoardsPayload,
@@ -57,7 +58,7 @@ function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
 function* getNoticesSaga(action: PayloadAction<getNoticePayload>) {
   yield put(boardsActions.loadBoardsRequest());
   try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetNoice, action.payload);
+    const { data }: AxiosResponse<getNoticeResult> = yield call(apiGetNoice, action.payload);
     console.log(data);
 
     yield put(boardsActions.getNoticesResult(data));

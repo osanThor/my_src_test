@@ -56,5 +56,6 @@ export type {
   getBoardResult,
   updateBoardPayload,
   CreateUserInquiruesPayload,
+  getNoticeResult,
   getUserBoardsResult,
 } from './boards';
