@@ -13,6 +13,7 @@ const BoardTop = () => {
     getBoardDone: boards.getBoardDone,
   }));
   const { id, title, content, user, hits, createdAt, _count } = getBoardDone;
+  const { styles } = user;
 
   return (
     <BoardTopBlock>
@@ -40,9 +41,39 @@ const BoardTop = () => {
           <div className="profile_info">
             <div className="nickname">{user.nickname}</div>
             <div className="styles">
-              <div className="style">
-                <span>#단타</span>
-              </div>
+              {styles.map((st) => {
+                if (st.name === 'SCALPING') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#스캘핑</span>
+                    </div>
+                  );
+                } else if (st.name === 'SHORT_HIT') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#단타</span>
+                    </div>
+                  );
+                } else if (st.name === 'SWING') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#스윙</span>
+                    </div>
+                  );
+                } else if (st.name === 'TREND') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#추세매매</span>
+                    </div>
+                  );
+                } else if (st.name === 'R_TREND') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#역추세매매</span>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
           <div className="board_info">
