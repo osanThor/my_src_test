@@ -47,6 +47,15 @@ const CommunityIndex: NextPage = () => {
     } else if (router.query.category === 'notice') {
       dispatch(localActions.gotoComNotice());
     }
+    if (router.query.title) {
+      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
+    }
+    if (router.query.user) {
+      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
+    }
+    if (router.query.comment) {
+      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
+    }
   }, [router]);
 
   const [isUser, setUser] = useState(false);

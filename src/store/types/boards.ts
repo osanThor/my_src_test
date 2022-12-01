@@ -111,6 +111,15 @@ export type updateBoardPayload = {
 export type changePage = {
   page: number;
 };
+export type changeTitle = {
+  title: string | null;
+};
+export type changeUser = {
+  user: string | null;
+};
+export type changeComment = {
+  comment: string | null;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;

@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeComment,
   changePage,
+  changeTitle,
+  changeUser,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardResult,
@@ -219,6 +222,15 @@ const boardsSlice = createSlice({
     },
     changePage(state, action: PayloadAction<changePage>) {
       state.page = action.payload.page;
+    },
+    changeTitle(state, action: PayloadAction<changeTitle>) {
+      state.title = action.payload.title;
+    },
+    changeUser(state, action: PayloadAction<changeUser>) {
+      state.user = action.payload.user;
+    },
+    changeComment(state, action: PayloadAction<changeComment>) {
+      state.comment = action.payload.comment;
     },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {

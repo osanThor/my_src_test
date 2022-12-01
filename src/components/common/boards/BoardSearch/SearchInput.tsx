@@ -5,18 +5,28 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 
-const SearchForm = () => {
+const SearchInput = ({
+  searchVal,
+  setSearchVal,
+}: {
+  searchVal: string;
+  setSearchVal: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   return (
-    <SearchFormBlock>
-      <StyledInput placeholder="검색어를 입력해주세요" />
+    <SearchInputBlock>
+      <StyledInput
+        placeholder="검색어를 입력해주세요"
+        value={searchVal}
+        onChange={(e: any) => setSearchVal(e.target.value)}
+      />
       <span className="icon">
         <Image src={SearchIcon[0]} alt="search icon" />
       </span>
-    </SearchFormBlock>
+    </SearchInputBlock>
   );
 };
 
-const SearchFormBlock = styled.div`
+const SearchInputBlock = styled.div`
   margin-right: 12px;
   position: relative;
 
@@ -56,4 +66,4 @@ const StyledInput = styled.input`
   }
 `;
 
-export default SearchForm;
+export default SearchInput;

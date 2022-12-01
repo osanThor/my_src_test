@@ -1,25 +1,21 @@
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardSearchLayout from '../../common/boards/BoardSearch/BoardSearchLayout';
 import CustomSelect from '../../common/boards/BoardSearch/CustomSelect';
-import SearchForm from '../../common/boards/BoardSearch/SearchForm';
+import SearchInput from '../../common/boards/BoardSearch/SearchInput';
 import Button from '../../common/Button';
 import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
   const router = useRouter();
-  const { communityDiscussion, communityCommission, communityRank, communityNotice } = useSelector(
-    ({ local }: RootState) => ({
-      communityDiscussion: local.communityDiscussion,
-      communityCommission: local.communityCommission,
-      communityRank: local.communityRank,
-      communityNotice: local.communityNotice,
-    }),
-  );
+  const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
+    communityDiscussion: local.communityDiscussion,
+    communityCommission: local.communityCommission,
+  }));
   const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
@@ -30,15 +26,18 @@ const BoardsTableBottom = () => {
   }));
   const { total } = loadGetBoardsDone;
 
+  const [searchName, setSearchName] = useState('');
+  const [searchVal, setSearchVal] = useState('');
+
   return (
     <BoardsTableBottomBlock>
       <div className="first">
         <Pagination total={total} page={page} />
       </div>
       <div className="second">
-        <BoardSearchLayout>
-          <CustomSelect place="선택" />
-          <SearchForm />
+        <BoardSearchLayout category={category} name={searchName} value={searchVal}>
+          <CustomSelect place="선택" setSearchName={setSearchName} />
+          <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
         </BoardSearchLayout>
         <div className="btn">
           {communityDiscussion && (
