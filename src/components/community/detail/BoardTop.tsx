@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Menu7 } from '@/src/assets/Images';
+import { Menu7, Profile1, ShareIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import React from 'react';
@@ -25,12 +25,16 @@ const BoardTop = () => {
               <Image src={Menu7[0]} alt="collection" />
             </div>
           </div>
-          <div className="button">공유</div>
+          <div className="button">
+            <div className="icon">
+              <Image src={ShareIcon} alt="share" />
+            </div>
+          </div>
         </div>
       </div>
       <div className="bottom_area">
         <div className="thumbnail">
-          <Image src={user.photoUrl} alt="profile" layout="fill" />
+          <Image src={user.photoUrl ? user.photoUrl : Profile1[1]} alt="profile" layout="fill" />
         </div>
         <div className="info_con">
           <div className="profile_info">
