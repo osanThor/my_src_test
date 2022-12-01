@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   changePage,
+  CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardResult,
   getBoardsPayload,
@@ -16,6 +17,7 @@ import {
   LoadBoardsPayload,
   LoadBoardsResponse,
   ResponseFailure,
+  updateBoardPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -25,7 +27,7 @@ export type BoardsStateType = {
   comment: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<[string]> | [];
+  fileUrls: Array<string> | [];
   loadBoardsLoading: boolean;
   loadGetBoardsDone: {
     total: number | null;
@@ -67,9 +69,6 @@ export type BoardsStateType = {
         }>
       | [];
   };
-  loadBoardsDone: {
-    message: string | undefined;
-  } | null;
   getNoticesDone: {
     total: number | null;
     boards:
@@ -105,6 +104,9 @@ export type BoardsStateType = {
       likes: number | null;
     };
   };
+  loadBoardsDone: {
+    message: string | undefined;
+  } | null;
   loadBoardsError: string | null;
 };
 
@@ -121,9 +123,6 @@ const initialState: BoardsStateType = {
   getUserBoardsDone: { total: 0, boards: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: { total: 0, boards: [] },
-  loadBoardsDone: {
-    message: '',
-  },
   boardId: 0,
   getBoardDone: {
     id: 0,
@@ -142,6 +141,7 @@ const initialState: BoardsStateType = {
       likes: 0,
     },
   },
+  loadBoardsDone: null,
   loadBoardsError: null,
 };
 
@@ -229,6 +229,24 @@ const boardsSlice = createSlice({
     getBoardResult(state, action: PayloadAction<getBoardResult>) {
       state.loadBoardsLoading = false;
       state.getBoardDone = action.payload;
+    },
+    updateBoard(state, action: PayloadAction<updateBoardPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+      state.category = action.payload.category;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
+      state.loadBoardsLoading = true;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
     },
     //api res req
     loadBoardsRequest(state) {

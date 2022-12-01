@@ -24,7 +24,6 @@ export {
   apiUpdateUserProfile,
   apiChangePw,
   apiDeleteUser,
-  apiCreateUserInquiries,
 } from './user';
 
 export { apiUploadFile } from './file';
@@ -39,4 +38,5 @@ export {
   apiGetUserCollection,
   apiGetUserInquiries,
   apiCreateBoard,
+  apiCreateUserInquiries,
 } from './boards';

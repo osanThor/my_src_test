@@ -6,6 +6,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 // types
 import {
+  CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
   getBoardsResult,
@@ -27,6 +28,7 @@ import {
   apiGetUserCollection,
   apiGetUserInquiries,
   apiGetUserLikes,
+  apiCreateUserInquiries,
 } from '../api';
 
 // get boards
@@ -154,6 +156,23 @@ function* createBoardsSaga(action: PayloadAction<LoadBoardsPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// create user inpuiry
+function* createInquiry(action: PayloadAction<CreateUserInquiruesPayload>) {
+  try {
+    yield put(boardsActions.loadBoardsRequest());
+    const { data } = yield call(apiCreateUserInquiries, action.payload);
+    console.log(data);
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('userSaga createInquiry >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 // get board
 function* getBoardSaga(action: PayloadAction<getBoardPayload>) {
   yield put(boardsActions.loadBoardsRequest());
@@ -182,6 +201,7 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.getBoards, getBoardsSaga);
   yield takeLatest(boardsActions.getNotices, getNoticesSaga);
   yield takeLatest(boardsActions.getBoard, getBoardSaga);
+  yield takeLatest(boardsActions.createInquiries, createInquiry);
 }
 
 export default function* boardsSaga() {

@@ -2,7 +2,7 @@ export type LoadBoardsBody = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<[string]> | [];
+  fileUrls: Array<string> | [];
 };
 export type getBoardsPayload = {
   category: string | null;
@@ -78,6 +78,13 @@ export type getBoardResult = {
     likes: number | null;
   };
 };
+export type updateBoardPayload = {
+  boardId: number | null;
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
 export type changePage = {
   page: number;
 };
@@ -85,7 +92,7 @@ export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<[string]> | [];
+  fileUrls: Array<string> | [];
 };
 
 export type LoadBoardsResponse = {

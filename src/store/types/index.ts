@@ -37,7 +37,6 @@ export type {
   EditMyProfilePayload,
   UserProfilePayload,
   UpdateUserProfilePayload,
-  CreateUserInquiruesPayload,
   DeleteUserPayload,
 } from './user';
 export type { LoadFileBody, LoadFileResponse } from './file';
@@ -55,5 +54,7 @@ export type {
   GetUserBoardsPayload,
   getBoardPayload,
   getBoardResult,
+  updateBoardPayload,
+  CreateUserInquiruesPayload,
   getUserBoardsResult,
 } from './boards';

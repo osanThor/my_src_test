@@ -1,5 +1,6 @@
 import { axiosInstance } from '.';
 import {
+  CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
   getNoticePayload,
@@ -7,6 +8,7 @@ import {
   GetUserInquiriesPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  updateBoardPayload,
 } from '../types';
 
 // get board
@@ -40,6 +42,15 @@ export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });
+// create user Inquiries
+export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>
+  axiosInstance.post<LoadBoardsResponse>(`/users/inquiries`, { title, content, fileUrls });
 
 // get read board
 export const apiGetBoard = ({ boardId }: getBoardPayload) => axiosInstance.get(`/boards/${boardId}`);
+
+// update board
+export const apiUpdateBoard = ({ boardId, category, title, content, fileUrls }: updateBoardPayload) =>
+  axiosInstance.put(`/boards/${boardId}`, { category, title, content, fileUrls });
+// update board
+export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.delete(`/boards/${boardId}`);
