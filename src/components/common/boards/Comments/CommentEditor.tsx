@@ -75,6 +75,7 @@ const CommentEditor = () => {
       alert('댓글을 입려해주세요');
       return;
     }
+    console.log('호출!!!');
     dispatch(boardsActions.createComment({ boardId, parentCommentId, content, fileUrls }));
     setFileUrls([]);
   };

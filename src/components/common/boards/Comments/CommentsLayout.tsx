@@ -1,22 +1,28 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
+import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CommentEditor from './CommentEditor';
 import CommentsList from './CommentsList';
+import DummyEditor from './DummyEditor';
 
 const CommentsLayout = () => {
-  const { nickname } = useSelector(({ user }: RootState) => ({
-    nickname: user.nickname,
-  }));
-  const { boardId, getBoardDone } = useSelector(({ boards }: RootState) => ({
-    boardId: boards.boardId,
+  const dispatch = useDispatch();
+  const { getBoardDone, parentCommentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
+    parentCommentId: boards.parentCommentId,
   }));
   const { comments } = getBoardDone;
+
+  console.log(parentCommentId);
+  const handleChangeParentsIdZero = () => {
+    dispatch(boardsActions.initialCommentState());
+    dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
+  };
 
   return (
     <CommentsLayoutBlock>
@@ -24,7 +30,7 @@ const CommentsLayout = () => {
       <div className="comments_area">
         <div className="comments_title">댓글</div>
         {comments.length !== 0 && <CommentsList />}
-        <CommentEditor />
+        {parentCommentId === 0 ? <CommentEditor /> : <DummyEditor onClick={handleChangeParentsIdZero} />}
       </div>
     </CommentsLayoutBlock>
   );

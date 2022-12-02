@@ -98,7 +98,14 @@ export type getBoardResult = {
   files: Array<string> | [];
   comments:
     | Array<{
-        childComment: [];
+        childComment:
+          | Array<{
+              content: string;
+              createdAt: string;
+              id: number;
+              user: { nickname: string };
+            }>
+          | [];
         content: string;
         createdAt: string;
         id: number;
@@ -130,6 +137,9 @@ export type changeComment = {
 };
 export type changeCategory = {
   category: string | null;
+};
+export type changeParentCommentId = {
+  parentCommentId: number | null;
 };
 export type LoadBoardsPayload = {
   category: string | null;

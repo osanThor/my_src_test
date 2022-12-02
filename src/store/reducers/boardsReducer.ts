@@ -5,6 +5,7 @@ import {
   changeCategory,
   changeComment,
   changePage,
+  changeParentCommentId,
   changeTitle,
   changeUser,
   createCommentPayload,
@@ -106,7 +107,14 @@ export type BoardsStateType = {
     files: Array<string> | [];
     comments:
       | Array<{
-          childComment: [];
+          childComment:
+            | Array<{
+                content: string;
+                createdAt: string;
+                id: number;
+                user: { nickname: string };
+              }>
+            | [];
           content: string;
           createdAt: string;
           id: number;
@@ -247,6 +255,9 @@ const boardsSlice = createSlice({
     changeCategory(state, action: PayloadAction<changeCategory>) {
       state.category = action.payload.category;
     },
+    changeParentCommentId(state, action: PayloadAction<changeParentCommentId>) {
+      state.parentCommentId = action.payload.parentCommentId;
+    },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {
       state.loadBoardsLoading = true;
@@ -287,7 +298,7 @@ const boardsSlice = createSlice({
       state.fileUrls = action.payload.fileUrls;
     },
     initialCommentState(state) {
-      state.boardId = 0;
+      // state.boardId = 0;
       state.parentCommentId = 0;
       state.content = '';
       state.fileUrls = [];

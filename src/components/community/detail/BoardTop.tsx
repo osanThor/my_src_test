@@ -12,8 +12,7 @@ const BoardTop = ({ copyURL }: { copyURL: () => void }) => {
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
-  const { id, title, content, user, hits, createdAt, _count } = getBoardDone;
-  const { styles } = user;
+  const { id, title, user, hits, createdAt } = getBoardDone;
 
   return (
     <BoardTopBlock>
@@ -41,7 +40,7 @@ const BoardTop = ({ copyURL }: { copyURL: () => void }) => {
           <div className="profile_info">
             <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
             <div className="styles">
-              {styles.map((st) => {
+              {user.styles.map((st) => {
                 if (st.name === 'SCALPING') {
                   return (
                     <div key={st.name} className="style">
