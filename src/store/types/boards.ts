@@ -95,7 +95,7 @@ export type getBoardResult = {
   createdAt: string | null;
   hits: number | null;
   content: string | null;
-  files: [];
+  files: Array<string> | [];
   comments:
     | Array<{
         childComment: [];
