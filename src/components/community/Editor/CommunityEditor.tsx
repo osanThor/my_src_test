@@ -5,6 +5,10 @@ import styled from 'styled-components';
 
 import Button from '../../common/Button';
 import { media } from '@/styles/theme';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const Editor = dynamic(() => import('@/src/components/common/boards/Editor/Editor'), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
@@ -17,13 +21,34 @@ const CommunityEditor = ({
   handleChangeContent: (val: string) => void;
   handleCreateBoards: () => void;
 }) => {
+  const router = useRouter();
+  const { title } = useSelector(({ boards }: RootState) => ({
+    title: boards.title,
+  }));
+
+  const pathname = router.pathname;
+  const [isWrite, setIsWrite] = useState(true);
+
+  useEffect(() => {
+    if (pathname === '/community/modify') {
+      setIsWrite(false);
+    } else {
+      setIsWrite(true);
+    }
+  }, [router]);
+
   return (
     <CommunityEditorLayoutBlock>
-      <StyledInput name="title" placeholder="제목을 입력해 주세요" onChange={handleChangeCreateBoardsField} />
+      <StyledInput
+        name="title"
+        placeholder="제목을 입력해 주세요"
+        value={title}
+        onChange={handleChangeCreateBoardsField}
+      />
       <Editor onChange={handleChangeContent} />
       <div className="bottom_btn">
         <StyledButton lightBlue onClick={handleCreateBoards}>
-          등록
+          {isWrite ? '등록' : '수정'}
         </StyledButton>
       </div>
     </CommunityEditorLayoutBlock>

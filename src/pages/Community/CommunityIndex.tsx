@@ -1,5 +1,7 @@
 import CommunityLayout from '@/src/components/community/CommunityLayout';
+import RankLayout from '@/src/components/community/rank/RankLayout';
 import BoardsTable from '@/src/components/community/table/BoardsTable';
+import CommissionsTable from '@/src/components/community/table/CommissionsTable';
 import NoticeTable from '@/src/components/community/table/NoticeTable';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
@@ -16,10 +18,14 @@ const CommunityIndex: NextPage = () => {
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
-  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityNotice: local.communityNotice,
-  }));
+  const { communityDiscussion, communityCommission, communityRank, communityNotice } = useSelector(
+    ({ local }: RootState) => ({
+      communityDiscussion: local.communityDiscussion,
+      communityCommission: local.communityCommission,
+      communityRank: local.communityRank,
+      communityNotice: local.communityNotice,
+    }),
+  );
   const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
   }));
@@ -30,14 +36,6 @@ const CommunityIndex: NextPage = () => {
     title: boards.title,
     comment: boards.comment,
   }));
-  useEffect(() => {
-    dispatch(boardsActions.initializeBoardsForm());
-    if (router.query.category === 'discussion') {
-      dispatch(localActions.gotoComDiscussion());
-    } else if (router.query.category === 'notice') {
-      dispatch(localActions.gotoComNotice());
-    }
-  }, [router]);
 
   const [isUser, setUser] = useState(false);
 
@@ -48,22 +46,62 @@ const CommunityIndex: NextPage = () => {
   }, [loadAuthDone]);
 
   useEffect(() => {
+    dispatch(boardsActions.initializeBoardsForm());
+    if (router.query.category === 'discussion') {
+      dispatch(localActions.gotoComDiscussion());
+    } else if (router.query.category === 'commission') {
+      dispatch(localActions.gotoComCommission());
+    } else if (router.query.category === 'rank') {
+      dispatch(localActions.gotoComRank());
+    } else if (router.query.category === 'notice') {
+      dispatch(localActions.gotoComNotice());
+    }
+    if (router.query.title) {
+      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
+    }
+    if (router.query.user) {
+      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
+    }
+    if (router.query.comment) {
+      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
+    }
+    if (router.query.page) {
+      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
+    } else {
+      dispatch(boardsActions.changePage({ page: 1 }));
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (communityDiscussion) {
+      dispatch(boardsActions.getBoards({ category: 'DISCUSSION', page, user, title, comment }));
       if (isUser) {
         dispatch(boardsActions.getNotices({ category: 'DISCUSSION' }));
       }
-      dispatch(boardsActions.getBoards({ category: 'DISCUSSION', page, user, title, comment }));
+    } else if (communityCommission) {
+      dispatch(boardsActions.getBoards({ category: 'COMMISSION', page, user, title, comment }));
+      if (isUser) {
+        dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
+      }
+    } else if (communityRank) {
+      dispatch(boardsActions.getBoards({ category: 'COMMISSION', page, user, title, comment }));
+      if (isUser) {
+        dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
+      }
     } else if (communityNotice) {
+      dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
       if (isUser) {
         dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
       }
-      dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
     }
-  }, [category, page, user, title, comment, communityDiscussion, communityNotice]);
+  }, [category, page, user, title, comment, communityDiscussion, communityNotice, isUser]);
+
   return (
     <UserLayout>
       <CommunityLayout>
         {communityDiscussion && <BoardsTable />}
+        {communityCommission && <CommissionsTable />}
+        {communityRank && <RankLayout />}
         {communityNotice && <NoticeTable />}
       </CommunityLayout>
     </UserLayout>

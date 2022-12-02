@@ -16,7 +16,6 @@ const BoardsTable = () => {
     page: boards.page,
   }));
   const { total } = getUserBoardsDone;
-  console.log(getUserBoardsDone);
 
   return (
     <>

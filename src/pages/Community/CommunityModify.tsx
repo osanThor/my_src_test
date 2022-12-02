@@ -3,64 +3,43 @@ import CommunityWriteLayout from '@/src/components/community/CommunityWriteLayou
 import CommunityEditor from '@/src/components/community/Editor/CommunityEditor';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions } from '@/src/store/reducers';
+import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-const CommunityWrite: NextPage = () => {
+const CommunityModify: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityCommission: local.communityCommission,
-  }));
-  const { content, category, title, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(
+
+  const { boardId, content, category, title, fileUrls, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
+      boardId: boards.boardId,
       content: boards.content,
       category: boards.category,
       title: boards.title,
       fileUrls: boards.fileUrls,
+      getBoardDone: boards.getBoardDone,
       loadBoardsDone: boards.loadBoardsDone,
       loadBoardsError: boards.loadBoardsError,
     }),
   );
-  useEffect(() => {
-    dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
 
   useEffect(() => {
-    if (communityDiscussion) {
-      dispatch(
-        boardsActions.changeBoardsField({
-          content,
-          category: 'DISCUSSION',
-          title,
-          fileUrls,
-        }),
-      );
-    } else if (communityCommission) {
-      dispatch(
-        boardsActions.changeBoardsField({
-          content,
-          category: 'COMMISSION',
-          title,
-          fileUrls,
-        }),
-      );
-    } else {
-      dispatch(
-        boardsActions.changeBoardsField({
-          content,
-          category: '',
-          title,
-          fileUrls,
-        }),
-      );
+    dispatch(
+      boardsActions.changeBoardsField({
+        content: getBoardDone.content,
+        category: 'DISCUSSION',
+        title: getBoardDone.title,
+        fileUrls,
+      }),
+    );
+    if (category === 'DISCUSSION') {
+      dispatch(localActions.gotoComDiscussion());
     }
-  }, [communityDiscussion, communityCommission]);
+  }, [getBoardDone, category]);
 
   // title event
   const handleChangeCreateBoardsField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +69,7 @@ const CommunityWrite: NextPage = () => {
   };
 
   //submit
-  const handleCreateBoards = () => {
+  const handleUpdateBoards = () => {
     if (!category) {
       setModalOpen(true);
       setModalMessage('게시판을 선택해주세요');
@@ -107,8 +86,10 @@ const CommunityWrite: NextPage = () => {
       setModalErr(true);
       return;
     }
+    console.log('애 되냐');
     dispatch(
-      boardsActions.createBoards({
+      boardsActions.updateBoard({
+        boardId,
         content,
         category,
         title,
@@ -125,8 +106,8 @@ const CommunityWrite: NextPage = () => {
       return;
     }
     if (loadBoardsDone) {
-      if (loadBoardsDone.message === 'CREATED') {
-        router.push('/community?category=discussion');
+      if (loadBoardsDone.message === 'UPDATED') {
+        router.push(`/community/board/${boardId}`);
       }
     }
   }, [loadBoardsDone, loadBoardsError]);
@@ -145,7 +126,7 @@ const CommunityWrite: NextPage = () => {
         <CommunityEditor
           handleChangeCreateBoardsField={handleChangeCreateBoardsField}
           handleChangeContent={handleChangeContent}
-          handleCreateBoards={handleCreateBoards}
+          handleCreateBoards={handleUpdateBoards}
         />
       </CommunityWriteLayout>
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
@@ -153,4 +134,4 @@ const CommunityWrite: NextPage = () => {
   );
 };
 
-export default CommunityWrite;
+export default CommunityModify;

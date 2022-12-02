@@ -29,6 +29,7 @@ import MessageMenu from './mobileHeaderAdded/MessageMenu';
 import MyPageMenu from './mobileHeaderAdded/MyPageMenu';
 import CommunityMenu from './mobileHeaderAdded/CommunityMenu';
 import MWriteHeader from './MWriteHeader';
+import MBoardHeader from './MBoardHeader';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -105,6 +106,7 @@ const MHeader = () => {
   const [myPage, setMyPage] = useState(false);
   const [community, setCommunity] = useState(false);
   const [isWrite, setIsWrite] = useState(false);
+  const [isBoard, setIsBoard] = useState(false);
 
   useEffect(() => {
     if (router.pathname === '/dashboard') {
@@ -137,11 +139,16 @@ const MHeader = () => {
     } else {
       setIsWrite(false);
     }
+    if (router.pathname === '/community/board/[bId]') {
+      setIsBoard(true);
+    } else {
+      setIsBoard(false);
+    }
   }, []);
 
   return (
     <MHeaderBlock>
-      {isWrite || (
+      {isWrite || isBoard || (
         <MHeaderMain>
           <div className="menu_bar">
             <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
@@ -176,6 +183,7 @@ const MHeader = () => {
         </MHeaderMain>
       )}
       {isWrite && <MWriteHeader />}
+      {isBoard && <MBoardHeader />}
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>

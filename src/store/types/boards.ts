@@ -42,6 +42,23 @@ export type getBoardsResult = {
     };
   }>;
 };
+export type getNoticeResult =
+  | Array<{
+      targetCategory: string | null;
+      board: {
+        id: number;
+        title: string;
+        hits: number;
+        createdAt: string;
+        user: {
+          nickname: string;
+        } | null;
+        _count: {
+          comments: number;
+        };
+      };
+    }>
+  | [];
 export type getUserBoardsResult = {
   total: number | null;
   boards: Array<{
@@ -93,6 +110,15 @@ export type updateBoardPayload = {
 };
 export type changePage = {
   page: number;
+};
+export type changeTitle = {
+  title: string | null;
+};
+export type changeUser = {
+  user: string | null;
+};
+export type changeComment = {
+  comment: string | null;
 };
 export type LoadBoardsPayload = {
   category: string | null;

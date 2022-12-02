@@ -45,7 +45,7 @@ const NoticeTable = () => {
               <div className="td title dark_gray pointer">
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || '퀀트로'}</div>
               <div className="td">
                 <span className="ver_m">조회수</span>
                 {board.hits}

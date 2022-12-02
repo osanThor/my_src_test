@@ -39,4 +39,6 @@ export {
   apiGetUserInquiries,
   apiCreateBoard,
   apiCreateUserInquiries,
+  apiUpdateBoard,
+  apiDeleteBoard,
 } from './boards';

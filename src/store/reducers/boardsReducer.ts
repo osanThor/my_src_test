@@ -2,13 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeComment,
   changePage,
+  changeTitle,
+  changeUser,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardResult,
   getBoardsPayload,
   getBoardsResult,
   getNoticePayload,
+  getNoticeResult,
   GetUserBoardsPayload,
   getUserBoardsResult,
   GetUserInquiriesPayload,
@@ -69,23 +73,21 @@ export type BoardsStateType = {
         }>
       | [];
   };
-  getNoticesDone: {
-    total: number | null;
-    boards:
-      | Array<{
+  getNoticesDone:
+    | Array<{
+        targetCategory: string | null;
+        board: {
           id: number;
           title: string;
           hits: number;
           createdAt: string;
           user: {
             nickname: string;
-          };
-          _count: {
-            comments: number;
-          };
-        }>
-      | [];
-  };
+          } | null;
+          _count: { comments: number };
+        };
+      }>
+    | [];
   boardId: number | null;
   getBoardDone: {
     id: number;
@@ -122,7 +124,7 @@ const initialState: BoardsStateType = {
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
-  getNoticesDone: { total: 0, boards: [] },
+  getNoticesDone: [],
   boardId: 0,
   getBoardDone: {
     id: 0,
@@ -178,7 +180,7 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
     },
-    getNoticesResult(state, action: PayloadAction<getBoardsResult>) {
+    getNoticesResult(state, action: PayloadAction<getNoticeResult>) {
       state.loadBoardsLoading = false;
       state.getNoticesDone = action.payload;
     },
@@ -221,6 +223,15 @@ const boardsSlice = createSlice({
     changePage(state, action: PayloadAction<changePage>) {
       state.page = action.payload.page;
     },
+    changeTitle(state, action: PayloadAction<changeTitle>) {
+      state.title = action.payload.title;
+    },
+    changeUser(state, action: PayloadAction<changeUser>) {
+      state.user = action.payload.user;
+    },
+    changeComment(state, action: PayloadAction<changeComment>) {
+      state.comment = action.payload.comment;
+    },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {
       state.loadBoardsLoading = true;
@@ -237,6 +248,11 @@ const boardsSlice = createSlice({
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
     },
+    deleteBoard(state, action: PayloadAction<getBoardPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    //user mypage inquiry
     changeInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.title = action.payload.title;
       state.content = action.payload.content;
@@ -251,7 +267,7 @@ const boardsSlice = createSlice({
     //api res req
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;
-      state.loadBoardsDone = { message: '' };
+      state.loadBoardsDone = null;
       state.loadBoardsError = null;
     },
     loadBoardsSuccess(state, action: PayloadAction<LoadBoardsResponse>) {
@@ -260,7 +276,7 @@ const boardsSlice = createSlice({
     },
     loadBoardsFailure(state, action: PayloadAction<ResponseFailure>) {
       state.loadBoardsLoading = false;
-      state.loadBoardsDone = { message: '' };
+      state.loadBoardsDone = null;
       state.loadBoardsError = action.payload.message;
     },
   },

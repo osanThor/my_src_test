@@ -49,6 +49,9 @@ export type {
   LoadBoardsPayload,
   LoadBoardsResponse,
   changePage,
+  changeTitle,
+  changeUser,
+  changeComment,
   GetUserInquiriesPayload,
   getUserInquiriesResult,
   GetUserBoardsPayload,
@@ -56,5 +59,6 @@ export type {
   getBoardResult,
   updateBoardPayload,
   CreateUserInquiruesPayload,
+  getNoticeResult,
   getUserBoardsResult,
 } from './boards';

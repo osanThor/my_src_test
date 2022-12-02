@@ -1,13 +1,31 @@
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../Button';
 
-const BoardSearchLayout = ({ children }: { children: React.ReactNode }) => {
+const BoardSearchLayout = ({
+  category,
+  name,
+  value,
+  children,
+}: {
+  category: string;
+  name: string;
+  value: string;
+  children: React.ReactNode;
+}) => {
+  const router = useRouter();
+
+  const handleGoBoards = () => {
+    router.push(`/community?category=${category}&${name}=${value}`);
+  };
   return (
     <BoardSearchLayoutBLock className="search_form">
       {children}
-      <StyledButton lightBlue>검색</StyledButton>
+      <StyledButton lightBlue onClick={handleGoBoards}>
+        검색
+      </StyledButton>
     </BoardSearchLayoutBLock>
   );
 };
