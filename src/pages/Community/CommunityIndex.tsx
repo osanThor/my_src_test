@@ -65,11 +65,6 @@ const CommunityIndex: NextPage = () => {
     if (router.query.comment) {
       dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
     }
-    if (router.query.page) {
-      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
-    } else {
-      dispatch(boardsActions.changePage({ page: 1 }));
-    }
   }, [router]);
 
   useEffect(() => {
@@ -94,7 +89,12 @@ const CommunityIndex: NextPage = () => {
         dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
       }
     }
-  }, [category, page, user, title, comment, communityDiscussion, communityNotice, isUser]);
+    if (router.query.page) {
+      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
+    } else {
+      dispatch(boardsActions.changePage({ page: 1 }));
+    }
+  }, [router, category, page, user, title, comment, communityDiscussion, communityNotice, isUser]);
 
   return (
     <UserLayout>

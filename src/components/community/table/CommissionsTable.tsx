@@ -13,6 +13,9 @@ import Image from 'next/image';
 const CommissionsTable = () => {
   const router = useRouter();
 
+  const { nickname } = useSelector(({ user }: RootState) => ({
+    nickname: user.nickname,
+  }));
   const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
     getNoticesDone: boards.getNoticesDone,
@@ -36,7 +39,10 @@ const CommissionsTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div className="td title dark_gray pointer">
+              <div
+                className="td title dark_gray pointer"
+                onClick={() => router.push(`/community/board/${notice.board.id}`)}
+              >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>
@@ -59,7 +65,14 @@ const CommissionsTable = () => {
                   <Image src={Lock[0]} alt="lock" />
                 </div>
               </div>
-              <div className="td title dark_gray pointer" onClick={() => router.push(`/community/board/${board.id}`)}>
+              <div
+                className="td title dark_gray pointer"
+                onClick={
+                  board.user.nickname === nickname
+                    ? () => router.push(`/community/board/${board.id}`)
+                    : () => alert('권한이 없습니다')
+                }
+              >
                 <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
               </div>
               <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>

@@ -18,6 +18,10 @@ const BoardSearchLayout = ({
   const router = useRouter();
 
   const handleGoBoards = () => {
+    if (!name) {
+      alert('필터값을 선택 해주세요');
+      return;
+    }
     router.push(`/community?category=${category}&${name}=${value}`);
   };
   return (

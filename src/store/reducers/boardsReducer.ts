@@ -97,7 +97,7 @@ export type BoardsStateType = {
       photoUrl: string | null;
       nickname: string | null;
       styles: Array<{ name: string }> | [];
-    };
+    } | null;
     createdAt: string | null;
     hits: number | null;
     content: string | null;

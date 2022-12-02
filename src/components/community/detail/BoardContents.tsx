@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { GuidGoIcon, Like, ResetIcon } from '@/src/assets/Images';
+import { Like, ResetIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
@@ -23,7 +23,7 @@ const BoardContents = ({
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
-  const { id, title, content, user, hits, createdAt, _count } = getBoardDone;
+  const { id, content, _count } = getBoardDone;
 
   useEffect(() => {
     if (ViewContentsRef.current) {

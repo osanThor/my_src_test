@@ -1,5 +1,6 @@
 import CommentsLayout from '@/src/components/common/boards/Comments/CommentsLayout';
 import FuncModal from '@/src/components/common/FuncModal';
+import Modal from '@/src/components/common/Modal';
 import BoardContents from '@/src/components/community/detail/BoardContents';
 import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayout';
 import BoardTop from '@/src/components/community/detail/BoardTop';
@@ -103,14 +104,22 @@ const CommunityBoard = () => {
     document.execCommand('copy');
     document.body.removeChild(t);
 
-    alert('링크가 복사되었습니다.');
+    setModalOpen(true);
+    setModalMessage('링크가 복사되었습니다.');
+    setModalError(false);
+  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalError, setModalError] = useState(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
     <>
       <UserLayout>
         <BoardDetailLayout>
-          <BoardTop />
+          <BoardTop copyURL={copyURL} />
           <BoardContents identity={identity} handleOpenDeleteBoard={handleOpenDeleteBoard} />
           <CommentsLayout />
         </BoardDetailLayout>
@@ -127,6 +136,7 @@ const CommunityBoard = () => {
         onClick={() => dispatch(boardsActions.deleteBoard({ boardId }))}
         onClick2={handleFunctionModalClose}
       />
+      <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
     </>
   );
 };
