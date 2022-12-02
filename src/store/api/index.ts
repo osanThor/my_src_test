@@ -42,4 +42,6 @@ export {
   apiCreateComment,
   apiUpdateBoard,
   apiDeleteBoard,
+  apiUpdateComment,
+  apiDeleteComment,
 } from './boards';

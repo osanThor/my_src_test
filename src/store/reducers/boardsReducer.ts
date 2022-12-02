@@ -10,6 +10,7 @@ import {
   changeUser,
   createCommentPayload,
   CreateUserInquiruesPayload,
+  deleteCommentPayload,
   getBoardPayload,
   getBoardResult,
   getBoardsPayload,
@@ -26,6 +27,7 @@ import {
   LoadBoardsResponse,
   ResponseFailure,
   updateBoardPayload,
+  updateCommentPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -140,6 +142,7 @@ export type BoardsStateType = {
       likes: number | null;
     };
   };
+  commentId: number | null;
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -179,6 +182,7 @@ const initialState: BoardsStateType = {
       likes: 0,
     },
   },
+  commentId: 0,
   loadBoardsDone: null,
   loadBoardsError: null,
 };
@@ -323,7 +327,6 @@ const boardsSlice = createSlice({
       state.fileUrls = action.payload.fileUrls;
     },
     initialCommentState(state) {
-      // state.boardId = 0;
       state.parentCommentId = 0;
       state.content = '';
       state.fileUrls = [];
@@ -334,6 +337,17 @@ const boardsSlice = createSlice({
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
+    },
+    updateComment(state, action: PayloadAction<updateCommentPayload>) {
+      state.loadBoardsLoading = true;
+      state.commentId = action.payload.commentId;
+      state.content = action.payload.content;
+      state.parentCommentId = action.payload.parentCommentId;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    deleteComment(state, action: PayloadAction<deleteCommentPayload>) {
+      state.loadBoardsLoading = true;
+      state.commentId = action.payload.commentId;
     },
     //api res req
     loadBoardsRequest(state) {
