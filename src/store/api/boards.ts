@@ -1,5 +1,6 @@
 import { axiosInstance } from '.';
 import {
+  createCommentPayload,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
@@ -54,3 +55,7 @@ export const apiUpdateBoard = ({ boardId, category, title, content, fileUrls }: 
   axiosInstance.put(`/boards/${boardId}`, { category, title, content, fileUrls });
 // update board
 export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.delete(`/boards/${boardId}`);
+
+// create Comment
+export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrls }: createCommentPayload) =>
+  axiosInstance.post(`/boards/${boardId}`, { parentCommentId, content, fileUrls });

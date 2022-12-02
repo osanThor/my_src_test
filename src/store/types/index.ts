@@ -62,4 +62,5 @@ export type {
   getNoticeResult,
   getUserBoardsResult,
   changeCategory,
+  createCommentPayload,
 } from './boards';

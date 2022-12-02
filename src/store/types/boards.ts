@@ -130,6 +130,13 @@ export type LoadBoardsPayload = {
   fileUrls: Array<string> | [];
 };
 
+export type createCommentPayload = {
+  boardId: number | null;
+  parentCommentId: number | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+
 export type LoadBoardsResponse = {
   message: string | null;
 };

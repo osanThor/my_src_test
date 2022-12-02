@@ -7,6 +7,7 @@ import {
   changePage,
   changeTitle,
   changeUser,
+  createCommentPayload,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardResult,
@@ -90,6 +91,7 @@ export type BoardsStateType = {
       }>
     | [];
   boardId: number | null;
+  parentCommentId: number | null;
   getBoardDone: {
     id: number;
     title: string | null;
@@ -127,6 +129,7 @@ const initialState: BoardsStateType = {
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: [],
   boardId: 0,
+  parentCommentId: 0,
   getBoardDone: {
     id: 0,
     title: '',
@@ -265,6 +268,14 @@ const boardsSlice = createSlice({
     createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.loadBoardsLoading = true;
       state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    //comments
+    createComment(state, action: PayloadAction<createCommentPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+      state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
     },

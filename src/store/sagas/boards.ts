@@ -6,6 +6,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 // types
 import {
+  createCommentPayload,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardsPayload,
@@ -34,6 +35,7 @@ import {
   apiUpdateBoard,
   apiDeleteBoard,
 } from '../api';
+import { apiCreateComment } from '../api/boards';
 
 // get boards
 function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
@@ -231,6 +233,24 @@ function* deleteBoardSaga(action: PayloadAction<getBoardPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// create comment
+function* createCommentSaga(action: PayloadAction<createCommentPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiCreateComment, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -244,6 +264,7 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.getBoard, getBoardSaga);
   yield takeLatest(boardsActions.updateBoard, updateBoardSaga);
   yield takeLatest(boardsActions.deleteBoard, deleteBoardSaga);
+  yield takeLatest(boardsActions.createComment, createCommentSaga);
 }
 
 export default function* boardsSaga() {
