@@ -91,6 +91,9 @@ const CommunityBoard = () => {
     if (loadBoardsDone) {
       if (loadBoardsDone.message === 'DELETED') {
         router.push('/community?category=discussion');
+      } else if (loadBoardsDone.message === 'CREATED') {
+        dispatch(boardsActions.getBoard({ boardId }));
+        dispatch(boardsActions.initialCommentState());
       }
     }
   }, [loadBoardsDone, loadBoardsError]);

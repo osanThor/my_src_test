@@ -6,34 +6,22 @@ import Image from 'next/image';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import CommentEditor from './CommentEditor';
 
 const CommentsLayout = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
+  const { boardId } = useSelector(({ boards }: RootState) => ({
+    boardId: boards.boardId,
+  }));
+
   return (
     <CommentsLayoutBlock>
       <span className="board_spacer" />
       <div className="comments_area">
         <div className="comments_title">댓글</div>
-        <div className="comments_Editor">
-          <div className="nickname">{nickname}</div>
-          <StyledTextArea placeholder="댓글을 남겨보세요" />
-          <div className="photo_area">
-            <div className="file_list">
-              <div className="file">
-                <div className="delete_file_btn">
-                  <Image src={CloseWhite} alt="delete_file_btn" />
-                </div>
-                <Image src={Profile1[0]} alt="file" layout="fill" />
-              </div>
-            </div>
-            <label className="icon">
-              <input type="file" accept=".gif, .jpg, .png" />
-              <Image src={CameraDark} alt="camera" />
-            </label>
-          </div>
-        </div>
+        <CommentEditor />
       </div>
     </CommentsLayoutBlock>
   );
@@ -94,16 +82,36 @@ const CommentsLayoutBlock = styled.div`
           }
         }
       }
-      .icon {
+      .bottom_btns {
+        width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        width: 24px;
-        height: 24px;
-        input {
-          display: none;
+        justify-content: space-between;
+        .icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          position: relative;
+          width: 24px;
+          height: 24px;
+          input {
+            display: none;
+          }
+        }
+        .comment_btns {
+          display: flex;
+          .btn {
+            cursor: pointer;
+            color: ${colors.gray[4]};
+            transition: all 0.2s;
+            margin-left: 1rem;
+            &:first-child {
+              margin-left: 0;
+            }
+            &:hover {
+              color: ${colors.dark[1]};
+            }
+          }
         }
       }
     }
@@ -113,23 +121,6 @@ const CommentsLayoutBlock = styled.div`
     .board_spacer {
       display: none;
     }
-  }
-`;
-
-const StyledTextArea = styled.textarea`
-  width: 100%;
-  height: 60px;
-  resize: none;
-  font-size: 1rem;
-  border: none;
-  background: ${colors.gray[0]};
-  margin-bottom: 8px;
-  &:focus {
-    outline: none;
-  }
-  &::placeholder {
-    font-size: 1rem;
-    color: ${colors.gray[4]};
   }
 `;
 

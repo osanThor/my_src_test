@@ -58,4 +58,4 @@ export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.de
 
 // create Comment
 export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrls }: createCommentPayload) =>
-  axiosInstance.post(`/boards/${boardId}`, { parentCommentId, content, fileUrls });
+  axiosInstance.post(`/boards/${boardId}/comments`, { parentCommentId, content, fileUrls });

@@ -272,6 +272,18 @@ const boardsSlice = createSlice({
       state.fileUrls = action.payload.fileUrls;
     },
     //comments
+    changeCommentState(state, action: PayloadAction<createCommentPayload>) {
+      state.boardId = action.payload.boardId;
+      state.parentCommentId = action.payload.parentCommentId;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    initialCommentState(state) {
+      state.boardId = 0;
+      state.parentCommentId = 0;
+      state.content = '';
+      state.fileUrls = [];
+    },
     createComment(state, action: PayloadAction<createCommentPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
