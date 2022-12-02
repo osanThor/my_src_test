@@ -151,10 +151,9 @@ const CustomSelectBox = styled.div`
   position: relative;
   height: 48px;
   max-height: 48px;
-  margin-right: 12px;
+  max-width: 450px;
   width: 100%;
   min-width: 163px;
-  max-width: 163px;
   flex: 1;
   padding: 12px 16px;
   border-radius: 8px;
@@ -187,7 +186,6 @@ const CustomSelectBox = styled.div`
   ${media.tablet} {
     height: 40px;
     padding: 10px 16px;
-    margin-right: 8px;
   }
   ${media.mobile} {
     min-width: auto;

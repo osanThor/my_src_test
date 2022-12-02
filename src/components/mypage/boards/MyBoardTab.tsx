@@ -53,7 +53,11 @@ const MyBoardTab = () => {
           1:1 문의
         </div>
       </div>
-      {myInquiries || <CustomSelect place={'전체'} />}
+      {myInquiries || (
+        <div className="selectCon">
+          <CustomSelect place={'전체'} />
+        </div>
+      )}
     </MyBoardTabBlock>
   );
 };
@@ -84,6 +88,15 @@ const MyBoardTabBlock = styled.div`
 
   ${media.tablet} {
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    & > div + div {
+      margin-top: 8px;
+    }
+    .selectCon {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
   }
 `;
 

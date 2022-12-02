@@ -87,6 +87,20 @@ const BoardContentsBlock = styled.div`
     }
     .contents {
       margin-bottom: 80px;
+      .ql-align-center {
+        text-align: center;
+      }
+      .ql-align-right {
+        text-align: right;
+      }
+
+      .ql-syntax {
+        background-color: #23241f;
+        color: #f8f8f2;
+        border-radius: 3px;
+        padding: 5px;
+        margin: 0 10px;
+      }
     }
     .contents_ctrl {
       width: 100%;
