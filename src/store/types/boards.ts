@@ -96,7 +96,15 @@ export type getBoardResult = {
   hits: number | null;
   content: string | null;
   files: [];
-  comments: [];
+  comments:
+    | Array<{
+        childComment: [];
+        content: string;
+        createdAt: string;
+        id: number;
+        user: { nickname: string };
+      }>
+    | [];
   _count: {
     likes: number | null;
   };

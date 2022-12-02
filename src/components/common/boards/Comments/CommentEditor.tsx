@@ -76,6 +76,7 @@ const CommentEditor = () => {
       return;
     }
     dispatch(boardsActions.createComment({ boardId, parentCommentId, content, fileUrls }));
+    setFileUrls([]);
   };
 
   return (
