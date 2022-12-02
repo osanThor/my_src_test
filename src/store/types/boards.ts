@@ -71,6 +71,20 @@ export type getUserBoardsResult = {
     };
   }>;
 };
+export type getUserCommentsResult = {
+  total: number | null;
+  comments: Array<{
+    content: string | null;
+    id: number | null;
+    board: {
+      createdAt: string;
+      hits: number | null;
+      title: string | null;
+      user: { nickname: string | null };
+      _count: { comments: number | null };
+    };
+  }>;
+};
 export type getUserInquiriesResult = {
   total: number | null;
   inquiries: Array<{
@@ -95,8 +109,23 @@ export type getBoardResult = {
   createdAt: string | null;
   hits: number | null;
   content: string | null;
-  files: [];
-  comments: [];
+  files: Array<string> | [];
+  comments:
+    | Array<{
+        childComment:
+          | Array<{
+              content: string;
+              createdAt: string;
+              id: number;
+              user: { nickname: string };
+            }>
+          | [];
+        content: string;
+        createdAt: string;
+        id: number;
+        user: { nickname: string };
+      }>
+    | [];
   _count: {
     likes: number | null;
   };
@@ -120,9 +149,22 @@ export type changeUser = {
 export type changeComment = {
   comment: string | null;
 };
+export type changeCategory = {
+  category: string | null;
+};
+export type changeParentCommentId = {
+  parentCommentId: number | null;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+
+export type createCommentPayload = {
+  boardId: number | null;
+  parentCommentId: number | null;
   content: string | null;
   fileUrls: Array<string> | [];
 };

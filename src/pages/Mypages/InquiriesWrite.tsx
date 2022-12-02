@@ -116,7 +116,6 @@ const InquiriesWrite: NextPage = () => {
       setModalerr(true);
       return;
     }
-    console.log('호출!!!!!!!');
     dispatch(boardsActions.createInquiries({ title, content, fileUrls: fileUrlsSt }));
   };
 

@@ -2,10 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeCategory,
   changeComment,
   changePage,
+  changeParentCommentId,
   changeTitle,
   changeUser,
+  createCommentPayload,
   CreateUserInquiruesPayload,
   getBoardPayload,
   getBoardResult,
@@ -15,6 +18,7 @@ import {
   getNoticeResult,
   GetUserBoardsPayload,
   getUserBoardsResult,
+  getUserCommentsResult,
   GetUserInquiriesPayload,
   getUserInquiriesResult,
   LoadBoardsBody,
@@ -62,6 +66,20 @@ export type BoardsStateType = {
       };
     }>;
   };
+  getUserCommentsDone: {
+    total: number | null;
+    comments: Array<{
+      content: string | null;
+      id: number | null;
+      board: {
+        createdAt: string;
+        hits: number | null;
+        title: string | null;
+        user: { nickname: string | null };
+        _count: { comments: number | null };
+      };
+    }>;
+  };
   getUserInquiriesDone: {
     total: number | null;
     inquiries:
@@ -89,6 +107,7 @@ export type BoardsStateType = {
       }>
     | [];
   boardId: number | null;
+  parentCommentId: number | null;
   getBoardDone: {
     id: number;
     title: string | null;
@@ -96,12 +115,27 @@ export type BoardsStateType = {
       photoUrl: string | null;
       nickname: string | null;
       styles: Array<{ name: string }> | [];
-    };
+    } | null;
     createdAt: string | null;
     hits: number | null;
     content: string | null;
-    files: [];
-    comments: [];
+    files: Array<string> | [];
+    comments:
+      | Array<{
+          childComment:
+            | Array<{
+                content: string;
+                createdAt: string;
+                id: number;
+                user: { nickname: string };
+              }>
+            | [];
+          content: string;
+          createdAt: string;
+          id: number;
+          user: { nickname: string };
+        }>
+      | [];
     _count: {
       likes: number | null;
     };
@@ -123,9 +157,11 @@ const initialState: BoardsStateType = {
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
+  getUserCommentsDone: { total: 0, comments: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: [],
   boardId: 0,
+  parentCommentId: 0,
   getBoardDone: {
     id: 0,
     title: '',
@@ -194,6 +230,15 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.getUserBoardsDone = action.payload;
     },
+    getUserComments(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserCommentsResult(state, action: PayloadAction<getUserCommentsResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserCommentsDone = action.payload;
+    },
     getUserLikes(state, action: PayloadAction<GetUserBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
@@ -232,6 +277,12 @@ const boardsSlice = createSlice({
     changeComment(state, action: PayloadAction<changeComment>) {
       state.comment = action.payload.comment;
     },
+    changeCategory(state, action: PayloadAction<changeCategory>) {
+      state.category = action.payload.category;
+    },
+    changeParentCommentId(state, action: PayloadAction<changeParentCommentId>) {
+      state.parentCommentId = action.payload.parentCommentId;
+    },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {
       state.loadBoardsLoading = true;
@@ -261,6 +312,26 @@ const boardsSlice = createSlice({
     createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.loadBoardsLoading = true;
       state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    //comments
+    changeCommentState(state, action: PayloadAction<createCommentPayload>) {
+      state.boardId = action.payload.boardId;
+      state.parentCommentId = action.payload.parentCommentId;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    initialCommentState(state) {
+      // state.boardId = 0;
+      state.parentCommentId = 0;
+      state.content = '';
+      state.fileUrls = [];
+    },
+    createComment(state, action: PayloadAction<createCommentPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+      state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
     },

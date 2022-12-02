@@ -61,4 +61,8 @@ export type {
   CreateUserInquiruesPayload,
   getNoticeResult,
   getUserBoardsResult,
+  changeCategory,
+  changeParentCommentId,
+  createCommentPayload,
+  getUserCommentsResult,
 } from './boards';

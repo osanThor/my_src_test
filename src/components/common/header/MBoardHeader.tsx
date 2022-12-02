@@ -36,15 +36,16 @@ const MBoardHeaderBlock = styled.div`
   z-index: 997;
 
   .backBtn {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 4px;
     cursor: pointer;
     span {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       position: relative;
     }
   }

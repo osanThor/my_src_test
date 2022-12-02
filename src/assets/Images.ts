@@ -109,6 +109,8 @@ import AlignRightBlueIconFile from 'public/assets/common/editor/alignRight_blue.
 import ShareIconFile from 'public/assets/common/share.svg';
 import LikeIconFile from 'public/assets/common/like.svg';
 import LikeYesIconFile from 'public/assets/common/like=yes.svg';
+import MoreInfoIconFile from 'public/assets/common/more_info.svg';
+import MoreInfoDarkIconFile from 'public/assets/common/more_info_dark.svg';
 
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
@@ -187,6 +189,7 @@ export const EditPenIcon = [EditGrayIconFile, EditDarkIconFile];
 export const CancelIcon = [CancelGrayIconFile, CancelRedIconFile];
 export const ShareIcon = ShareIconFile;
 export const Like = [LikeIconFile, LikeYesIconFile];
+export const MoreInfoIcon = [MoreInfoIconFile, MoreInfoDarkIconFile];
 
 //editor
 export const Bold = [BGrayIconFile, BBlueIconFile];
