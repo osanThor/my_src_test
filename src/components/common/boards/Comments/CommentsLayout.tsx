@@ -130,6 +130,11 @@ const CommentsLayoutBlock = styled.div`
     .board_spacer {
       display: none;
     }
+    .comments_area {
+      .comments_title {
+        padding: 12px 64px;
+      }
+    }
   }
 `;
 

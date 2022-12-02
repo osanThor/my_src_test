@@ -95,7 +95,7 @@ const CommentItem = ({
             답글쓰기
           </div>
           <div className="btn more_info">
-            <Image src={MoreInfoIcon} alt="moreInfo" />
+            <Image src={MoreInfoIcon[0]} alt="moreInfo" />
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ const CommentItem = ({
               <div className="comment_btns">
                 {nickname === user.nickname && (
                   <div className="btn more_info">
-                    <Image src={MoreInfoIcon} alt="moreInfo" />
+                    <Image src={MoreInfoIcon[0]} alt="moreInfo" />
                   </div>
                 )}
               </div>
