@@ -13,11 +13,11 @@ const MyCommentsTable = () => {
   //   communityDiscussion: local.communityDiscussion,
   //   communityNotice: local.communityNotice,
   // }));
-  const { page, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { page, getUserCommentsDone } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+    getUserCommentsDone: boards.getUserCommentsDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = getUserCommentsDone;
   return (
     <>
       {total != 0 ? (
@@ -33,10 +33,10 @@ const MyCommentsTable = () => {
               </div>
             </div>
             <div className="tbody">
-              {loadGetBoardsDone.boards.map((board) => (
+              {getUserCommentsDone.comments.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{board.id}</div>
-                  <div className="td title dark_gray pointer">
+                  {/* <div className="td title dark_gray pointer">
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
@@ -46,7 +46,7 @@ const MyCommentsTable = () => {
                   </div>
                   <div className="td">
                     <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>

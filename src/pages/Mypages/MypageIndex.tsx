@@ -59,7 +59,7 @@ const MypageIndex: NextPage = () => {
       }
       if (router.query.board === 'comments') {
         dispatch(localActions.gotoMyComments());
-        dispatch(boardsActions.getUserBoards({ category, page }));
+        dispatch(boardsActions.getUserComments({ category, page }));
       }
       if (router.query.board === 'likes') {
         dispatch(localActions.gotoMyLikes());

@@ -64,4 +64,5 @@ export type {
   changeCategory,
   changeParentCommentId,
   createCommentPayload,
+  getUserCommentsResult,
 } from './boards';

@@ -71,6 +71,20 @@ export type getUserBoardsResult = {
     };
   }>;
 };
+export type getUserCommentsResult = {
+  total: number | null;
+  comments: Array<{
+    content: string | null;
+    id: number | null;
+    board: {
+      createdAt: string;
+      hits: number | null;
+      title: string | null;
+      user: { nickname: string | null };
+      _count: { comments: number | null };
+    };
+  }>;
+};
 export type getUserInquiriesResult = {
   total: number | null;
   inquiries: Array<{

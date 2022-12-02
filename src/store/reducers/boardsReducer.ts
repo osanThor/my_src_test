@@ -18,6 +18,7 @@ import {
   getNoticeResult,
   GetUserBoardsPayload,
   getUserBoardsResult,
+  getUserCommentsResult,
   GetUserInquiriesPayload,
   getUserInquiriesResult,
   LoadBoardsBody,
@@ -62,6 +63,20 @@ export type BoardsStateType = {
       createdAt: string;
       _count: {
         comments: number;
+      };
+    }>;
+  };
+  getUserCommentsDone: {
+    total: number | null;
+    comments: Array<{
+      content: string | null;
+      id: number | null;
+      board: {
+        createdAt: string;
+        hits: number | null;
+        title: string | null;
+        user: { nickname: string | null };
+        _count: { comments: number | null };
       };
     }>;
   };
@@ -142,6 +157,7 @@ const initialState: BoardsStateType = {
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
+  getUserCommentsDone: { total: 0, comments: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: [],
   boardId: 0,
@@ -213,6 +229,15 @@ const boardsSlice = createSlice({
     getUserBoardsResult(state, action: PayloadAction<getUserBoardsResult>) {
       state.loadBoardsLoading = false;
       state.getUserBoardsDone = action.payload;
+    },
+    getUserComments(state, action: PayloadAction<GetUserBoardsPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.page = action.payload.page;
+    },
+    getUserCommentsResult(state, action: PayloadAction<getUserCommentsResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserCommentsDone = action.payload;
     },
     getUserLikes(state, action: PayloadAction<GetUserBoardsPayload>) {
       state.loadBoardsLoading = true;
