@@ -2,6 +2,7 @@ import { axiosInstance } from '.';
 import {
   createCommentPayload,
   CreateUserInquiruesPayload,
+  deleteCommentPayload,
   getBoardPayload,
   getBoardsPayload,
   getNoticePayload,
@@ -10,6 +11,7 @@ import {
   LoadBoardsPayload,
   LoadBoardsResponse,
   updateBoardPayload,
+  updateCommentPayload,
 } from '../types';
 
 // get board
@@ -59,3 +61,10 @@ export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.de
 // create Comment
 export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrls }: createCommentPayload) =>
   axiosInstance.post(`/boards/${boardId}/comments`, { parentCommentId, content, fileUrls });
+
+// update comment
+export const apiUpdateComment = ({ commentId, parentCommentId, content, fileUrls }: updateCommentPayload) =>
+  axiosInstance.put(`/boards/comments/${commentId}`, { parentCommentId, content, fileUrls });
+// delete comment
+export const apiDeleteComment = ({ commentId }: deleteCommentPayload) =>
+  axiosInstance.delete(`/boards/comments/${commentId}`);

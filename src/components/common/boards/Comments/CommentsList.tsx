@@ -2,7 +2,7 @@ import colors from '@/src/assets/Colors';
 import { MoreInfoIcon, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Moment from 'react-moment';
@@ -73,6 +73,27 @@ const CommentItem = ({
       setAddComment(true);
     }
   }, [parentCommentId]);
+
+  const [isMoCntrl, setIsMoCtrl] = useState(false);
+  const MoCtrlRef = useRef<HTMLDivElement>(null);
+  const MoCtrlButtonRef = useRef<HTMLDivElement>(null);
+  const handleMoCtrlWin = () => {
+    setIsMoCtrl(!isMoCntrl);
+  };
+  const handleClickOutSide = (e: any) => {
+    if (isMoCntrl && !MoCtrlRef.current.contains(e.target)) {
+      if (!MoCtrlButtonRef.current.contains(e.target)) {
+        handleMoCtrlWin();
+      }
+    }
+  };
+  useEffect(() => {
+    if (isMoCntrl) document.addEventListener('mousedown', handleClickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutSide);
+    };
+  });
+
   return (
     <CommentItemBlock className="item">
       <div className="parent_comment">
@@ -94,9 +115,17 @@ const CommentItem = ({
           <div className="btn add_comment" onClick={handleChangeParentsId}>
             답글쓰기
           </div>
-          <div className="btn more_info">
-            <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-          </div>
+          {nickname === user.nickname && (
+            <div className="btn more_info">
+              <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+              {isMoCntrl && (
+                <div className="board_mo_ctrl" ref={MoCtrlRef}>
+                  <div className="button">수정하기</div>
+                  <div className="button">삭제하기</div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="children_comments">
@@ -119,7 +148,7 @@ const CommentItem = ({
               </div>
               <div className="comment_content">{chlid.content}</div>
               <div className="comment_btns">
-                {nickname === user.nickname && (
+                {nickname === chlid.user.nickname && (
                   <div className="btn more_info">
                     <Image src={MoreInfoIcon[0]} alt="moreInfo" />
                   </div>

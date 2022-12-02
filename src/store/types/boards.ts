@@ -169,6 +169,16 @@ export type createCommentPayload = {
   fileUrls: Array<string> | [];
 };
 
+export type updateCommentPayload = {
+  commentId: number | null;
+  parentCommentId: number | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+export type deleteCommentPayload = {
+  commentId: number | null;
+};
+
 export type LoadBoardsResponse = {
   message: string | null;
 };

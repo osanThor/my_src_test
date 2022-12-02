@@ -65,4 +65,6 @@ export type {
   changeParentCommentId,
   createCommentPayload,
   getUserCommentsResult,
+  updateCommentPayload,
+  deleteCommentPayload,
 } from './boards';
