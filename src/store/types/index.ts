@@ -61,4 +61,5 @@ export type {
   CreateUserInquiruesPayload,
   getNoticeResult,
   getUserBoardsResult,
+  changeCategory,
 } from './boards';

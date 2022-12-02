@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeCategory,
   changeComment,
   changePage,
   changeTitle,
@@ -231,6 +232,9 @@ const boardsSlice = createSlice({
     },
     changeComment(state, action: PayloadAction<changeComment>) {
       state.comment = action.payload.comment;
+    },
+    changeCategory(state, action: PayloadAction<changeCategory>) {
+      state.category = action.payload.category;
     },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {

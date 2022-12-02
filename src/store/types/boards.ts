@@ -120,6 +120,9 @@ export type changeUser = {
 export type changeComment = {
   comment: string | null;
 };
+export type changeCategory = {
+  category: string | null;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;
