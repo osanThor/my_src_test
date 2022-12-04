@@ -9,6 +9,7 @@ import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import NoBoards from '../../common/NoBoards';
 
 const CommissionsTable = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const CommissionsTable = () => {
     loadGetBoardsDone: boards.loadGetBoardsDone,
     getNoticesDone: boards.getNoticesDone,
   }));
+  const { total } = loadGetBoardsDone;
 
   return (
     <>
@@ -58,33 +60,39 @@ const CommissionsTable = () => {
               </div>
             </div>
           ))}
-          {loadGetBoardsDone.boards.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">
-                <div className="icon">
-                  <Image src={Lock[0]} alt="lock" />
+          {total != 0 ? (
+            <>
+              {loadGetBoardsDone.boards.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">
+                    <div className="icon">
+                      <Image src={Lock[0]} alt="lock" />
+                    </div>
+                  </div>
+                  <div
+                    className="td title dark_gray pointer"
+                    onClick={
+                      board.user.nickname === nickname
+                        ? () => router.push(`/community/board/${board.id}`)
+                        : () => alert('권한이 없습니다')
+                    }
+                  >
+                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                  </div>
+                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+                  <div className="td">
+                    <span className="ver_m">조회수</span>
+                    {board.hits}
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
                 </div>
-              </div>
-              <div
-                className="td title dark_gray pointer"
-                onClick={
-                  board.user.nickname === nickname
-                    ? () => router.push(`/community/board/${board.id}`)
-                    : () => alert('권한이 없습니다')
-                }
-              >
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-              </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-              </div>
-            </div>
-          ))}
+              ))}
+            </>
+          ) : (
+            <NoBoards />
+          )}
         </div>
       </BoardsTableBlock>
       <BoardsTableBottom />

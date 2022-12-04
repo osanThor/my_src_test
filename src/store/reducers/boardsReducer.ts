@@ -249,6 +249,7 @@ const boardsSlice = createSlice({
       state.category = action.payload.category;
       state.page = action.payload.page;
       state.user = action.payload.user;
+      state.title = action.payload.title;
       state.comment = action.payload.comment;
     },
     getBoardsResult(state, action: PayloadAction<getBoardsResult>) {

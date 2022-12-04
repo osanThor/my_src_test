@@ -40,6 +40,9 @@ const CommunityIndex: NextPage = () => {
   }));
 
   const [isUser, setUser] = useState(false);
+  useEffect(() => {
+    dispatch(boardsActions.initializeBoardsForm());
+  }, [router, dispatch]);
 
   useEffect(() => {
     setUser(false);
@@ -57,7 +60,6 @@ const CommunityIndex: NextPage = () => {
 
   useEffect(() => {
     setUser(false);
-    dispatch(boardsActions.initializeBoardsForm());
     if (router.query.category === 'discussion') {
       dispatch(localActions.gotoComDiscussion());
     } else if (router.query.category === 'commission') {
@@ -66,15 +68,6 @@ const CommunityIndex: NextPage = () => {
       dispatch(localActions.gotoComRank());
     } else if (router.query.category === 'notice') {
       dispatch(localActions.gotoComNotice());
-    }
-    if (router.query.title) {
-      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
-    }
-    if (router.query.user) {
-      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
-    }
-    if (router.query.comment) {
-      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
     }
   }, [router]);
 
@@ -99,6 +92,21 @@ const CommunityIndex: NextPage = () => {
       if (isUser) {
         dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
       }
+    }
+    if (router.query.title) {
+      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
+    } else {
+      dispatch(boardsActions.changeTitle({ title: '' }));
+    }
+    if (router.query.user) {
+      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
+    } else {
+      dispatch(boardsActions.changeUser({ user: '' }));
+    }
+    if (router.query.comment) {
+      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
+    } else {
+      dispatch(boardsActions.changeComment({ comment: '' }));
     }
     if (router.query.page) {
       dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));

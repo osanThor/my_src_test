@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
+import NoBoards from '../../common/NoBoards';
 
 const NoticeTable = () => {
   const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
@@ -15,7 +16,7 @@ const NoticeTable = () => {
   const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
   }));
-
+  const { total } = loadGetBoardsDone;
   const [isNotice, setIsNotice] = useState(false);
   useEffect(() => {
     if (communityNotice) {
@@ -39,22 +40,28 @@ const NoticeTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {loadGetBoardsDone.boards.map((board) => (
-            <div className="tr" key={board.id}>
-              <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-              </div>
-              <div className="td dark_gray pointer">{(board.user && board.user.nickname) || '퀀트로'}</div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-              </div>
-            </div>
-          ))}
+          {total != 0 ? (
+            <>
+              {loadGetBoardsDone.boards.map((board) => (
+                <div className="tr" key={board.id}>
+                  <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
+                  <div className="td title dark_gray pointer">
+                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                  </div>
+                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || '퀀트로'}</div>
+                  <div className="td">
+                    <span className="ver_m">조회수</span>
+                    {board.hits}
+                  </div>
+                  <div className="td">
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            <NoBoards />
+          )}
         </div>
       </BoardsTableBlock>
       <BoardsTableBottom />
