@@ -26,21 +26,10 @@ const MypageIndex: NextPage = () => {
     page: boards.page,
   }));
 
-  useEffect(() => {
-    dispatch(userActions.getUserProfile());
-    dispatch(localActions.initializeAuthForm());
-    dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (router.query.state === 'edit') {
-      dispatch(localActions.gotoEditMyProfile());
-    } else if (router.query.state === 'boards') {
-      dispatch(localActions.gotoMyBoards());
-    }
-  }, [router]);
-
   const [isUser, setisUser] = useState(false);
+  useEffect(() => {
+    setisUser(false);
+  }, [router]);
   useEffect(() => {
     if (loadAuthDone) {
       if (loadAuthDone.accessToken) {
@@ -48,6 +37,24 @@ const MypageIndex: NextPage = () => {
       }
     }
   }, [loadAuthDone]);
+
+  useEffect(() => {
+    if (isUser) {
+      dispatch(userActions.getUserProfile());
+    }
+    dispatch(localActions.initializeAuthForm());
+    dispatch(boardsActions.initializeBoardsForm());
+  }, [dispatch, isUser]);
+
+  useEffect(() => {
+    if (router.query.state === 'edit') {
+      if (isUser) {
+        dispatch(localActions.gotoEditMyProfile());
+      }
+    } else if (router.query.state === 'boards') {
+      dispatch(localActions.gotoMyBoards());
+    }
+  }, [router, isUser]);
 
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());

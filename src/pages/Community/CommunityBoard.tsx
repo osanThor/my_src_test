@@ -6,7 +6,7 @@ import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayo
 import BoardTop from '@/src/components/community/detail/BoardTop';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { authActions, boardsActions } from '@/src/store/reducers';
+import { boardsActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';

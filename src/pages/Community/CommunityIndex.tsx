@@ -5,7 +5,7 @@ import CommissionsTable from '@/src/components/community/table/CommissionsTable'
 import NoticeTable from '@/src/components/community/table/NoticeTable';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { authActions, boardsActions, localActions } from '@/src/store/reducers';
+import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
