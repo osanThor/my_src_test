@@ -13,15 +13,18 @@ import styled from 'styled-components';
 const BoardContents = ({
   identity,
   handleOpenDeleteBoard,
+  handleSetBoardLike,
 }: {
   identity: boolean;
   handleOpenDeleteBoard: () => void;
+  handleSetBoardLike: () => void;
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const ViewContentsRef = useRef<HTMLDivElement>(null);
-  const { getBoardDone } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, isLike } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
+    isLike: boards.isLike,
   }));
   const { id, content, _count } = getBoardDone;
 
@@ -57,9 +60,9 @@ const BoardContents = ({
         <div className="contents" ref={ViewContentsRef} />
         <div className="contents_ctrl">
           <div className="left">
-            <div className="button">
+            <div className="button" onClick={handleSetBoardLike}>
               <div className="icon">
-                <Image src={Like[0]} alt="like" />
+                <Image src={isLike ? Like[1] : Like[0]} alt="like" />
               </div>
               <span className="count">{_count.likes}</span>
             </div>
@@ -251,6 +254,7 @@ const BoardContentsBlock = styled.div`
               box-shadow: ${({ theme }) => theme.boxShadow};
               border-radius: 8px;
               padding: 12px 6px;
+              z-index: 7;
               .button {
                 width: 100%;
                 padding: 0;

@@ -85,6 +85,34 @@ export type getUserCommentsResult = {
     };
   }>;
 };
+export type getUserCollectionsResult = {
+  total: number | null;
+  collections: Array<{
+    id: number | null;
+    board: {
+      id: number | null;
+      createdAt: string;
+      hits: number | null;
+      title: string | null;
+      user: { nickname: string | null };
+      _count: { comments: number | null };
+    };
+  }>;
+};
+export type getUserLikesResult = {
+  total: number | null;
+  likes: Array<{
+    id: number | null;
+    board: {
+      id: number | null;
+      createdAt: string;
+      hits: number | null;
+      title: string | null;
+      user: { nickname: string | null };
+      _count: { comments: number | null };
+    };
+  }>;
+};
 export type getUserInquiriesResult = {
   total: number | null;
   inquiries: Array<{
@@ -155,6 +183,9 @@ export type changeCategory = {
 export type changeParentCommentId = {
   parentCommentId: number | null;
 };
+export type changeCommentId = {
+  commentId: number | null;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;
@@ -169,6 +200,28 @@ export type createCommentPayload = {
   fileUrls: Array<string> | [];
 };
 
+export type updateCommentPayload = {
+  commentId: number | null;
+  parentCommentId: number | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+export type updateCommentStPayload = {
+  commentId: number | null;
+  parentCommentId: number | null;
+  content: string | null;
+};
+export type deleteCommentPayload = {
+  commentId: number | null;
+};
+export type setBoardCollectionPayload = {
+  boardId: number | null;
+  isCollect: boolean;
+};
+export type setBoardLikePayload = {
+  boardId: number | null;
+  isLike: boolean;
+};
 export type LoadBoardsResponse = {
   message: string | null;
 };

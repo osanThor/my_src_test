@@ -13,11 +13,11 @@ const MyCollectionsTable = () => {
   //   communityDiscussion: local.communityDiscussion,
   //   communityNotice: local.communityNotice,
   // }));
-  const { page, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { page, getUserCollectionsResult } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+    getUserCollectionsResult: boards.getUserCollectionsResult,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = getUserCollectionsResult;
   return (
     <>
       {total != 0 ? (
@@ -33,25 +33,26 @@ const MyCollectionsTable = () => {
               </div>
             </div>
             <div className="tbody">
-              {loadGetBoardsDone.boards.map((board) => (
+              {getUserCollectionsResult.collections.map((board) => (
                 <div className="tr" key={board.id}>
-                  <div className="td">{board.id}</div>
+                  <div className="td">{board.board.id}</div>
                   <div className="td title dark_gray pointer">
-                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                    <span className="tit">{board.board.title}</span>{' '}
+                    <span className="comments">{board.board._count.comments}</span>
                   </div>
-                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+                  <div className="td dark_gray pointer">{(board.board.user && board.board.user.nickname) || ''}</div>
                   <div className="td">
                     <span className="ver_m">조회수</span>
-                    {board.hits}
+                    {board.board.hits}
                   </div>
                   <div className="td">
-                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                    <Moment format="YYYY.MM.DD">{board.board.createdAt}</Moment>
                   </div>
                 </div>
               ))}
             </div>
           </BoardsTableBlock>
-          <MyBoardBottom />
+          <MyBoardBottom page={page} total={total} />
         </>
       ) : (
         <NoBoards />
@@ -60,8 +61,12 @@ const MyCollectionsTable = () => {
   );
 };
 
-const MyBoardBottom = () => {
-  return <MyBoardBottomBlock>{/* <Pagination /> */}</MyBoardBottomBlock>;
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
+  return (
+    <MyBoardBottomBlock>
+      <Pagination total={total} page={page} />
+    </MyBoardBottomBlock>
+  );
 };
 
 const MyBoardBottomBlock = styled.div`

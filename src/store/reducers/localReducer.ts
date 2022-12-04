@@ -16,6 +16,10 @@ export type LocalStateType = {
   myLikes: boolean;
   myCollections: boolean;
   myInquiries: boolean;
+  strategyCertifiedStrategy: boolean;
+  strategyUserStrategy: boolean;
+  strategyQuantroStrategy: boolean;
+  strategyQuantroIndicator: boolean;
   communityDiscussion: boolean;
   communityCommission: boolean;
   communityRank: boolean;
@@ -42,6 +46,11 @@ const initialState: LocalStateType = {
   myLikes: false,
   myCollections: false,
   myInquiries: false,
+  //strategy
+  strategyCertifiedStrategy: false,
+  strategyUserStrategy: false,
+  strategyQuantroStrategy: false,
+  strategyQuantroIndicator: false,
   //community
   communityDiscussion: false,
   communityCommission: false,
@@ -148,6 +157,31 @@ const localSlice = createSlice({
       state.myLikes = false;
       state.myCollections = false;
       state.myInquiries = true;
+    },
+    //strategy actions
+    gotoStraCertifiedStrategy(state) {
+      state.strategyCertifiedStrategy = true;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
+    },
+    gotoStraUserStrategy(state) {
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = true;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
+    },
+    gotoStraQuantroStrategy(state) {
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = true;
+      state.strategyQuantroIndicator = false;
+    },
+    gotoStraQuantroIndicator(state) {
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = true;
     },
     // community Actions
     gotoComDiscussion(state) {

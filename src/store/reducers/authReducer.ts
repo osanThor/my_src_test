@@ -115,6 +115,11 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.pw = action.payload.pw;
     },
+    //reset
+    resetDone(state) {
+      state.loadAuthError = null;
+      state.loadAuthDone = { message: undefined, accessToken: undefined, expiryTime: undefined };
+    },
   },
 });
 

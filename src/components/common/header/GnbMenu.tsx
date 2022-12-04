@@ -115,7 +115,7 @@ const GnbMenu = () => {
           </Link>
         </div>
         <div className="gnb_menu">
-          <Link href="/strategy">
+          <Link href="/strategy?category=certified">
             <a className={strategy ? 'on' : ''}>
               <div className="headerIcon" />
               <span>전략</span>

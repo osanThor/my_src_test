@@ -13,45 +13,54 @@ import { useDispatch } from 'react-redux';
 const MypageIndex: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
   const { editMyProfile, myBoards } = useSelector(({ local }: RootState) => ({
     editMyProfile: local.editMyProfile,
     myBoards: local.myBoards,
   }));
-
   const { category, page } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
   }));
 
+  const [isUser, setisUser] = useState(false);
   useEffect(() => {
-    dispatch(userActions.getUserProfile());
-    dispatch(localActions.initializeAuthForm());
+    setisUser(false);
+  }, [router]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setisUser(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
+  useEffect(() => {
+    if (isUser) {
+      dispatch(userActions.getUserProfile());
+    }
     dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
+  }, [dispatch, isUser]);
 
   useEffect(() => {
     if (router.query.state === 'edit') {
-      dispatch(localActions.gotoEditMyProfile());
+      if (isUser) {
+        dispatch(localActions.gotoEditMyProfile());
+      }
     } else if (router.query.state === 'boards') {
       dispatch(localActions.gotoMyBoards());
     }
-  }, [router]);
-
-  const [isUser, setisUser] = useState(false);
-  useEffect(() => {
-    if (loadAuthDone) {
-      if (loadAuthDone.accessToken) {
-        setisUser(true);
-      }
-    }
-  }, [loadAuthDone]);
+  }, [router, isUser]);
 
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-    console.log(page);
     if (isUser) {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());
@@ -74,7 +83,7 @@ const MypageIndex: NextPage = () => {
         dispatch(boardsActions.getUserInquiries({ page }));
       }
     }
-
+    setisUser(false);
     if (router.query.page) {
       dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
     } else {

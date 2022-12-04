@@ -9,13 +9,13 @@ import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
 import { axiosInstance } from '@/src/store/api';
 
-const CommentEditor = () => {
+const UpdateCommentEditor = () => {
   const dispatch = useDispatch();
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, content, parentCommentId } = useSelector(({ boards }: RootState) => ({
-    boardId: boards.boardId,
+  const { commentId, content, parentCommentId } = useSelector(({ boards }: RootState) => ({
+    commentId: boards.commentId,
     content: boards.content,
     parentCommentId: boards.parentCommentId,
   }));
@@ -27,11 +27,10 @@ const CommentEditor = () => {
     const { name, value } = e.target;
     console.log(name, value);
     dispatch(
-      boardsActions.changeCommentState({
-        boardId,
+      boardsActions.updateCommentSt({
+        commentId,
         content: value,
         parentCommentId: parentCommentId,
-        fileUrls,
       }),
     );
   };
@@ -69,14 +68,14 @@ const CommentEditor = () => {
     setFileUrls(newArr);
   };
 
-  // create comment
+  // update comment
   const handleCreateComment = () => {
     if (!content) {
       alert('댓글을 입려해주세요');
       return;
     }
-    console.log('호출!!!');
-    dispatch(boardsActions.createComment({ boardId, parentCommentId, content, fileUrls }));
+    console.log('update comment');
+    dispatch(boardsActions.updateComment({ commentId, parentCommentId, content, fileUrls }));
     setFileUrls([]);
   };
 
@@ -88,7 +87,7 @@ const CommentEditor = () => {
 
   return (
     <div className="comments_Editor">
-      <div className="nickname">{nickname}</div>
+      <div className="nickname">{nickname} gpgp</div>
       <StyledTextArea name="content" placeholder="댓글을 남겨보세요" onChange={handleChangeComment} value={content} />
       <div className="photo_area">
         {fileUrls.length === 0 || (
@@ -143,4 +142,4 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-export default CommentEditor;
+export default UpdateCommentEditor;

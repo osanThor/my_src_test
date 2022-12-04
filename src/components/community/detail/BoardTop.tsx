@@ -8,7 +8,13 @@ import Moment from 'react-moment';
 import styled from 'styled-components';
 import { media } from '@/styles/theme';
 
-const BoardTop = ({ copyURL }: { copyURL: () => void }) => {
+const BoardTop = ({
+  copyURL,
+  handleSetBoardCollection,
+}: {
+  copyURL: () => void;
+  handleSetBoardCollection: () => void;
+}) => {
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
@@ -21,7 +27,7 @@ const BoardTop = ({ copyURL }: { copyURL: () => void }) => {
         <div className="title">{title}</div>
         <div className="top_btns">
           <div className="button">
-            <div className="icon">
+            <div className="icon" onClick={handleSetBoardCollection}>
               <Image src={Menu7[0]} alt="collection" />
             </div>
           </div>

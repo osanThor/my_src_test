@@ -17,24 +17,47 @@ const CommunityBoard = () => {
   const dispatch = useDispatch();
   const [boardIdSt, setBoardIdSt] = useState(0);
 
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
 
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(({ boards }: RootState) => ({
-    boardId: boards.boardId,
-    getBoardDone: boards.getBoardDone,
-    loadBoardsDone: boards.loadBoardsDone,
-    loadBoardsError: boards.loadBoardsError,
-  }));
+  const { boardId, getBoardDone, commentId, isCollect, isLike, loadBoardsDone, loadBoardsError } = useSelector(
+    ({ boards }: RootState) => ({
+      boardId: boards.boardId,
+      getBoardDone: boards.getBoardDone,
+      commentId: boards.commentId,
+      isCollect: boards.isCollect,
+      isLike: boards.isLike,
+      loadBoardsDone: boards.loadBoardsDone,
+      loadBoardsError: boards.loadBoardsError,
+    }),
+  );
   //not user
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) router.push('/');
   }, []);
+
+  // api request once
+  const [once, setOnce] = useState(false);
+  useEffect(() => {
+    setOnce(false);
+  }, [router]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setOnce(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
   //reset
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
@@ -43,18 +66,11 @@ const CommunityBoard = () => {
   // local baordId
   const { bId } = router.query;
   useEffect(() => {
+    setOnce(false);
     if (bId) {
       setBoardIdSt(parseInt(bId as string));
     }
   }, [bId]);
-
-  // api request once
-  const [once, setOnce] = useState(false);
-  useEffect(() => {
-    if (loadAuthDone.accessToken) {
-      setOnce(true);
-    }
-  }, [loadAuthDone]);
 
   useEffect(() => {
     if (once) {
@@ -76,10 +92,24 @@ const CommunityBoard = () => {
   const [fModalMessage, setFModalMessage] = useState('');
   const handleFunctionModalClose = () => {
     setFModalOpen(false);
+    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
   };
   const handleOpenDeleteBoard = () => {
     setFModalOpen(true);
     setFModalMessage('게시글을 삭제할까요?');
+  };
+
+  const handleDleteBoard = () => {
+    dispatch(boardsActions.deleteBoard({ boardId }));
+  };
+  const [isComment, setIsComment] = useState(false);
+  const handleOpenDleteComment = () => {
+    setFModalOpen(true);
+    setFModalMessage('댓글을 삭제할까요?');
+    setIsComment(true);
+  };
+  const handleDleteComment = () => {
+    dispatch(boardsActions.deleteComment({ commentId }));
   };
 
   useEffect(() => {
@@ -90,13 +120,31 @@ const CommunityBoard = () => {
 
     if (loadBoardsDone) {
       if (loadBoardsDone.message === 'DELETED') {
-        router.push('/community?category=discussion');
+        handleFunctionModalClose();
+        dispatch(boardsActions.getBoard({ boardId }));
+        if (isComment) {
+        } else {
+          router.push('/community?category=discussion');
+        }
       } else if (loadBoardsDone.message === 'CREATED') {
         dispatch(boardsActions.getBoard({ boardId }));
         dispatch(boardsActions.initialCommentState());
+      } else if (loadBoardsDone.message === 'UPDATED') {
+        dispatch(boardsActions.getBoard({ boardId }));
+        dispatch(boardsActions.initialCommentState());
+        dispatch(boardsActions.changeCommentId({ commentId: 0 }));
       }
     }
   }, [loadBoardsDone, loadBoardsError]);
+
+  // collection
+  const handleSetBoardCollection = () => {
+    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: true }));
+  };
+  // like
+  const handleSetBoardLike = () => {
+    dispatch(boardsActions.setBoardLike({ boardId, isLike: !isLike }));
+  };
 
   const copyURL = () => {
     let currentUrl = window.document.location.href;
@@ -122,9 +170,13 @@ const CommunityBoard = () => {
     <>
       <UserLayout>
         <BoardDetailLayout>
-          <BoardTop copyURL={copyURL} />
-          <BoardContents identity={identity} handleOpenDeleteBoard={handleOpenDeleteBoard} />
-          <CommentsLayout />
+          <BoardTop copyURL={copyURL} handleSetBoardCollection={handleSetBoardCollection} />
+          <BoardContents
+            identity={identity}
+            handleOpenDeleteBoard={handleOpenDeleteBoard}
+            handleSetBoardLike={handleSetBoardLike}
+          />
+          <CommentsLayout handleOpenDleteComment={handleOpenDleteComment} />
         </BoardDetailLayout>
       </UserLayout>
       <FuncModal
@@ -136,7 +188,7 @@ const CommunityBoard = () => {
           btnTxt: '삭제하기',
         }}
         dubBtn={true}
-        onClick={() => dispatch(boardsActions.deleteBoard({ boardId }))}
+        onClick={isComment ? handleDleteComment : handleDleteBoard}
         onClick2={handleFunctionModalClose}
       />
       <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
