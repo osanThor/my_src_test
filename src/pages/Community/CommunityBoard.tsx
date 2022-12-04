@@ -25,12 +25,15 @@ const CommunityBoard = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, getBoardDone, loadBoardsDone, loadBoardsError } = useSelector(({ boards }: RootState) => ({
-    boardId: boards.boardId,
-    getBoardDone: boards.getBoardDone,
-    loadBoardsDone: boards.loadBoardsDone,
-    loadBoardsError: boards.loadBoardsError,
-  }));
+  const { boardId, getBoardDone, commentId, loadBoardsDone, loadBoardsError } = useSelector(
+    ({ boards }: RootState) => ({
+      boardId: boards.boardId,
+      getBoardDone: boards.getBoardDone,
+      commentId: boards.commentId,
+      loadBoardsDone: boards.loadBoardsDone,
+      loadBoardsError: boards.loadBoardsError,
+    }),
+  );
   //not user
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -87,10 +90,24 @@ const CommunityBoard = () => {
   const [fModalMessage, setFModalMessage] = useState('');
   const handleFunctionModalClose = () => {
     setFModalOpen(false);
+    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
   };
   const handleOpenDeleteBoard = () => {
     setFModalOpen(true);
     setFModalMessage('게시글을 삭제할까요?');
+  };
+
+  const handleDleteBoard = () => {
+    dispatch(boardsActions.deleteBoard({ boardId }));
+  };
+  const [isComment, setIsComment] = useState(false);
+  const handleOpenDleteComment = () => {
+    setFModalOpen(true);
+    setFModalMessage('댓글을 삭제할까요?');
+    setIsComment(true);
+  };
+  const handleDleteComment = () => {
+    dispatch(boardsActions.deleteComment({ commentId }));
   };
 
   useEffect(() => {
@@ -101,7 +118,12 @@ const CommunityBoard = () => {
 
     if (loadBoardsDone) {
       if (loadBoardsDone.message === 'DELETED') {
-        router.push('/community?category=discussion');
+        handleFunctionModalClose();
+        dispatch(boardsActions.getBoard({ boardId }));
+        if (isComment) {
+        } else {
+          router.push('/community?category=discussion');
+        }
       } else if (loadBoardsDone.message === 'CREATED') {
         dispatch(boardsActions.getBoard({ boardId }));
         dispatch(boardsActions.initialCommentState());
@@ -135,7 +157,7 @@ const CommunityBoard = () => {
         <BoardDetailLayout>
           <BoardTop copyURL={copyURL} />
           <BoardContents identity={identity} handleOpenDeleteBoard={handleOpenDeleteBoard} />
-          <CommentsLayout />
+          <CommentsLayout handleOpenDleteComment={handleOpenDleteComment} />
         </BoardDetailLayout>
       </UserLayout>
       <FuncModal
@@ -147,7 +169,7 @@ const CommunityBoard = () => {
           btnTxt: '삭제하기',
         }}
         dubBtn={true}
-        onClick={() => dispatch(boardsActions.deleteBoard({ boardId }))}
+        onClick={isComment ? handleDleteComment : handleDleteBoard}
         onClick2={handleFunctionModalClose}
       />
       <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />

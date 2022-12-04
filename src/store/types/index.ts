@@ -63,6 +63,7 @@ export type {
   getUserBoardsResult,
   changeCategory,
   changeParentCommentId,
+  changeCommentId,
   createCommentPayload,
   getUserCommentsResult,
   updateCommentPayload,

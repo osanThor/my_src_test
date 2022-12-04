@@ -11,7 +11,7 @@ import { media } from '@/styles/theme';
 import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
 
-const CommentsList = () => {
+const CommentsList = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
@@ -19,7 +19,7 @@ const CommentsList = () => {
   return (
     <CommentsListBlock>
       {comments.map((cm) => (
-        <CommentItem key={cm.id} cm={cm} />
+        <CommentItem key={cm.id} cm={cm} handleOpenDleteComment={handleOpenDleteComment} />
       ))}
     </CommentsListBlock>
   );
@@ -27,6 +27,7 @@ const CommentsList = () => {
 
 const CommentItem = ({
   cm,
+  handleOpenDleteComment,
 }: {
   cm: {
     childComment:
@@ -44,6 +45,7 @@ const CommentItem = ({
       nickname: string;
     };
   };
+  handleOpenDleteComment: () => void;
 }) => {
   const dispatch = useDispatch();
   const { nickname } = useSelector(({ user }: RootState) => ({
@@ -74,34 +76,28 @@ const CommentItem = ({
     }
   }, [parentCommentId]);
 
+  const handleOpenDlete = () => {
+    handleOpenDleteComment();
+    dispatch(boardsActions.changeCommentId({ commentId: id }));
+  };
+
   const [isMoCntrl, setIsMoCtrl] = useState(false);
   const MoCtrlRef = useRef<HTMLDivElement>(null);
   const MoCtrlButtonRef = useRef<HTMLDivElement>(null);
   const handleMoCtrlWin = () => {
     setIsMoCtrl(!isMoCntrl);
   };
-  const [isMoChildCntrl, setIsMoChildCtrl] = useState(false);
-  const MoChildCtrlRef = useRef<HTMLDivElement>(null);
-  const MoChildCtrlButtonRef = useRef<HTMLDivElement>(null);
-  const handleMoChildCtrlWin = () => {
-    setIsMoChildCtrl(!isMoCntrl);
-  };
+
   const handleClickOutSide = (e: any) => {
     if (isMoCntrl && !MoCtrlRef.current.contains(e.target)) {
       if (!MoCtrlButtonRef.current.contains(e.target)) {
         handleMoCtrlWin();
       }
     }
-
-    if (isMoChildCntrl && !MoChildCtrlRef.current.contains(e.target)) {
-      if (!MoChildCtrlButtonRef.current.contains(e.target)) {
-        handleMoChildCtrlWin();
-      }
-    }
   };
 
   useEffect(() => {
-    if (isMoCntrl || isMoChildCntrl) document.addEventListener('mousedown', handleClickOutSide);
+    if (isMoCntrl) document.addEventListener('mousedown', handleClickOutSide);
     return () => {
       document.removeEventListener('mousedown', handleClickOutSide);
     };
@@ -134,7 +130,9 @@ const CommentItem = ({
               {isMoCntrl && (
                 <div className="board_mo_ctrl" ref={MoCtrlRef}>
                   <div className="button">수정하기</div>
-                  <div className="button">삭제하기</div>
+                  <div className="button" onClick={handleOpenDlete}>
+                    삭제하기
+                  </div>
                 </div>
               )}
             </div>
@@ -145,40 +143,92 @@ const CommentItem = ({
         <span className="comments_spacer" />
         <div className="comments_con">
           {childComment.map((chlid) => (
-            <div className="parent_comment" key={chlid.id}>
-              <div className="profile">
-                <div className="profile_image">
-                  <Image src={Profile1[1]} alt="profile" layout="fill" />
-                </div>
-                <div className="profile_info">
-                  <div className={getBoardDone.user.nickname === chlid.user.nickname ? 'nickname on' : 'nickname'}>
-                    {chlid.user ? chlid.user.nickname : '닉네임없음'}
-                  </div>
-                  <Moment format="YYYY.MM.DD HH.MM" className="Moment">
-                    {chlid.createdAt}
-                  </Moment>
-                </div>
-              </div>
-              <div className="comment_content">{chlid.content}</div>
-              <div className="comment_btns">
-                {nickname === chlid.user.nickname && (
-                  <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
-                    <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-                    {isMoChildCntrl && (
-                      <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
-                        <div className="button">수정하기</div>
-                        <div className="button">삭제하기</div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
+            <ChlidrenItem key={chlid.id} chlid={chlid} handleOpenDleteComment={handleOpenDleteComment} />
           ))}
           {addComment && <CommentEditor />}
         </div>
       </div>
     </CommentItemBlock>
+  );
+};
+const ChlidrenItem = ({
+  chlid,
+  handleOpenDleteComment,
+}: {
+  chlid: {
+    content: string;
+    createdAt: string;
+    id: number;
+    user: {
+      nickname: string;
+    };
+  };
+  handleOpenDleteComment: () => void;
+}) => {
+  const dispatch = useDispatch();
+  const { getBoardDone } = useSelector(({ boards }: RootState) => ({
+    getBoardDone: boards.getBoardDone,
+  }));
+  const { nickname } = useSelector(({ user }: RootState) => ({
+    nickname: user.nickname,
+  }));
+  const [isMoChildCntrl, setIsMoChildCtrl] = useState(false);
+  const MoChildCtrlRef = useRef<HTMLDivElement>(null);
+  const MoChildCtrlButtonRef = useRef<HTMLDivElement>(null);
+  const handleMoChildCtrlWin = () => {
+    setIsMoChildCtrl(!isMoChildCntrl);
+  };
+  const handleOpenDelte = () => {
+    handleOpenDleteComment();
+    dispatch(boardsActions.changeCommentId({ commentId: chlid.id }));
+  };
+
+  const handleClickOutSide = (e: any) => {
+    if (isMoChildCntrl && !MoChildCtrlRef.current.contains(e.target)) {
+      if (!MoChildCtrlButtonRef.current.contains(e.target)) {
+        handleMoChildCtrlWin();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isMoChildCntrl) document.addEventListener('mousedown', handleClickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutSide);
+    };
+  });
+  return (
+    <div className="parent_comment">
+      <div className="profile">
+        <div className="profile_image">
+          <Image src={Profile1[1]} alt="profile" layout="fill" />
+        </div>
+        <div className="profile_info">
+          <div className={getBoardDone.user.nickname === chlid.user.nickname ? 'nickname on' : 'nickname'}>
+            {chlid.user ? chlid.user.nickname : '닉네임없음'}
+          </div>
+          <Moment format="YYYY.MM.DD HH.MM" className="Moment">
+            {chlid.createdAt}
+          </Moment>
+        </div>
+      </div>
+      <div className="comment_content">{chlid.content}</div>
+      <div className="comment_btns">
+        {nickname === chlid.user.nickname && (
+          <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
+            <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+            {isMoChildCntrl && (
+              <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
+                <div className="button">수정하기</div>
+                <div className="button" onClick={handleOpenDelte}>
+                  삭제하기
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

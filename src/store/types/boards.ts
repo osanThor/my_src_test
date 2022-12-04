@@ -155,6 +155,9 @@ export type changeCategory = {
 export type changeParentCommentId = {
   parentCommentId: number | null;
 };
+export type changeCommentId = {
+  commentId: number | null;
+};
 export type LoadBoardsPayload = {
   category: string | null;
   title: string | null;

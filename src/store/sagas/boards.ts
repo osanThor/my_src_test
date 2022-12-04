@@ -8,6 +8,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   createCommentPayload,
   CreateUserInquiruesPayload,
+  deleteCommentPayload,
   getBoardPayload,
   getBoardsPayload,
   getBoardsResult,
@@ -19,6 +20,7 @@ import {
   LoadBoardsPayload,
   LoadBoardsResponse,
   updateBoardPayload,
+  updateCommentPayload,
 } from '../types';
 
 // api
@@ -37,6 +39,8 @@ import {
   apiDeleteBoard,
   apiCreateComment,
   apiGetUserComments,
+  apiDeleteComment,
+  apiUpdateComment,
 } from '../api';
 
 // get boards
@@ -271,6 +275,42 @@ function* createCommentSaga(action: PayloadAction<createCommentPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// update comment
+function* updateCommentSaga(action: PayloadAction<updateCommentPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiUpdateComment, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+// delete comment
+function* deleteCommentSaga(action: PayloadAction<deleteCommentPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiDeleteComment, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -286,6 +326,8 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.updateBoard, updateBoardSaga);
   yield takeLatest(boardsActions.deleteBoard, deleteBoardSaga);
   yield takeLatest(boardsActions.createComment, createCommentSaga);
+  yield takeLatest(boardsActions.updateComment, updateCommentSaga);
+  yield takeLatest(boardsActions.deleteComment, deleteCommentSaga);
 }
 
 export default function* boardsSaga() {

@@ -1,3 +1,4 @@
+import { changeCommentId } from './../types/boards';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -337,6 +338,9 @@ const boardsSlice = createSlice({
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;
+    },
+    changeCommentId(state, action: PayloadAction<changeCommentId>) {
+      state.commentId = action.payload.commentId;
     },
     updateComment(state, action: PayloadAction<updateCommentPayload>) {
       state.loadBoardsLoading = true;

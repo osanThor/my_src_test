@@ -10,7 +10,7 @@ import CommentEditor from './CommentEditor';
 import CommentsList from './CommentsList';
 import DummyEditor from './DummyEditor';
 
-const CommentsLayout = () => {
+const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
   const dispatch = useDispatch();
   const { getBoardDone, parentCommentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
@@ -29,7 +29,7 @@ const CommentsLayout = () => {
       <span className="board_spacer" />
       <div className="comments_area">
         <div className="comments_title">댓글</div>
-        {comments.length !== 0 && <CommentsList />}
+        {comments.length !== 0 && <CommentsList handleOpenDleteComment={handleOpenDleteComment} />}
         {parentCommentId === 0 ? <CommentEditor /> : <DummyEditor onClick={handleChangeParentsIdZero} />}
       </div>
     </CommentsLayoutBlock>
