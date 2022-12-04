@@ -251,6 +251,7 @@ const BoardContentsBlock = styled.div`
               box-shadow: ${({ theme }) => theme.boxShadow};
               border-radius: 8px;
               padding: 12px 6px;
+              z-index: 7;
               .button {
                 width: 100%;
                 padding: 0;

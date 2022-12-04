@@ -1,26 +1,49 @@
 import { ArrowLeft, Menu7, ShareIcon } from '@/src/assets/Images';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Modal from '../Modal';
 
 const MBoardHeader = () => {
   const router = useRouter();
+  const copyURL = () => {
+    let currentUrl = window.document.location.href;
+    let t = document.createElement('textarea');
+    document.body.appendChild(t);
+    t.value = currentUrl;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+
+    setModalOpen(true);
+    setModalMessage('링크가 복사되었습니다.');
+    setModalError(false);
+  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalError, setModalError] = useState(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   return (
-    <MBoardHeaderBlock>
-      <div className="backBtn" onClick={() => router.back()}>
-        <Image src={ArrowLeft} alt="back button" />
-      </div>
-      <div className="right_btns">
-        <div className="button">
-          <Image src={Menu7[0]} alt="collection" />
+    <>
+      <MBoardHeaderBlock>
+        <div className="backBtn" onClick={() => router.back()}>
+          <Image src={ArrowLeft} alt="back button" />
         </div>
-        <div className="button">
-          <Image src={ShareIcon} alt="share" />
+        <div className="right_btns">
+          <div className="button">
+            <Image src={Menu7[0]} alt="collection" />
+          </div>
+          <div className="button" onClick={copyURL}>
+            <Image src={ShareIcon} alt="share" />
+          </div>
         </div>
-      </div>
-    </MBoardHeaderBlock>
+      </MBoardHeaderBlock>
+      <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
+    </>
   );
 };
 

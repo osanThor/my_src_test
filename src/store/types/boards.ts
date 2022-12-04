@@ -186,7 +186,14 @@ export type updateCommentStPayload = {
 export type deleteCommentPayload = {
   commentId: number | null;
 };
-
+export type setBoardCollectionPayload = {
+  boardId: number | null;
+  isCollect: boolean;
+};
+export type setBoardLikePayload = {
+  boardId: number | null;
+  isLike: boolean;
+};
 export type LoadBoardsResponse = {
   message: string | null;
 };

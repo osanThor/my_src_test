@@ -10,6 +10,8 @@ import {
   GetUserInquiriesPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  setBoardCollectionPayload,
+  setBoardLikePayload,
   updateBoardPayload,
   updateCommentPayload,
 } from '../types';
@@ -68,3 +70,10 @@ export const apiUpdateComment = ({ commentId, parentCommentId, content, fileUrls
 // delete comment
 export const apiDeleteComment = ({ commentId }: deleteCommentPayload) =>
   axiosInstance.delete(`/boards/comments/${commentId}`);
+
+// set unset board colleciton
+export const apiSetBoardCollection = ({ boardId, isCollect }: setBoardCollectionPayload) =>
+  axiosInstance.post(`/boards/${boardId}/collections?isCollect=${isCollect}`);
+// set unset board like
+export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
+  axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);

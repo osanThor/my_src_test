@@ -69,4 +69,6 @@ export type {
   updateCommentStPayload,
   updateCommentPayload,
   deleteCommentPayload,
+  setBoardCollectionPayload,
+  setBoardLikePayload,
 } from './boards';
