@@ -79,6 +79,12 @@ const UpdateCommentEditor = () => {
     setFileUrls([]);
   };
 
+  const handleCanelComment = () => {
+    dispatch(boardsActions.initialCommentState());
+    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
+    dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
+  };
+
   return (
     <div className="comments_Editor">
       <div className="nickname">{nickname} gpgp</div>
@@ -105,7 +111,9 @@ const UpdateCommentEditor = () => {
           <div className="comment_btns">
             {content && (
               <>
-                <div className="btn cancel">취소</div>
+                <div className="btn cancel" onClick={handleCanelComment}>
+                  취소
+                </div>
                 <div className="btn add" onClick={handleCreateComment}>
                   등록
                 </div>

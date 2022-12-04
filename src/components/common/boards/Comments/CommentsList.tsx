@@ -219,9 +219,8 @@ const ChlidrenItem = ({
   setChildCommentUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useDispatch();
-  const { getBoardDone, parentCommentId, commentId } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, commentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
-    parentCommentId: boards.parentCommentId,
     commentId: boards.commentId,
   }));
   const { nickname } = useSelector(({ user }: RootState) => ({
