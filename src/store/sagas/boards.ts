@@ -101,10 +101,10 @@ function* getUserBoardsSaga(action: PayloadAction<GetUserBoardsPayload>) {
 function* getUserCommentsSaga(action: PayloadAction<GetUserBoardsPayload>) {
   yield put(boardsActions.loadBoardsRequest());
   try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetUserComments, action.payload);
+    const { data }: AxiosResponse<getUserCommentsResult> = yield call(apiGetUserComments, action.payload);
     console.log(data);
 
-    yield put(boardsActions.getBoardsResult(data));
+    yield put(boardsActions.getUserCommentsResult(data));
   } catch (error: any) {
     console.error('boardsSaga getUserLikesSaga >> ', error);
 

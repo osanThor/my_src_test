@@ -13,14 +13,15 @@ import { useDispatch } from 'react-redux';
 const MypageIndex: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
   const { editMyProfile, myBoards } = useSelector(({ local }: RootState) => ({
     editMyProfile: local.editMyProfile,
     myBoards: local.myBoards,
   }));
-
   const { category, page } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
@@ -30,19 +31,21 @@ const MypageIndex: NextPage = () => {
   useEffect(() => {
     setisUser(false);
   }, [router]);
+
   useEffect(() => {
-    if (loadAuthDone) {
-      if (loadAuthDone.accessToken) {
-        setisUser(true);
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setisUser(true);
+        }
       }
     }
-  }, [loadAuthDone]);
+  }, [loadAuthLoading, loadAuthDone]);
 
   useEffect(() => {
     if (isUser) {
       dispatch(userActions.getUserProfile());
     }
-    dispatch(localActions.initializeAuthForm());
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch, isUser]);
 
@@ -58,7 +61,6 @@ const MypageIndex: NextPage = () => {
 
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-    console.log(page);
     if (isUser) {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());
@@ -81,7 +83,7 @@ const MypageIndex: NextPage = () => {
         dispatch(boardsActions.getUserInquiries({ page }));
       }
     }
-
+    setisUser(false);
     if (router.query.page) {
       dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
     } else {

@@ -82,13 +82,11 @@ const CommunityIndex: NextPage = () => {
     if (communityDiscussion) {
       dispatch(boardsActions.getBoards({ category: 'DISCUSSION', page, user, title, comment }));
       if (isUser) {
-        console.log('두번 나오면 뒤진다');
         dispatch(boardsActions.getNotices({ category: 'DISCUSSION' }));
       }
     } else if (communityCommission) {
       dispatch(boardsActions.getBoards({ category: 'COMMISSION', page, user, title, comment }));
       if (isUser) {
-        console.log('두번 나오면 뒤진다');
         dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
       }
     } else if (communityRank) {
