@@ -25,11 +25,13 @@ const CommunityBoard = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, getBoardDone, commentId, loadBoardsDone, loadBoardsError } = useSelector(
+  const { boardId, getBoardDone, commentId, isCollect, isLike, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
       boardId: boards.boardId,
       getBoardDone: boards.getBoardDone,
       commentId: boards.commentId,
+      isCollect: boards.isCollect,
+      isLike: boards.isLike,
       loadBoardsDone: boards.loadBoardsDone,
       loadBoardsError: boards.loadBoardsError,
     }),
@@ -135,8 +137,13 @@ const CommunityBoard = () => {
     }
   }, [loadBoardsDone, loadBoardsError]);
 
+  // collection
   const handleSetBoardCollection = () => {
     dispatch(boardsActions.setBoardCollection({ boardId, isCollect: true }));
+  };
+  // like
+  const handleSetBoardLike = () => {
+    dispatch(boardsActions.setBoardLike({ boardId, isLike: !isLike }));
   };
 
   const copyURL = () => {
@@ -164,7 +171,11 @@ const CommunityBoard = () => {
       <UserLayout>
         <BoardDetailLayout>
           <BoardTop copyURL={copyURL} handleSetBoardCollection={handleSetBoardCollection} />
-          <BoardContents identity={identity} handleOpenDeleteBoard={handleOpenDeleteBoard} />
+          <BoardContents
+            identity={identity}
+            handleOpenDeleteBoard={handleOpenDeleteBoard}
+            handleSetBoardLike={handleSetBoardLike}
+          />
           <CommentsLayout handleOpenDleteComment={handleOpenDleteComment} />
         </BoardDetailLayout>
       </UserLayout>
