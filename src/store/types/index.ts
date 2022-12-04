@@ -66,6 +66,8 @@ export type {
   changeCommentId,
   createCommentPayload,
   getUserCommentsResult,
+  getUserCollectionsResult,
+  getUserLikesResult,
   updateCommentStPayload,
   updateCommentPayload,
   deleteCommentPayload,

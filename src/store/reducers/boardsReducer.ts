@@ -30,6 +30,10 @@ import {
   updateCommentPayload,
   changeCommentId,
   updateCommentStPayload,
+  setBoardCollectionPayload,
+  setBoardLikePayload,
+  getUserLikesResult,
+  getUserCollectionsResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -76,6 +80,34 @@ export type BoardsStateType = {
       content: string | null;
       id: number | null;
       board: {
+        createdAt: string;
+        hits: number | null;
+        title: string | null;
+        user: { nickname: string | null };
+        _count: { comments: number | null };
+      };
+    }>;
+  };
+  getUserCollectionsResult: {
+    total: number | null;
+    collections: Array<{
+      id: number | null;
+      board: {
+        id: number | null;
+        createdAt: string;
+        hits: number | null;
+        title: string | null;
+        user: { nickname: string | null };
+        _count: { comments: number | null };
+      };
+    }>;
+  };
+  getUserLikesResult: {
+    total: number | null;
+    likes: Array<{
+      id: number | null;
+      board: {
+        id: number | null;
         createdAt: string;
         hits: number | null;
         title: string | null;
@@ -145,6 +177,8 @@ export type BoardsStateType = {
     };
   };
   commentId: number | null;
+  isCollect: boolean;
+  isLike: boolean;
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -163,6 +197,8 @@ const initialState: BoardsStateType = {
   loadGetBoardsDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
   getUserCommentsDone: { total: 0, comments: [] },
+  getUserCollectionsResult: { total: 0, collections: [] },
+  getUserLikesResult: { total: 0, likes: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: [],
   boardId: 0,
@@ -185,6 +221,8 @@ const initialState: BoardsStateType = {
     },
   },
   commentId: 0,
+  isCollect: false,
+  isLike: false,
   loadBoardsDone: null,
   loadBoardsError: null,
 };
@@ -250,10 +288,18 @@ const boardsSlice = createSlice({
       state.category = action.payload.category;
       state.page = action.payload.page;
     },
+    getUserLikesResult(state, action: PayloadAction<getUserLikesResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserLikesResult = action.payload;
+    },
     getUserCollections(state, action: PayloadAction<GetUserBoardsPayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
       state.page = action.payload.page;
+    },
+    getUserCollectionsResult(state, action: PayloadAction<getUserCollectionsResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserCollectionsResult = action.payload;
     },
     getUserInquiries(state, action: PayloadAction<GetUserInquiriesPayload>) {
       state.loadBoardsLoading = true;
@@ -358,6 +404,17 @@ const boardsSlice = createSlice({
     deleteComment(state, action: PayloadAction<deleteCommentPayload>) {
       state.loadBoardsLoading = true;
       state.commentId = action.payload.commentId;
+    },
+    // collection, like
+    setBoardCollection(state, action: PayloadAction<setBoardCollectionPayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+      state.isCollect = action.payload.isCollect;
+    },
+    setBoardLike(state, action: PayloadAction<setBoardLikePayload>) {
+      state.loadBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+      state.isLike = action.payload.isLike;
     },
     //api res req
     loadBoardsRequest(state) {

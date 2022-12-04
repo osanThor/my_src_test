@@ -44,4 +44,6 @@ export {
   apiDeleteBoard,
   apiUpdateComment,
   apiDeleteComment,
+  apiSetBoardCollection,
+  apiSetBoardLike,
 } from './boards';

@@ -15,10 +15,14 @@ import {
   getNoticePayload,
   getNoticeResult,
   GetUserBoardsPayload,
+  getUserCollectionsResult,
   getUserCommentsResult,
   GetUserInquiriesPayload,
+  getUserLikesResult,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  setBoardCollectionPayload,
+  setBoardLikePayload,
   updateBoardPayload,
   updateCommentPayload,
 } from '../types';
@@ -41,6 +45,8 @@ import {
   apiGetUserComments,
   apiDeleteComment,
   apiUpdateComment,
+  apiSetBoardCollection,
+  apiSetBoardLike,
 } from '../api';
 
 // get boards
@@ -119,10 +125,10 @@ function* getUserCommentsSaga(action: PayloadAction<GetUserBoardsPayload>) {
 function* getUserLikesSaga(action: PayloadAction<GetUserBoardsPayload>) {
   yield put(boardsActions.loadBoardsRequest());
   try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetUserLikes, action.payload);
+    const { data }: AxiosResponse<getUserLikesResult> = yield call(apiGetUserLikes, action.payload);
     console.log(data);
 
-    yield put(boardsActions.getBoardsResult(data));
+    yield put(boardsActions.getUserLikesResult(data));
   } catch (error: any) {
     console.error('boardsSaga getUserLikesSaga >> ', error);
 
@@ -137,10 +143,10 @@ function* getUserLikesSaga(action: PayloadAction<GetUserBoardsPayload>) {
 function* getUserCollectionsSaga(action: PayloadAction<GetUserBoardsPayload>) {
   yield put(boardsActions.loadBoardsRequest());
   try {
-    const { data }: AxiosResponse<getUserCommentsResult> = yield call(apiGetUserCollection, action.payload);
+    const { data }: AxiosResponse<getUserCollectionsResult> = yield call(apiGetUserCollection, action.payload);
     console.log(data);
 
-    yield put(boardsActions.getUserCommentsResult(data));
+    yield put(boardsActions.getUserCollectionsResult(data));
   } catch (error: any) {
     console.error('boardsSaga getUserCollectionsSaga >> ', error);
 
@@ -311,6 +317,42 @@ function* deleteCommentSaga(action: PayloadAction<deleteCommentPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// set/unset board collection
+function* setBoardCollectionSaga(action: PayloadAction<setBoardCollectionPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiSetBoardCollection, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+// set/unset board Like
+function* setBoardLikeSaga(action: PayloadAction<setBoardLikePayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiSetBoardLike, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -328,6 +370,8 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.createComment, createCommentSaga);
   yield takeLatest(boardsActions.updateComment, updateCommentSaga);
   yield takeLatest(boardsActions.deleteComment, deleteCommentSaga);
+  yield takeLatest(boardsActions.setBoardCollection, setBoardCollectionSaga);
+  yield takeLatest(boardsActions.setBoardLike, setBoardLikeSaga);
 }
 
 export default function* boardsSaga() {

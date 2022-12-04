@@ -135,6 +135,10 @@ const CommunityBoard = () => {
     }
   }, [loadBoardsDone, loadBoardsError]);
 
+  const handleSetBoardCollection = () => {
+    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: true }));
+  };
+
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement('textarea');
@@ -159,7 +163,7 @@ const CommunityBoard = () => {
     <>
       <UserLayout>
         <BoardDetailLayout>
-          <BoardTop copyURL={copyURL} />
+          <BoardTop copyURL={copyURL} handleSetBoardCollection={handleSetBoardCollection} />
           <BoardContents identity={identity} handleOpenDeleteBoard={handleOpenDeleteBoard} />
           <CommentsLayout handleOpenDleteComment={handleOpenDleteComment} />
         </BoardDetailLayout>
