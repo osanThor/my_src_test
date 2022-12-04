@@ -1,4 +1,3 @@
-import { changeCommentId } from './../types/boards';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -29,6 +28,8 @@ import {
   ResponseFailure,
   updateBoardPayload,
   updateCommentPayload,
+  changeCommentId,
+  updateCommentStPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -341,6 +342,11 @@ const boardsSlice = createSlice({
     },
     changeCommentId(state, action: PayloadAction<changeCommentId>) {
       state.commentId = action.payload.commentId;
+    },
+    updateCommentSt(state, action: PayloadAction<updateCommentStPayload>) {
+      state.commentId = action.payload.commentId;
+      state.content = action.payload.content;
+      state.parentCommentId = action.payload.parentCommentId;
     },
     updateComment(state, action: PayloadAction<updateCommentPayload>) {
       state.loadBoardsLoading = true;

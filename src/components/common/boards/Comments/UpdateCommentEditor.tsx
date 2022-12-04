@@ -9,13 +9,13 @@ import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
 import { axiosInstance } from '@/src/store/api';
 
-const CommentEditor = () => {
+const UpdateCommentEditor = () => {
   const dispatch = useDispatch();
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, content, parentCommentId } = useSelector(({ boards }: RootState) => ({
-    boardId: boards.boardId,
+  const { commentId, content, parentCommentId } = useSelector(({ boards }: RootState) => ({
+    commentId: boards.commentId,
     content: boards.content,
     parentCommentId: boards.parentCommentId,
   }));
@@ -27,11 +27,10 @@ const CommentEditor = () => {
     const { name, value } = e.target;
     console.log(name, value);
     dispatch(
-      boardsActions.changeCommentState({
-        boardId,
+      boardsActions.updateCommentSt({
+        commentId,
         content: value,
         parentCommentId: parentCommentId,
-        fileUrls,
       }),
     );
   };
@@ -69,26 +68,20 @@ const CommentEditor = () => {
     setFileUrls(newArr);
   };
 
-  // create comment
+  // update comment
   const handleCreateComment = () => {
     if (!content) {
       alert('댓글을 입려해주세요');
       return;
     }
-    console.log('호출!!!');
-    dispatch(boardsActions.createComment({ boardId, parentCommentId, content, fileUrls }));
+    console.log('update comment');
+    dispatch(boardsActions.updateComment({ commentId, parentCommentId, content, fileUrls }));
     setFileUrls([]);
-  };
-
-  const handleCanelComment = () => {
-    dispatch(boardsActions.initialCommentState());
-    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
-    dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
   };
 
   return (
     <div className="comments_Editor">
-      <div className="nickname">{nickname}</div>
+      <div className="nickname">{nickname} gpgp</div>
       <StyledTextArea name="content" placeholder="댓글을 남겨보세요" onChange={handleChangeComment} value={content} />
       <div className="photo_area">
         {fileUrls.length === 0 || (
@@ -112,9 +105,7 @@ const CommentEditor = () => {
           <div className="comment_btns">
             {content && (
               <>
-                <div className="btn cancel" onClick={handleCanelComment}>
-                  취소
-                </div>
+                <div className="btn cancel">취소</div>
                 <div className="btn add" onClick={handleCreateComment}>
                   등록
                 </div>
@@ -143,4 +134,4 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-export default CommentEditor;
+export default UpdateCommentEditor;

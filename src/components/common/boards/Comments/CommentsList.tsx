@@ -10,6 +10,7 @@ import CommentEditor from './CommentEditor';
 import { media } from '@/styles/theme';
 import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
+import UpdateCommentEditor from './UpdateCommentEditor';
 
 const CommentsList = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
@@ -48,39 +49,69 @@ const CommentItem = ({
   handleOpenDleteComment: () => void;
 }) => {
   const dispatch = useDispatch();
+  //state
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { getBoardDone, parentCommentId } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, parentCommentId, commentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
     parentCommentId: boards.parentCommentId,
+    commentId: boards.commentId,
   }));
   const [addComment, setAddComment] = useState(false);
+  const [childCommentUpdate, setChildCommentUpdate] = useState(false);
   const { childComment, content, createdAt, id, user } = cm;
+
+  // 답글 쓰기 버튼 클릭 시 해당 comment id와 parentCommentId 비교
   const handleChangeParentsId = () => {
     dispatch(boardsActions.initialCommentState());
-    if (parentCommentId === id) {
+    if (parentCommentId === id && commentId === 0) {
       dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
       setAddComment(false);
     } else {
       dispatch(boardsActions.changeParentCommentId({ parentCommentId: id }));
+      dispatch(boardsActions.changeCommentId({ commentId: 0 }));
+      setChildCommentUpdate(false);
       setAddComment(true);
     }
   };
 
   useEffect(() => {
-    if (parentCommentId != id) {
+    if (parentCommentId != id || commentId != 0) {
       setAddComment(false);
     } else {
       setAddComment(true);
     }
-  }, [parentCommentId]);
+  }, [parentCommentId, commentId]);
 
+  //update comment
+  const [updateSt, setUpdateSt] = useState(false);
+  const [updateComment, setUpdateComment] = useState(false);
+  const handleOpenUpdateCommentArea = () => {
+    dispatch(boardsActions.changeCommentId({ commentId: id }));
+    dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
+    dispatch(boardsActions.updateCommentSt({ commentId: id, content, parentCommentId: 0 }));
+    setAddComment(false);
+    setUpdateSt(true);
+  };
+
+  useEffect(() => {
+    if (updateSt && commentId === id) {
+      setUpdateComment(true);
+    } else {
+      setUpdateComment(false);
+    }
+  }, [commentId, updateSt]);
+
+  //delte comment open
   const handleOpenDlete = () => {
     handleOpenDleteComment();
     dispatch(boardsActions.changeCommentId({ commentId: id }));
-  };
 
+    // update comment와 충돌 방지
+    setUpdateSt(false);
+  };
+  //ctrl buttons modal
   const [isMoCntrl, setIsMoCtrl] = useState(false);
   const MoCtrlRef = useRef<HTMLDivElement>(null);
   const MoCtrlButtonRef = useRef<HTMLDivElement>(null);
@@ -105,7 +136,7 @@ const CommentItem = ({
 
   return (
     <CommentItemBlock className="item">
-      <div className="parent_comment">
+      <div className="parent_comment" style={{ marginBottom: updateComment && '16px' }}>
         <div className="profile">
           <div className="profile_image">
             <Image src={Profile1[1]} alt="profile" layout="fill" />
@@ -129,7 +160,9 @@ const CommentItem = ({
               <Image src={MoreInfoIcon[0]} alt="moreInfo" />
               {isMoCntrl && (
                 <div className="board_mo_ctrl" ref={MoCtrlRef}>
-                  <div className="button">수정하기</div>
+                  <div className="button" onClick={handleOpenUpdateCommentArea}>
+                    수정하기
+                  </div>
                   <div className="button" onClick={handleOpenDlete}>
                     삭제하기
                   </div>
@@ -139,11 +172,21 @@ const CommentItem = ({
           )}
         </div>
       </div>
+      {updateComment && <UpdateCommentEditor />}
       <div className="children_comments">
         <span className="comments_spacer" />
         <div className="comments_con">
-          {childComment.map((chlid) => (
-            <ChlidrenItem key={chlid.id} chlid={chlid} handleOpenDleteComment={handleOpenDleteComment} />
+          {childComment.map((child) => (
+            <ChlidrenItem
+              key={child.id}
+              child={child}
+              handleOpenDleteComment={handleOpenDleteComment}
+              parentId={id}
+              setAddComment={setAddComment}
+              setUpdateStParent={setUpdateSt}
+              childCommentUpdate={childCommentUpdate}
+              setChildCommentUpdate={setChildCommentUpdate}
+            />
           ))}
           {addComment && <CommentEditor />}
         </div>
@@ -152,10 +195,15 @@ const CommentItem = ({
   );
 };
 const ChlidrenItem = ({
-  chlid,
+  child,
   handleOpenDleteComment,
+  parentId,
+  setAddComment,
+  setUpdateStParent,
+  childCommentUpdate,
+  setChildCommentUpdate,
 }: {
-  chlid: {
+  child: {
     content: string;
     createdAt: string;
     id: number;
@@ -164,23 +212,54 @@ const ChlidrenItem = ({
     };
   };
   handleOpenDleteComment: () => void;
+  parentId: number | null;
+  setAddComment: React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdateStParent: React.Dispatch<React.SetStateAction<boolean>>;
+  childCommentUpdate: boolean;
+  setChildCommentUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useDispatch();
-  const { getBoardDone } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, parentCommentId, commentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
+    parentCommentId: boards.parentCommentId,
+    commentId: boards.commentId,
   }));
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
+
+  const { id, content } = child;
+
+  //update comment
+  const [updateComment, setUpdateComment] = useState(false);
+  const handleOpenUpdateCommentArea = () => {
+    dispatch(boardsActions.changeCommentId({ commentId: id }));
+    dispatch(boardsActions.changeParentCommentId({ parentCommentId: parentId }));
+    dispatch(boardsActions.updateCommentSt({ commentId: id, content, parentCommentId: parentId }));
+    setAddComment(false);
+    setUpdateStParent(false);
+    setChildCommentUpdate(true);
+  };
+
+  useEffect(() => {
+    if (childCommentUpdate && commentId === id) {
+      setUpdateComment(true);
+    } else {
+      setUpdateComment(false);
+    }
+  }, [commentId, childCommentUpdate]);
+
+  const handleOpenDelte = () => {
+    handleOpenDleteComment();
+    dispatch(boardsActions.changeCommentId({ commentId: child.id }));
+    // update comment와 충돌 방지
+    setChildCommentUpdate(false);
+  };
   const [isMoChildCntrl, setIsMoChildCtrl] = useState(false);
   const MoChildCtrlRef = useRef<HTMLDivElement>(null);
   const MoChildCtrlButtonRef = useRef<HTMLDivElement>(null);
   const handleMoChildCtrlWin = () => {
     setIsMoChildCtrl(!isMoChildCntrl);
-  };
-  const handleOpenDelte = () => {
-    handleOpenDleteComment();
-    dispatch(boardsActions.changeCommentId({ commentId: chlid.id }));
   };
 
   const handleClickOutSide = (e: any) => {
@@ -198,37 +277,42 @@ const ChlidrenItem = ({
     };
   });
   return (
-    <div className="parent_comment">
-      <div className="profile">
-        <div className="profile_image">
-          <Image src={Profile1[1]} alt="profile" layout="fill" />
-        </div>
-        <div className="profile_info">
-          <div className={getBoardDone.user.nickname === chlid.user.nickname ? 'nickname on' : 'nickname'}>
-            {chlid.user ? chlid.user.nickname : '닉네임없음'}
+    <>
+      <div className="parent_comment">
+        <div className="profile">
+          <div className="profile_image">
+            <Image src={Profile1[1]} alt="profile" layout="fill" />
           </div>
-          <Moment format="YYYY.MM.DD HH.MM" className="Moment">
-            {chlid.createdAt}
-          </Moment>
+          <div className="profile_info">
+            <div className={getBoardDone.user.nickname === child.user.nickname ? 'nickname on' : 'nickname'}>
+              {child.user ? child.user.nickname : '닉네임없음'}
+            </div>
+            <Moment format="YYYY.MM.DD HH.MM" className="Moment">
+              {child.createdAt}
+            </Moment>
+          </div>
         </div>
-      </div>
-      <div className="comment_content">{chlid.content}</div>
-      <div className="comment_btns">
-        {nickname === chlid.user.nickname && (
-          <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
-            <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-            {isMoChildCntrl && (
-              <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
-                <div className="button">수정하기</div>
-                <div className="button" onClick={handleOpenDelte}>
-                  삭제하기
+        <div className="comment_content">{child.content}</div>
+        <div className="comment_btns">
+          {nickname === child.user.nickname && (
+            <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
+              <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+              {isMoChildCntrl && (
+                <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
+                  <div className="button" onClick={handleOpenUpdateCommentArea}>
+                    수정하기
+                  </div>
+                  <div className="button" onClick={handleOpenDelte}>
+                    삭제하기
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {updateComment && <UpdateCommentEditor />}
+    </>
   );
 };
 

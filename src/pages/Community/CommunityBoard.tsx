@@ -127,6 +127,10 @@ const CommunityBoard = () => {
       } else if (loadBoardsDone.message === 'CREATED') {
         dispatch(boardsActions.getBoard({ boardId }));
         dispatch(boardsActions.initialCommentState());
+      } else if (loadBoardsDone.message === 'UPDATED') {
+        dispatch(boardsActions.getBoard({ boardId }));
+        dispatch(boardsActions.initialCommentState());
+        dispatch(boardsActions.changeCommentId({ commentId: 0 }));
       }
     }
   }, [loadBoardsDone, loadBoardsError]);

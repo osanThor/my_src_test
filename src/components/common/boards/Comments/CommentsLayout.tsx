@@ -2,7 +2,7 @@ import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -12,17 +12,27 @@ import DummyEditor from './DummyEditor';
 
 const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
   const dispatch = useDispatch();
-  const { getBoardDone, parentCommentId } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, parentCommentId, commentId } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
     parentCommentId: boards.parentCommentId,
+    commentId: boards.commentId,
   }));
   const { comments } = getBoardDone;
 
-  console.log(parentCommentId);
   const handleChangeParentsIdZero = () => {
     dispatch(boardsActions.initialCommentState());
+    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
     dispatch(boardsActions.changeParentCommentId({ parentCommentId: 0 }));
   };
+
+  const [isAddComment, setIsAddComment] = useState(true);
+  useEffect(() => {
+    if (parentCommentId === 0 && commentId === 0) {
+      setIsAddComment(true);
+    } else {
+      setIsAddComment(false);
+    }
+  }, [commentId, parentCommentId]);
 
   return (
     <CommentsLayoutBlock>
@@ -30,7 +40,7 @@ const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: ()
       <div className="comments_area">
         <div className="comments_title">댓글</div>
         {comments.length !== 0 && <CommentsList handleOpenDleteComment={handleOpenDleteComment} />}
-        {parentCommentId === 0 ? <CommentEditor /> : <DummyEditor onClick={handleChangeParentsIdZero} />}
+        {isAddComment ? <CommentEditor /> : <DummyEditor onClick={handleChangeParentsIdZero} />}
       </div>
     </CommentsLayoutBlock>
   );

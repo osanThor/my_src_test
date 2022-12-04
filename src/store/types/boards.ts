@@ -178,6 +178,11 @@ export type updateCommentPayload = {
   content: string | null;
   fileUrls: Array<string> | [];
 };
+export type updateCommentStPayload = {
+  commentId: number | null;
+  parentCommentId: number | null;
+  content: string | null;
+};
 export type deleteCommentPayload = {
   commentId: number | null;
 };
