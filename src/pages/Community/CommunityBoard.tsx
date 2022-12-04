@@ -6,7 +6,7 @@ import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayo
 import BoardTop from '@/src/components/community/detail/BoardTop';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions } from '@/src/store/reducers';
+import { authActions, boardsActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,8 @@ const CommunityBoard = () => {
   const dispatch = useDispatch();
   const [boardIdSt, setBoardIdSt] = useState(0);
 
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
 
@@ -35,6 +36,23 @@ const CommunityBoard = () => {
     const user = localStorage.getItem('user');
     if (!user) router.push('/');
   }, []);
+
+  // api request once
+  const [once, setOnce] = useState(false);
+  useEffect(() => {
+    setOnce(false);
+  }, [router]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setOnce(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
   //reset
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
@@ -43,18 +61,11 @@ const CommunityBoard = () => {
   // local baordId
   const { bId } = router.query;
   useEffect(() => {
+    setOnce(false);
     if (bId) {
       setBoardIdSt(parseInt(bId as string));
     }
   }, [bId]);
-
-  // api request once
-  const [once, setOnce] = useState(false);
-  useEffect(() => {
-    if (loadAuthDone.accessToken) {
-      setOnce(true);
-    }
-  }, [loadAuthDone]);
 
   useEffect(() => {
     if (once) {

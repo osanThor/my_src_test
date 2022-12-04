@@ -80,15 +80,28 @@ const CommentItem = ({
   const handleMoCtrlWin = () => {
     setIsMoCtrl(!isMoCntrl);
   };
+  const [isMoChildCntrl, setIsMoChildCtrl] = useState(false);
+  const MoChildCtrlRef = useRef<HTMLDivElement>(null);
+  const MoChildCtrlButtonRef = useRef<HTMLDivElement>(null);
+  const handleMoChildCtrlWin = () => {
+    setIsMoChildCtrl(!isMoCntrl);
+  };
   const handleClickOutSide = (e: any) => {
     if (isMoCntrl && !MoCtrlRef.current.contains(e.target)) {
       if (!MoCtrlButtonRef.current.contains(e.target)) {
         handleMoCtrlWin();
       }
     }
+
+    if (isMoChildCntrl && !MoChildCtrlRef.current.contains(e.target)) {
+      if (!MoChildCtrlButtonRef.current.contains(e.target)) {
+        handleMoChildCtrlWin();
+      }
+    }
   };
+
   useEffect(() => {
-    if (isMoCntrl) document.addEventListener('mousedown', handleClickOutSide);
+    if (isMoCntrl || isMoChildCntrl) document.addEventListener('mousedown', handleClickOutSide);
     return () => {
       document.removeEventListener('mousedown', handleClickOutSide);
     };
@@ -116,7 +129,7 @@ const CommentItem = ({
             답글쓰기
           </div>
           {nickname === user.nickname && (
-            <div className="btn more_info">
+            <div className="btn more_info" ref={MoCtrlButtonRef} onClick={handleMoCtrlWin}>
               <Image src={MoreInfoIcon[0]} alt="moreInfo" />
               {isMoCntrl && (
                 <div className="board_mo_ctrl" ref={MoCtrlRef}>
@@ -149,8 +162,14 @@ const CommentItem = ({
               <div className="comment_content">{chlid.content}</div>
               <div className="comment_btns">
                 {nickname === chlid.user.nickname && (
-                  <div className="btn more_info">
+                  <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
                     <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+                    {isMoChildCntrl && (
+                      <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
+                        <div className="button">수정하기</div>
+                        <div className="button">삭제하기</div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -209,11 +228,32 @@ const CommentItemBlock = styled.div`
         transition: all 0.2s;
         color: ${colors.gray[4]};
         margin-left: 20px;
+        position: relative;
         &:first {
           margin-left: 0;
         }
         &:hover {
           color: ${colors.gray[5]};
+        }
+        .board_mo_ctrl {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          width: 88px;
+          text-align: center;
+          background-color: ${({ theme }) => theme.bgColor};
+          box-shadow: ${({ theme }) => theme.boxShadow};
+          border-radius: 8px;
+          padding: 12px 6px;
+          z-index: 7;
+          .button {
+            width: 100%;
+            padding: 0;
+            background-color: ${({ theme }) => theme.bgColor};
+            &:first-child {
+              margin-bottom: 4px;
+            }
+          }
         }
       }
     }
