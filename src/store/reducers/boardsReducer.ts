@@ -34,6 +34,10 @@ import {
   setBoardLikePayload,
   getUserLikesResult,
   getUserCollectionsResult,
+  getUserInquiryPayload,
+  getUserInquiryResult,
+  getUserByNicknamePayload,
+  getUserByNicknameResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -179,6 +183,19 @@ export type BoardsStateType = {
   commentId: number | null;
   isCollect: boolean;
   isLike: boolean;
+  inquiryId: number | null;
+  getInquiryResult: {
+    user: { nickname: string; styles: Array<{ name: string }> };
+    answer: null;
+    content: string | null;
+    createdAt: string | null;
+    files: Array<{ url: string }> | [];
+    title: string | null;
+  } | null;
+  nickname: string | null;
+  getUserInfo: {
+    nickname: string | null;
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -223,6 +240,17 @@ const initialState: BoardsStateType = {
   commentId: 0,
   isCollect: false,
   isLike: false,
+  inquiryId: 0,
+  getInquiryResult: {
+    user: { nickname: '', styles: [{ name: '' }] },
+    answer: null,
+    content: '',
+    createdAt: '',
+    files: [{ url: '' }],
+    title: '',
+  },
+  nickname: '',
+  getUserInfo: { nickname: '' },
   loadBoardsDone: null,
   loadBoardsError: null,
 };
@@ -281,7 +309,7 @@ const boardsSlice = createSlice({
       state.page = action.payload.page;
     },
     getUserCommentsResult(state, action: PayloadAction<getUserCommentsResult>) {
-      state.loadBoardsLoading = true;
+      state.loadBoardsLoading = false;
       state.getUserCommentsDone = action.payload;
     },
     getUserLikes(state, action: PayloadAction<GetUserBoardsPayload>) {
@@ -290,7 +318,7 @@ const boardsSlice = createSlice({
       state.page = action.payload.page;
     },
     getUserLikesResult(state, action: PayloadAction<getUserLikesResult>) {
-      state.loadBoardsLoading = true;
+      state.loadBoardsLoading = false;
       state.getUserLikesResult = action.payload;
     },
     getUserCollections(state, action: PayloadAction<GetUserBoardsPayload>) {
@@ -299,7 +327,7 @@ const boardsSlice = createSlice({
       state.page = action.payload.page;
     },
     getUserCollectionsResult(state, action: PayloadAction<getUserCollectionsResult>) {
-      state.loadBoardsLoading = true;
+      state.loadBoardsLoading = false;
       state.getUserCollectionsResult = action.payload;
     },
     getUserInquiries(state, action: PayloadAction<GetUserInquiriesPayload>) {
@@ -309,6 +337,15 @@ const boardsSlice = createSlice({
     getUserInquiriesResult(state, action: PayloadAction<getUserInquiriesResult>) {
       state.loadBoardsLoading = false;
       state.getUserInquiriesDone = action.payload;
+    },
+
+    getUserInquiry(state, action: PayloadAction<getUserInquiryPayload>) {
+      state.loadBoardsLoading = true;
+      state.inquiryId = action.payload.inquiryId;
+    },
+    getUserInquiryResult(state, action: PayloadAction<getUserInquiryResult>) {
+      state.loadBoardsLoading = false;
+      state.getInquiryResult = action.payload;
     },
     //boards
     createBoards(state, action: PayloadAction<LoadBoardsPayload>) {
@@ -416,6 +453,15 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.isLike = action.payload.isLike;
+    },
+    //get user by nickname
+    getUserByNickname(state, action: PayloadAction<getUserByNicknamePayload>) {
+      state.loadBoardsLoading = true;
+      state.nickname = action.payload.nickname;
+    },
+    getUserByNicknameResult(state, action: PayloadAction<getUserByNicknameResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserInfo = action.payload;
     },
     //api res req
     loadBoardsRequest(state) {

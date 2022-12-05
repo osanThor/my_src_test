@@ -46,4 +46,6 @@ export {
   apiDeleteComment,
   apiSetBoardCollection,
   apiSetBoardLike,
+  apiGetUserInquiry,
+  apiGetUserByNickname,
 } from './boards';

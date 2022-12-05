@@ -15,9 +15,11 @@ import {
   getNoticePayload,
   getNoticeResult,
   GetUserBoardsPayload,
+  getUserByNicknamePayload,
   getUserCollectionsResult,
   getUserCommentsResult,
   GetUserInquiriesPayload,
+  getUserInquiryPayload,
   getUserLikesResult,
   LoadBoardsPayload,
   LoadBoardsResponse,
@@ -47,6 +49,8 @@ import {
   apiUpdateComment,
   apiSetBoardCollection,
   apiSetBoardLike,
+  apiGetUserInquiry,
+  apiGetUserByNickname,
 } from '../api';
 
 // get boards
@@ -164,6 +168,23 @@ function* getUserInquiriesSaga(action: PayloadAction<GetUserInquiriesPayload>) {
     const { data } = yield call(apiGetUserInquiries, action.payload);
     console.log(data);
     yield put(boardsActions.getUserInquiriesResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga getUserInquiriesSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//get user inquiry
+function* getUserInquirySaga(action: PayloadAction<getUserInquiryPayload>) {
+  try {
+    yield put(boardsActions.loadBoardsRequest());
+    const { data } = yield call(apiGetUserInquiry, action.payload);
+    console.log(data);
+    yield put(boardsActions.getUserInquiryResult(data));
   } catch (error: any) {
     console.error('boardsSaga getUserInquiriesSaga >> ', error);
 
@@ -353,6 +374,24 @@ function* setBoardLikeSaga(action: PayloadAction<setBoardLikePayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// get user by nickname
+function* getUserByNicknameSaga(action: PayloadAction<getUserByNicknamePayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data } = yield call(apiGetUserByNickname, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.getUserByNicknameResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -372,6 +411,8 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.deleteComment, deleteCommentSaga);
   yield takeLatest(boardsActions.setBoardCollection, setBoardCollectionSaga);
   yield takeLatest(boardsActions.setBoardLike, setBoardLikeSaga);
+  yield takeLatest(boardsActions.getUserInquiry, getUserInquirySaga);
+  yield takeLatest(boardsActions.getUserByNickname, getUserByNicknameSaga);
 }
 
 export default function* boardsSaga() {

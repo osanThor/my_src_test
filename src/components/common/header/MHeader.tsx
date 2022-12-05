@@ -30,6 +30,7 @@ import MyPageMenu from './mobileHeaderAdded/MyPageMenu';
 import CommunityMenu from './mobileHeaderAdded/CommunityMenu';
 import MWriteHeader from './MWriteHeader';
 import MBoardHeader from './MBoardHeader';
+import StrategyMenu from './mobileHeaderAdded/StrategyMenu';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -104,6 +105,7 @@ const MHeader = () => {
   const [writeQuant, setWriteQuant] = useState(false);
   const [message, setMessage] = useState(false);
   const [myPage, setMyPage] = useState(false);
+  const [strategy, setStrategy] = useState(false);
   const [community, setCommunity] = useState(false);
   const [isWrite, setIsWrite] = useState(false);
   const [isBoard, setIsBoard] = useState(false);
@@ -129,12 +131,21 @@ const MHeader = () => {
     } else {
       setMyPage(false);
     }
+    if (router.pathname === '/strategy') {
+      setStrategy(true);
+    } else {
+      setStrategy(false);
+    }
     if (router.pathname === '/community') {
       setCommunity(true);
     } else {
       setCommunity(false);
     }
-    if (router.pathname === '/community/write' || router.pathname === '/mypage/inquiries/write') {
+    if (
+      router.pathname === '/community/write' ||
+      router.pathname === '/mypage/inquiries/write' ||
+      router.pathname === '/mypage/inquiries/[qId]'
+    ) {
       setIsWrite(true);
     } else {
       setIsWrite(false);
@@ -179,6 +190,7 @@ const MHeader = () => {
           {writeQuant && <WriteQuantMenu />}
           {message && <MessageMenu />}
           {myPage && <MyPageMenu />}
+          {strategy && <StrategyMenu />}
           {community && <CommunityMenu />}
         </MHeaderMain>
       )}

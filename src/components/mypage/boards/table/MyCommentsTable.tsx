@@ -40,7 +40,7 @@ const MyCommentsTable = () => {
                   <div className="tr">
                     <div className="td">{board.id}</div>
                     <div className="td title dark_gray pointer">
-                      <span className="tit">{board.board.title}</span>{' '}
+                      <span className="tit">{board.board.title}</span>
                       <span className="comments">{board.board._count.comments}</span>
                     </div>
                     <div className="td dark_gray pointer">{(board.board.user && board.board.user.nickname) || ''}</div>

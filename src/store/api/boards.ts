@@ -7,7 +7,9 @@ import {
   getBoardsPayload,
   getNoticePayload,
   GetUserBoardsPayload,
+  getUserByNicknamePayload,
   GetUserInquiriesPayload,
+  getUserInquiryPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
   setBoardCollectionPayload,
@@ -44,6 +46,10 @@ export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =
 export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
   axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
 
+// read user Inquiry
+export const apiGetUserInquiry = ({ inquiryId }: getUserInquiryPayload) =>
+  axiosInstance.get(`/users/inquiries/${inquiryId}`);
+
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });
@@ -77,3 +83,5 @@ export const apiSetBoardCollection = ({ boardId, isCollect }: setBoardCollection
 // set unset board like
 export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
   axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);
+
+export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/user/${nickname}`);

@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import NoBoards from '@/src/components/common/NoBoards';
 
 const MyInquiriesTable = () => {
+  const router = useRouter();
   const { page, getUserInquiriesDone } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
     getUserInquiriesDone: boards.getUserInquiriesDone,
@@ -35,7 +36,10 @@ const MyInquiriesTable = () => {
                   <div className="td">
                     <span className={board.answer ? 'answer on' : 'answer'}>{board.answer ? '답변' : '대기'}</span>
                   </div>
-                  <div className="td title dark_gray pointer">
+                  <div
+                    className="td title dark_gray pointer"
+                    onClick={() => router.push(`/mypage/inquiries/${board.id}`)}
+                  >
                     <span className="tit">{board.title}</span>
                   </div>
                   <div className="td">

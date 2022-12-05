@@ -9,7 +9,7 @@ const MWriteHeader = () => {
   const [isWrite, setIsWrite] = useState(false);
   const [isInquiries, setIsInquiries] = useState(false);
   useEffect(() => {
-    if (router.pathname === '/mypage/inquiries/write') {
+    if (router.pathname === '/mypage/inquiries/write' || router.pathname === '/mypage/inquiries/[qId]') {
       setIsInquiries(true);
       setIsWrite(false);
     } else {
