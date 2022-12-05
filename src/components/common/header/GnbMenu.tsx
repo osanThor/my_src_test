@@ -52,7 +52,7 @@ const GnbMenu = () => {
       setStrategy(false);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/strategy') {
+    } else if (pathName === '/strategy' || pathName === '/strategy/strategist') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);
