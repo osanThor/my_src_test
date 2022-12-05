@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NoBoards from '../../common/NoBoards';
 
-const CommissionsTable = () => {
+const UserStrategyTable = () => {
   const router = useRouter();
 
   const { nickname } = useSelector(({ user }: RootState) => ({
@@ -81,7 +81,7 @@ const CommissionsTable = () => {
                   </div>
                   <div
                     className="td dark_gray pointer"
-                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)}
+                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=user`)}
                   >
                     {(board.user && board.user.nickname) || ''}
                   </div>
@@ -266,4 +266,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default CommissionsTable;
+export default UserStrategyTable;

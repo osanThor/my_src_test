@@ -1,5 +1,4 @@
 import colors from '@/src/assets/Colors';
-import { Lock } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import React from 'react';
@@ -8,15 +7,11 @@ import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import NoBoards from '../../common/NoBoards';
 
-const CommissionsTable = () => {
+const CertifiedBoardsTable = () => {
   const router = useRouter();
 
-  const { nickname } = useSelector(({ user }: RootState) => ({
-    nickname: user.nickname,
-  }));
   const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
     getNoticesDone: boards.getNoticesDone,
@@ -28,7 +23,7 @@ const CommissionsTable = () => {
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td"></div>
+            <div className="td">번호</div>
             <div className="td title">제목</div>
             <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
@@ -41,10 +36,7 @@ const CommissionsTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div
-                className="td title dark_gray pointer"
-                onClick={() => router.push(`/community/board/${notice.board.id}`)}
-              >
+              <div className="td title dark_gray pointer">
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>
@@ -64,24 +56,16 @@ const CommissionsTable = () => {
             <>
               {loadGetBoardsDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
-                  <div className="td">
-                    <div className="icon">
-                      <Image src={Lock[0]} alt="lock" />
-                    </div>
-                  </div>
+                  <div className="td">{board.id}</div>
                   <div
                     className="td title dark_gray pointer"
-                    onClick={
-                      board.user.nickname === nickname
-                        ? () => router.push(`/community/board/${board.id}`)
-                        : () => alert('권한이 없습니다')
-                    }
+                    onClick={() => router.push(`/community/board/${board.id}`)}
                   >
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div
                     className="td dark_gray pointer"
-                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)}
+                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=user`)}
                   >
                     {(board.user && board.user.nickname) || ''}
                   </div>
@@ -266,4 +250,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default CommissionsTable;
+export default CertifiedBoardsTable;

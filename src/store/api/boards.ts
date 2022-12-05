@@ -84,4 +84,4 @@ export const apiSetBoardCollection = ({ boardId, isCollect }: setBoardCollection
 export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
   axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);
 
-export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/user/${nickname}`);
+export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/users/${nickname}`);

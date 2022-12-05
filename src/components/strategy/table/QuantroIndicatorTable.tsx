@@ -1,34 +1,41 @@
 import colors from '@/src/assets/Colors';
-import { Lock } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
 import NoBoards from '../../common/NoBoards';
+import { useRouter } from 'next/router';
 
-const CommissionsTable = () => {
+const QuantroIndicatorTable = () => {
   const router = useRouter();
-
-  const { nickname } = useSelector(({ user }: RootState) => ({
-    nickname: user.nickname,
+  const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
+    communityDiscussion: local.communityDiscussion,
+    communityNotice: local.communityNotice,
   }));
   const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
     getNoticesDone: boards.getNoticesDone,
   }));
   const { total } = loadGetBoardsDone;
+  const [isNotice, setIsNotice] = useState(false);
+  useEffect(() => {
+    if (communityNotice) {
+      setIsNotice(true);
+    } else if (communityDiscussion) {
+      setIsNotice(false);
+    }
+  }, [loadGetBoardsDone]);
 
+  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>
         <div className="thead">
           <div className="th">
-            <div className="td"></div>
+            <div className="td">번호</div>
             <div className="td title">제목</div>
             <div className="td dark_gray">작성자</div>
             <div className="td">조회수</div>
@@ -41,10 +48,7 @@ const CommissionsTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div
-                className="td title dark_gray pointer"
-                onClick={() => router.push(`/community/board/${notice.board.id}`)}
-              >
+              <div className="td title dark_gray pointer">
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>
@@ -64,26 +68,15 @@ const CommissionsTable = () => {
             <>
               {loadGetBoardsDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
-                  <div className="td">
-                    <div className="icon">
-                      <Image src={Lock[0]} alt="lock" />
-                    </div>
-                  </div>
-                  <div
-                    className="td title dark_gray pointer"
-                    onClick={
-                      board.user.nickname === nickname
-                        ? () => router.push(`/community/board/${board.id}`)
-                        : () => alert('권한이 없습니다')
-                    }
-                  >
+                  <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
+                  <div className="td title dark_gray pointer">
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div
                     className="td dark_gray pointer"
-                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)}
+                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=user`)}
                   >
-                    {(board.user && board.user.nickname) || ''}
+                    {(board.user && board.user.nickname) || '퀀트로'}
                   </div>
                   <div className="td">
                     <span className="ver_m">조회수</span>
@@ -167,6 +160,7 @@ const BoardsTableBlock = styled.div`
     span.tit {
       overflow: hidden;
       text-overflow: ellipsis;
+      color: ${colors.blue[2]};
     }
     &.pointer {
       cursor: pointer;
@@ -220,12 +214,15 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 20%;
-        display: none;
+        width: 10%;
+        min-width: 45px;
         max-width: none;
+        justify-content: flex-start;
+        margin-bottom: 4px;
       }
       &:nth-child(2) {
-        width: 100%;
+        width: auto;
+        flex: 1;
         max-width: none;
         margin-bottom: 4px;
       }
@@ -266,4 +263,4 @@ const BoardsTableBlock = styled.div`
   }
 `;
 
-export default CommissionsTable;
+export default QuantroIndicatorTable;

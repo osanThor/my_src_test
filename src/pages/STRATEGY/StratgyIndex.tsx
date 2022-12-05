@@ -1,9 +1,9 @@
-import RankLayout from '@/src/components/community/rank/RankLayout';
-import BoardsTable from '@/src/components/community/table/BoardsTable';
-import CommissionsTable from '@/src/components/community/table/CommissionsTable';
-import NoticeTable from '@/src/components/community/table/NoticeTable';
 import UserLayout from '@/src/components/layout/UserLayout';
 import StrategyLayout from '@/src/components/strategy/StrategyLayout';
+import CertifiedBoardsTable from '@/src/components/strategy/table/CertifiedBoardsTable';
+import QuantroIndicatorTable from '@/src/components/strategy/table/QuantroIndicatorTable';
+import QuantroStrategyTable from '@/src/components/strategy/table/QuantroStrategyTable';
+import UserStrategyTable from '@/src/components/strategy/table/UserStrategyTable';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
@@ -117,10 +117,10 @@ const StratgyIndex: NextPage = () => {
   return (
     <UserLayout>
       <StrategyLayout>
-        {strategyCertifiedStrategy && <BoardsTable />}
-        {strategyUserStrategy && <CommissionsTable />}
-        {strategyQuantroStrategy && <RankLayout />}
-        {strategyQuantroIndicator && <NoticeTable />}
+        {strategyCertifiedStrategy && <CertifiedBoardsTable />}
+        {strategyUserStrategy && <UserStrategyTable />}
+        {strategyQuantroStrategy && <QuantroStrategyTable />}
+        {strategyQuantroIndicator && <QuantroIndicatorTable />}
       </StrategyLayout>
     </UserLayout>
   );

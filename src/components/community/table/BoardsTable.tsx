@@ -63,7 +63,12 @@ const BoardsTable = () => {
                   >
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
-                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+                  <div
+                    className="td dark_gray pointer"
+                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)}
+                  >
+                    {(board.user && board.user.nickname) || ''}
+                  </div>
                   <div className="td">
                     <span className="ver_m">조회수</span>
                     {board.hits}

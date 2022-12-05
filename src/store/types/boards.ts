@@ -238,7 +238,14 @@ export type getUserByNicknamePayload = {
   nickname: string | null;
 };
 export type getUserByNicknameResult = {
+  email: string | null;
+  introduction: string | null;
+  license: Array<string> | [] | null;
   nickname: string | null;
+  nicknamePrev: string | null;
+  photoUrl: string | null;
+  styles: Array<{ name: string }> | [];
+  _count: { boards: number | null; comments: number | null };
 };
 export type LoadBoardsResponse = {
   message: string | null;
