@@ -11,11 +11,13 @@ const StrategistLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <InquiriesWriteLayoutBlock className="container">
       <div className="top_con">
-        <div className="Inquiries_block" onClick={() => router.back()}>
-          <div className="button">
+        <div className="Inquiries_block">
+          <div className="button" onClick={() => router.back()}>
             <Image src={ArrowLeft} alt="arrow left" />
           </div>
-          <span className="txt">돌아가기</span>
+          <span className="txt" onClick={() => router.back()}>
+            돌아가기
+          </span>
         </div>
       </div>
       {children}

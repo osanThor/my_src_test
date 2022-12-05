@@ -1,4 +1,7 @@
+import BoardsTable from '@/src/components/community/table/BoardsTable';
 import UserLayout from '@/src/components/layout/UserLayout';
+import StrategistBox from '@/src/components/strategy/user/StrategistBox';
+import StrategistContrl from '@/src/components/strategy/user/StrategistContrl';
 import StrategistLayout from '@/src/components/strategy/user/StrategistLayout';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions } from '@/src/store/reducers';
@@ -15,13 +18,10 @@ const StrategyUser: NextPage = () => {
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
-  const { strategyCertifiedStrategy, strategyUserStrategy, strategyQuantroStrategy, strategyQuantroIndicator } =
-    useSelector(({ local }: RootState) => ({
-      strategyCertifiedStrategy: local.strategyCertifiedStrategy,
-      strategyUserStrategy: local.strategyUserStrategy,
-      strategyQuantroStrategy: local.strategyQuantroStrategy,
-      strategyQuantroIndicator: local.strategyQuantroIndicator,
-    }));
+  const { communityDiscussion, strategyUserStrategy } = useSelector(({ local }: RootState) => ({
+    communityDiscussion: local.communityDiscussion,
+    strategyUserStrategy: local.strategyUserStrategy,
+  }));
   const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
@@ -55,38 +55,21 @@ const StrategyUser: NextPage = () => {
 
   useEffect(() => {
     setUser(false);
-    if (router.query.category === 'certified') {
-      dispatch(localActions.gotoStraCertifiedStrategy());
+    if (router.query.category === 'discussion') {
+      dispatch(localActions.gotoComDiscussion());
     } else if (router.query.category === 'user') {
       dispatch(localActions.gotoStraUserStrategy());
-    } else if (router.query.category === 'quantro_strategy') {
-      dispatch(localActions.gotoStraQuantroStrategy());
-    } else if (router.query.category === 'quantro_Indicator') {
-      dispatch(localActions.gotoStraQuantroIndicator());
     }
   }, [router]);
 
   useEffect(() => {
-    if (strategyCertifiedStrategy) {
-      dispatch(boardsActions.getBoards({ category: 'CERTIFIED_STRATEGY', page, user, title, comment }));
-      if (isUser) {
-        dispatch(boardsActions.getNotices({ category: 'CERTIFIED_STRATEGY' }));
-      }
+    if (isUser) {
+      dispatch(boardsActions.getUserByNickname({ nickname: router.query.user as string }));
+    }
+    if (communityDiscussion) {
+      dispatch(boardsActions.getBoards({ category: 'DISCUSSION', page, user, title, comment }));
     } else if (strategyUserStrategy) {
       dispatch(boardsActions.getBoards({ category: 'USER_STRATEGY', page, user, title, comment }));
-      if (isUser) {
-        dispatch(boardsActions.getNotices({ category: 'USER_STRATEGY' }));
-      }
-    } else if (strategyQuantroStrategy) {
-      dispatch(boardsActions.getBoards({ category: 'QUANTRO_STRATEGY', page, user, title, comment }));
-      if (isUser) {
-        dispatch(boardsActions.getNotices({ category: 'QUANTRO_STRATEGY' }));
-      }
-    } else if (strategyQuantroIndicator) {
-      dispatch(boardsActions.getBoards({ category: 'QUANTRO_INDICATOR', page, user, title, comment }));
-      if (isUser) {
-        dispatch(boardsActions.getNotices({ category: 'QUANTRO_INDICATOR' }));
-      }
     }
     if (router.query.title) {
       dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
@@ -112,7 +95,9 @@ const StrategyUser: NextPage = () => {
   return (
     <UserLayout>
       <StrategistLayout>
-        <div className="">사용자</div>
+        <StrategistBox />
+        <StrategistContrl />
+        {communityDiscussion && <BoardsTable />}
       </StrategistLayout>
     </UserLayout>
   );

@@ -194,7 +194,14 @@ export type BoardsStateType = {
   } | null;
   nickname: string | null;
   getUserInfo: {
+    email: string | null;
+    introduction: string | null;
+    license: Array<string> | [] | null;
     nickname: string | null;
+    nicknamePrev: string | null;
+    photoUrl: string | null;
+    styles: Array<{ name: string }> | [];
+    _count: { boards: number | null; comments: number | null };
   };
   loadBoardsDone: {
     message: string | undefined;
@@ -250,7 +257,16 @@ const initialState: BoardsStateType = {
     title: '',
   },
   nickname: '',
-  getUserInfo: { nickname: '' },
+  getUserInfo: {
+    email: '',
+    introduction: '',
+    license: [],
+    nickname: '',
+    nicknamePrev: '',
+    photoUrl: '',
+    styles: [],
+    _count: { boards: 0, comments: 0 },
+  },
   loadBoardsDone: null,
   loadBoardsError: null,
 };

@@ -166,6 +166,10 @@ const localSlice = createSlice({
       state.strategyQuantroIndicator = false;
     },
     gotoStraUserStrategy(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = false;
+      state.communityNotice = false;
       state.strategyCertifiedStrategy = false;
       state.strategyUserStrategy = true;
       state.strategyQuantroStrategy = false;
@@ -189,6 +193,10 @@ const localSlice = createSlice({
       state.communityCommission = false;
       state.communityRank = false;
       state.communityNotice = false;
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
     },
     gotoComCommission(state) {
       state.communityDiscussion = false;
