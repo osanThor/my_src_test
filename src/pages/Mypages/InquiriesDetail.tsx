@@ -1,9 +1,8 @@
-import FuncModal from '@/src/components/common/FuncModal';
-import Modal from '@/src/components/common/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
+import InquiryAnswer from '@/src/components/mypage/inquiries/detail/InquiryAnswer';
+import InquiryContent from '@/src/components/mypage/inquiries/detail/InquiryContent';
+import InquiryTop from '@/src/components/mypage/inquiries/detail/InquiryTop';
 import InquiriesLayout from '@/src/components/mypage/inquiries/InquiriesLayout';
-import InquiriesWriteCon from '@/src/components/mypage/inquiries/write/InquiriesWriteCon';
-import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
@@ -15,143 +14,60 @@ import { useDispatch } from 'react-redux';
 const InquiriesDetail: NextPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { title, content, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(({ boards }: RootState) => ({
-    title: boards.title,
-    content: boards.content,
-    fileUrls: boards.fileUrls,
-    loadBoardsDone: boards.loadBoardsDone,
-    loadBoardsError: boards.loadBoardsError,
+  const { getInquiryResult } = useSelector(({ boards }: RootState) => ({
+    getInquiryResult: boards.getInquiryResult,
   }));
+  const [boardIdSt, setBoardIdSt] = useState(0);
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
+    loadAuthDone: auth.loadAuthDone,
+  }));
+
+  // api request once
+  const [once, setOnce] = useState(false);
+  useEffect(() => {
+    setOnce(false);
+  }, [router]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setOnce(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
 
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
-
-  const hadnleChangeInquiriesField = (e: React.ChangeEvent<any>) => {
-    const { name, value } = e.target;
-    if (name === 'title') {
-      dispatch(boardsActions.changeInquiries({ title: value, content, fileUrls }));
-    } else if (name === 'content') {
-      dispatch(boardsActions.changeInquiries({ title, content: value, fileUrls }));
+  }, [router]);
+  // local baordId
+  const { qId } = router.query;
+  useEffect(() => {
+    setOnce(false);
+    if (qId) {
+      setBoardIdSt(parseInt(qId as string));
     }
-  };
+  }, [qId]);
 
-  const [file1name, setFile1name] = useState('');
-  const [file2name, setFile2name] = useState('');
-  const [file3name, setFile3name] = useState('');
-  const [fileUrlsSt, setFileUrlsSt] = useState([]);
-  const [file1UrlName, setFile1UrlName] = useState('');
-  const [file2UrlName, setFile2UrlName] = useState('');
-  const [file3UrlName, setFile3UrlName] = useState('');
-
-  const handleChangeFileUrls = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    const formData = new FormData();
-
-    if (files.length === 0) {
-      return;
-    } else {
-      formData.append('files', files[0]);
-      if (name === 'file1') {
-        setFile1name(files[0].name);
-      } else if (name === 'file2') {
-        setFile2name(files[0].name);
-      } else if (name === 'file3') {
-        setFile3name(files[0].name);
-      }
-    }
-
-    const res = await axiosInstance.post(`/uploads/files?zone=INQUIRY`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    if (res) {
-      if (name === 'file1') {
-        setFile1UrlName(res.data.urls[0]);
-      } else if (name === 'file2') {
-        setFile2UrlName(res.data.urls[0]);
-      } else if (name === 'file3') {
-        setFile3UrlName(res.data.urls[0]);
-      }
-    }
-  };
+  console.log(getInquiryResult);
 
   useEffect(() => {
-    if (file1UrlName && !file2UrlName && !file3UrlName) {
-      setFileUrlsSt([file1UrlName]);
-    } else if (file1UrlName && file2UrlName && !file3UrlName) {
-      setFileUrlsSt([file1UrlName, file2UrlName]);
-    } else if (file1UrlName && !file2UrlName && file3UrlName) {
-      setFileUrlsSt([file1UrlName, file3UrlName]);
-    } else if (!file1UrlName && file2UrlName && !file3UrlName) {
-      setFileUrlsSt([file2UrlName]);
-    } else if (!file1UrlName && file2UrlName && file3UrlName) {
-      setFileUrlsSt([file2UrlName, file3UrlName]);
-    } else if (!file1UrlName && !file2UrlName && file3UrlName) {
-      setFileUrlsSt([file3UrlName]);
-    } else if (file1UrlName && file2UrlName && file3UrlName) {
-      setFileUrlsSt([file1UrlName, file2UrlName, file3UrlName]);
-    }
-  }, [file1UrlName, file2UrlName, file3UrlName]);
-
-  const handleSubmitInquiry = () => {
-    if (!title) {
-      //no title
-      setModalOpen(true);
-      setModalMessage('제목을 입력해 주세요');
-      setModalerr(true);
-      return;
-    } else if (!content) {
-      //no content
-      setModalOpen(true);
-      setModalMessage('문의 내용을 입력해 주세요');
-      setModalerr(true);
-      return;
-    } else if (content.length > 1000) {
-      //content over 1000
-      setModalOpen(true);
-      setModalMessage('문의 내용은 최대 1000자까지 입력 가능해요');
-      setModalerr(true);
-      return;
-    }
-    dispatch(boardsActions.createInquiries({ title, content, fileUrls: fileUrlsSt }));
-  };
-
-  useEffect(() => {
-    if (loadBoardsError) {
-      setModalOpen(true);
-      setModalMessage(loadBoardsError);
-      setModalerr(true);
-      return;
-    }
-    if (loadBoardsDone) {
-      if (loadBoardsDone.message === 'CREATED') {
-        setfModalOpen(true);
+    if (once) {
+      if (boardIdSt != 0) {
+        dispatch(boardsActions.getUserInquiry({ inquiryId: boardIdSt }));
       }
     }
-  }, [loadBoardsError, loadBoardsDone]);
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [modalErr, setModalerr] = useState(false);
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const [fModalOpen, setfModalOpen] = useState(false);
-  const handleCloseFuncModal = () => {
-    setfModalOpen(false);
-    router.push('/mypage?state=boards&board=inquiries');
-  };
+  }, [once]);
 
   return (
     <>
       <UserLayout>
         <InquiriesLayout>
-          <div className="">문의 내용</div>
+          <InquiryTop />
+          <InquiryContent />
+          <InquiryAnswer />
         </InquiriesLayout>
       </UserLayout>
     </>

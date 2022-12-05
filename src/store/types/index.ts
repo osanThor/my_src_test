@@ -73,4 +73,6 @@ export type {
   deleteCommentPayload,
   setBoardCollectionPayload,
   setBoardLikePayload,
+  getUserInquiryPayload,
+  getUserInquiryResult,
 } from './boards';

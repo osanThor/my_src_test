@@ -123,6 +123,17 @@ export type getUserInquiriesResult = {
   }>;
 };
 
+export type getUserInquiryPayload = {
+  inquiryId: number | null;
+};
+export type getUserInquiryResult = {
+  user: { nickname: string; styles: Array<{ name: string }> };
+  answer: null;
+  content: string | null;
+  createdAt: string | null;
+  files: Array<{ url: string }> | [];
+  title: string | null;
+};
 export type getBoardPayload = {
   boardId: number | null;
 };
