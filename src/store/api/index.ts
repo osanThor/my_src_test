@@ -47,4 +47,5 @@ export {
   apiSetBoardCollection,
   apiSetBoardLike,
   apiGetUserInquiry,
+  apiGetUserByNickname,
 } from './boards';

@@ -75,4 +75,6 @@ export type {
   setBoardLikePayload,
   getUserInquiryPayload,
   getUserInquiryResult,
+  getUserByNicknamePayload,
+  getUserByNicknameResult,
 } from './boards';

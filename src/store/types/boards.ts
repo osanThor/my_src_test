@@ -233,6 +233,13 @@ export type setBoardLikePayload = {
   boardId: number | null;
   isLike: boolean;
 };
+
+export type getUserByNicknamePayload = {
+  nickname: string | null;
+};
+export type getUserByNicknameResult = {
+  nickname: string | null;
+};
 export type LoadBoardsResponse = {
   message: string | null;
 };

@@ -7,6 +7,7 @@ import {
   getBoardsPayload,
   getNoticePayload,
   GetUserBoardsPayload,
+  getUserByNicknamePayload,
   GetUserInquiriesPayload,
   getUserInquiryPayload,
   LoadBoardsPayload,
@@ -82,3 +83,5 @@ export const apiSetBoardCollection = ({ boardId, isCollect }: setBoardCollection
 // set unset board like
 export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
   axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);
+
+export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/user/${nickname}`);

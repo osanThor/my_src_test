@@ -36,6 +36,8 @@ import {
   getUserCollectionsResult,
   getUserInquiryPayload,
   getUserInquiryResult,
+  getUserByNicknamePayload,
+  getUserByNicknameResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -190,6 +192,10 @@ export type BoardsStateType = {
     files: Array<{ url: string }> | [];
     title: string | null;
   } | null;
+  nickname: string | null;
+  getUserInfo: {
+    nickname: string | null;
+  };
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -243,6 +249,8 @@ const initialState: BoardsStateType = {
     files: [{ url: '' }],
     title: '',
   },
+  nickname: '',
+  getUserInfo: { nickname: '' },
   loadBoardsDone: null,
   loadBoardsError: null,
 };
@@ -445,6 +453,15 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.isLike = action.payload.isLike;
+    },
+    //get user by nickname
+    getUserByNickname(state, action: PayloadAction<getUserByNicknamePayload>) {
+      state.loadBoardsLoading = true;
+      state.nickname = action.payload.nickname;
+    },
+    getUserByNicknameResult(state, action: PayloadAction<getUserByNicknameResult>) {
+      state.loadBoardsLoading = true;
+      state.getUserInfo = action.payload;
     },
     //api res req
     loadBoardsRequest(state) {
