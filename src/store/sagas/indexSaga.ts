@@ -53,81 +53,9 @@ function* getIndexBoardsSaga(action: PayloadAction<getBoardsPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
-function* getIndexCertifiedSaga(action: PayloadAction<getBoardsPayload>) {
-  yield put(boardsActions.loadBoardsRequest());
-  try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetBoards, action.payload);
-    console.log(data);
-
-    yield put(indexActions.getCertifiedResult(data));
-  } catch (error: any) {
-    console.error('boardsSaga getBoardsSaga >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
-  }
-}
-function* getIndexUserStrategySaga(action: PayloadAction<getBoardsPayload>) {
-  yield put(boardsActions.loadBoardsRequest());
-  try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetBoards, action.payload);
-    console.log(data);
-
-    yield put(indexActions.getUserStrategyResult(data));
-  } catch (error: any) {
-    console.error('boardsSaga getBoardsSaga >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
-  }
-}
-function* getIndexDiscussionSaga(action: PayloadAction<getBoardsPayload>) {
-  yield put(boardsActions.loadBoardsRequest());
-  try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetBoards, action.payload);
-    console.log(data);
-
-    yield put(indexActions.getDiscussionResult(data));
-  } catch (error: any) {
-    console.error('boardsSaga getBoardsSaga >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
-  }
-}
-function* getIndexQuantroStrategySaga(action: PayloadAction<getBoardsPayload>) {
-  yield put(boardsActions.loadBoardsRequest());
-  try {
-    const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetBoards, action.payload);
-    console.log(data);
-
-    yield put(indexActions.getDiscussionResult(data));
-  } catch (error: any) {
-    console.error('boardsSaga getBoardsSaga >> ', error);
-
-    const message =
-      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
-
-    // 실패한 액션 디스패치
-    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
-  }
-}
 
 function* watchLoadfile() {
   yield takeLatest(indexActions.getIndexBoards, getIndexBoardsSaga);
-  //   yield takeLatest(indexActions.getCertified, getIndexCertifiedSaga);
-  //   yield takeLatest(indexActions.getUserStrategy, getIndexUserStrategySaga);
-  //   yield takeLatest(indexActions.getDiscussion, getIndexDiscussionSaga);
-  //   yield takeLatest(indexActions.getDiscussion, getIndexQuantroStrategySaga);
 }
 
 export default function* indexSaga() {
