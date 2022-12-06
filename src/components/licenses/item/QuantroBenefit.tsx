@@ -60,6 +60,7 @@ const QuantroBenefitBlock = styled.div`
   width: 100%;
   height: 100%;
   min-height: 434px;
+  padding: 1rem;
   background-color: ${colors.blue[0]};
   border-radius: 14px;
   display: flex;

@@ -19,7 +19,7 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       <div className="license_main">
-        <div className="license_main_con">{children}</div>
+        {children}
         <div className="license_description">
           <QuantroBenefit />
         </div>
@@ -91,7 +91,8 @@ const LicenseCenterLayoutBlock = styled.div`
 
     .license_main_con {
       width: 100%;
-      margin-right: 20px;
+      display: flex;
+      margin-right: 42px;
     }
     .license_description {
       width: 100%;
@@ -118,7 +119,16 @@ const LicenseCenterLayoutBlock = styled.div`
     }
   }
 
-  ${media.custom(1200)} {
+  ${media.custom(1590)} {
+    .license_main {
+      .license_main_con {
+        margin-right: 20px;
+      }
+      .license_description {
+      }
+    }
+  }
+  ${media.custom(1490)} {
     margin-bottom: 24px;
     .dis_p {
       display: none;

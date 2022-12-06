@@ -57,7 +57,6 @@ const StrategistBox = () => {
         </div>
       </div>
       <div className="intro">{introduction}</div>
-      {/* <StyledTextarea value={introduction} readOnly /> */}
     </StrategistBoxBlock>
   );
 };
@@ -77,6 +76,8 @@ const StrategistBoxBlock = styled.div`
     min-width: 56px;
     position: relative;
     margin-right: 24px;
+    border-radius: 50%;
+    overflow: hidden;
   }
   .profile_info {
     display: flex;
