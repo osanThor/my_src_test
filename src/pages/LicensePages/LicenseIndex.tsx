@@ -24,14 +24,16 @@ const LicensePageIndex: NextPage = () => {
   }));
 
   useEffect(() => {
-    if (!router.query.state) {
-      dispatch(localActions.gotoLicenseIndex());
-    } else if (router.query.state === 'exchange') {
-      dispatch(localActions.gotolicenseExchange());
-    } else if (router.query.state === 'regular') {
-      dispatch(localActions.gotolicenseRegular());
-    } else if (router.query.state === 'premium') {
-      dispatch(localActions.gotolicensePremium());
+    if (router.query) {
+      if (!router.query.state) {
+        dispatch(localActions.gotoLicenseIndex());
+      } else if (router.query.state === 'exchange') {
+        dispatch(localActions.gotolicenseExchange());
+      } else if (router.query.state === 'regular') {
+        dispatch(localActions.gotolicenseRegular());
+      } else if (router.query.state === 'premium') {
+        dispatch(localActions.gotolicensePremium());
+      }
     }
   }, [router]);
   return (
