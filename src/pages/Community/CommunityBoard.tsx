@@ -83,8 +83,10 @@ const CommunityBoard = () => {
   const { user } = getBoardDone;
   const [identity, setIdentity] = useState(false);
   useEffect(() => {
-    if (nickname === user.nickname) {
-      setIdentity(true);
+    if (user) {
+      if (nickname === user.nickname) {
+        setIdentity(true);
+      }
     }
   }, [nickname, user]);
 
