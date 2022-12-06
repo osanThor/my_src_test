@@ -56,7 +56,7 @@ const LicensesTop = () => {
             <div className="icon">
               <Image src={Notice[0]} alt="notice" />
             </div>
-            <span>텔레그램의 사용자명을 등록하시면 매매와 여러정보를 알림으로 받아 보실 수 있어요.</span>
+            <span id="point2">텔레그램의 사용자명을 등록하시면 매매와 여러정보를 알림으로 받아 보실 수 있어요.</span>
           </div>
         </div>
       </div>

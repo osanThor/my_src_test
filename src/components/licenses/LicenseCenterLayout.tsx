@@ -5,8 +5,17 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { GuidGoIcon, Mark } from '@/src/assets/Images';
 import QuantroBenefit from './item/QuantroBenefit';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
+import PaymentGuide from './item/PaymentGuide';
 
 const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
+  const { licenseIndex, licenseExchange, licenseRegular, licensePremium } = useSelector(({ local }: RootState) => ({
+    licenseIndex: local.licenseIndex,
+    licenseExchange: local.licenseExchange,
+    licenseRegular: local.licenseRegular,
+    licensePremium: local.licensePremium,
+  }));
   return (
     <LicenseCenterLayoutBlock>
       <div className="license_title">
@@ -20,9 +29,7 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div className="license_main">
         {children}
-        <div className="license_description">
-          <QuantroBenefit />
-        </div>
+        <div className="license_description">{licenseIndex ? <QuantroBenefit /> : <PaymentGuide />}</div>
       </div>
       <div className="license_bot dis_m">
         <div className="how_to_api_btn dis_m">
@@ -32,7 +39,7 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </div>
-      <div className="notice">
+      <div className="notice" id="point3">
         <div className="icon">
           <Image src={Mark} alt="mark" />
         </div>

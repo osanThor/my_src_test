@@ -6,6 +6,10 @@ export type LocalStateType = {
   order: boolean;
   quantity: boolean;
   option: boolean;
+  licenseIndex: boolean;
+  licenseExchange: boolean;
+  licenseRegular: boolean;
+  licensePremium: boolean;
   orderMessage: boolean;
   noSignMessage: boolean;
   errorMessage: boolean;
@@ -34,6 +38,11 @@ const initialState: LocalStateType = {
   order: false,
   quantity: false,
   option: false,
+  //license state
+  licenseIndex: false,
+  licenseExchange: false,
+  licenseRegular: false,
+  licensePremium: false,
   //message state
   orderMessage: true,
   noSignMessage: false,
@@ -97,6 +106,31 @@ const localSlice = createSlice({
       state.order = false;
       state.quantity = false;
       state.option = true;
+    },
+    //license Page Actions
+    gotoLicenseIndex(state) {
+      state.licenseIndex = true;
+      state.licenseExchange = false;
+      state.licenseRegular = false;
+      state.licensePremium = false;
+    },
+    gotolicenseExchange(state) {
+      state.licenseIndex = false;
+      state.licenseExchange = true;
+      state.licenseRegular = false;
+      state.licensePremium = false;
+    },
+    gotolicenseRegular(state) {
+      state.licenseIndex = false;
+      state.licenseExchange = false;
+      state.licenseRegular = true;
+      state.licensePremium = false;
+    },
+    gotolicensePremium(state) {
+      state.licenseIndex = false;
+      state.licenseExchange = false;
+      state.licenseRegular = false;
+      state.licensePremium = true;
     },
     //message Page Actions
     gotoOrderMessage(state) {

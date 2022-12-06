@@ -1,10 +1,12 @@
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const LicenseIndex = () => {
+  const router = useRouter();
   return (
     <LicenseIndexBlock className="license_main_con">
       <div className="chose_package">
@@ -13,7 +15,7 @@ const LicenseIndex = () => {
             <h2>BASIC PACKAGE</h2>
             <div className="price">Free</div>
             <div className="period">FOREVER</div>
-            <StyledButton>거래소 등록</StyledButton>
+            <StyledButton onClick={() => router.push('/licenses?state=exchange')}>거래소 등록</StyledButton>
           </div>
           <div className="benefit">
             <ul>
@@ -27,7 +29,9 @@ const LicenseIndex = () => {
             <h2 className="blue">REGULAR PACKAGE</h2>
             <div className="price">₩19,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue>결제하기</StyledButton>
+            <StyledButton blue disabled>
+              결제하기
+            </StyledButton>
           </div>
           <div className="benefit">
             <ul>
@@ -42,7 +46,9 @@ const LicenseIndex = () => {
             <h2 className="red">PREMIUM PACKAGE</h2>
             <div className="price">₩29,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue>결제하기</StyledButton>
+            <StyledButton blue disabled>
+              결제하기
+            </StyledButton>
           </div>
           <div className="benefit">
             <ul>
@@ -63,7 +69,7 @@ const LicenseIndexBlock = styled.div`
     width: 100%;
     display: grid;
     transition: all 0.2s;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     grid-column-gap: 18px;
     -webkit-column-gap: 18px;
     -webkit-column-gap: 18px;
