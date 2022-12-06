@@ -113,7 +113,19 @@ const CommunityIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
-  }, [router, isUser, category, page, user, title, comment]);
+  }, [
+    router,
+    isUser,
+    category,
+    page,
+    user,
+    title,
+    comment,
+    communityDiscussion,
+    communityCommission,
+    communityRank,
+    communityNotice,
+  ]);
 
   return (
     <UserLayout>

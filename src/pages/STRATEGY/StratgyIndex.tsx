@@ -112,7 +112,19 @@ const StratgyIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
-  }, [router, isUser, category, page, user, title, comment]);
+  }, [
+    router,
+    isUser,
+    category,
+    page,
+    user,
+    title,
+    comment,
+    strategyCertifiedStrategy,
+    strategyUserStrategy,
+    strategyQuantroStrategy,
+    strategyQuantroIndicator,
+  ]);
 
   return (
     <UserLayout>

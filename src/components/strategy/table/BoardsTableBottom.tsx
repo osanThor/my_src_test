@@ -12,9 +12,9 @@ import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
   const router = useRouter();
-  const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
-    communityDiscussion: local.communityDiscussion,
-    communityCommission: local.communityCommission,
+  const { strategyCertifiedStrategy, strategyUserStrategy } = useSelector(({ local }: RootState) => ({
+    strategyCertifiedStrategy: local.strategyCertifiedStrategy,
+    strategyUserStrategy: local.strategyUserStrategy,
   }));
   const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
@@ -40,16 +40,8 @@ const BoardsTableBottom = () => {
           <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
         </BoardSearchLayout>
         <div className="btn">
-          {communityDiscussion && (
-            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
-              글쓰기
-            </StyledButton>
-          )}
-          {communityCommission && (
-            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
-              의뢰하기
-            </StyledButton>
-          )}
+          {strategyCertifiedStrategy && <StyledButton lightBlue>전략 인증신청</StyledButton>}
+          {strategyUserStrategy && <StyledButton lightBlue>전략등록</StyledButton>}
         </div>
       </div>
     </BoardsTableBottomBlock>

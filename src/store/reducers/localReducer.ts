@@ -160,6 +160,10 @@ const localSlice = createSlice({
     },
     //strategy actions
     gotoStraCertifiedStrategy(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = false;
+      state.communityNotice = false;
       state.strategyCertifiedStrategy = true;
       state.strategyUserStrategy = false;
       state.strategyQuantroStrategy = false;
@@ -176,12 +180,20 @@ const localSlice = createSlice({
       state.strategyQuantroIndicator = false;
     },
     gotoStraQuantroStrategy(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = false;
+      state.communityNotice = false;
       state.strategyCertifiedStrategy = false;
       state.strategyUserStrategy = false;
       state.strategyQuantroStrategy = true;
       state.strategyQuantroIndicator = false;
     },
     gotoStraQuantroIndicator(state) {
+      state.communityDiscussion = false;
+      state.communityCommission = false;
+      state.communityRank = false;
+      state.communityNotice = false;
       state.strategyCertifiedStrategy = false;
       state.strategyUserStrategy = false;
       state.strategyQuantroStrategy = false;
@@ -203,18 +215,30 @@ const localSlice = createSlice({
       state.communityCommission = true;
       state.communityRank = false;
       state.communityNotice = false;
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
     },
     gotoComRank(state) {
       state.communityDiscussion = false;
       state.communityCommission = false;
       state.communityRank = true;
       state.communityNotice = false;
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
     },
     gotoComNotice(state) {
       state.communityDiscussion = false;
       state.communityCommission = false;
       state.communityRank = false;
       state.communityNotice = true;
+      state.strategyCertifiedStrategy = false;
+      state.strategyUserStrategy = false;
+      state.strategyQuantroStrategy = false;
+      state.strategyQuantroIndicator = false;
     },
   },
 });

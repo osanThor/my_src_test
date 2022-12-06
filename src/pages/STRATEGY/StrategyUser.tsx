@@ -92,7 +92,7 @@ const StrategyUser: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
-  }, [router, isUser, category, page, user, title, comment]);
+  }, [router, isUser, category, page, user, title, comment, communityDiscussion, strategyUserStrategy]);
   return (
     <UserLayout>
       <StrategistLayout>
