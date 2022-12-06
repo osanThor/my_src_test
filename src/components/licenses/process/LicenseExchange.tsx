@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { ArrowLeft, BINANCE, BITGET, BITMEX, BYBIT, FTX } from '@/src/assets/Images';
+import { ArrowLeft, BINANCE, BITGET, BITMEX, BYBIT, FTX, Profile1 } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -10,19 +10,43 @@ import Button from '../../common/Button';
 const LicenseExchange = () => {
   const router = useRouter();
   const [selected, setSelected] = useState(false);
-  const [exchageSt, setExchangeSt] = useState('');
+  const [exchageSt, setExchangeSt] = useState<any>();
+
   useEffect(() => {
     if (!router.query.selected) {
       setSelected(false);
     } else {
       setSelected(true);
-      setExchangeSt(router.query.selected as string);
+      if (router.query.selected === 'BINANCE') {
+        setExchangeSt(BINANCE);
+      } else if (router.query.selected === 'BYBIT') {
+        setExchangeSt(BYBIT);
+      } else if (router.query.selected === 'BITMEX') {
+        setExchangeSt(BITMEX);
+      } else if (router.query.selected === 'BITGET') {
+        setExchangeSt(BITGET);
+      } else if (router.query.selected === 'FTX') {
+        setExchangeSt(FTX);
+      } else {
+        setExchangeSt(null);
+      }
     }
   }, [router]);
 
   const handleSelectExchange = (e: any) => {
     const targetValue = e.currentTarget.children[0].value;
-    window.open('https://www.binance.com/en');
+    if (targetValue === 'BINANCE') {
+      window.open('https://www.binance.com/en');
+    } else if (targetValue === 'BYBIT') {
+      window.open('https://www.bybit.com/en-US');
+    } else if (targetValue === 'BITMEX') {
+      window.open('https://www.bitmex.com/app/trade/XBTUSD');
+    } else if (targetValue === 'BITGET') {
+      window.open('https://www.bitget.com/en-GB/');
+    } else if (targetValue === 'FTX') {
+      window.open('https://help.ftx.com/hc/en-us');
+    }
+
     router.replace({ query: { ...router.query, selected: targetValue } });
   };
   return (
@@ -79,9 +103,9 @@ const LicenseExchange = () => {
           <div className="exchanges exchagnge_benefit">
             <div className="exchange">
               <div className="exchange_thumbnail">
-                <Image src={BINANCE} alt="exchange" layout="fill" />
+                <Image src={exchageSt ? exchageSt : Profile1[1]} alt="exchange" layout="fill" />
               </div>
-              <div className="exchange_name">BINANCE</div>
+              <div className="exchange_name">{router.query.selected as string}</div>
             </div>
             <div className="benefit_con">
               <div className="guide">
@@ -148,6 +172,7 @@ const LicenseExchangeBlock = styled.div`
       display: flex;
       flex: 1;
       .exchange {
+        cursor: pointer;
         width: 20%;
         min-width: 128px;
         min-height: 162px;
@@ -180,6 +205,7 @@ const LicenseExchangeBlock = styled.div`
         align-items: flex-end;
         height: 100%;
         .exchange {
+          cursor: auto;
           flex: 1;
           height: 100%;
           max-height: 274px;
@@ -329,6 +355,7 @@ const LicenseExchangeBlock = styled.div`
         }
         &.exchagnge_benefit {
           flex-wrap: nowrap;
+          align-items: normal;
           .exchange {
             flex: 1;
             height: auto;
@@ -340,7 +367,8 @@ const LicenseExchangeBlock = styled.div`
           }
           .benefit_con {
             width: auto;
-            height: 100%;
+            height: auto;
+            justify-content: center;
             display: flex;
             flex-direction: column;
             align-items: center;

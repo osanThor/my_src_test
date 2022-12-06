@@ -10,7 +10,7 @@ const MLicenseHeader = () => {
   const router = useRouter();
   const [isExchagne, setIsExchagne] = useState(false);
   const [isLicenses, setIsLicenses] = useState(false);
-  const [isStrategist, setIsStrategist] = useState(false);
+  const [isExchanged, setIsExchanged] = useState(false);
 
   useEffect(() => {
     if (router.pathname === '/licenses' && router.query.state === 'exchange') {
@@ -20,10 +20,18 @@ const MLicenseHeader = () => {
       setIsExchagne(false);
       setIsLicenses(true);
     }
+    if (router.query.selected) {
+      setIsExchanged(true);
+    } else {
+      setIsExchanged(false);
+    }
   }, [router]);
   return (
     <MLicenseHeaderBlock>
-      <div className="backBtn" onClick={() => router.back()}>
+      <div
+        className="backBtn"
+        onClick={isExchanged ? () => router.replace({ query: { ...router.query, selected: '' } }) : () => router.back()}
+      >
         <Image src={ArrowLeft} alt="back button" />
       </div>
       {isExchagne && '거래소 등록'}
