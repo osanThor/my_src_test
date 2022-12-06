@@ -1,55 +1,63 @@
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const LicenseIndex = () => {
+  const router = useRouter();
   return (
-    <LicenseIndexBlock>
+    <LicenseIndexBlock className="license_main_con">
       <div className="chose_package">
-        <div className="referral">
+        <div className="BASIC">
           <div className="package_con">
-            <h2>
-              QUANTRO
-              <br /> REFERRAL PACKAGE
-            </h2>
-            <div className="price">평생무료</div>
-            <StyledButton>레퍼럴 등록</StyledButton>
+            <h2>BASIC PACKAGE</h2>
+            <div className="price">Free</div>
+            <div className="period">FOREVER</div>
+            <StyledButton onClick={() => router.push('/licenses?state=exchange')}>거래소 등록</StyledButton>
           </div>
           <div className="benefit">
-            <h3>
-              퀀트로 레퍼럴 패키지 <span className="bold">추가 혜택</span>
-            </h3>
-            <p>
-              제휴 맺은 전략가의 전략들을 <span className="bold">무료로 사용 가능</span>해요!
-            </p>
+            <ul>
+              <li>원하시는 거래소를 선택하여 가입해주세요</li>
+              <li className="bold">분당 주문 회수 20회</li>
+            </ul>
           </div>
         </div>
-        <div className="basic">
+        <div className="REGULAR">
           <div className="package_con">
-            <h2>
-              QUANTRO
-              <br /> BASIC PACKAGE
-            </h2>
-            <div className="price">29,900원(월)</div>
-            <StyledButton blue>결제하기</StyledButton>
+            <h2 className="blue">REGULAR PACKAGE</h2>
+            <div className="price">₩19,900</div>
+            <div className="period">PER MONTH</div>
+            <StyledButton blue disabled>
+              결제하기
+            </StyledButton>
           </div>
           <div className="benefit">
-            <h3>
-              퀀트로 레퍼럴 패키지 <span className="bold">추가 혜택</span>
-            </h3>
-            <p>
-              여러분만의 <span className="bold">전략을 제작</span>해해드려요! (월 1회)
-            </p>
+            <ul>
+              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
+              <li className="bold">분당 주문 회수 30회 </li>
+              <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div className="bottom">
-        <ul>
-          <li>결제는 암호화폐로 결제 가능하며 기타 결제 방법은 오른쪽 메신저로 문의주세요</li>
-          <li>계정당 1개의 인증키만 사용가능하며 1개의 인증키로 여러 이메일에 사용하는 것은 불가능해요</li>
-        </ul>
+        <div className="PREMIUM">
+          <div className="package_con">
+            <h2 className="red">PREMIUM PACKAGE</h2>
+            <div className="price">₩29,900</div>
+            <div className="period">PER MONTH</div>
+            <StyledButton blue disabled>
+              결제하기
+            </StyledButton>
+          </div>
+          <div className="benefit">
+            <ul>
+              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
+              <li className="bold">분당 주문 회수 40회</li>
+              <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </LicenseIndexBlock>
   );
@@ -59,15 +67,19 @@ const LicenseIndexBlock = styled.div`
   width: 100%;
   .chose_package {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    display: grid;
+    transition: all 0.2s;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-column-gap: 18px;
+    -webkit-column-gap: 18px;
+    -webkit-column-gap: 18px;
+    column-gap: 18px;
+    grid-row-gap: 18px;
+    row-gap: 18px;
     word-break: keep-all;
     text-align: center;
 
     & > div {
-      flex: 1;
-      width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -82,23 +94,33 @@ const LicenseIndexBlock = styled.div`
         width: 100%;
         border: 1px solid ${colors.gray[1]};
         border-radius: 14px;
-        padding: 40px 0;
+        padding: 40px 12px;
         margin-bottom: 20px;
         h2 {
-          font-size: 14px;
+          font-size: 1.5rem;
           font-family: 'GmarketSansBold';
           word-break: keep-all;
           margin-bottom: 20px;
+          white-space: nowrap;
           color: ${colors.gray[5]};
           br {
             display: none;
           }
+          &.blue {
+            color: ${colors.blue[2]};
+          }
+          &.red {
+            color: ${colors.red[1]};
+          }
         }
         .price {
-          font-size: 28px;
+          font-size: 3rem;
           color: ${colors.dark[1]};
           margin-bottom: 20px;
           white-space: nowrap;
+        }
+        .period {
+          margin-bottom: 10px;
         }
       }
       &.basic {
@@ -109,29 +131,23 @@ const LicenseIndexBlock = styled.div`
         }
       }
 
-      &:first-child {
-        margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
       }
 
       .benefit {
         width: 100%;
         background-color: ${colors.gray[0]};
         border-radius: 14px;
-        padding: 28px;
+        font-size: 14px;
+        padding: 10px;
+        text-align: left;
+        color: ${colors.gray[5]};
         .bold {
           font-family: 'GmarketSansBold';
         }
-        h3 {
-          font-size: 1rem;
-        }
-        p {
-          color: ${colors.gray[4]};
-        }
-      }
-
-      &:last-child {
-        .benefit {
-          background-color: ${colors.blue[0]};
+        ul {
+          padding-left: 10px;
         }
       }
     }
@@ -156,79 +172,38 @@ const LicenseIndexBlock = styled.div`
       }
     }
   }
-
-  ${media.custom(1200)} {
+  ${media.custom(1590)} {
     .chose_package {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      word-break: keep-all;
-      text-align: center;
-
       & > div {
         .package_con {
-          padding: 20px;
           h2 {
-            font-size: 12px;
-            margin-bottom: 20px;
+            font-size: 20px;
           }
           .price {
-            font-size: 20px;
+            font-size: 2rem;
             margin-bottom: 20px;
             white-space: nowrap;
           }
         }
-        &.basic {
-          .package_con {
-            h2 {
-              color: ${colors.blue[2]};
-            }
-          }
-        }
-
-        &:first-child {
-          margin-right: 8px;
-        }
-
-        .benefit {
-          width: 100%;
-          background-color: ${colors.gray[0]};
-          border-radius: 14px;
-          padding: 28px;
-          .bold {
-            font-family: 'GmarketSansBold';
-          }
-          h3 {
-            font-size: 1rem;
-          }
-          p {
-            color: ${colors.gray[4]};
-          }
-        }
-
-        &:last-child {
-          .benefit {
-            background-color: ${colors.blue[0]};
-          }
+      }
+    }
+  }
+  ${media.custom(1200)} {
+    .chose_package {
+      & > div {
+        .package_con {
+          padding: 20px;
         }
       }
     }
   }
   ${media.tablet} {
     .chose_package {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      word-break: keep-all;
-      text-align: center;
-
       & > div {
         .package_con {
           padding: 20px;
           h2 {
-            font-size: 12px;
+            font-size: 1.5rem;
             margin-bottom: 20px;
             white-space: nowrap;
             br {
@@ -236,7 +211,7 @@ const LicenseIndexBlock = styled.div`
             }
           }
           .price {
-            font-size: 20px;
+            font-size: 3rem;
             margin-bottom: 20px;
             white-space: nowrap;
           }
@@ -247,23 +222,6 @@ const LicenseIndexBlock = styled.div`
         }
 
         .benefit {
-          width: 100%;
-          padding: 20px;
-          .bold {
-            font-family: 'GmarketSansBold';
-          }
-          h3 {
-            font-size: 1rem;
-          }
-          p {
-            color: ${colors.gray[4]};
-          }
-        }
-
-        &:last-child {
-          .benefit {
-            background-color: ${colors.blue[0]};
-          }
         }
       }
     }

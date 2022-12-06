@@ -41,7 +41,7 @@ const ConectTelegram = ({
           </li>
           <li onClick={handleClickEvent}>
             <span className="num">2</span>
-            <p>텔레그램 봇에 /atrat를 입력해요</p>
+            <p>텔레그램 봇에 /start를 입력해요</p>
           </li>
           <li onClick={handleClickEvent}>
             <span className="num">3</span>

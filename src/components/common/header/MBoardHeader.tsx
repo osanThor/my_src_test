@@ -1,12 +1,24 @@
 import { ArrowLeft, Menu7, ShareIcon } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
+import { boardsActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Modal from '../Modal';
 
 const MBoardHeader = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { boardId, isCollect } = useSelector(({ boards }: RootState) => ({
+    boardId: boards.boardId,
+    isCollect: boards.isCollect,
+  }));
+  // collection
+  const handleSetBoardCollection = () => {
+    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: !isCollect }));
+  };
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement('textarea');
@@ -34,7 +46,7 @@ const MBoardHeader = () => {
           <Image src={ArrowLeft} alt="back button" />
         </div>
         <div className="right_btns">
-          <div className="button">
+          <div className="button" onClick={handleSetBoardCollection}>
             <Image src={Menu7[0]} alt="collection" />
           </div>
           <div className="button" onClick={copyURL}>

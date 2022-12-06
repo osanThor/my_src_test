@@ -6,43 +6,34 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const MWriteHeader = () => {
+const MLicenseHeader = () => {
   const router = useRouter();
-  const [isWrite, setIsWrite] = useState(false);
-  const [isInquiries, setIsInquiries] = useState(false);
+  const [isExchagne, setIsExchagne] = useState(false);
+  const [isLicenses, setIsLicenses] = useState(false);
   const [isStrategist, setIsStrategist] = useState(false);
-  const { nickname } = useSelector(({ boards }: RootState) => ({
-    nickname: boards.nickname,
-  }));
+
   useEffect(() => {
-    if (router.pathname === '/mypage/inquiries/write' || router.pathname === '/mypage/inquiries/[qId]') {
-      setIsInquiries(true);
-      setIsWrite(false);
-      setIsStrategist(false);
-    } else if (router.pathname === '/strategy/strategist') {
-      setIsStrategist(true);
-      setIsInquiries(false);
-      setIsWrite(false);
+    if (router.pathname === '/licenses' && router.query.state === 'exchange') {
+      setIsExchagne(true);
+      setIsLicenses(false);
     } else {
-      setIsWrite(true);
-      setIsInquiries(false);
-      setIsStrategist(false);
+      setIsExchagne(false);
+      setIsLicenses(true);
     }
   }, [router]);
   return (
-    <MWriteHeaderBlock>
+    <MLicenseHeaderBlock>
       <div className="backBtn" onClick={() => router.back()}>
         <Image src={ArrowLeft} alt="back button" />
       </div>
-      {isWrite && '글작성'}
-      {isInquiries && '1:1 문의'}
-      {isStrategist && <div className="nickname">{nickname}</div>}
+      {isExchagne && '거래소 등록'}
+      {isLicenses && '이용권 등록'}
       <span />
-    </MWriteHeaderBlock>
+    </MLicenseHeaderBlock>
   );
 };
 
-const MWriteHeaderBlock = styled.div`
+const MLicenseHeaderBlock = styled.div`
   width: 100%;
   height: 50px;
   padding: 0.5rem 1rem;
@@ -75,4 +66,4 @@ const MWriteHeaderBlock = styled.div`
   }
 `;
 
-export default MWriteHeader;
+export default MLicenseHeader;

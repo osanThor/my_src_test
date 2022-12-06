@@ -113,6 +113,13 @@ import MoreInfoIconFile from 'public/assets/common/more_info.svg';
 import MoreInfoDarkIconFile from 'public/assets/common/more_info_dark.svg';
 import CommentLineIcon from 'public/assets/common/comment_line.svg';
 
+// exchage
+import BINANCEIcon from 'public/assets/common/exchange/BINANCE.svg';
+import BYBITIcon from 'public/assets/common/exchange/BYBIT.svg';
+import BITMEXIcon from 'public/assets/common/exchange/BITMEX.svg';
+import BITGETIcon from 'public/assets/common/exchange/BITGET.svg';
+import FTXIcon from 'public/assets/common/exchange/FTX.svg';
+
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
 
 ///*** !----Export----- */
@@ -201,6 +208,13 @@ export const StrikeLine = [StrikeLineGrayIconFile, StrikeLineBlueIconFile];
 export const AlignLeft = [AlignLeftGrayIconFile, AlignLeftBlueIconFile];
 export const AlignCenter = [AlignCenterGrayIconFile, AlignCenterBlueIconFile];
 export const AlignRight = [AlignRightGrayIconFile, AlignRightBlueIconFile];
+
+//exchanges
+export const BINANCE = BINANCEIcon;
+export const BYBIT = BYBITIcon;
+export const BITMEX = BITMEXIcon;
+export const BITGET = BITGETIcon;
+export const FTX = FTXIcon;
 
 //Index
 export const MainBanner = MainBannerImage;

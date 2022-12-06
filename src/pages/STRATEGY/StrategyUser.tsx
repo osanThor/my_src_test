@@ -1,8 +1,9 @@
-import BoardsTable from '@/src/components/community/table/BoardsTable';
 import UserLayout from '@/src/components/layout/UserLayout';
+import BoardsTable from '@/src/components/strategy/user/BoardsTable';
 import StrategistBox from '@/src/components/strategy/user/StrategistBox';
 import StrategistContrl from '@/src/components/strategy/user/StrategistContrl';
 import StrategistLayout from '@/src/components/strategy/user/StrategistLayout';
+import UserStrategyTable from '@/src/components/strategy/user/UserStrategyTable';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
@@ -91,13 +92,14 @@ const StrategyUser: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
-  }, [router, isUser, category, page, user, title, comment]);
+  }, [router, isUser, category, page, user, title, comment, communityDiscussion, strategyUserStrategy]);
   return (
     <UserLayout>
       <StrategistLayout>
         <StrategistBox />
         <StrategistContrl />
         {communityDiscussion && <BoardsTable />}
+        {strategyUserStrategy && <UserStrategyTable />}
       </StrategistLayout>
     </UserLayout>
   );

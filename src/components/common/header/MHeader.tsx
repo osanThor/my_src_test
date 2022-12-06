@@ -31,6 +31,8 @@ import CommunityMenu from './mobileHeaderAdded/CommunityMenu';
 import MWriteHeader from './MWriteHeader';
 import MBoardHeader from './MBoardHeader';
 import StrategyMenu from './mobileHeaderAdded/StrategyMenu';
+import LicensesMenu from './mobileHeaderAdded/LicensesMenu';
+import MLicenseHeader from './MLicenseHeader';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -103,6 +105,8 @@ const MHeader = () => {
   // 페이지별 추가 레이아웃
   const [dashBoard, setDashBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
+  const [licenseIndex, setLicenseIndex] = useState(false);
+  const [license, setLicense] = useState(false);
   const [message, setMessage] = useState(false);
   const [myPage, setMyPage] = useState(false);
   const [strategy, setStrategy] = useState(false);
@@ -126,6 +130,17 @@ const MHeader = () => {
     } else {
       setMessage(false);
     }
+    if (router.pathname === '/licenses' && !router.query.state) {
+      console.log(router.query.state);
+      setLicenseIndex(true);
+    } else {
+      setLicenseIndex(false);
+    }
+    if (router.pathname === '/licenses' && router.query.state) {
+      setLicense(true);
+    } else {
+      setLicense(false);
+    }
     if (router.pathname === '/mypage') {
       setMyPage(true);
     } else {
@@ -144,7 +159,8 @@ const MHeader = () => {
     if (
       router.pathname === '/community/write' ||
       router.pathname === '/mypage/inquiries/write' ||
-      router.pathname === '/mypage/inquiries/[qId]'
+      router.pathname === '/mypage/inquiries/[qId]' ||
+      router.pathname === '/strategy/strategist'
     ) {
       setIsWrite(true);
     } else {
@@ -155,11 +171,11 @@ const MHeader = () => {
     } else {
       setIsBoard(false);
     }
-  }, []);
+  }, [router]);
 
   return (
     <MHeaderBlock>
-      {isWrite || isBoard || (
+      {isWrite || isBoard || license || (
         <MHeaderMain>
           <div className="menu_bar">
             <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
@@ -188,6 +204,7 @@ const MHeader = () => {
           </div>
           {dashBoard && <DashBoardMenu />}
           {writeQuant && <WriteQuantMenu />}
+          {licenseIndex && <LicensesMenu />}
           {message && <MessageMenu />}
           {myPage && <MyPageMenu />}
           {strategy && <StrategyMenu />}
@@ -196,6 +213,7 @@ const MHeader = () => {
       )}
       {isWrite && <MWriteHeader />}
       {isBoard && <MBoardHeader />}
+      {license && <MLicenseHeader />}
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>

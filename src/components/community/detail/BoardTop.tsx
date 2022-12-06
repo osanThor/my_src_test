@@ -40,45 +40,46 @@ const BoardTop = ({
       </div>
       <div className="bottom_area">
         <div className="thumbnail">
-          <Image src={user.photoUrl ? user.photoUrl : Profile1[1]} alt="profile" layout="fill" />
+          <Image src={user ? user.photoUrl : Profile1[1]} alt="profile" layout="fill" />
         </div>
         <div className="info_con">
           <div className="profile_info">
-            <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
+            <div className="nickname">{user ? user.nickname : '퀀트로'}</div>
             <div className="styles">
-              {user.styles.map((st) => {
-                if (st.name === 'SCALPING') {
-                  return (
-                    <div key={st.name} className="style">
-                      <span>#스캘핑</span>
-                    </div>
-                  );
-                } else if (st.name === 'SHORT_HIT') {
-                  return (
-                    <div key={st.name} className="style">
-                      <span>#단타</span>
-                    </div>
-                  );
-                } else if (st.name === 'SWING') {
-                  return (
-                    <div key={st.name} className="style">
-                      <span>#스윙</span>
-                    </div>
-                  );
-                } else if (st.name === 'TREND') {
-                  return (
-                    <div key={st.name} className="style">
-                      <span>#추세매매</span>
-                    </div>
-                  );
-                } else if (st.name === 'R_TREND') {
-                  return (
-                    <div key={st.name} className="style">
-                      <span>#역추세매매</span>
-                    </div>
-                  );
-                }
-              })}
+              {user &&
+                user.styles.map((st) => {
+                  if (st.name === 'SCALPING') {
+                    return (
+                      <div key={st.name} className="style">
+                        <span>#스캘핑</span>
+                      </div>
+                    );
+                  } else if (st.name === 'SHORT_HIT') {
+                    return (
+                      <div key={st.name} className="style">
+                        <span>#단타</span>
+                      </div>
+                    );
+                  } else if (st.name === 'SWING') {
+                    return (
+                      <div key={st.name} className="style">
+                        <span>#스윙</span>
+                      </div>
+                    );
+                  } else if (st.name === 'TREND') {
+                    return (
+                      <div key={st.name} className="style">
+                        <span>#추세매매</span>
+                      </div>
+                    );
+                  } else if (st.name === 'R_TREND') {
+                    return (
+                      <div key={st.name} className="style">
+                        <span>#역추세매매</span>
+                      </div>
+                    );
+                  }
+                })}
             </div>
           </div>
           <div className="board_info">

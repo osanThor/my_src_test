@@ -12,10 +12,6 @@ import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = () => {
   const router = useRouter();
-  const { strategyCertifiedStrategy, strategyUserStrategy } = useSelector(({ local }: RootState) => ({
-    strategyCertifiedStrategy: local.strategyCertifiedStrategy,
-    strategyUserStrategy: local.strategyUserStrategy,
-  }));
   const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
@@ -39,10 +35,7 @@ const BoardsTableBottom = () => {
           <CustomSelect place="선택" setSearchName={setSearchName} />
           <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
         </BoardSearchLayout>
-        <div className="btn">
-          {strategyCertifiedStrategy && <StyledButton lightBlue>전략 인증신청</StyledButton>}
-          {strategyUserStrategy && <StyledButton lightBlue>전략등록</StyledButton>}
-        </div>
+        <div className="btn"></div>
       </div>
     </BoardsTableBottomBlock>
   );

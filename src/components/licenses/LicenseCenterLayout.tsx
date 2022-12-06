@@ -5,8 +5,17 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { GuidGoIcon, Mark } from '@/src/assets/Images';
 import QuantroBenefit from './item/QuantroBenefit';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
+import PaymentGuide from './item/PaymentGuide';
 
 const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
+  const { licenseIndex, licenseExchange, licenseRegular, licensePremium } = useSelector(({ local }: RootState) => ({
+    licenseIndex: local.licenseIndex,
+    licenseExchange: local.licenseExchange,
+    licenseRegular: local.licenseRegular,
+    licensePremium: local.licensePremium,
+  }));
   return (
     <LicenseCenterLayoutBlock>
       <div className="license_title">
@@ -19,10 +28,8 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       <div className="license_main">
-        <div className="license_main_con">{children}</div>
-        <div className="license_description">
-          <QuantroBenefit />
-        </div>
+        {children}
+        <div className="license_description">{licenseIndex ? <QuantroBenefit /> : <PaymentGuide />}</div>
       </div>
       <div className="license_bot dis_m">
         <div className="how_to_api_btn dis_m">
@@ -32,7 +39,7 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </div>
-      <div className="notice">
+      <div className="notice" id="point3">
         <div className="icon">
           <Image src={Mark} alt="mark" />
         </div>
@@ -91,7 +98,8 @@ const LicenseCenterLayoutBlock = styled.div`
 
     .license_main_con {
       width: 100%;
-      margin-right: 20px;
+      display: flex;
+      margin-right: 42px;
     }
     .license_description {
       width: 100%;
@@ -118,7 +126,16 @@ const LicenseCenterLayoutBlock = styled.div`
     }
   }
 
-  ${media.custom(1200)} {
+  ${media.custom(1590)} {
+    .license_main {
+      .license_main_con {
+        margin-right: 20px;
+      }
+      .license_description {
+      }
+    }
+  }
+  ${media.custom(1490)} {
     margin-bottom: 24px;
     .dis_p {
       display: none;
