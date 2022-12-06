@@ -217,9 +217,11 @@ const LicensesTopBlock = styled.div`
   ${media.pc} {
     .my_profile {
       width: 40%;
-      flex-wrap: wrap;
       padding: 24px;
       .thumnail {
+        width: 49px;
+        min-width: 49px;
+        height: 49px;
         margin-bottom: 7px;
       }
 
@@ -230,6 +232,35 @@ const LicensesTopBlock = styled.div`
     }
     .information {
       width: 60%;
+
+      .info_top {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .left_con {
+          .telegram_alram_bot {
+            white-space: nowrap;
+            .icon {
+            }
+          }
+          label {
+            white-space: nowrap;
+            span.styled_checkbox {
+            }
+            input:checked + span.styled_checkbox {
+            }
+            &:last-child {
+            }
+          }
+        }
+        .how_to_telegram_btn {
+          span {
+            white-space: nowrap;
+          }
+          .icon {
+          }
+        }
+      }
     }
   }
 
@@ -246,6 +277,7 @@ const LicensesTopBlock = styled.div`
     }
     .information {
       width: 100%;
+      max-width: none;
       .info_top {
         align-items: flex-start;
         margin-bottom: 20px;
