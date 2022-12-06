@@ -144,7 +144,8 @@ const MHeader = () => {
     if (
       router.pathname === '/community/write' ||
       router.pathname === '/mypage/inquiries/write' ||
-      router.pathname === '/mypage/inquiries/[qId]'
+      router.pathname === '/mypage/inquiries/[qId]' ||
+      router.pathname === '/strategy/strategist'
     ) {
       setIsWrite(true);
     } else {

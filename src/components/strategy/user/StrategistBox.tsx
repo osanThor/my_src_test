@@ -116,6 +116,7 @@ const StrategistBoxBlock = styled.div`
 
   ${media.tablet} {
     padding: 24px 20px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
     .profile_image {
       margin-right: 8px;
