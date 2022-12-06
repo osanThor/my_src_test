@@ -1,6 +1,7 @@
 import colors from '@/src/assets/Colors';
 import { ArrowBottomDark } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -11,6 +12,7 @@ const CustomSelect = ({
   place: string;
   setSearchName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const router = useRouter();
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
@@ -18,6 +20,10 @@ const CustomSelect = ({
   const options = [
     { value: 'title', txt: '게시글' },
     { value: 'user', txt: '작성자' },
+    { value: 'comment', txt: '댓글' },
+  ];
+  const strategyOptions = [
+    { value: 'title', txt: '게시글' },
     { value: 'comment', txt: '댓글' },
   ];
 
@@ -52,12 +58,25 @@ const CustomSelect = ({
         {currentValue}
       </Label>
       <SelectOptions show={showOptions}>
-        {options.map((opt) => (
-          <Option key={opt.value} onClick={handleOnChangeSelectValue}>
-            <input type="hidden" value={opt.value} />
-            {opt.txt}
-          </Option>
-        ))}
+        {router.pathname === '/strategy/strategist' ? (
+          <>
+            {strategyOptions.map((opt) => (
+              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+                <input type="hidden" value={opt.value} />
+                {opt.txt}
+              </Option>
+            ))}
+          </>
+        ) : (
+          <>
+            {options.map((opt) => (
+              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+                <input type="hidden" value={opt.value} />
+                {opt.txt}
+              </Option>
+            ))}
+          </>
+        )}
       </SelectOptions>
     </CustomSelectBox>
   );

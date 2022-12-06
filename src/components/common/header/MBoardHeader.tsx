@@ -1,26 +1,61 @@
 import { ArrowLeft, Menu7, ShareIcon } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
+import { boardsActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import Modal from '../Modal';
 
 const MBoardHeader = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { boardId, isCollect } = useSelector(({ boards }: RootState) => ({
+    boardId: boards.boardId,
+    isCollect: boards.isCollect,
+  }));
+  // collection
+  const handleSetBoardCollection = () => {
+    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: !isCollect }));
+  };
+  const copyURL = () => {
+    let currentUrl = window.document.location.href;
+    let t = document.createElement('textarea');
+    document.body.appendChild(t);
+    t.value = currentUrl;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+
+    setModalOpen(true);
+    setModalMessage('링크가 복사되었습니다.');
+    setModalError(false);
+  };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalError, setModalError] = useState(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   return (
-    <MBoardHeaderBlock>
-      <div className="backBtn" onClick={() => router.back()}>
-        <Image src={ArrowLeft} alt="back button" />
-      </div>
-      <div className="right_btns">
-        <div className="button">
-          <Image src={Menu7[0]} alt="collection" />
+    <>
+      <MBoardHeaderBlock>
+        <div className="backBtn" onClick={() => router.back()}>
+          <Image src={ArrowLeft} alt="back button" />
         </div>
-        <div className="button">
-          <Image src={ShareIcon} alt="share" />
+        <div className="right_btns">
+          <div className="button" onClick={handleSetBoardCollection}>
+            <Image src={Menu7[0]} alt="collection" />
+          </div>
+          <div className="button" onClick={copyURL}>
+            <Image src={ShareIcon} alt="share" />
+          </div>
         </div>
-      </div>
-    </MBoardHeaderBlock>
+      </MBoardHeaderBlock>
+      <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
+    </>
   );
 };
 
@@ -36,15 +71,16 @@ const MBoardHeaderBlock = styled.div`
   z-index: 997;
 
   .backBtn {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 4px;
     cursor: pointer;
     span {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       position: relative;
     }
   }

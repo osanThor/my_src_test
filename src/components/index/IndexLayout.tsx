@@ -1,12 +1,40 @@
 import colors from '@/src/assets/Colors';
 import { MainBanner, ArrowRightBlue } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import Moment from 'react-moment';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const IndexLayout = () => {
+  const {
+    loadGetCertifiedDone,
+    loadGetRankDone,
+    loadGetUserStrategyDone,
+    loadGetDiscussionDone,
+    loadGetQuantroStrategyDone,
+    loadBoardsLoading,
+    CertifiedDone,
+    RankDone,
+    UserStrategyDone,
+    DiscussionDone,
+    QuantroStrategyDone,
+  } = useSelector(({ index }: RootState) => ({
+    loadGetCertifiedDone: index.loadGetCertifiedDone,
+    loadGetRankDone: index.loadGetRankDone,
+    loadGetUserStrategyDone: index.loadGetUserStrategyDone,
+    loadGetDiscussionDone: index.loadGetDiscussionDone,
+    loadGetQuantroStrategyDone: index.loadGetQuantroStrategyDone,
+    loadBoardsLoading: index.loadBoardsLoading,
+    CertifiedDone: index.CertifiedDone,
+    RankDone: index.RankDone,
+    UserStrategyDone: index.UserStrategyDone,
+    DiscussionDone: index.DiscussionDone,
+    QuantroStrategyDone: index.QuantroStrategyDone,
+  }));
   return (
     <IndexLayoutBlock>
       <div className="main_banner">
@@ -21,7 +49,7 @@ const IndexLayout = () => {
                 퀀트로 인증전략 <span className="dis_p">퀀트로에서 인증한 전략을 확인해보세요. </span>
               </div>
 
-              <Link href="/">
+              <Link href="/strategy?category=certified">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
@@ -33,7 +61,7 @@ const IndexLayout = () => {
             <div className="main_top_con">
               <div className="main_tit">랭킹</div>
 
-              <Link href="/">
+              <Link href="/community?category=rank">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
@@ -47,36 +75,81 @@ const IndexLayout = () => {
             <div className="main_top_con">
               <div className="main_tit">사용자 전략</div>
 
-              <Link href="/">
+              <Link href="/strategy?category=user">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
               <span className="description">사용자들의 전략을 확인해보세요</span>
             </div>
+            <div className="main_bottom_con">
+              {loadGetUserStrategyDone.boards.map((board) => (
+                <div className="item" key={board.id}>
+                  <div className="title">
+                    {board.title}
+                    <span className="count">{board._count.comments}</span>
+                  </div>
+                  <div className="item_bot">
+                    <span className="nickname">{board.user.nickname}</span>
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                    <div className="hits">조회 {board.hits}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div>
             <div className="main_top_con">
               <div className="main_tit">전략토론</div>
 
-              <Link href="/">
+              <Link href="/community?category=discussion">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
               <span className="description">커뮤니티에서 자유롭게 토론을 나눠보세요</span>
             </div>
+            <div className="main_bottom_con">
+              {loadGetDiscussionDone.boards.slice(0, 3).map((board) => (
+                <div className="item" key={board.id}>
+                  <div className="title">
+                    {board.title}
+                    <span className="count">{board._count.comments}</span>
+                  </div>
+                  <div className="item_bot">
+                    <span className="nickname">{board.user.nickname}</span>
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                    <div className="hits">조회 {board.hits}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div>
             <div className="main_top_con">
               <div className="main_tit">공개 전략 / 지표</div>
 
-              <Link href="/">
+              <Link href="/strategy?category=quantro_strategy">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
               <span className="description">퀀트로에서 제공하는 전략과 지표를 확인해보세요.</span>
+            </div>
+            <div className="main_bottom_con">
+              {loadGetQuantroStrategyDone.boards.map((board) => (
+                <div className="item" key={board.id}>
+                  <div className="title">
+                    {board.title}
+                    <span className="count">{board._count.comments}</span>
+                  </div>
+                  <div className="item_bot">
+                    <span className="nickname">{board.user.nickname}</span>
+                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                    <div className="hits">조회 {board.hits}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -157,6 +230,41 @@ const IndexLayoutBlock = styled.div`
       font-size: 14px;
       color: ${colors.blue[2]};
       margin-top: 0.3rem;
+    }
+  }
+
+  .main_bottom_con {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 29px;
+    .item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 7px 0;
+      border-bottom: 1px solid ${colors.gray[2]};
+      .title {
+        width: 100%;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        span.count {
+          color: ${colors.blue[2]};
+          margin-left: 8px;
+        }
+      }
+      .item_bot {
+        width: 100%;
+        font-size: 14px;
+        display: flex;
+        color: ${colors.gray[4]};
+        span.nickname {
+          color: ${colors.gray[5]};
+          margin-right: 8px;
+        }
+        time {
+          margin-right: 8px;
+        }
+      }
     }
   }
 

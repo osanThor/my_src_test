@@ -32,6 +32,7 @@ class AuthService {
           clearTimeout(timeoutId);
           return;
         }
+        console.log('refresh!');
         dispatch(authActions.refreshToken());
       }, loadAuthDone.expiryTime - 30000);
     } else {
@@ -46,8 +47,6 @@ class AuthService {
       console.log('Not User');
       return;
     }
-
-    axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAuthDone.accessToken;
   }
 
   userLogOut(dispatch: Dispatch<AnyAction>) {

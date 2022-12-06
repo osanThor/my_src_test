@@ -4,8 +4,8 @@ import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import CustomSelect from './item/CustomSelect';
 
 const MyBoardTab = () => {
   const router = useRouter();
@@ -53,12 +53,19 @@ const MyBoardTab = () => {
           1:1 문의
         </div>
       </div>
+      {myInquiries || (
+        <div className="selectCon">
+          <CustomSelect place={'전체'} />
+        </div>
+      )}
     </MyBoardTabBlock>
   );
 };
 const MyBoardTabBlock = styled.div`
   width: 100%;
   margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
   .tabs {
     display: flex;
     overflow-x: auto;
@@ -81,6 +88,15 @@ const MyBoardTabBlock = styled.div`
 
   ${media.tablet} {
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    & > div + div {
+      margin-top: 8px;
+    }
+    .selectCon {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
   }
 `;
 

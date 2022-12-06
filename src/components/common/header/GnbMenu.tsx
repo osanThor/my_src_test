@@ -52,7 +52,7 @@ const GnbMenu = () => {
       setStrategy(false);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/strategy') {
+    } else if (pathName === '/strategy' || pathName === '/strategy/strategist') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);
@@ -115,7 +115,7 @@ const GnbMenu = () => {
           </Link>
         </div>
         <div className="gnb_menu">
-          <Link href="/strategy">
+          <Link href="/strategy?category=certified">
             <a className={strategy ? 'on' : ''}>
               <div className="headerIcon" />
               <span>전략</span>

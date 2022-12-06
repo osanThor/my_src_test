@@ -39,6 +39,13 @@ export {
   apiGetUserInquiries,
   apiCreateBoard,
   apiCreateUserInquiries,
+  apiCreateComment,
   apiUpdateBoard,
   apiDeleteBoard,
+  apiUpdateComment,
+  apiDeleteComment,
+  apiSetBoardCollection,
+  apiSetBoardLike,
+  apiGetUserInquiry,
+  apiGetUserByNickname,
 } from './boards';

@@ -9,12 +9,12 @@ import Pagination from '@/src/components/common/Pagination';
 import NoBoards from '@/src/components/common/NoBoards';
 
 const MyLikesTable = () => {
-  const { page, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { page, getUserLikesResult } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+    getUserLikesResult: boards.getUserLikesResult,
   }));
 
-  const { total } = loadGetBoardsDone;
+  const { total } = getUserLikesResult;
   return (
     <>
       {total != 0 ? (
@@ -30,19 +30,20 @@ const MyLikesTable = () => {
               </div>
             </div>
             <div className="tbody">
-              {loadGetBoardsDone.boards.map((board) => (
+              {getUserLikesResult.likes.map((board) => (
                 <div className="tr" key={board.id}>
-                  <div className="td">{board.id}</div>
+                  <div className="td">{board.board.id}</div>
                   <div className="td title dark_gray pointer">
-                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+                    <span className="tit">{board.board.title}</span>{' '}
+                    <span className="comments">{board.board._count.comments}</span>
                   </div>
-                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
+                  <div className="td dark_gray pointer">{(board.board.user && board.board.user.nickname) || ''}</div>
                   <div className="td">
                     <span className="ver_m">조회수</span>
-                    {board.hits}
+                    {board.board.hits}
                   </div>
                   <div className="td">
-                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                    <Moment format="YYYY.MM.DD">{board.board.createdAt}</Moment>
                   </div>
                 </div>
               ))}

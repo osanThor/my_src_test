@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 const CommunityIndex: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
@@ -26,7 +27,8 @@ const CommunityIndex: NextPage = () => {
       communityNotice: local.communityNotice,
     }),
   );
-  const { loadAuthDone } = useSelector(({ auth }: RootState) => ({
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
   const { category, page, user, title, comment } = useSelector(({ boards }: RootState) => ({
@@ -38,15 +40,26 @@ const CommunityIndex: NextPage = () => {
   }));
 
   const [isUser, setUser] = useState(false);
-
-  useEffect(() => {
-    if (loadAuthDone.accessToken) {
-      setUser(true);
-    }
-  }, [loadAuthDone]);
-
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
+  }, [router, dispatch]);
+
+  useEffect(() => {
+    setUser(false);
+  }, [router]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setUser(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
+  useEffect(() => {
+    setUser(false);
     if (router.query.category === 'discussion') {
       dispatch(localActions.gotoComDiscussion());
     } else if (router.query.category === 'commission') {
@@ -55,20 +68,6 @@ const CommunityIndex: NextPage = () => {
       dispatch(localActions.gotoComRank());
     } else if (router.query.category === 'notice') {
       dispatch(localActions.gotoComNotice());
-    }
-    if (router.query.title) {
-      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
-    }
-    if (router.query.user) {
-      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
-    }
-    if (router.query.comment) {
-      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
-    }
-    if (router.query.page) {
-      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
-    } else {
-      dispatch(boardsActions.changePage({ page: 1 }));
     }
   }, [router]);
 
@@ -94,7 +93,39 @@ const CommunityIndex: NextPage = () => {
         dispatch(boardsActions.getNotices({ category: 'NOTICE' }));
       }
     }
-  }, [category, page, user, title, comment, communityDiscussion, communityNotice, isUser]);
+    if (router.query.title) {
+      dispatch(boardsActions.changeTitle({ title: router.query.title as string }));
+    } else {
+      dispatch(boardsActions.changeTitle({ title: '' }));
+    }
+    if (router.query.user) {
+      dispatch(boardsActions.changeUser({ user: router.query.user as string }));
+    } else {
+      dispatch(boardsActions.changeUser({ user: '' }));
+    }
+    if (router.query.comment) {
+      dispatch(boardsActions.changeComment({ comment: router.query.comment as string }));
+    } else {
+      dispatch(boardsActions.changeComment({ comment: '' }));
+    }
+    if (router.query.page) {
+      dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
+    } else {
+      dispatch(boardsActions.changePage({ page: 1 }));
+    }
+  }, [
+    router,
+    isUser,
+    category,
+    page,
+    user,
+    title,
+    comment,
+    communityDiscussion,
+    communityCommission,
+    communityRank,
+    communityNotice,
+  ]);
 
   return (
     <UserLayout>

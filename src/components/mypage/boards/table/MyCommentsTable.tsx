@@ -7,17 +7,19 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import NoBoards from '@/src/components/common/NoBoards';
+import Image from 'next/image';
+import { CommentLine } from '@/src/assets/Images';
 
 const MyCommentsTable = () => {
   // const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
   //   communityDiscussion: local.communityDiscussion,
   //   communityNotice: local.communityNotice,
   // }));
-  const { page, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { page, getUserCommentsDone } = useSelector(({ boards }: RootState) => ({
     page: boards.page,
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+    getUserCommentsDone: boards.getUserCommentsDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = getUserCommentsDone;
   return (
     <>
       {total != 0 ? (
@@ -33,25 +35,37 @@ const MyCommentsTable = () => {
               </div>
             </div>
             <div className="tbody">
-              {loadGetBoardsDone.boards.map((board) => (
-                <div className="tr" key={board.id}>
-                  <div className="td">{board.id}</div>
-                  <div className="td title dark_gray pointer">
-                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
+              {getUserCommentsDone.comments.map((board) => (
+                <React.Fragment key={board.id}>
+                  <div className="tr">
+                    <div className="td">{board.id}</div>
+                    <div className="td title dark_gray pointer">
+                      <span className="tit">{board.board.title}</span>
+                      <span className="comments">{board.board._count.comments}</span>
+                    </div>
+                    <div className="td dark_gray pointer">{(board.board.user && board.board.user.nickname) || ''}</div>
+                    <div className="td">
+                      <span className="ver_m">조회수</span>
+                      {board.board.hits}
+                    </div>
+                    <div className="td">
+                      <Moment format="YYYY.MM.DD">{board.board.createdAt}</Moment>
+                    </div>
                   </div>
-                  <div className="td dark_gray pointer">{(board.user && board.user.nickname) || ''}</div>
-                  <div className="td">
-                    <span className="ver_m">조회수</span>
-                    {board.hits}
+                  <div className="comment_area">
+                    <span className="comment_spacer" />
+                    <div className="comment_content">
+                      <div className="icon">
+                        <Image src={CommentLine} alt="icon" />
+                      </div>
+                      {board.content}
+                    </div>
                   </div>
-                  <div className="td">
-                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-                  </div>
-                </div>
+                </React.Fragment>
               ))}
             </div>
           </BoardsTableBlock>
-          <MyBoardBottom />
+          <MyBoardBottom page={page} total={total} />
         </>
       ) : (
         <NoBoards />
@@ -60,8 +74,12 @@ const MyCommentsTable = () => {
   );
 };
 
-const MyBoardBottom = () => {
-  return <MyBoardBottomBlock>{/* <Pagination /> */}</MyBoardBottomBlock>;
+const MyBoardBottom = ({ page, total }: { page: number; total: number }) => {
+  return (
+    <MyBoardBottomBlock>
+      <Pagination total={total} page={page} />
+    </MyBoardBottomBlock>
+  );
 };
 
 const MyBoardBottomBlock = styled.div`
@@ -153,13 +171,35 @@ const BoardsTableBlock = styled.div`
       height: 60px;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid ${colors.gray[2]};
       .td {
         padding: 20px 16px;
       }
     }
   }
-
+  .comment_area {
+    width: 100%;
+    border-bottom: 1px solid ${colors.gray[2]};
+    display: flex;
+    padding: 20px 16px;
+    span.comment_spacer {
+      width: 20%;
+      max-width: 112px;
+    }
+    .comment_content {
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      font-size: 14px;
+      text-overflow: ellipsis;
+      color: ${colors.gray[5]};
+      .icon {
+        position: relative;
+        margin-right: 8px;
+      }
+    }
+  }
   ${media.tablet} {
     .ver_m {
       display: inline-block;
@@ -213,9 +253,31 @@ const BoardsTableBlock = styled.div`
         padding: 12px 0;
         flex-wrap: wrap;
         justify-content: flex-start;
-        border-bottom: 1px solid ${colors.gray[2]};
         .td {
           padding: 0;
+        }
+      }
+    }
+    .comment_area {
+      width: 100%;
+      display: flex;
+      padding: 0;
+      padding-bottom: 8px;
+      span.comment_spacer {
+        display: none;
+      }
+      .comment_content {
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        color: ${colors.gray[5]};
+        .icon {
+          position: relative;
+          margin-right: 8px;
         }
       }
     }

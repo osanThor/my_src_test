@@ -8,12 +8,17 @@ import Moment from 'react-moment';
 import styled from 'styled-components';
 import { media } from '@/styles/theme';
 
-const BoardTop = () => {
+const BoardTop = ({
+  copyURL,
+  handleSetBoardCollection,
+}: {
+  copyURL: () => void;
+  handleSetBoardCollection: () => void;
+}) => {
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
-  const { id, title, content, user, hits, createdAt, _count } = getBoardDone;
-  const { styles } = user;
+  const { id, title, user, hits, createdAt } = getBoardDone;
 
   return (
     <BoardTopBlock>
@@ -22,12 +27,12 @@ const BoardTop = () => {
         <div className="title">{title}</div>
         <div className="top_btns">
           <div className="button">
-            <div className="icon">
+            <div className="icon" onClick={handleSetBoardCollection}>
               <Image src={Menu7[0]} alt="collection" />
             </div>
           </div>
           <div className="button">
-            <div className="icon">
+            <div className="icon" onClick={copyURL}>
               <Image src={ShareIcon} alt="share" />
             </div>
           </div>
@@ -39,9 +44,9 @@ const BoardTop = () => {
         </div>
         <div className="info_con">
           <div className="profile_info">
-            <div className="nickname">{user.nickname}</div>
+            <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
             <div className="styles">
-              {styles.map((st) => {
+              {user.styles.map((st) => {
                 if (st.name === 'SCALPING') {
                   return (
                     <div key={st.name} className="style">

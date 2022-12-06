@@ -1,14 +1,21 @@
 import { axiosInstance } from '.';
 import {
+  createCommentPayload,
   CreateUserInquiruesPayload,
+  deleteCommentPayload,
   getBoardPayload,
   getBoardsPayload,
   getNoticePayload,
   GetUserBoardsPayload,
+  getUserByNicknamePayload,
   GetUserInquiriesPayload,
+  getUserInquiryPayload,
   LoadBoardsPayload,
   LoadBoardsResponse,
+  setBoardCollectionPayload,
+  setBoardLikePayload,
   updateBoardPayload,
+  updateCommentPayload,
 } from '../types';
 
 // get board
@@ -39,6 +46,10 @@ export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =
 export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
   axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
 
+// read user Inquiry
+export const apiGetUserInquiry = ({ inquiryId }: getUserInquiryPayload) =>
+  axiosInstance.get(`/users/inquiries/${inquiryId}`);
+
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/boards`, { category, title, content, fileUrls });
@@ -54,3 +65,23 @@ export const apiUpdateBoard = ({ boardId, category, title, content, fileUrls }: 
   axiosInstance.put(`/boards/${boardId}`, { category, title, content, fileUrls });
 // update board
 export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.delete(`/boards/${boardId}`);
+
+// create Comment
+export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrls }: createCommentPayload) =>
+  axiosInstance.post(`/boards/${boardId}/comments`, { parentCommentId, content, fileUrls });
+
+// update comment
+export const apiUpdateComment = ({ commentId, parentCommentId, content, fileUrls }: updateCommentPayload) =>
+  axiosInstance.put(`/boards/comments/${commentId}`, { parentCommentId, content, fileUrls });
+// delete comment
+export const apiDeleteComment = ({ commentId }: deleteCommentPayload) =>
+  axiosInstance.delete(`/boards/comments/${commentId}`);
+
+// set unset board colleciton
+export const apiSetBoardCollection = ({ boardId, isCollect }: setBoardCollectionPayload) =>
+  axiosInstance.post(`/boards/${boardId}/collections?isCollect=${isCollect}`);
+// set unset board like
+export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
+  axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);
+
+export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/users/${nickname}`);
