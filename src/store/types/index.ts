@@ -39,7 +39,7 @@ export type {
   UpdateUserProfilePayload,
   DeleteUserPayload,
 } from './user';
-export type { LoadExchangeBody, LoadExchangeIdPayload, GetAllExchangeResult } from './exchange';
+export type { LoadExchangeBody, LoadExchangeIdPayload, GetAllExchangeResult, LoadExchangeResponse } from './exchange';
 export type { LoadFileBody, LoadFileResponse } from './file';
 export type {
   LoadBoardsBody,

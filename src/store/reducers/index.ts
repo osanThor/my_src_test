@@ -9,6 +9,7 @@ import localReducer, { LocalStateType } from './localReducer';
 import fileReducer, { FileStateType } from './fileReducer';
 import boardsReducer, { BoardsStateType } from './boardsReducer';
 import indexReducer, { IndexStateType } from './indexReducer';
+import exchangeReducer, { ExchangeStateType } from './exchangeReducer';
 
 // actions
 export { authActions } from './authReducer';
@@ -16,6 +17,7 @@ export { userActions } from './userReducer';
 export { localActions } from './localReducer';
 export { fileActions } from './fileReducer';
 export { boardsActions } from './boardsReducer';
+export { exchangeActions } from './exchangeReducer';
 export { indexActions } from './indexReducer';
 
 type ReducerState = {
@@ -24,6 +26,7 @@ type ReducerState = {
   local: LocalStateType;
   file: FileStateType;
   boards: BoardsStateType;
+  exchange: ExchangeStateType;
   index: IndexStateType;
 };
 
@@ -44,6 +47,7 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
         local: localReducer,
         file: fileReducer,
         boards: boardsReducer,
+        exchange: exchangeReducer,
         index: indexReducer,
       })(state, action);
   }

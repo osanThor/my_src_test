@@ -27,5 +27,5 @@ export type GetAllExchangeResult =
   | [];
 
 export type LoadExchangeResponse = {
-  message: string | boolean | null;
+  message: string | null;
 };
