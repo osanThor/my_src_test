@@ -7,7 +7,17 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 import WebhookModal from './item/WebhookModal';
 
-const WriteQuantTop = () => {
+const WriteQuantTop = ({
+  webhookRef,
+  handleCopyWebhook,
+  messageRef,
+  handleCopyMessage,
+}: {
+  webhookRef: React.MutableRefObject<HTMLInputElement>;
+  handleCopyWebhook: () => void;
+  messageRef: React.MutableRefObject<HTMLInputElement>;
+  handleCopyMessage: () => void;
+}) => {
   const [webhookOpen, setWebhookOpen] = useState(false);
   const handleCloseTelegramModal = () => {
     setWebhookOpen(false);
@@ -27,8 +37,8 @@ const WriteQuantTop = () => {
               </div>
             </div>
             <div className="bottom">
-              <input value="https://tvextbot-trading.web.app/api/webhook" readOnly />
-              <Button lightBlue>
+              <input ref={webhookRef} value="https://tvextbot-trading.web.app/api/webhook" readOnly />
+              <Button lightBlue onClick={handleCopyWebhook}>
                 <span className="dis_p">복사하기</span>
                 <span className="dis_m">
                   <Image src={GuidGoIcon[1]} alt="button" />
@@ -41,8 +51,8 @@ const WriteQuantTop = () => {
               <div className="title">주문메세지 작성결과</div>
             </div>
             <div className="bottom">
-              <input className="blue" />
-              <Button blue>
+              <input ref={messageRef} className="blue" />
+              <Button blue onClick={handleCopyMessage}>
                 <span className="dis_p">복사하기</span>
                 <span className="dis_m">
                   <Image src={GuidGoIcon[1]} alt="button" />
