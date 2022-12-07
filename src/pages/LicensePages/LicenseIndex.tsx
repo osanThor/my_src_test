@@ -40,13 +40,16 @@ const LicensePageIndex: NextPage = () => {
   }, [router, dispatch]);
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
     if (!loadAuthLoading) {
       if (loadAuthDone) {
         if (loadAuthDone.accessToken) {
           setUser(true);
         } else {
-          dispatch(localActions.isLocalBgBlur());
-          setNoUserModal(true);
+          if (!user) {
+            dispatch(localActions.isLocalBgBlur());
+            setNoUserModal(true);
+          }
         }
       }
     }

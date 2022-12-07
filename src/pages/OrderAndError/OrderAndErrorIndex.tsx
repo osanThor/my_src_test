@@ -25,12 +25,15 @@ const OrderAndErrorIndex = () => {
   };
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
     if (!loadAuthLoading) {
       if (loadAuthDone) {
         if (loadAuthDone.accessToken) {
         } else {
-          dispatch(localActions.isLocalBgBlur());
-          setNoUserModal(true);
+          if (!user) {
+            dispatch(localActions.isLocalBgBlur());
+            setNoUserModal(true);
+          }
         }
       }
     }

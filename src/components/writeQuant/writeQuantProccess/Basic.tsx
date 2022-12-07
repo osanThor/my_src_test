@@ -97,18 +97,35 @@ const BasicBlock = styled.div`
   }
 
   ${media.pc} {
+    min-height: auto;
     .basic_form {
-      flex-direction: column;
       margin-bottom: 40px;
       & > div {
         width: 100%;
         max-width: none;
         &:first-child {
-          margin-right: 0;
+          margin-right: 8px;
           margin-bottom: 24px;
         }
         .write_quant_item {
           margin-bottom: 24px;
+        }
+      }
+    }
+  }
+  ${media.tablet} {
+    min-height: auto;
+    .basic_form {
+      margin-bottom: 40px;
+      flex-direction: column;
+      & > div {
+        &:first-child {
+          margin-right: 0;
+          margin-bottom: 24px;
+        }
+        .write_quant_item {
+          flex-direction: column;
+          align-items: flex-start;
         }
       }
     }
