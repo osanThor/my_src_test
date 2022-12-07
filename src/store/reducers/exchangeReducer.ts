@@ -47,7 +47,7 @@ const exchangeSlice = createSlice({
   name: 'exchange',
   initialState,
   reducers: {
-    initializeFileState(state) {
+    initializeExchangeState(state) {
       Object.assign(state, initialState);
     },
     getAllExchange(state) {

@@ -6,10 +6,10 @@ import LicensesTop from '@/src/components/licenses/LicensesTop';
 import LicenseExchange from '@/src/components/licenses/process/LicenseExchange';
 import LicenseIndex from '@/src/components/licenses/process/LicenseIndex';
 import { RootState } from '@/src/store/configureStore';
-import { localActions } from '@/src/store/reducers';
+import { exchangeActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -22,8 +22,29 @@ const LicensePageIndex: NextPage = () => {
     licenseRegular: local.licenseRegular,
     licensePremium: local.licensePremium,
   }));
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
+    loadAuthDone: auth.loadAuthDone,
+  }));
+  const [isUser, setUser] = useState(false);
 
   useEffect(() => {
+    dispatch(exchangeActions.initializeExchangeState());
+  }, [router, dispatch]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+          setUser(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
+
+  useEffect(() => {
+    setUser(false);
+
     if (router.query) {
       if (router.query.state === 'index') {
         dispatch(localActions.gotoLicenseIndex());
@@ -36,6 +57,13 @@ const LicensePageIndex: NextPage = () => {
       }
     }
   }, [router]);
+
+  useEffect(() => {
+    if (isUser) {
+      dispatch(exchangeActions.getAllExchange());
+    }
+  }, [isUser]);
+
   return (
     <UserLayout>
       <LicensesLayout>

@@ -7,7 +7,7 @@ const LicensesLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [licenseIndex, setLicenseIndex] = useState(false);
   useEffect(() => {
-    if (router.pathname === '/licenses' && !router.query.state) {
+    if (router.pathname === '/licenses' && router.query.state === 'index') {
       setLicenseIndex(true);
     } else {
       setLicenseIndex(false);
