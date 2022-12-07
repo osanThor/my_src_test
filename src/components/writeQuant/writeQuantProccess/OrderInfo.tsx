@@ -135,14 +135,13 @@ const OrderInfoBlock = styled.div`
   }
 
   ${media.pc} {
+    min-height: auto;
     .order_form {
-      flex-direction: column;
-      margin-bottom: 40px;
       & > div {
         width: 100%;
         max-width: none;
         &:first-child {
-          margin-right: 0;
+          margin-right: 8px;
           margin-bottom: 24px;
         }
         .write_quant_item {
@@ -156,6 +155,8 @@ const OrderInfoBlock = styled.div`
   }
   ${media.tablet} {
     .order_form {
+      flex-direction: column;
+      margin-bottom: 40px;
       & > div {
         .write_quant_item {
           .bg_title {

@@ -285,6 +285,7 @@ const MHeaderMain = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: ${({ theme }) => theme.bgColor};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   position: fixed;
   z-index: 997;
 

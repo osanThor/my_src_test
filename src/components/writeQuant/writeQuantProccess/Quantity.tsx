@@ -285,28 +285,30 @@ const QuantityBlock = styled.div`
     }
   }
   ${media.pc} {
+    min-height: auto;
     .quantity_form {
-      flex-direction: column;
-      margin-bottom: 40px;
+      flex-wrap: wrap;
       & > div {
         width: 100%;
         max-width: none;
         &:first-child {
-          margin-right: 0;
+          margin-right: 8px;
           margin-bottom: 24px;
         }
         .write_quant_item {
           margin-bottom: 24px;
           .radio_title {
             justify-content: space-between;
-            min-width: 176px;
+            flex-direction: column;
+            min-width: auto;
+            flex-wrap: wrap;
+            width: auto;
             .mo_info_box {
               cursor: pointer;
               position: relative;
               word-break: keep-all;
               display: flex;
               align-items: center;
-              margin-left: 1rem;
               font-size: 14px;
               color: ${colors.gray[3]};
               .notice {
@@ -359,13 +361,28 @@ const QuantityBlock = styled.div`
       }
     }
   }
-  ${media.tablet} {
+  ${media.custom(1310)} {
     .quantity_form {
       & > div {
+        &:first-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  ${media.tablet} {
+    .quantity_form {
+      flex-direction: column;
+      margin-bottom: 40px;
+      & > div {
+        &:first-child {
+          margin-right: 0;
+        }
         .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
           .radio_title {
+            flex-direction: row;
             width: 100%;
             justify-content: space-between;
             padding: 0;
@@ -428,6 +445,7 @@ const StyledButton = styled(Button)`
 const StyledInput = styled.input`
   width: 100%;
   max-width: 194px;
+  min-width: 160px;
   flex: 1;
   margin-left: 1rem;
   border: none;
