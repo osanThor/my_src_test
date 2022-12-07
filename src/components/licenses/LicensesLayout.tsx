@@ -1,11 +1,21 @@
 import { media } from '@/styles/theme';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const LicensesLayout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+  const [licenseIndex, setLicenseIndex] = useState(false);
+  useEffect(() => {
+    if (router.pathname === '/licenses' && router.query.state === 'index') {
+      setLicenseIndex(true);
+    } else {
+      setLicenseIndex(false);
+    }
+  }, [router]);
   return (
     <LicensesLayoutBlock className="container">
-      <LicensesHeaderSpacer />
+      {licenseIndex && <LicensesHeaderSpacer />}
       {children}
     </LicensesLayoutBlock>
   );

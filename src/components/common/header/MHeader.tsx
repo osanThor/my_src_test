@@ -31,15 +31,17 @@ import CommunityMenu from './mobileHeaderAdded/CommunityMenu';
 import MWriteHeader from './MWriteHeader';
 import MBoardHeader from './MBoardHeader';
 import StrategyMenu from './mobileHeaderAdded/StrategyMenu';
+import LicensesMenu from './mobileHeaderAdded/LicensesMenu';
+import MLicenseHeader from './MLicenseHeader';
 
 const MHeader = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, photoUrl, nickname, licenses } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, nickname, license } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
     nickname: user.nickname,
-    licenses: user.licenses,
+    license: user.license,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const router = useRouter();
@@ -103,6 +105,8 @@ const MHeader = () => {
   // 페이지별 추가 레이아웃
   const [dashBoard, setDashBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
+  const [licenseIndex, setLicenseIndex] = useState(false);
+  const [licenseSt, setLicense] = useState(false);
   const [message, setMessage] = useState(false);
   const [myPage, setMyPage] = useState(false);
   const [strategy, setStrategy] = useState(false);
@@ -125,6 +129,17 @@ const MHeader = () => {
       setMessage(true);
     } else {
       setMessage(false);
+    }
+    if (router.pathname === '/licenses' && router.query.state === 'index') {
+      console.log(router.query.state);
+      setLicenseIndex(true);
+    } else {
+      setLicenseIndex(false);
+    }
+    if (router.pathname === '/licenses' && router.query.state != 'index') {
+      setLicense(true);
+    } else {
+      setLicense(false);
     }
     if (router.pathname === '/mypage') {
       setMyPage(true);
@@ -156,11 +171,11 @@ const MHeader = () => {
     } else {
       setIsBoard(false);
     }
-  }, []);
+  }, [router]);
 
   return (
     <MHeaderBlock>
-      {isWrite || isBoard || (
+      {isWrite || isBoard || licenseSt || (
         <MHeaderMain>
           <div className="menu_bar">
             <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
@@ -189,6 +204,7 @@ const MHeader = () => {
           </div>
           {dashBoard && <DashBoardMenu />}
           {writeQuant && <WriteQuantMenu />}
+          {licenseIndex && <LicensesMenu />}
           {message && <MessageMenu />}
           {myPage && <MyPageMenu />}
           {strategy && <StrategyMenu />}
@@ -197,6 +213,7 @@ const MHeader = () => {
       )}
       {isWrite && <MWriteHeader />}
       {isBoard && <MBoardHeader />}
+      {licenseSt && <MLicenseHeader />}
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
@@ -212,7 +229,10 @@ const MHeader = () => {
                 </div>
                 <div className="profile_info">
                   <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
-                  <div className="api_key">이용권을 등록해주세요</div>
+                  <div className="api_key">
+                    {!license && '이용권을 등록해주세요'}
+                    {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
+                  </div>
                 </div>
               </div>
               <div className="close_btn" onClick={handleCloseGnbMenu}>

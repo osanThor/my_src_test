@@ -26,6 +26,17 @@ export {
   apiDeleteUser,
 } from './user';
 
+export {
+  apiCreateUpdateKey,
+  apiGetAllExchanges,
+  apiGetExchanges,
+  apiGetActiveOrders,
+  apiGetDashboard,
+  apiGetBalances,
+  apiGetPositions,
+  apiClosePosition,
+} from './exchange';
+
 export { apiUploadFile } from './file';
 
 export {

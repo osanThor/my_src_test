@@ -3,7 +3,8 @@ import { Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -12,10 +13,18 @@ const MyProfileBox = () => {
     email: user.email,
     nickname: user.nickname,
     photoUrl: user.photoUrl,
-    license: user.licenses,
+    license: user.license,
     _count: user._count,
   }));
   const { boards, comments } = _count;
+  const [isBasic, setIsBasic] = useState('');
+  useEffect(() => {
+    if (!Array.isArray(license)) {
+      setIsBasic('Quantro Basic Package');
+    } else {
+      setIsBasic('');
+    }
+  }, [license]);
   return (
     <MyProfileBoxBlock>
       <div className="profile_image">
@@ -32,7 +41,27 @@ const MyProfileBox = () => {
           </div>
         </div>
         <div className="licenses">
-          <div className="license">이용권을 등록해주세요</div>
+          {!license && <div className="license">이용권을 등록해주세요</div>}
+          {license && (
+            <>
+              {Array.isArray(license) ? (
+                license.map((pack) => (
+                  <div className="license" key={pack.package}>
+                    {pack.package}
+                    <div className="period">
+                      <Moment format="YY.MM.DD">{pack.startedAt}</Moment>~
+                      <Moment format="YY.MM.DD">{pack.endedAt}</Moment>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="license">
+                  {isBasic}
+                  <div className="period">무제한 이용</div>
+                </div>
+              )}
+            </>
+          )}
         </div>
         <div className="counts">
           <div className="boards">
@@ -106,6 +135,13 @@ const MyProfileBoxBlock = styled.div`
         margin-bottom: 1rem;
         &:last-child {
           margin-bottom: 0;
+        }
+        display: flex;
+        justify-content: space-between;
+        .period {
+          white-space: nowrap;
+          font-size: 1rem;
+          color: ${colors.gray[3]};
         }
       }
     }

@@ -75,10 +75,8 @@ const LoginFormBlock = styled.div`
 
   .description {
     width: 100%;
-    height: 370px;
     margin-bottom: 1rem;
     overflow-y: auto;
-    padding: 1rem;
   }
 
   ${media.tablet} {
