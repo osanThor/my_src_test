@@ -37,11 +37,11 @@ import MLicenseHeader from './MLicenseHeader';
 const MHeader = () => {
   const authService = new AuthService();
   const dispatch = useDispatch();
-  const { isDark, photoUrl, nickname, licenses } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, nickname, license } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
     nickname: user.nickname,
-    licenses: user.licenses,
+    license: user.license,
   }));
   const [btnWord, setBtnWord] = React.useState('');
   const router = useRouter();
@@ -106,7 +106,7 @@ const MHeader = () => {
   const [dashBoard, setDashBoard] = useState(false);
   const [writeQuant, setWriteQuant] = useState(false);
   const [licenseIndex, setLicenseIndex] = useState(false);
-  const [license, setLicense] = useState(false);
+  const [licenseSt, setLicense] = useState(false);
   const [message, setMessage] = useState(false);
   const [myPage, setMyPage] = useState(false);
   const [strategy, setStrategy] = useState(false);
@@ -130,13 +130,13 @@ const MHeader = () => {
     } else {
       setMessage(false);
     }
-    if (router.pathname === '/licenses' && !router.query.state) {
+    if (router.pathname === '/licenses' && router.query.state === 'index') {
       console.log(router.query.state);
       setLicenseIndex(true);
     } else {
       setLicenseIndex(false);
     }
-    if (router.pathname === '/licenses' && router.query.state) {
+    if (router.pathname === '/licenses' && router.query.state != 'index') {
       setLicense(true);
     } else {
       setLicense(false);
@@ -175,7 +175,7 @@ const MHeader = () => {
 
   return (
     <MHeaderBlock>
-      {isWrite || isBoard || license || (
+      {isWrite || isBoard || licenseSt || (
         <MHeaderMain>
           <div className="menu_bar">
             <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
@@ -213,7 +213,7 @@ const MHeader = () => {
       )}
       {isWrite && <MWriteHeader />}
       {isBoard && <MBoardHeader />}
-      {license && <MLicenseHeader />}
+      {licenseSt && <MLicenseHeader />}
       <MHeaderTopSpacer />
       {openGnbMenu && (
         <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
@@ -229,7 +229,10 @@ const MHeader = () => {
                 </div>
                 <div className="profile_info">
                   <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
-                  <div className="api_key">이용권을 등록해주세요</div>
+                  <div className="api_key">
+                    {!license && '이용권을 등록해주세요'}
+                    {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
+                  </div>
                 </div>
               </div>
               <div className="close_btn" onClick={handleCloseGnbMenu}>

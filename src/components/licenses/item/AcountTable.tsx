@@ -1,12 +1,38 @@
 import colors from '@/src/assets/Colors';
-import { CancelIcon, EditPenIcon, Profile1 } from '@/src/assets/Images';
+import { BINANCE, BITGET, BITMEX, BYBIT, CancelIcon, EditPenIcon, FTX, Profile1 } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const AcountTable = () => {
+  const router = useRouter();
+  const { allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(({ exchange }: RootState) => ({
+    allExchangeResult: exchange.allExchangeResult,
+    loadExchangeLoading: exchange.loadExchangeLoading,
+    loadExchangeDone: exchange.loadExchangeDone,
+  }));
+  console.log(allExchangeResult);
+  const [selectExchange, setSelectExchange] = useState('');
+  const [allExcLenght, setAllExcLenght] = useState(0);
+  useEffect(() => {
+    if (router.query.selected) {
+      setSelectExchange(router.query.selected as string);
+      if (selectExchange) {
+        setAllExcLenght(allExchangeResult.length + 1);
+      } else {
+        setAllExcLenght(allExcLenght - 1);
+      }
+    } else {
+      setSelectExchange('');
+      setAllExcLenght(allExchangeResult.length);
+    }
+  }, [router, allExchangeResult, selectExchange]);
+  console.log(allExcLenght);
   return (
     <AcountTableBlock>
       <div className="thead">
@@ -26,38 +52,98 @@ const AcountTable = () => {
         </div>
       </div>
       <div className="tbody">
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
+        {selectExchange && <SelectTableRow excPlat={selectExchange} />}
+        {allExchangeResult.map((exc) => (
+          <TableRow key={exc.id} exc={exc} />
+        ))}
+        {allExcLenght > 2 || <TableRow exc={null} />}
+        {allExcLenght > 1 || <TableRow exc={null} />}
+        {allExcLenght > 0 || <TableRow exc={null} />}
       </div>
     </AcountTableBlock>
   );
 };
 
-const TableRow = () => {
+const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
   const [editable, setEditable] = useState(false);
 
   return (
     <div className="tr">
       <div className="td">
         <div className="thumbnail">
-          <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
+          {excPlat === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}
+          {excPlat === 'BYBIT' && <Image src={BYBIT} alt="acount thumbnail" layout="fill" />}
+          {excPlat === 'BITMEX' && <Image src={BITMEX} alt="acount thumbnail" layout="fill" />}
+          {excPlat === 'BITGET' && <Image src={BITGET} alt="acount thumbnail" layout="fill" />}
+          {excPlat === 'FTX' && <Image src={FTX} alt="acount thumbnail" layout="fill" />}
         </div>
-        <span>거래소명</span>
+        <span>{excPlat}</span>
       </div>
       <div className="td">
-        <input value="계정명" disabled={!editable} />
+        <input disabled={!editable} />
       </div>
       <div className="td">
-        <input value="6yVdiUADcsGzJ-pC4shZY3C77-BRPnaQMLuz90xxTsdgLArgdu0u0M-IN" disabled={!editable} />
+        <input disabled={!editable} />
       </div>
       <div className="td">
-        <input type="password" value="-pC4shZY3C77BRPna" disabled={!editable} />
+        <input type="password" disabled={!editable} />
+        <div className="status">미등록</div>
+        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
+          <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
+        </Button>
+        <Button className={editable && 'editable cancel'} disabled={!editable}>
+          <Image src={editable ? CancelIcon[1] : CancelIcon[0]} alt="cancel" />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const TableRow = ({
+  exc,
+}: {
+  exc: {
+    id: string;
+    platform: string;
+    alias: string;
+    apiKey: string;
+    isReferral: boolean;
+    balance: null;
+    profit: null;
+    totalProfit: null;
+    orders: [];
+    pastProfits: [];
+    positions: [];
+  } | null;
+}) => {
+  const [editable, setEditable] = useState(false);
+
+  return (
+    <div className="tr">
+      <div className="td">
+        <div className="thumbnail">
+          {!exc || <>{exc.platform === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}</>}
+          {!exc || <>{exc.platform === 'BYBIT' && <Image src={BYBIT} alt="acount thumbnail" layout="fill" />}</>}
+          {!exc || <>{exc.platform === 'BITMEX' && <Image src={BITMEX} alt="acount thumbnail" layout="fill" />}</>}
+          {!exc || <>{exc.platform === 'BITGET' && <Image src={BITGET} alt="acount thumbnail" layout="fill" />}</>}
+          {!exc || <>{exc.platform === 'FTX' && <Image src={FTX} alt="acount thumbnail" layout="fill" />}</>}
+        </div>
+        <span>
+          {!exc || exc.platform}
+          {!exc && '거래소'}
+        </span>
+      </div>
+      <div className="td">
+        {!exc || <input value={exc.alias} disabled={!editable} />}
+        {!exc && <input disabled={!editable} />}
+      </div>
+      <div className="td">
+        {!exc || <input value={exc.apiKey} disabled={!editable} />}
+        {!exc && <input disabled={!editable} />}
+      </div>
+      <div className="td">
+        {!exc || <input type="password" disabled={!editable} />}
+        {!exc && <input type="password" disabled={!editable} />}
         <div className="status">미등록</div>
         <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
@@ -116,7 +202,7 @@ const AcountTableBlock = styled.div`
     .th {
       width: 100%;
       display: flex;
-      padding: 0 40px;
+      padding: 0.2rem 40px;
       color: ${colors.gray[5]};
     }
     position: sticky;
@@ -147,6 +233,7 @@ const AcountTableBlock = styled.div`
           overflow: hidden;
           margin-right: 8px;
           position: relative;
+          border: 1px solid ${colors.gray[2]};
           z-index: 7;
         }
         & > span {

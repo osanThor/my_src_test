@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import FuncModal from '../../common/FuncModal';
 
 const LicenseExchange = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const LicenseExchange = () => {
     if (targetValue === 'BINANCE') {
       window.open('https://www.binance.com/en');
     } else if (targetValue === 'BYBIT') {
-      window.open('https://www.bybit.com/en-US');
+      window.open('https://partner.bybit.com/b/quantlee');
     } else if (targetValue === 'BITMEX') {
       window.open('https://www.bitmex.com/app/trade/XBTUSD');
     } else if (targetValue === 'BITGET') {
@@ -49,76 +50,105 @@ const LicenseExchange = () => {
 
     router.replace({ query: { ...router.query, selected: targetValue } });
   };
+
+  const [funcMoOpen, setFuncMoOpen] = useState(false);
+  const [funcMoMessage, setFuncMoMessage] = useState('레퍼럴 리스트 정보를 업데이트 하고 있어요.');
+  const [funcMoMessage2, setFuncMoMessage2] = useState('5분 후 해당 거래소의 API키를 등록해주세요');
+  const handleCloseFuncModal = () => {
+    setFuncMoOpen(false);
+    router.push('/licenses?state=index');
+  };
+
   return (
-    <LicenseExchangeBlock className="license_main_con">
-      {selected || <div className="license_process_title">거래소 등록</div>}
-      <div className="license_process_con">
-        <div
-          className="backButton"
-          onClick={selected ? () => router.replace({ query: { ...router.query, selected: '' } }) : () => router.back()}
-        >
-          <div className="arrow">
-            <Image src={ArrowLeft} alt="arrow" />
+    <>
+      <LicenseExchangeBlock className="license_main_con">
+        {selected || <div className="license_process_title">거래소 등록</div>}
+        <div className="license_process_con">
+          <div
+            className="backButton"
+            onClick={
+              selected ? () => router.replace({ query: { ...router.query, selected: '' } }) : () => router.back()
+            }
+          >
+            <div className="arrow">
+              <Image src={ArrowLeft} alt="arrow" />
+            </div>
           </div>
+          {!selected ? (
+            <div className="exchanges">
+              <div className="exchange" onClick={handleSelectExchange}>
+                <input type="hidden" value="BINANCE" />
+                <div className="exchange_thumbnail">
+                  <Image src={BINANCE} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">BINANCE</div>
+              </div>
+              <div className="exchange" onClick={handleSelectExchange}>
+                <input type="hidden" value="BYBIT" />
+                <div className="exchange_thumbnail">
+                  <Image src={BYBIT} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">BYBIT</div>
+              </div>
+              <div className="exchange" onClick={handleSelectExchange}>
+                <input type="hidden" value="BITMEX" />
+                <div className="exchange_thumbnail">
+                  <Image src={BITMEX} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">BITMEX</div>
+              </div>
+              <div className="exchange" onClick={handleSelectExchange}>
+                <input type="hidden" value="BITGET" />
+                <div className="exchange_thumbnail">
+                  <Image src={BITGET} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">BITGET</div>
+              </div>
+              <div className="exchange" onClick={handleSelectExchange}>
+                <input type="hidden" value="FTX" />
+                <div className="exchange_thumbnail">
+                  <Image src={FTX} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">FTX</div>
+              </div>
+            </div>
+          ) : (
+            <div className="exchanges exchagnge_benefit">
+              <div className="exchange">
+                <div className="exchange_thumbnail">
+                  <Image src={exchageSt ? exchageSt : Profile1[1]} alt="exchange" layout="fill" />
+                </div>
+                <div className="exchange_name">{router.query.selected as string}</div>
+              </div>
+              <div className="benefit_con">
+                <div className="guide">
+                  <div className="guide_top">레퍼럴 등록이 되셨나요?</div>
+                  <div className="guide_bot"> 퀀트로와 함께 거래소의 다양한 혜택을 누리세요</div>
+                </div>
+                <div className="benefitInfo"></div>
+                <Button blue onClick={() => setFuncMoOpen(true)}>
+                  등록완료
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-        {!selected ? (
-          <div className="exchanges">
-            <div className="exchange" onClick={handleSelectExchange}>
-              <input type="hidden" value="BINANCE" />
-              <div className="exchange_thumbnail">
-                <Image src={BINANCE} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">BINANCE</div>
-            </div>
-            <div className="exchange" onClick={handleSelectExchange}>
-              <input type="hidden" value="BYBIT" />
-              <div className="exchange_thumbnail">
-                <Image src={BYBIT} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">BYBIT</div>
-            </div>
-            <div className="exchange" onClick={handleSelectExchange}>
-              <input type="hidden" value="BITMEX" />
-              <div className="exchange_thumbnail">
-                <Image src={BITMEX} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">BITMEX</div>
-            </div>
-            <div className="exchange" onClick={handleSelectExchange}>
-              <input type="hidden" value="BITGET" />
-              <div className="exchange_thumbnail">
-                <Image src={BITGET} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">BITGET</div>
-            </div>
-            <div className="exchange" onClick={handleSelectExchange}>
-              <input type="hidden" value="FTX" />
-              <div className="exchange_thumbnail">
-                <Image src={FTX} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">FTX</div>
-            </div>
-          </div>
-        ) : (
-          <div className="exchanges exchagnge_benefit">
-            <div className="exchange">
-              <div className="exchange_thumbnail">
-                <Image src={exchageSt ? exchageSt : Profile1[1]} alt="exchange" layout="fill" />
-              </div>
-              <div className="exchange_name">{router.query.selected as string}</div>
-            </div>
-            <div className="benefit_con">
-              <div className="guide">
-                <div className="guide_top">레퍼럴 등록이 되셨나요?</div>
-                <div className="guide_bot"> 퀀트로와 함께 거래소의 다양한 혜택을 누리세요</div>
-              </div>
-              <div className="benefitInfo"></div>
-              <Button blue>등록완료</Button>
-            </div>
-          </div>
-        )}
-      </div>
-    </LicenseExchangeBlock>
+      </LicenseExchangeBlock>
+      <FuncModal
+        open={funcMoOpen}
+        onClose={handleCloseFuncModal}
+        message={{
+          title: funcMoMessage,
+          description: funcMoMessage2,
+          btnTxt: '',
+        }}
+        dubBtn={false}
+        onClick={handleCloseFuncModal}
+        onClick2={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+    </>
   );
 };
 

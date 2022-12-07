@@ -30,7 +30,10 @@ export type UserStateType = {
   verifyCode: number | string | null;
   isDark: boolean;
   nicknamePrev: string | null;
-  licenses: Array<string> | [];
+  license:
+    | { endedAt: string | null; package: string; startedAt: string | null }
+    | Array<{ endedAt: string | null; package: string; startedAt: string | null }>
+    | null;
   styles: Array<{ name: string }> | [];
   stylesSt: Array<string> | [];
   introduction: string | null;
@@ -62,7 +65,7 @@ const initialState: UserStateType = {
   verifyCode: '',
   isDark: false,
   nicknamePrev: '',
-  licenses: [],
+  license: null,
   styles: [],
   stylesSt: [],
   introduction: '',
@@ -146,7 +149,7 @@ const userSlice = createSlice({
       state.photoUrl = '';
       state.nickname = '';
       state.nicknamePrev = '';
-      state.licenses = [];
+      state.license = null;
       state.styles = [];
       state.introduction = '';
       state._count = {
@@ -160,7 +163,7 @@ const userSlice = createSlice({
       state.photoUrl = action.payload.photoUrl;
       state.nickname = action.payload.nickname;
       state.nicknamePrev = action.payload.nicknamePrev;
-      state.licenses = action.payload.licenses;
+      state.license = action.payload.license;
       state.styles = action.payload.styles;
       state.introduction = action.payload.introduction;
       state._count = action.payload._count;
@@ -192,6 +195,10 @@ const userSlice = createSlice({
       state.loadUserLoading = false;
       state.loadUserDone = null;
       state.loadUserError = action.payload.message;
+    },
+    loadUserDoneClear(state) {
+      state.loadUserDone = null;
+      state.loadUserError = null;
     },
     userSuccess(state) {
       state.user = true;

@@ -1,9 +1,115 @@
 import colors from '@/src/assets/Colors';
+import { ArrowLeft, Close } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
-import React from 'react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const FAQ = [
+  {
+    id: 0,
+    category: '대시보드',
+    FAQ: [
+      {
+        id: 0,
+        q: '퀀트로가 무엇인가요?',
+        a: '대답입니다',
+      },
+      {
+        id: 1,
+        q: '시스템트레이딩이 뭔가요?',
+        a: '대답입니다2',
+      },
+      {
+        id: 2,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다3',
+      },
+      {
+        id: 3,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다4',
+      },
+      {
+        id: 4,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다5',
+      },
+      {
+        id: 5,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다6',
+      },
+      {
+        id: 6,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다7',
+      },
+      {
+        id: 7,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다7',
+      },
+    ],
+  },
+  {
+    id: 1,
+    category: '퀀트작성',
+    FAQ: [
+      {
+        id: 6,
+        q: '퀀트로가 무엇인가요?',
+        a: '대답입니다',
+      },
+      {
+        id: 7,
+        q: '시스템트레이딩이 뭔가요?',
+        a: '대답입니다2',
+      },
+      {
+        id: 8,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다3',
+      },
+      {
+        id: 9,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다4',
+      },
+      {
+        id: 10,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다5',
+      },
+      {
+        id: 11,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다6',
+      },
+      {
+        id: 12,
+        q: '전략"이 무엇인가요?',
+        a: '대답입니다7',
+      },
+    ],
+  },
+];
+
 const CenterLayout = () => {
+  const [isSelected, setIsSelected] = useState(false);
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const handleSelectQ = (faq: { id: number; q: string; a: string }) => {
+    setIsSelected(true);
+    setQuestion(faq.q);
+    setAnswer(faq.a);
+  };
+
+  const handleCloseQ = () => {
+    setIsSelected(false);
+    setQuestion('');
+    setAnswer('');
+  };
   return (
     <CenterLayoutBlock className="container">
       <div className="FAQ_top">
@@ -12,40 +118,43 @@ const CenterLayout = () => {
           <p>무엇이 궁금하신가요?</p>
         </div>
       </div>
-      <div className="FAQ_list">
-        <div className="FAQ_contents">
-          <div className="FAQ_category">대시보드</div>
-          <div className="FAQ_content_list">
-            <div className="FAQ_content">
-              <div className="FAQ_Q">퀀트로가 무엇인가요?</div>
+      <div className={isSelected ? 'FAQ_main_box on' : 'FAQ_main_box'}>
+        <div className="FAQ_list">
+          {FAQ.map((cate) => (
+            <div className="FAQ_contents" key={cate.id}>
+              <div className="FAQ_category">{cate.category}</div>
+              <div className="FAQ_content_list">
+                {cate.FAQ.map((faq) => (
+                  <div className="FAQ_content " key={faq.id} onClick={() => handleSelectQ(faq)}>
+                    <div className="FAQ_Q">{faq.q}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">시스템트레이딩이 뭔가요?</div>
+          ))}
+        </div>
+        <div className="answer_box">
+          <div className="m_answer_top">
+            <div className="icon" onClick={handleCloseQ}>
+              <Image src={ArrowLeft} alt="arrow" />
             </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">"전략"이 무엇인가요?</div>
+            <div className="question">{question}</div>
+          </div>
+          <div className="gray_box">
+            <div className="answer_top">
+              <div className="answer_close_btn" onClick={handleCloseQ}>
+                <Image src={Close} alt="closeButton" />
+              </div>
             </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">"전략"이 무엇인가요?</div>
-            </div>
+            {answer}
           </div>
         </div>
-        <div className="FAQ_contents">
-          <div className="FAQ_category">퀀트작성</div>
-          <div className="FAQ_content_list">
-            <div className="FAQ_content">
-              <div className="FAQ_Q">퀀트로가 무엇인가요?</div>
-            </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">시스템트레이딩이 뭔가요?</div>
-            </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">"전략"이 무엇인가요?</div>
-            </div>
-            <div className="FAQ_content">
-              <div className="FAQ_Q">"전략"이 무엇인가요?</div>
-            </div>
-          </div>
+      </div>
+
+      <div className="FAQ_bottom">
+        <div className="info_box">
+          퀀트로는 여러분의 안전한 퀀트 매매를 위해 프로그램 및 커뮤니티를 제공하며, 그 외 전략 및 투자를 권장하지
+          않습니다.
         </div>
       </div>
     </CenterLayoutBlock>
@@ -68,8 +177,43 @@ const CenterLayoutBlock = styled.div`
       }
     }
   }
+  .FAQ_main_box {
+    display: flex;
+    position: relative;
+    transition: all 0.2s;
+    &.on {
+      .answer_box {
+        width: 65%;
+        height: calc(100% - 60px);
+        top: 0;
+        right: 0;
+        .m_answer_top {
+          display: none;
+        }
+        .gray_box {
+          height: 100%;
+          background-color: ${colors.gray[1]};
+          border-radius: 14px;
+          padding: 24px;
+          .answer_top {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            .answer_close_btn {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .FAQ_list {
+        transform: translateX(-67%);
+      }
+    }
+  }
   .FAQ_list {
     width: 100%;
+    margin-bottom: 64px;
+    transition: all 0.2s;
     .FAQ_contents {
       width: 100%;
       display: flex;
@@ -123,7 +267,27 @@ const CenterLayoutBlock = styled.div`
       }
     }
   }
-
+  .answer_box {
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    transition: all 0.2s;
+  }
+  .FAQ_bottom {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .info_box {
+      width: 100%;
+      max-width: 1060px;
+      line-height: 32px;
+      background-color: rgba(128, 172, 245, 0.5);
+      border-radius: 14px;
+      text-align: center;
+      word-break: keep-all;
+      font-size: 15px;
+    }
+  }
   ${media.tablet} {
     .FAQ_top {
       margin-bottom: 56px;
@@ -131,6 +295,59 @@ const CenterLayoutBlock = styled.div`
         font-size: 18px;
         h2 {
           font-size: 18px;
+        }
+      }
+    }
+    .FAQ_main_box {
+      display: flex;
+      position: relative;
+      transition: all 0.2s;
+      &.on {
+        .answer_box {
+          width: 100%;
+          height: calc(100% - 60px);
+          top: 0;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          overflow: inherit;
+          .m_answer_top {
+            display: block;
+            position: relative;
+            .icon {
+              width: 40px;
+              height: 40px;
+              position: absolute;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              top: 0;
+              left: 0;
+              transform: translateY(-120%);
+            }
+            .question {
+              width: 100%;
+              border: 1px solid ${colors.blue[1]};
+              background-color: ${colors.blue[0]};
+              padding: 4px 12px;
+              border-radius: 14px;
+              margin-bottom: 30px;
+            }
+          }
+          .gray_box {
+            height: 100%;
+            background-color: ${colors.gray[1]};
+            border-radius: 14px;
+            padding: 24px;
+            .answer_top {
+              display: none;
+            }
+          }
+        }
+        .FAQ_list {
+          width: 0;
+          overflow: hidden;
+          transform: translateX(0);
         }
       }
     }
@@ -172,6 +389,24 @@ const CenterLayoutBlock = styled.div`
             }
           }
         }
+      }
+    }
+    .answer_box {
+      .gray_box {
+        .answer_top {
+          display: none;
+        }
+      }
+    }
+    .FAQ_bottom {
+      .info_box {
+        width: 100%;
+        line-height: inherit;
+        border-radius: 14px;
+        padding: 4px 12px;
+        text-align: center;
+        word-break: keep-all;
+        font-size: 12px;
       }
     }
   }

@@ -99,7 +99,7 @@ const GnbMenu = () => {
           </Link>
         </div>
         <div className="gnb_menu">
-          <Link href="/licenses">
+          <Link href="/licenses?state=index">
             <a className={licenses ? 'on' : ''}>
               <div className="headerIcon" />
               <span>이용권 등록 / API Key</span>

@@ -120,7 +120,13 @@ import BITMEXIcon from 'public/assets/common/exchange/BITMEX.svg';
 import BITGETIcon from 'public/assets/common/exchange/BITGET.svg';
 import FTXIcon from 'public/assets/common/exchange/FTX.svg';
 
+//index
 import MainBannerImage from 'public/assets/Index/main_banner.svg';
+
+// webhook
+import WebHook1 from 'public/assets/description/api-link-info1.jpg';
+import WebHook2 from 'public/assets/description/api-link-info2.jpg';
+import WebHook3 from 'public/assets/description/api-link-info3.jpg';
 
 ///*** !----Export----- */
 //로고
@@ -218,3 +224,6 @@ export const FTX = FTXIcon;
 
 //Index
 export const MainBanner = MainBannerImage;
+
+// webhook
+export const WebHook = [WebHook1, WebHook2, WebHook3];

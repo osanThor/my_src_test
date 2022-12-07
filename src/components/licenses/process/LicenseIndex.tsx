@@ -1,12 +1,18 @@
 import colors from '@/src/assets/Colors';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
 const LicenseIndex = () => {
   const router = useRouter();
+  const { license } = useSelector(({ user }: RootState) => ({
+    license: user.license,
+  }));
+
   return (
     <LicenseIndexBlock className="license_main_con">
       <div className="chose_package">
@@ -29,7 +35,7 @@ const LicenseIndex = () => {
             <h2 className="blue">REGULAR PACKAGE</h2>
             <div className="price">₩19,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue disabled>
+            <StyledButton blue disabled={!license}>
               결제하기
             </StyledButton>
           </div>
@@ -46,7 +52,7 @@ const LicenseIndex = () => {
             <h2 className="red">PREMIUM PACKAGE</h2>
             <div className="price">₩29,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue disabled>
+            <StyledButton blue disabled={!Array.isArray(license)}>
               결제하기
             </StyledButton>
           </div>

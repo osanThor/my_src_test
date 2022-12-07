@@ -1,3 +1,4 @@
+import Modal from '@/src/components/common/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import WriteQuantBottom from '@/src/components/writeQuant/WriteQuantBottom';
 import WriteQuantLayout from '@/src/components/writeQuant/WriteQuantLayout';
@@ -9,7 +10,7 @@ import WriteQuantTop from '@/src/components/writeQuant/WriteQuantTop';
 import { RootState } from '@/src/store/configureStore';
 import { localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -25,18 +26,63 @@ const WriteQuantIndex: NextPage = () => {
   useEffect(() => {
     dispatch(localActions.initializeAuthForm());
   }, [dispatch]);
+
+  // 일반 모달
+  const [moOpen, setMoOpen] = React.useState(false);
+  const [moMessage, setMoMessage] = React.useState('');
+  const [moSt, setMoSt] = React.useState(false);
+  const onCloseMo = () => {
+    setMoOpen(false);
+  };
+  // webhook copy
+  const webhookRef = useRef<HTMLInputElement>(null);
+  const handleCopyWebhook = () => {
+    const el = webhookRef.current;
+    el.select();
+    document.execCommand('copy');
+    setMoOpen(true);
+    setMoMessage('웹훅 URL을 복사했어요');
+    setMoSt(false);
+  };
+  //message copy
+  const messageRef = useRef<HTMLInputElement>(null);
+  const handleCopyMessage = () => {
+    const el = messageRef.current;
+    console.log(el.value);
+    if (!el.value) {
+      setMoOpen(true);
+      setMoMessage('주문메세지 작성을 해주세요');
+      setMoSt(false);
+      return;
+    } else {
+      el.select();
+      document.execCommand('copy');
+      setMoOpen(true);
+      setMoMessage('주문메세지 작성결과를 복사했어요');
+      setMoSt(false);
+    }
+  };
+
   return (
-    <UserLayout>
-      <WriteQuantLayout>
-        <WriteQuantTop />
-        <WriteQuantBottom>
-          {basic && <Basic />}
-          {order && <OrderInfo />}
-          {quantity && <Quantity />}
-          {option && <Option />}
-        </WriteQuantBottom>
-      </WriteQuantLayout>
-    </UserLayout>
+    <>
+      <UserLayout>
+        <WriteQuantLayout>
+          <WriteQuantTop
+            webhookRef={webhookRef}
+            handleCopyWebhook={handleCopyWebhook}
+            messageRef={messageRef}
+            handleCopyMessage={handleCopyMessage}
+          />
+          <WriteQuantBottom>
+            {basic && <Basic />}
+            {order && <OrderInfo />}
+            {quantity && <Quantity />}
+            {option && <Option />}
+          </WriteQuantBottom>
+        </WriteQuantLayout>
+      </UserLayout>
+      <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
+    </>
   );
 };
 
