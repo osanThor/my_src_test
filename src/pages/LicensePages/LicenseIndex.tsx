@@ -1,4 +1,5 @@
 import Modal from '@/src/components/common/Modal';
+import NotUserModal from '@/src/components/common/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';
@@ -28,6 +29,11 @@ const LicensePageIndex: NextPage = () => {
     loadAuthDone: auth.loadAuthDone,
   }));
   const [isUser, setUser] = useState(false);
+  const [noUserModal, setNoUserModal] = useState(false);
+  const handleCloseNoUserModal = () => {
+    setNoUserModal(false);
+    router.push('/');
+  };
 
   useEffect(() => {
     dispatch(exchangeActions.initializeExchangeState());
@@ -38,6 +44,9 @@ const LicensePageIndex: NextPage = () => {
       if (loadAuthDone) {
         if (loadAuthDone.accessToken) {
           setUser(true);
+        } else {
+          dispatch(localActions.isLocalBgBlur());
+          setNoUserModal(true);
         }
       }
     }
@@ -123,6 +132,7 @@ const LicensePageIndex: NextPage = () => {
         </LicensesLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
+      <NotUserModal open={noUserModal} onClose={handleCloseNoUserModal} />
     </>
   );
 };

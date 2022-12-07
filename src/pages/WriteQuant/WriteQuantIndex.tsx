@@ -1,4 +1,5 @@
 import Modal from '@/src/components/common/Modal';
+import NotUserModal from '@/src/components/common/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import WriteQuantBottom from '@/src/components/writeQuant/WriteQuantBottom';
 import WriteQuantLayout from '@/src/components/writeQuant/WriteQuantLayout';
@@ -10,11 +11,13 @@ import WriteQuantTop from '@/src/components/writeQuant/WriteQuantTop';
 import { RootState } from '@/src/store/configureStore';
 import { localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
-import React, { useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 const WriteQuantIndex: NextPage = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { basic, order, quantity, option } = useSelector(({ local }: RootState) => ({
     basic: local.basic,
@@ -22,10 +25,32 @@ const WriteQuantIndex: NextPage = () => {
     quantity: local.quantity,
     option: local.option,
   }));
+  const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
+    loadAuthLoading: auth.loadAuthLoading,
+    loadAuthDone: auth.loadAuthDone,
+  }));
+
+  const [noUserModal, setNoUserModal] = useState(false);
+  const handleCloseNoUserModal = () => {
+    setNoUserModal(false);
+    router.push('/');
+  };
 
   useEffect(() => {
     dispatch(localActions.initializeAuthForm());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!loadAuthLoading) {
+      if (loadAuthDone) {
+        if (loadAuthDone.accessToken) {
+        } else {
+          dispatch(localActions.isLocalBgBlur());
+          setNoUserModal(true);
+        }
+      }
+    }
+  }, [loadAuthLoading, loadAuthDone]);
 
   // 일반 모달
   const [moOpen, setMoOpen] = React.useState(false);
@@ -82,6 +107,7 @@ const WriteQuantIndex: NextPage = () => {
         </WriteQuantLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
+      <NotUserModal open={noUserModal} onClose={handleCloseNoUserModal} />
     </>
   );
 };

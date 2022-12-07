@@ -1,5 +1,6 @@
 export type IModalType = IModalProps;
 export type IFuncModalType = IFuncModalProps;
+export type INotUserModalType = INotUserModalProps;
 
 interface IModalProps {
   open: boolean;
@@ -15,4 +16,9 @@ interface IFuncModalProps {
   dubBtn: boolean;
   onClick: () => void;
   onClick2: () => void;
+}
+
+interface INotUserModalProps {
+  open: boolean;
+  onClose: () => void;
 }

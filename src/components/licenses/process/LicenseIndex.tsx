@@ -29,6 +29,7 @@ const LicenseIndex = () => {
           </div>
           <div className="benefit">
             <ul>
+              <li>6개월 후 오픈베타 무료 이벤트가 종료되요</li>
               <li>원하시는 거래소를 선택하여 가입해주세요</li>
               <li className="bold">분당 주문 회수 20회</li>
             </ul>
@@ -45,7 +46,6 @@ const LicenseIndex = () => {
           </div>
           <div className="benefit">
             <ul>
-              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
               <li className="bold">분당 주문 회수 30회 </li>
               <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
             </ul>
@@ -62,7 +62,6 @@ const LicenseIndex = () => {
           </div>
           <div className="benefit">
             <ul>
-              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
               <li className="bold">분당 주문 회수 40회</li>
               <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
             </ul>
@@ -88,6 +87,10 @@ const LicenseIndexBlock = styled.div`
     row-gap: 18px;
     word-break: keep-all;
     text-align: center;
+
+    // opendbeta
+    align-items: flex-start;
+    //
 
     & > div {
       display: flex;
@@ -136,6 +139,7 @@ const LicenseIndexBlock = styled.div`
         .period {
           margin-bottom: 10px;
         }
+        // opendbeta
         &.openbeta {
           padding: 1rem;
           background-color: ${colors.blue[1]};
