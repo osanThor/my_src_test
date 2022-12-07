@@ -1,3 +1,4 @@
+import Modal from '@/src/components/common/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';
@@ -6,7 +7,7 @@ import LicensesTop from '@/src/components/licenses/LicensesTop';
 import LicenseExchange from '@/src/components/licenses/process/LicenseExchange';
 import LicenseIndex from '@/src/components/licenses/process/LicenseIndex';
 import { RootState } from '@/src/store/configureStore';
-import { exchangeActions, localActions } from '@/src/store/reducers';
+import { exchangeActions, localActions, userActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -64,17 +65,65 @@ const LicensePageIndex: NextPage = () => {
     }
   }, [isUser]);
 
+  // 텔레그램 상태관리
+  useEffect(() => {
+    dispatch(userActions.loadUserDoneClear());
+  }, [router]);
+  const { username, loadUserDone } = useSelector(({ user }: RootState) => ({
+    username: user.username,
+    loadUserDone: user.loadUserDone,
+  }));
+
+  const handleChangeUserNameField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    dispatch(userActions.changeTelegramField({ username: value }));
+  };
+
+  // 텔레그램 사용자명 등록 요청
+  const handlePutTelegram = () => {
+    if (username.length <= 0) {
+      setMoOpen(true);
+      setMoMessage('텔레그램 사용자명를 입력해주세요');
+      setMoSt(false);
+      return;
+    }
+    dispatch(userActions.telegramUsername({ username }));
+  };
+  React.useEffect(() => {
+    if (loadUserDone === 'NOT_FOUND_TELEGRAM') {
+      setMoOpen(true);
+      setMoMessage('텔레그램 사용자명를 찾을 수 없어요');
+      setMoSt(true);
+      return;
+    } else if (loadUserDone === 'CHANGED') {
+      setMoOpen(true);
+      setMoMessage('텔레그램이 연동되었어요~! 텔레그램 환영메세지를 확인해주세요.');
+      setMoSt(false);
+    }
+  }, [loadUserDone]);
+
+  // 일반 모달
+  const [moOpen, setMoOpen] = React.useState(false);
+  const [moMessage, setMoMessage] = React.useState('');
+  const [moSt, setMoSt] = React.useState(false);
+  const onCloseMo = () => {
+    setMoOpen(false);
+  };
+
   return (
-    <UserLayout>
-      <LicensesLayout>
-        <LicensesTop />
-        <LicenseCenterLayout>
-          {licenseIndex && <LicenseIndex />}
-          {licenseExchange && <LicenseExchange />}
-        </LicenseCenterLayout>
-        <AddApiKeyCon />
-      </LicensesLayout>
-    </UserLayout>
+    <>
+      <UserLayout>
+        <LicensesLayout>
+          <LicensesTop onChange={handleChangeUserNameField} onSubmit={handlePutTelegram} />
+          <LicenseCenterLayout>
+            {licenseIndex && <LicenseIndex />}
+            {licenseExchange && <LicenseExchange />}
+          </LicenseCenterLayout>
+          <AddApiKeyCon />
+        </LicensesLayout>
+      </UserLayout>
+      <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
+    </>
   );
 };
 

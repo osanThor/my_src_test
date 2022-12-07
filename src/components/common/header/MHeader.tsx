@@ -130,13 +130,13 @@ const MHeader = () => {
     } else {
       setMessage(false);
     }
-    if (router.pathname === '/licenses' && !router.query.state) {
+    if (router.pathname === '/licenses' && router.query.state === 'index') {
       console.log(router.query.state);
       setLicenseIndex(true);
     } else {
       setLicenseIndex(false);
     }
-    if (router.pathname === '/licenses' && router.query.state) {
+    if (router.pathname === '/licenses' && router.query.state != 'index') {
       setLicense(true);
     } else {
       setLicense(false);
@@ -229,7 +229,10 @@ const MHeader = () => {
                 </div>
                 <div className="profile_info">
                   <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
-                  <div className="api_key">{!license && '이용권을 등록해주세요'}{license &&<>{Array.isArray(license)?"":"Quantro Basic Package"}</>}</div>
+                  <div className="api_key">
+                    {!license && '이용권을 등록해주세요'}
+                    {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
+                  </div>
                 </div>
               </div>
               <div className="close_btn" onClick={handleCloseGnbMenu}>

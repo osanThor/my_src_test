@@ -196,6 +196,10 @@ const userSlice = createSlice({
       state.loadUserDone = null;
       state.loadUserError = action.payload.message;
     },
+    loadUserDoneClear(state) {
+      state.loadUserDone = null;
+      state.loadUserError = null;
+    },
     userSuccess(state) {
       state.user = true;
       state.userError = null;

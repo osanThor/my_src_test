@@ -8,14 +8,22 @@ import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import TelegramModal from './item/TelegramModal';
 
-const LicensesTop = () => {
+const LicensesTop = ({
+  onChange,
+  onSubmit,
+}: {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
+}) => {
   const { isDark, photoUrl, nickname, license } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
     nickname: user.nickname,
     license: user.license,
   }));
+
   const [isBasic, setIsBasic] = useState('');
   useEffect(() => {
     if (!Array.isArray(license)) {
@@ -24,74 +32,84 @@ const LicensesTop = () => {
       setIsBasic('');
     }
   }, [license]);
+
+  const [telegramOpen, setTelegramOpen] = useState(false);
+  const handleCloseTelegramModal = () => {
+    setTelegramOpen(false);
+  };
   return (
-    <LicensesTopBlock>
-      <div className="my_profile">
-        <div className="thumnail">
-          <Image src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
-        </div>
-        <div className="profile_info">
-          <div className="nickname">{nickname ? nickname : '로딩중...'}</div>
-          <div className="licenses">
-            {!license && <div className="license">이용권을 등록해주세요</div>}
-            {license && (
-              <>
-                {Array.isArray(license) ? (
-                  license.map((pack) => (
-                    <div className="license" key={pack.package}>
-                      {pack.package}
-                      <div className="period">
-                        <Moment format="YY.MM.DD">{pack.startedAt}</Moment>~
-                        <Moment format="YY.MM.DD">{pack.endedAt}</Moment>
+    <>
+      <LicensesTopBlock>
+        <div className="my_profile">
+          <div className="thumnail">
+            <Image src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
+          </div>
+          <div className="profile_info">
+            <div className="nickname">{nickname ? nickname : '로딩중...'}</div>
+            <div className="licenses">
+              {!license && <div className="license">이용권을 등록해주세요</div>}
+              {license && (
+                <>
+                  {Array.isArray(license) ? (
+                    license.map((pack) => (
+                      <div className="license" key={pack.package}>
+                        {pack.package}
+                        <div className="period">
+                          <Moment format="YY.MM.DD">{pack.startedAt}</Moment>~
+                          <Moment format="YY.MM.DD">{pack.endedAt}</Moment>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="license">
+                      {isBasic}
+                      <div className="period">무제한 이용</div>
                     </div>
-                  ))
-                ) : (
-                  <div className="license">
-                    {isBasic}
-                    <div className="period">무제한 이용</div>
-                  </div>
-                )}
-              </>
-            )}
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="information">
-        <div className="info_top">
-          <div className="left_con">
-            <div className="telegram_alram_bot">
-              <div className="icon">
-                <Image src={TelegramAlramBot} alt="alram_bot" />
+        <div className="information">
+          <div className="info_top">
+            <div className="left_con">
+              <div className="telegram_alram_bot">
+                <div className="icon">
+                  <Image src={TelegramAlramBot} alt="alram_bot" />
+                </div>
+                <span>텔레그램 알림봇 설정</span>
               </div>
-              <span>텔레그램 알림봇 설정</span>
+              <label onClick={() => setTelegramOpen(true)}>
+                <input type="checkbox" />
+                <span className="styled_checkbox" />
+                매매와 여러정보 알림 받기
+              </label>
             </div>
-            <label>
-              <input type="checkbox" />
-              <span className="styled_checkbox" />
-              매매와 여러정보 알림 받기
-            </label>
+            <div className="how_to_telegram_btn" onClick={() => setTelegramOpen(true)}>
+              <span className="dis_p">텔레그램 알림봇 이용 가이드</span>
+              <span className="dis_m">이용 가이드</span>
+              <div className="icon">
+                <Image src={GuidGoIcon[0]} alt="quide" />
+              </div>
+            </div>
           </div>
-          <div className="how_to_telegram_btn">
-            <span className="dis_p">텔레그램 알림봇 이용 가이드</span>
-            <span className="dis_m">이용 가이드</span>
-            <div className="icon">
-              <Image src={GuidGoIcon[0]} alt="quide" />
+          <div className="info_bottom">
+            <StyledInput placeholder="텔레그램 ‘@사용자명’을 입력해요" onChange={onChange} />
+            <StyledButton blue onClick={onSubmit}>
+              사용자명 등록
+            </StyledButton>
+            <div className="notice">
+              <div className="icon">
+                <Image src={Notice[0]} alt="notice" />
+              </div>
+              <span id="point2">텔레그램의 사용자명을 등록하시면 매매와 여러정보를 알림으로 받아 보실 수 있어요.</span>
             </div>
           </div>
         </div>
-        <div className="info_bottom">
-          <StyledInput placeholder="텔레그램 ‘@사용자명’을 입력해요" />
-          <StyledButton blue>사용자명 등록</StyledButton>
-          <div className="notice">
-            <div className="icon">
-              <Image src={Notice[0]} alt="notice" />
-            </div>
-            <span id="point2">텔레그램의 사용자명을 등록하시면 매매와 여러정보를 알림으로 받아 보실 수 있어요.</span>
-          </div>
-        </div>
-      </div>
-    </LicensesTopBlock>
+      </LicensesTopBlock>
+      <TelegramModal onClose={handleCloseTelegramModal} open={telegramOpen} />
+    </>
   );
 };
 
@@ -151,7 +169,7 @@ const LicensesTopBlock = styled.div`
         }
         .period {
           white-space: nowrap;
-          font-size: 1rem;
+          font-size: 14px;
           color: ${colors.gray[3]};
         }
       }
@@ -265,11 +283,17 @@ const LicensesTopBlock = styled.div`
         min-width: 49px;
         height: 49px;
         margin-bottom: 7px;
+        margin-right: 4px;
       }
 
       .profile_info {
         white-space: nowrap;
         text-overflow: ellipsis;
+        .license {
+          flex-wrap: wrap;
+          white-space: pre-wrap;
+          word-break: keep-all;
+        }
       }
     }
     .information {
