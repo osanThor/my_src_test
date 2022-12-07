@@ -1,6 +1,6 @@
 import { axiosInstance } from '.';
 
-import type { LoadExchangeBody } from '../types';
+import type { LoadExchangeBody, LoadExchangeIdPayload } from '../types';
 
 // create / update API Key
 export const apiCreateUpdateKey = ({ exchange, id, alias, apiKey, apiSecret }: LoadExchangeBody) =>
@@ -10,24 +10,24 @@ export const apiCreateUpdateKey = ({ exchange, id, alias, apiKey, apiSecret }: L
 export const apiGetAllExchanges = () => axiosInstance.get(`/exchanges`);
 
 // get Exchange
-export const apiGetExchanges = ({ exchangeId }: LoadExchangeBody) => axiosInstance.get(`/exchanges/${exchangeId}`);
+export const apiGetExchanges = ({ exchangeId }: LoadExchangeIdPayload) => axiosInstance.get(`/exchanges/${exchangeId}`);
 
 // get Active Orders
-export const apiGetActiveOrders = ({ exchangeId }: LoadExchangeBody) =>
+export const apiGetActiveOrders = ({ exchangeId }: LoadExchangeIdPayload) =>
   axiosInstance.get(`/exchanges/${exchangeId}/active-orders`);
 
 // get Dashboard
-export const apiGetDashboard = ({ exchangeId }: LoadExchangeBody) =>
+export const apiGetDashboard = ({ exchangeId }: LoadExchangeIdPayload) =>
   axiosInstance.get(`/exchanges/${exchangeId}/dashboard`);
 
 // get Balances
-export const apiGetBalances = ({ exchangeId }: LoadExchangeBody) =>
+export const apiGetBalances = ({ exchangeId }: LoadExchangeIdPayload) =>
   axiosInstance.get(`/exchanges/${exchangeId}/balances`);
 
 // get Positions
-export const apiGetPositions = ({ exchangeId }: LoadExchangeBody) =>
+export const apiGetPositions = ({ exchangeId }: LoadExchangeIdPayload) =>
   axiosInstance.get(`/exchanges/${exchangeId}/positions`);
 
 // close Position
-export const apiClosePosition = ({ exchangeId }: LoadExchangeBody) =>
+export const apiClosePosition = ({ exchangeId }: LoadExchangeIdPayload) =>
   axiosInstance.post(`/exchanges/${exchangeId}/positions/close`);

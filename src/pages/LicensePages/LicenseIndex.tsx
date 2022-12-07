@@ -25,7 +25,7 @@ const LicensePageIndex: NextPage = () => {
 
   useEffect(() => {
     if (router.query) {
-      if (!router.query.state) {
+      if (router.query.state === 'index') {
         dispatch(localActions.gotoLicenseIndex());
       } else if (router.query.state === 'exchange') {
         dispatch(localActions.gotolicenseExchange());

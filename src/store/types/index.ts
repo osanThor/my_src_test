@@ -39,8 +39,8 @@ export type {
   UpdateUserProfilePayload,
   DeleteUserPayload,
 } from './user';
+export type { LoadExchangeBody, LoadExchangeIdPayload, GetAllExchangeResult } from './exchange';
 export type { LoadFileBody, LoadFileResponse } from './file';
-export type { LoadExchangeBody } from './exchange';
 export type {
   LoadBoardsBody,
   getBoardsPayload,

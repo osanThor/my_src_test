@@ -26,7 +26,7 @@ const QuantroBenefit = () => {
           <div className="icon">
             <Image src={CheckBlueIcon} alt="check" />
           </div>
-          <span>주문이 몰려도 오버로드 없는 빠른 주문처리</span>
+          <span>전략개발 의뢰서비스(준비중)</span>
         </li>
         <li>
           <div className="icon">

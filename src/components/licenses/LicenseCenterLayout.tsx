@@ -20,25 +20,25 @@ const LicenseCenterLayout = ({ children }: { children: React.ReactNode }) => {
     <LicenseCenterLayoutBlock>
       <div className="license_title">
         <h2>이용권 등록</h2>
-        <div className="how_to_api_btn dis_p">
+        {/* <div className="how_to_api_btn dis_p">
           <span>인증키등록 & 구매가이드</span>
           <div className="icon">
             <Image src={GuidGoIcon[0]} alt="quide" />
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="license_main">
         {children}
         <div className="license_description">{licenseIndex ? <QuantroBenefit /> : <PaymentGuide />}</div>
       </div>
-      <div className="license_bot dis_m">
+      {/* <div className="license_bot dis_m">
         <div className="how_to_api_btn dis_m">
           <span>인증키등록 & 구매가이드</span>
           <div className="icon">
             <Image src={GuidGoIcon[0]} alt="quide" />
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="notice" id="point3">
         <div className="icon">
           <Image src={Mark} alt="mark" />

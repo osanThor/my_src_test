@@ -3,18 +3,27 @@ import { CheckCircle, GuidGoIcon, Notice, Profile1, TelegramAlramBot } from '@/s
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../common/Button';
 
 const LicensesTop = () => {
-  const { isDark, photoUrl, nickname, licenses } = useSelector(({ user }: RootState) => ({
+  const { isDark, photoUrl, nickname, license } = useSelector(({ user }: RootState) => ({
     isDark: user.isDark,
     photoUrl: user.photoUrl,
     nickname: user.nickname,
-    licenses: user.licenses,
+    license: user.license,
   }));
+  const [isBasic, setIsBasic] = useState('');
+  useEffect(() => {
+    if (!Array.isArray(license)) {
+      setIsBasic('Quantro Basic Package');
+    } else {
+      setIsBasic('');
+    }
+  }, [license]);
   return (
     <LicensesTopBlock>
       <div className="my_profile">
@@ -23,7 +32,29 @@ const LicensesTop = () => {
         </div>
         <div className="profile_info">
           <div className="nickname">{nickname ? nickname : '로딩중...'}</div>
-          <div className="licenses">이용권을 등록해주세요</div>
+          <div className="licenses">
+            {!license && <div className="license">이용권을 등록해주세요</div>}
+            {license && (
+              <>
+                {Array.isArray(license) ? (
+                  license.map((pack) => (
+                    <div className="license" key={pack.package}>
+                      {pack.package}
+                      <div className="period">
+                        <Moment format="YY.MM.DD">{pack.startedAt}</Moment>~
+                        <Moment format="YY.MM.DD">{pack.endedAt}</Moment>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="license">
+                    {isBasic}
+                    <div className="period">무제한 이용</div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
       <div className="information">
@@ -103,7 +134,7 @@ const LicensesTopBlock = styled.div`
         font-family: 'GmarketSansBold';
         margin-bottom: 0.5rem;
       }
-      .licenses {
+      .license {
         width: 100%;
         flex: 1;
         padding: 8px 20px;
@@ -112,6 +143,17 @@ const LicensesTopBlock = styled.div`
         border-radius: 18px;
         color: ${colors.blue[2]};
         font-size: 14px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .period {
+          white-space: nowrap;
+          font-size: 1rem;
+          color: ${colors.gray[3]};
+        }
       }
     }
   }

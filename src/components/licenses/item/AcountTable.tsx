@@ -29,11 +29,6 @@ const AcountTable = () => {
         <TableRow />
         <TableRow />
         <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
-        <TableRow />
       </div>
     </AcountTableBlock>
   );
@@ -48,7 +43,7 @@ const TableRow = () => {
         <div className="thumbnail">
           <Image src={Profile1[1]} alt="acount thumbnail" layout="fill" />
         </div>
-        <span>거래소명</span>
+        <span>거래소</span>
       </div>
       <div className="td">
         <input value="계정명" disabled={!editable} />
@@ -116,7 +111,7 @@ const AcountTableBlock = styled.div`
     .th {
       width: 100%;
       display: flex;
-      padding: 0 40px;
+      padding: 0.2rem 40px;
       color: ${colors.gray[5]};
     }
     position: sticky;
