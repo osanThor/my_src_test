@@ -26,17 +26,19 @@ const WriteQuantIndex: NextPage = () => {
     dispatch(localActions.initializeAuthForm());
   }, [dispatch]);
   return (
-    <UserLayout>
-      <WriteQuantLayout>
-        <WriteQuantTop />
-        <WriteQuantBottom>
-          {basic && <Basic />}
-          {order && <OrderInfo />}
-          {quantity && <Quantity />}
-          {option && <Option />}
-        </WriteQuantBottom>
-      </WriteQuantLayout>
-    </UserLayout>
+    <>
+      <UserLayout>
+        <WriteQuantLayout>
+          <WriteQuantTop />
+          <WriteQuantBottom>
+            {basic && <Basic />}
+            {order && <OrderInfo />}
+            {quantity && <Quantity />}
+            {option && <Option />}
+          </WriteQuantBottom>
+        </WriteQuantLayout>
+      </UserLayout>
+    </>
   );
 };
 

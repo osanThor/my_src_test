@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { ArrowBottom, Close } from '@/src/assets/Images';
+import { ArrowBottom, Close, WebHook } from '@/src/assets/Images';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 
-const TelegramModal = ({ onClose, open }: { onClose: () => void; open: boolean }) => {
+const WebhookModal = ({ onClose, open }: { onClose: () => void; open: boolean }) => {
   // 리스트 색상 이벤트
   const handleClickEvent = (e: React.MouseEvent<HTMLLIElement>) => {
     const target = e.currentTarget;
     siblings(target, 'on');
   };
+  const [num, setNum] = useState(0);
   function siblings(t: EventTarget & HTMLLIElement, className: string) {
     const children = t.parentElement.children;
 
     for (let i = 0; i < children.length; i++) {
       children[i].classList.remove(className);
       t.classList.add(className);
+      if (children[i] === t) {
+        setNum(i);
+      }
     }
   }
+
   return (
     <DialogBlock onClose={onClose} open={open}>
       <ModalCon>
@@ -28,22 +33,29 @@ const TelegramModal = ({ onClose, open }: { onClose: () => void; open: boolean }
             <Image src={Close} alt="closeBtn" />
           </span>
         </div>
-        <h2>텔레그램 연동 방법</h2>
-        <div className="descript">
-          <ul>
-            <li className="on" onClick={handleClickEvent}>
-              <span className="num">1</span>
-              <p>텔레그램에서 @quantro 추가</p>
-            </li>
-            <li onClick={handleClickEvent}>
-              <span className="num">2</span>
-              <p>퀀트로 봇에 /start 입력</p>
-            </li>
-            <li onClick={handleClickEvent}>
-              <span className="num">3</span>
-              <p>매매와 여러정보 알림 문구 생성</p>
-            </li>
-          </ul>
+        <h2>웹훅 URL 안내</h2>
+        <div className="main_box">
+          <div className="descript">
+            <ul>
+              <li className="on" onClick={handleClickEvent}>
+                <span className="num">1</span>
+                <p>TradingView 전략 테스트 클릭</p>
+              </li>
+              <li onClick={handleClickEvent}>
+                <span className="num">2</span>
+                <p>얼러트 생성</p>
+              </li>
+              <li onClick={handleClickEvent}>
+                <span className="num">3</span>
+                <p>웹훅 URL 체크</p>
+              </li>
+              <li onClick={handleClickEvent}>
+                <span className="num">4</span>
+                <p>퀀트로 서버 URL 복사/붙여넣기</p>
+              </li>
+            </ul>
+          </div>
+          <div className="ImageBox">{num <= 2 && <Image src={WebHook[num]} alt="webhook" />}</div>
         </div>
       </ModalCon>
     </DialogBlock>
@@ -53,6 +65,7 @@ const TelegramModal = ({ onClose, open }: { onClose: () => void; open: boolean }
 const DialogBlock = styled(Dialog)`
   .MuiPaper-root {
     border-radius: 14px;
+    max-width: none;
   }
 `;
 
@@ -87,9 +100,12 @@ const ModalCon = styled(DialogContent)`
     }
   }
 
-  .descript {
+  .main_box {
     width: 100%;
-    margin-bottom: 1rem;
+    display: flex;
+  }
+  .descript {
+    margin-right: 32px;
     ul {
       width: 100%;
       li {
@@ -148,22 +164,39 @@ const ModalCon = styled(DialogContent)`
       }
     }
   }
+  .ImageBox {
+    width: 568px;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   ${media.tablet} {
     &.MuiDialogContent-root {
-      padding: 48px 20px;
+      padding: 48px 20px 20px;
     }
     .modalTopCon {
       padding: 12px;
     }
+    .main_box {
+      flex-direction: column;
+    }
     .descript {
       width: 100%;
+      order: 2;
+      margin-right: 0;
       margin-bottom: 1rem;
       ul {
         li {
           padding: 18px 8px;
         }
       }
+    }
+    .ImageBox {
+      width: 100%;
+      order: 1;
+      margin-bottom: 20px;
     }
   }
 
@@ -183,4 +216,4 @@ const ModalCon = styled(DialogContent)`
   }
 `;
 
-export default TelegramModal;
+export default WebhookModal;

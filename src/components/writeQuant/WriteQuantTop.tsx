@@ -2,51 +2,59 @@ import colors from '@/src/assets/Colors';
 import { GuidGoIcon, SawWheelIcon } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import WebhookModal from './item/WebhookModal';
 
 const WriteQuantTop = () => {
+  const [webhookOpen, setWebhookOpen] = useState(false);
+  const handleCloseTelegramModal = () => {
+    setWebhookOpen(false);
+  };
   return (
-    <WriteQuantTopBlock>
-      <div className="writeTop_con">
-        <div className="webHook_area">
-          <div className="top">
-            <div className="title">웹훅 URL</div>
-            <div className="openHowToBtn">
-              <div className="icon">
-                <Image src={SawWheelIcon} alt="info" />
+    <>
+      <WriteQuantTopBlock>
+        <div className="writeTop_con">
+          <div className="webHook_area">
+            <div className="top">
+              <div className="title">웹훅 URL</div>
+              <div className="openHowToBtn" onClick={() => setWebhookOpen(true)}>
+                <div className="icon">
+                  <Image src={SawWheelIcon} alt="info" />
+                </div>
+                설정방법
               </div>
-              설정방법
+            </div>
+            <div className="bottom">
+              <input value="https://tvextbot-trading.web.app/api/webhook" readOnly />
+              <Button lightBlue>
+                <span className="dis_p">복사하기</span>
+                <span className="dis_m">
+                  <Image src={GuidGoIcon[1]} alt="button" />
+                </span>
+              </Button>
             </div>
           </div>
-          <div className="bottom">
-            <input value="https://tvextbot-trading.web.app/api/webhook" readOnly />
-            <Button lightBlue>
-              <span className="dis_p">복사하기</span>
-              <span className="dis_m">
-                <Image src={GuidGoIcon[1]} alt="button" />
-              </span>
-            </Button>
+          <div className="orderMessage_area">
+            <div className="top">
+              <div className="title">주문메세지 작성결과</div>
+            </div>
+            <div className="bottom">
+              <input className="blue" />
+              <Button blue>
+                <span className="dis_p">복사하기</span>
+                <span className="dis_m">
+                  <Image src={GuidGoIcon[1]} alt="button" />
+                </span>
+              </Button>
+              <span>간단한 텍스트 수정이 가능해요</span>
+            </div>
           </div>
         </div>
-        <div className="orderMessage_area">
-          <div className="top">
-            <div className="title">주문메세지 작성결과</div>
-          </div>
-          <div className="bottom">
-            <input className="blue" />
-            <Button blue>
-              <span className="dis_p">복사하기</span>
-              <span className="dis_m">
-                <Image src={GuidGoIcon[1]} alt="button" />
-              </span>
-            </Button>
-            <span>간단한 텍스트 수정이 가능해요</span>
-          </div>
-        </div>
-      </div>
-    </WriteQuantTopBlock>
+      </WriteQuantTopBlock>
+      <WebhookModal onClose={handleCloseTelegramModal} open={webhookOpen} />
+    </>
   );
 };
 
