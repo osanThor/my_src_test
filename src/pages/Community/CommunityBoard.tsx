@@ -39,7 +39,7 @@ const CommunityBoard = () => {
   //not user
   useEffect(() => {
     const user = localStorage.getItem('user');
-    if (!user) router.push('/');
+    if (!user) router.push('/auth/login');
   }, []);
 
   // api request once
