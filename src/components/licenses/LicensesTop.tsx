@@ -80,11 +80,6 @@ const LicensesTop = ({
                 </div>
                 <span>텔레그램 알림봇 설정</span>
               </div>
-              <label onClick={() => setTelegramOpen(true)}>
-                <input type="checkbox" />
-                <span className="styled_checkbox" />
-                매매와 여러정보 알림 받기
-              </label>
             </div>
             <div className="how_to_telegram_btn" onClick={() => setTelegramOpen(true)}>
               <span className="dis_p">텔레그램 알림봇 이용 가이드</span>
