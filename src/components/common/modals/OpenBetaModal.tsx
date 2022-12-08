@@ -1,35 +1,24 @@
 import React from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
-import Button from './Button';
-import { IFuncModalType } from '@/src/interfaces/iCommon/iModal';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import Button from '../Button';
+import { INotUserModalType } from '@/src/interfaces/iCommon/iModal';
 
-const FuncModal = ({ open, onClose, message, dubBtn, onClick, onClick2 }: IFuncModalType) => {
+const OpenBetaModal = ({ open, onClose }: INotUserModalType) => {
   return (
-    <FuncModalBlock open={open} onClose={onClose}>
-      <FuncModalCon>
-        <div className="txt">
-          {message.title}
-          <br />
-          {message.description && <span>{message.description}</span>}
+    <OpenBetaModalBlock open={open} onClose={onClose}>
+      <OpenBetaModalCon>
+        <div className=" btn btns">
+          <StyledButton>홈페이지 바로가기</StyledButton>
+          <StyledButton>확인</StyledButton>
         </div>
-        {dubBtn ? (
-          <div className=" btn btns">
-            <StyledButton onClick={onClick2}>돌아가기</StyledButton>
-            <StyledButton onClick={onClick}>{message.btnTxt}</StyledButton>
-          </div>
-        ) : (
-          <div className="btn">
-            <StyledButton onClick={onClick}>확인</StyledButton>
-          </div>
-        )}
-      </FuncModalCon>
-    </FuncModalBlock>
+      </OpenBetaModalCon>
+    </OpenBetaModalBlock>
   );
 };
-const FuncModalBlock = styled(Dialog)`
+const OpenBetaModalBlock = styled(Dialog)`
   .MuiPaper-root {
     max-width: none;
     border-radius: 32px;
@@ -47,7 +36,7 @@ const FuncModalBlock = styled(Dialog)`
     padding: 20px;
   }
 `;
-const FuncModalCon = styled(DialogContent)`
+const OpenBetaModalCon = styled(DialogContent)`
   &.MuiDialogContent-root {
     padding: 0;
     font-size: 20px;
@@ -115,4 +104,4 @@ const StyledButton = styled(Button)`
   border-radius: 32px;
 `;
 
-export default FuncModal;
+export default OpenBetaModal;

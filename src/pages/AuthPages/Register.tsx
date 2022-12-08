@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { authActions, userActions } from '@/src/store/reducers';
 import ImageModal from '@/src/components/auth/register/ImageModal';
-import Modal from '@/src/components/common/Modal';
 import { useRouter } from 'next/router';
 import AuthService from '@/src/utils/auth_service';
+import Modal from '@/src/components/common/modals/Modal';
 
 const Register: NextPage = () => {
   const dispatch = useDispatch();

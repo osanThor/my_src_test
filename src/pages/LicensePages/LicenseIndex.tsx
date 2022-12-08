@@ -1,5 +1,5 @@
-import Modal from '@/src/components/common/Modal';
-import NotUserModal from '@/src/components/common/NotUserModal';
+import Modal from '@/src/components/common/modals/Modal';
+import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';

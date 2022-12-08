@@ -1,4 +1,4 @@
-import NotUserModal from '@/src/components/common/NotUserModal';
+import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import Balance from '@/src/components/dashboard/Balance';
 import DashboardLayout from '@/src/components/dashboard/DashboardLayout';
 import MyExchangeArea from '@/src/components/dashboard/MyExchangeArea';

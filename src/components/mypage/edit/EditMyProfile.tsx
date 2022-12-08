@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
-import Modal from '../../common/Modal';
+import Modal from '../../common/modals/Modal';
 import DeleteUserWin from './DeleteUserWin';
 import ImageFileModal from './ImageFileModal';
 import ImageModal from './ImageModal';
