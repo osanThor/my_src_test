@@ -1,4 +1,4 @@
-import Modal from '@/src/components/common/Modal';
+import Modal from '@/src/components/common/modals/Modal';
 import CommunityWriteLayout from '@/src/components/community/CommunityWriteLayout';
 import CommunityEditor from '@/src/components/community/Editor/CommunityEditor';
 import UserLayout from '@/src/components/layout/UserLayout';

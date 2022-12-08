@@ -1,5 +1,5 @@
-import FuncModal from '@/src/components/common/FuncModal';
-import Modal from '@/src/components/common/Modal';
+import FuncModal from '@/src/components/common/modals/FuncModal';
+import Modal from '@/src/components/common/modals/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import InquiriesLayout from '@/src/components/mypage/inquiries/InquiriesLayout';
 import InquiriesWriteCon from '@/src/components/mypage/inquiries/write/InquiriesWriteCon';

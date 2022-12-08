@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Button from '../../common/Button';
-import Modal from '../../common/Modal';
+import Modal from '../../common/modals/Modal';
 
 const ResetPw = ({
   onChange,

@@ -277,6 +277,7 @@ const IndexLayoutBlock = styled.div`
     .strategy {
       width: 55%;
       max-width: 811px;
+      margin-right: 20px;
     }
     .lank {
       width: 45%;
@@ -291,6 +292,10 @@ const IndexLayoutBlock = styled.div`
     & > div {
       width: 33.333%;
       max-width: 470px;
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 
@@ -317,6 +322,7 @@ const IndexLayoutBlock = styled.div`
         .strategy {
           width: 100%;
           max-width: none;
+          margin-right: 0;
         }
         .lank {
           width: 100%;
@@ -329,6 +335,7 @@ const IndexLayoutBlock = styled.div`
         & > div {
           width: 100%;
           max-width: none;
+          margin-right: 0;
         }
       }
     }

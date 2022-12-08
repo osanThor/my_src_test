@@ -3,14 +3,14 @@ import AuthLayout from '@/src/components/auth/AuthLayout';
 import ExplaneService from '@/src/components/auth/telegram/ExplaneService';
 import TelegramLayout from '@/src/components/auth/telegram/TelegramLayout';
 import ConectTelegram from '@/src/components/auth/telegram/ConectTelegram';
-import FuncModal from '@/src/components/common/FuncModal';
 import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { userActions } from '@/src/store/reducers';
-import Modal from '@/src/components/common/Modal';
 import { NextPage } from 'next';
+import FuncModal from '@/src/components/common/modals/FuncModal';
+import Modal from '@/src/components/common/modals/Modal';
 
 const Telegram: NextPage = () => {
   // 텔레그램 상태관리
