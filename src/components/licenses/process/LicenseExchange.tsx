@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
-import FuncModal from '../../common/FuncModal';
+import FuncModal from '../../common/modals/FuncModal';
 
 const LicenseExchange = () => {
   const router = useRouter();

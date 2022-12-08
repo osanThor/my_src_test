@@ -15,11 +15,11 @@ const QuantroStrategyTable = () => {
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
   }));
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetQuantroStrategyDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetQuantroStrategyDone: boards.loadGetQuantroStrategyDone,
     getNoticesDone: boards.getNoticesDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetQuantroStrategyDone;
   const [isNotice, setIsNotice] = useState(false);
   useEffect(() => {
     if (communityNotice) {
@@ -27,9 +27,9 @@ const QuantroStrategyTable = () => {
     } else if (communityDiscussion) {
       setIsNotice(false);
     }
-  }, [loadGetBoardsDone]);
+  }, [loadGetQuantroStrategyDone]);
 
-  console.log(loadGetBoardsDone);
+  console.log(loadGetQuantroStrategyDone);
   return (
     <>
       <BoardsTableBlock>
@@ -44,7 +44,7 @@ const QuantroStrategyTable = () => {
         </div>
         <div className="tbody">
           {getNoticesDone.map((notice) => (
-            <div className="tr" key={notice.board.id}>
+            <div className="tr notice" key={notice.board.id}>
               <div className="td">
                 <NoticeCon />
               </div>
@@ -66,7 +66,7 @@ const QuantroStrategyTable = () => {
           ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetQuantroStrategyDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
                   <div className="td title dark_gray pointer">
@@ -93,7 +93,7 @@ const QuantroStrategyTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };
@@ -257,6 +257,48 @@ const BoardsTableBlock = styled.div`
         border-bottom: 1px solid ${colors.gray[2]};
         .td {
           padding: 0;
+        }
+        &.notice {
+          .td {
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: ${colors.gray[4]};
+            transition: all 0.2s;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            &:nth-child(1) {
+              width: auto;
+              width: 45px;
+              max-width: none;
+              justify-content: flex-start;
+              margin-bottom: 4px;
+            }
+            &:nth-child(2) {
+              width: calc(100% - 45px);
+              max-width: none;
+              margin-bottom: 4px;
+              justify-content: flex-start;
+            }
+            &:nth-child(3) {
+              width: auto;
+              max-width: none;
+              margin-right: 16px;
+            }
+            &:nth-child(4) {
+              width: auto;
+              max-width: none;
+              order: 2;
+            }
+            &:nth-child(5) {
+              width: auto;
+              max-width: none;
+              order: 1;
+              margin-right: 16px;
+            }
+          }
         }
       }
     }

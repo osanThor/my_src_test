@@ -49,6 +49,108 @@ export type BoardsStateType = {
   content: string | null;
   fileUrls: Array<string> | [];
   loadBoardsLoading: boolean;
+  loadGetComissionDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
+  loadGetNoticeDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
+  loadGetCertifiedDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
+  loadGetUserStrategyDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
+  loadGetQuantroStrategyDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
+  loadGetQuantroIndicatorDone: {
+    total: number | null;
+    boards:
+      | Array<{
+          id: number;
+          title: string;
+          hits: number;
+          createdAt: string;
+          user: {
+            nickname: string;
+          };
+          _count: {
+            comments: number;
+          };
+        }>
+      | [];
+  };
   loadGetBoardsDone: {
     total: number | null;
     boards:
@@ -219,6 +321,12 @@ const initialState: BoardsStateType = {
   fileUrls: [],
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
+  loadGetComissionDone: { total: 0, boards: [] },
+  loadGetNoticeDone: { total: 0, boards: [] },
+  loadGetCertifiedDone: { total: 0, boards: [] },
+  loadGetUserStrategyDone: { total: 0, boards: [] },
+  loadGetQuantroStrategyDone: { total: 0, boards: [] },
+  loadGetQuantroIndicatorDone: { total: 0, boards: [] },
   getUserBoardsDone: { total: 0, boards: [] },
   getUserCommentsDone: { total: 0, comments: [] },
   getUserCollectionsResult: { total: 0, collections: [] },
@@ -299,6 +407,30 @@ const boardsSlice = createSlice({
     getBoardsResult(state, action: PayloadAction<getBoardsResult>) {
       state.loadBoardsLoading = false;
       state.loadGetBoardsDone = action.payload;
+    },
+    getComissionsResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetComissionDone = action.payload;
+    },
+    getNoticeResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetNoticeDone = action.payload;
+    },
+    getCertifiedResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetCertifiedDone = action.payload;
+    },
+    getUserStrategyResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetUserStrategyDone = action.payload;
+    },
+    getQuantroStrategyResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetQuantroStrategyDone = action.payload;
+    },
+    getQuantroIndicatorResult(state, action: PayloadAction<getBoardsResult>) {
+      state.loadBoardsLoading = false;
+      state.loadGetQuantroIndicatorDone = action.payload;
     },
     //notice
     getNotices(state, action: PayloadAction<getNoticePayload>) {

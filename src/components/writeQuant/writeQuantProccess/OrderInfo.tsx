@@ -234,6 +234,9 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
+  ${media.tablet} {
+    padding: 0 8px;
+  }
 
   ${media.mobile} {
     max-width: none;
@@ -260,6 +263,9 @@ const CustomInput = styled.input`
   }
   &:focus {
     outline: none;
+  }
+  ${media.tablet} {
+    padding: 0 8px;
   }
 `;
 

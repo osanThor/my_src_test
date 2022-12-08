@@ -27,6 +27,7 @@ const DialogBlock = styled(Dialog)`
     background-color: ${colors.blue[1]};
     position: relative;
     color: white;
+    margin: 0;
 
     .closeBtn {
       width: 24px;
@@ -40,6 +41,10 @@ const DialogBlock = styled(Dialog)`
       justify-content: center;
       align-items: center;
     }
+
+    ${media.tablet} {
+      width: calc(100% - 32px);
+    }
   }
   &.error {
     .MuiPaper-root {
@@ -50,7 +55,7 @@ const DialogBlock = styled(Dialog)`
 `;
 const ModalCon = styled(DialogContent)`
   &.MuiDialogContent-root {
-    padding: 22px 72px;
+    padding: 22px;
     text-align: center;
     p {
       width: 820px;

@@ -1,19 +1,19 @@
 import React from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
-import Button from './Button';
 import { INotUserModalType } from '@/src/interfaces/iCommon/iModal';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { DisplayIllust } from '@/src/assets/Images';
 import { useRouter } from 'next/router';
+import Button from '../Button';
 
-const FuncModal = ({ open, onClose }: INotUserModalType) => {
+const NotUser = ({ open, onClose }: INotUserModalType) => {
   const router = useRouter();
   return (
-    <FuncModalBlock open={open} onClose={onClose}>
-      <FuncModalCon>
+    <NotUserBlock open={open} onClose={onClose}>
+      <NotUserCon>
         <h2>처음 오셨나요?</h2>
         <p>로그인 후 API 연동화면이 나와요</p>
 
@@ -23,11 +23,11 @@ const FuncModal = ({ open, onClose }: INotUserModalType) => {
         <div className="btn" onClick={() => router.push('/auth/login')}>
           <StyledButton>회원가입 하러가기</StyledButton>
         </div>
-      </FuncModalCon>
-    </FuncModalBlock>
+      </NotUserCon>
+    </NotUserBlock>
   );
 };
-const FuncModalBlock = styled(Dialog)`
+const NotUserBlock = styled(Dialog)`
   .MuiPaper-root {
     max-width: none;
     border-radius: 32px;
@@ -47,7 +47,7 @@ const FuncModalBlock = styled(Dialog)`
     padding: 20px;
   }
 `;
-const FuncModalCon = styled(DialogContent)`
+const NotUserCon = styled(DialogContent)`
   &.MuiDialogContent-root {
     padding: 0;
     font-size: 20px;
@@ -91,4 +91,4 @@ const StyledButton = styled(Button)`
   word-break: keep-all;
 `;
 
-export default FuncModal;
+export default NotUser;

@@ -6,10 +6,10 @@ import { authActions } from '@/src/store/reducers';
 import { RootState } from '@/src/store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import Modal from '@/src/components/common/Modal';
 import AuthService from '@/src/utils/auth_service';
 import { useSession } from 'next-auth/react';
 import Loading from '@/src/components/common/Loading';
+import Modal from '@/src/components/common/modals/Modal';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();

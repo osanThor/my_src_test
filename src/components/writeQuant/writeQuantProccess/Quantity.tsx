@@ -474,6 +474,7 @@ const StyledInput = styled.input`
     min-height: 56px;
     margin-top: 8px;
     margin-left: 0;
+    padding: 0 8px;
   }
 `;
 

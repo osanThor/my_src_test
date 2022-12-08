@@ -41,7 +41,7 @@ const StratgyIndex: NextPage = () => {
   const [isUser, setUser] = useState(false);
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-  }, [router, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     setUser(false);
@@ -112,6 +112,7 @@ const StratgyIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
+    setUser(false);
   }, [
     router,
     isUser,

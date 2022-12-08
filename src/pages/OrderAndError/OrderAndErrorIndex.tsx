@@ -1,4 +1,4 @@
-import NotUserModal from '@/src/components/common/NotUserModal';
+import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import MessageContainer from '@/src/components/orderAndError/MessageContainer';
 import MessageTop from '@/src/components/orderAndError/MessageTop';

@@ -45,11 +45,13 @@ const AuthLayout = ({ type, children }: { type: string; children: React.ReactNod
 
 const AuthLayoutBlock = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 80px 0;
 
   ${media.tablet} {
     padding: 72px 0;
@@ -58,7 +60,7 @@ const AuthLayoutBlock = styled.div`
 
 const AuthHead = styled.div`
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -67,6 +69,8 @@ const AuthHead = styled.div`
   padding: 40px 80px;
 
   .logo {
+    z-index: 7;
+
     width: 170px;
     display: inline-block;
     cursor: pointer;
@@ -99,14 +103,18 @@ const AuthHead = styled.div`
   //react
   ${media.tablet} {
     padding: 1rem;
+    height: 76px;
+    z-index: 7;
     .logo {
       width: 100px;
     }
     .auth_Btn {
       a {
         color: ${colors.dark[1]};
+        background: ${({ theme }) => theme.bgColor};
         width: auto;
-        background: white;
+        padding: 0.5rem 0.7rem;
+        line-height: normal;
       }
     }
     .onlyPc {

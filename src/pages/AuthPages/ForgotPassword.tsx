@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthLayout from '../../components/auth/AuthLayout';
 import { RootState } from '@/src/store/configureStore';
 import { NextPage } from 'next';
-import Modal from '@/src/components/common/Modal';
 import ResetPw from '@/src/components/auth/forgotPw/ResetPw';
 import ForgotPwLastPage from '@/src/components/auth/forgotPw/ForgotPwLastPage';
+import Modal from '@/src/components/common/modals/Modal';
 
 const ForgotPassword: NextPage = () => {
   const dispatch = useDispatch();

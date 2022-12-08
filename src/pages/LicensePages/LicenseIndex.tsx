@@ -1,5 +1,5 @@
-import Modal from '@/src/components/common/Modal';
-import NotUserModal from '@/src/components/common/NotUserModal';
+import Modal from '@/src/components/common/modals/Modal';
+import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';
@@ -114,6 +114,14 @@ const LicensePageIndex: NextPage = () => {
     }
   }, [loadUserDone]);
 
+  // api key 값이 없을 때 이용권 등록 alret
+  const handleNoLicenseClick = () => {
+    setMoOpen(true);
+    setMoMessage('이용권을 등록해주세요');
+    setMoSt(false);
+    return;
+  };
+
   // 일반 모달
   const [moOpen, setMoOpen] = React.useState(false);
   const [moMessage, setMoMessage] = React.useState('');
@@ -131,7 +139,7 @@ const LicensePageIndex: NextPage = () => {
             {licenseIndex && <LicenseIndex />}
             {licenseExchange && <LicenseExchange />}
           </LicenseCenterLayout>
-          <AddApiKeyCon />
+          <AddApiKeyCon handleNoLicenseClick={handleNoLicenseClick} />
         </LicensesLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />

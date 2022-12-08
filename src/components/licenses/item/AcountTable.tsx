@@ -1,15 +1,17 @@
 import colors from '@/src/assets/Colors';
 import { BINANCE, BITGET, BITMEX, BYBIT, CancelIcon, EditPenIcon, FTX, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
+import { exchangeActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
-const AcountTable = () => {
+const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => void }) => {
   const router = useRouter();
   const { allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(({ exchange }: RootState) => ({
     allExchangeResult: exchange.allExchangeResult,
@@ -32,7 +34,6 @@ const AcountTable = () => {
       setAllExcLenght(allExchangeResult.length);
     }
   }, [router, allExchangeResult, selectExchange]);
-  console.log(allExcLenght);
   return (
     <AcountTableBlock>
       <div className="thead">
@@ -54,19 +55,45 @@ const AcountTable = () => {
       <div className="tbody">
         {selectExchange && <SelectTableRow excPlat={selectExchange} />}
         {allExchangeResult.map((exc) => (
-          <TableRow key={exc.id} exc={exc} />
+          <TableRow key={exc.id} exc={exc} handleNoLicenseClick={handleNoLicenseClick} />
         ))}
-        {allExcLenght > 2 || <TableRow exc={null} />}
-        {allExcLenght > 1 || <TableRow exc={null} />}
-        {allExcLenght > 0 || <TableRow exc={null} />}
+        {allExcLenght > 2 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
+        {allExcLenght > 1 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
+        {allExcLenght > 0 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
       </div>
     </AcountTableBlock>
   );
 };
 
 const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
+  const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
+  const { exchange, apiKeyObj } = useSelector(({ exchange }: RootState) => ({
+    exchange: exchange.exchange,
+    apiKeyObj: exchange.apiKeyObj,
+  }));
+  // first state
+  useEffect(() => {
+    if (editable) {
+      if (excPlat) {
+        dispatch(
+          exchangeActions.chagneCreateApiKeyFeild({
+            exchange: excPlat,
+            apiKeyObj: { id: '', alias: '', apiKey: '', apiSecret: '' },
+          }),
+        );
+      }
+    } else {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange: '',
+          apiKeyObj: null,
+        }),
+      );
+    }
+  }, [editable, excPlat]);
 
+  useEffect(() => {}, [apiKeyObj]);
   return (
     <div className="tr">
       <div className="td">
@@ -91,8 +118,8 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
         <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
-        <Button className={editable && 'editable cancel'} disabled={!editable}>
-          <Image src={editable ? CancelIcon[1] : CancelIcon[0]} alt="cancel" />
+        <Button disabled>
+          <Image src={CancelIcon[0]} alt="cancel" />
         </Button>
       </div>
     </div>
@@ -100,8 +127,10 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
 };
 
 const TableRow = ({
+  handleNoLicenseClick,
   exc,
 }: {
+  handleNoLicenseClick: () => void;
   exc: {
     id: string;
     platform: string;
@@ -116,10 +145,39 @@ const TableRow = ({
     positions: [];
   } | null;
 }) => {
+  const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
+  const { exchange, apiKeyObj } = useSelector(({ exchange }: RootState) => ({
+    exchange: exchange.exchange,
+    apiKeyObj: exchange.apiKeyObj,
+  }));
+
+  console.log(exchange, apiKeyObj);
+  // first state
+  useEffect(() => {
+    if (editable) {
+      if (exc) {
+        dispatch(
+          exchangeActions.chagneCreateApiKeyFeild({
+            exchange: exc.platform,
+            apiKeyObj: { id: exc.id, alias: exc.alias, apiKey: exc.apiKey, apiSecret: '' },
+          }),
+        );
+      }
+    } else {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange: '',
+          apiKeyObj: null,
+        }),
+      );
+    }
+  }, [editable, exc]);
+
+  //const
 
   return (
-    <div className="tr">
+    <div className="tr" onClick={exc === null ? handleNoLicenseClick : () => {}}>
       <div className="td">
         <div className="thumbnail">
           {!exc || <>{exc.platform === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}</>}
@@ -144,8 +202,11 @@ const TableRow = ({
       <div className="td">
         {!exc || <input type="password" disabled={!editable} />}
         {!exc && <input type="password" disabled={!editable} />}
-        <div className="status">미등록</div>
-        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
+        {!exc || (
+          <>{exc.isReferral ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
+        )}
+        {!exc && <div className="status">미등록</div>}
+        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)} disabled={exc === null}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
         <Button className={editable && 'editable cancel'} disabled={!editable}>
@@ -271,12 +332,22 @@ const AcountTableBlock = styled.div`
         }
 
         .status {
+          min-width: 80px;
+          text-align: center;
           background: ${colors.gray[0]};
           color: ${colors.gray[4]};
           line-height: 40px;
           border-radius: 20px;
           padding: 0 1rem;
           margin-right: 1rem;
+          &.on {
+            background-color: ${colors.blue[0]};
+            color: ${colors.blue[2]};
+          }
+          &.err {
+            background-color: ${colors.red[0]};
+            color: ${colors.red[2]};
+          }
         }
         button {
           padding: 0;

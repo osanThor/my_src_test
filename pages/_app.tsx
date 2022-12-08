@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import '../styles/fonts.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from 'styled-components';
@@ -15,6 +15,7 @@ import { authActions, localActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
+import OpenBetaModal from '@/src/components/common/modals/OpenBetaModal';
 
 function MyApp({
   Component,
@@ -94,6 +95,12 @@ function MyApp({
     }
   }, [isDark]);
 
+  // open modal
+  const [openModal, setOpenModal] = useState(true);
+  const handleCloseOpenModal = () => {
+    setOpenModal(false);
+  };
+
   return (
     <>
       <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
@@ -105,6 +112,7 @@ function MyApp({
           <GlobalStyle />
           <CssBaseline />
           <Component {...pageProps} />
+          <OpenBetaModal open={openModal} onClose={handleCloseOpenModal} />
         </ThemeProvider>
       </SessionProvider>
     </>

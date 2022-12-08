@@ -1,10 +1,10 @@
 import React from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import styled from 'styled-components';
-import Button from './Button';
 import { IFuncModalType } from '@/src/interfaces/iCommon/iModal';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+import Button from '../Button';
 
 const FuncModal = ({ open, onClose, message, dubBtn, onClick, onClick2 }: IFuncModalType) => {
   return (
