@@ -7,7 +7,6 @@ const Container = ({ children }: { children: React.ReactNode }) => {
   const { bgBlur } = useSelector(({ local }: RootState) => ({
     bgBlur: local.bgBlur,
   }));
-  console.log(bgBlur);
   return (
     <MainContainerBlock>
       {bgBlur && <BgBlurBlock />}
