@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { SelectButtonIcon } from '@/src/assets/Images';
+import { media } from '@/styles/theme';
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -110,6 +111,12 @@ const CustomSelectBox = styled.div`
         color: ${colors.gray[3]};
       }
     `}
+  ${media.tablet} {
+    padding: 1rem 8px;
+    &::before {
+      right: 1rem;
+    }
+  }
 `;
 const Label = styled.label`
   width: 100%;
@@ -142,6 +149,10 @@ const Option = styled.li`
   color: ${colors.gray[4]};
   &:hover {
     background-color: ${colors.gray[1]};
+  }
+
+  ${media.tablet} {
+    padding: 6px 8px;
   }
 `;
 

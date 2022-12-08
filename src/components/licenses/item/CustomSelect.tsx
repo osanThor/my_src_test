@@ -107,6 +107,7 @@ const CustomSelectBox = styled.div`
   }
   ${media.mobile} {
     min-width: auto;
+    padding: 10px 4px;
   }
 `;
 const Label = styled.label`

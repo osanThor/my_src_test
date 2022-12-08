@@ -674,6 +674,39 @@ const OptionBlock = styled.div`
   ${media.mobile} {
     .quantity_form {
       margin-bottom: 60px;
+      > div {
+        .write_quant_item {
+          .leverage_con {
+            flex-direction: column;
+            & > div {
+              &.select_leverage {
+                margin-right: 0;
+                margin-bottom: 8px;
+                label {
+                  span {
+                  }
+                  input:checked + span {
+                  }
+                  input:disabled + span {
+                  }
+                  &:first-child {
+                  }
+                }
+              }
+              &.leverage_input_box {
+                max-width: none;
+                input {
+                }
+                .button {
+                }
+
+                &.disabled {
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -720,6 +753,7 @@ const StyledInput = styled.input`
     min-height: 56px;
     margin-top: 8px;
     margin-left: 0;
+    padding: 0 8px;
   }
 `;
 const CustomInput = styled.input`
@@ -753,6 +787,7 @@ const CustomInput = styled.input`
     min-height: 56px;
     margin-top: 8px;
     margin-left: 0;
+    padding: 0 8px;
   }
 `;
 export default Option;
