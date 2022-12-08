@@ -26,6 +26,16 @@ export type GetAllExchangeResult =
     }>
   | [];
 
+export type CreateUpdateApiKeyPayload = {
+  exchange: string | null;
+  apiKeyObj: {
+    id: string | null;
+    alias: string | null;
+    apiKey: string | null;
+    apiSecret: string | null;
+  };
+};
+
 export type LoadExchangeResponse = {
   message: string | null;
 };
