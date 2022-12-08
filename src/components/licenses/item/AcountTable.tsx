@@ -21,6 +21,10 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
   console.log(allExchangeResult);
   const [selectExchange, setSelectExchange] = useState('');
   const [allExcLenght, setAllExcLenght] = useState(0);
+
+  //only one edit
+  const [canEdit, setCanEdit] = useState(false);
+
   useEffect(() => {
     if (router.query.selected) {
       setSelectExchange(router.query.selected as string);
