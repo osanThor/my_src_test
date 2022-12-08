@@ -13,10 +13,10 @@ const NoticeTable = () => {
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
   }));
-  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetNoticeDone } = useSelector(({ boards }: RootState) => ({
+    loadGetNoticeDone: boards.loadGetNoticeDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetNoticeDone;
   const [isNotice, setIsNotice] = useState(false);
   useEffect(() => {
     if (communityNotice) {
@@ -24,9 +24,8 @@ const NoticeTable = () => {
     } else if (communityDiscussion) {
       setIsNotice(false);
     }
-  }, [loadGetBoardsDone]);
+  }, [loadGetNoticeDone]);
 
-  console.log(loadGetBoardsDone);
   return (
     <>
       <BoardsTableBlock>
@@ -42,7 +41,7 @@ const NoticeTable = () => {
         <div className="tbody">
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetNoticeDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
                   <div className="td title dark_gray pointer">
@@ -64,7 +63,7 @@ const NoticeTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };

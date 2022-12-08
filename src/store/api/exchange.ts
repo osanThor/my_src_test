@@ -1,6 +1,6 @@
 import { axiosInstance } from '.';
 
-import type { CreateUpdateApiKeyPayload, LoadExchangeBody, LoadExchangeIdPayload } from '../types';
+import type { CreateUpdateApiKeyPayload, LoadExchangeIdPayload } from '../types';
 
 // create / update API Key
 export const apiCreateUpdateKey = ({ exchange, apiKeyObj }: CreateUpdateApiKeyPayload) =>

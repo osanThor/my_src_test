@@ -59,8 +59,21 @@ function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
   try {
     const { data }: AxiosResponse<getBoardsResult> = yield call(apiGetBoards, action.payload);
     console.log(data);
-
-    yield put(boardsActions.getBoardsResult(data));
+    if (action.payload.category === 'DISCUSSION') {
+      yield put(boardsActions.getBoardsResult(data));
+    } else if (action.payload.category === 'COMMISSION') {
+      yield put(boardsActions.getComissionsResult(data));
+    } else if (action.payload.category === 'NOTICE') {
+      yield put(boardsActions.getNoticeResult(data));
+    } else if (action.payload.category === 'CERTIFIED_STRATEGY') {
+      yield put(boardsActions.getCertifiedResult(data));
+    } else if (action.payload.category === 'USER_STRATEGY') {
+      yield put(boardsActions.getUserStrategyResult(data));
+    } else if (action.payload.category === 'QUANTRO_STRATEGY') {
+      yield put(boardsActions.getQuantroStrategyResult(data));
+    } else if (action.payload.category === 'QUANTRO_INDICATOR') {
+      yield put(boardsActions.getQuantroIndicatorResult(data));
+    }
   } catch (error: any) {
     console.error('boardsSaga getBoardsSaga >> ', error);
 

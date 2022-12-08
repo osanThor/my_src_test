@@ -1,10 +1,12 @@
 import colors from '@/src/assets/Colors';
 import { BINANCE, BITGET, BITMEX, BYBIT, CancelIcon, EditPenIcon, FTX, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
+import { exchangeActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
@@ -32,7 +34,6 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
       setAllExcLenght(allExchangeResult.length);
     }
   }, [router, allExchangeResult, selectExchange]);
-  console.log(allExcLenght);
   return (
     <AcountTableBlock>
       <div className="thead">
@@ -118,7 +119,29 @@ const TableRow = ({
     positions: [];
   } | null;
 }) => {
+  const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
+  const { exchange, apiKeyObj } = useSelector(({ exchange }: RootState) => ({
+    exchange: exchange.exchange,
+    apiKeyObj: exchange.apiKeyObj,
+  }));
+
+  console.log(exchange, apiKeyObj);
+  // first state
+  useEffect(() => {
+    if (editable) {
+      if (exc) {
+        dispatch(
+          exchangeActions.chagneCreateApiKeyFeild({
+            exchange: exc.platform,
+            apiKeyObj: { id: exc.id, alias: exc.alias, apiKey: exc.apiKey, apiSecret: '' },
+          }),
+        );
+      }
+    }
+  }, [editable, exc]);
+
+  //const
 
   return (
     <div className="tr" onClick={exc === null ? handleNoLicenseClick : () => {}}>
