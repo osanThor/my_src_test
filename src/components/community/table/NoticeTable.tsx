@@ -184,15 +184,14 @@ const BoardsTableBlock = styled.div`
       text-overflow: ellipsis;
 
       &:nth-child(1) {
-        width: 10%;
-        min-width: 45px;
+        width: auto;
+        width: 45px;
         max-width: none;
         justify-content: flex-start;
         margin-bottom: 4px;
       }
       &:nth-child(2) {
-        width: auto;
-        flex: 1;
+        width: calc(100% - 45px);
         max-width: none;
         margin-bottom: 4px;
       }
