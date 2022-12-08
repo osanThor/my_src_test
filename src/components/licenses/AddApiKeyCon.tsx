@@ -8,7 +8,7 @@ import Button from '../common/Button';
 import AcountTable from './item/AcountTable';
 import CustomSelect from './item/CustomSelect';
 
-const AddApiKeyCon = () => {
+const AddApiKeyCon = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => void }) => {
   return (
     <AddApiKeyConBlock>
       <div className="addAPi_title">
@@ -30,7 +30,7 @@ const AddApiKeyCon = () => {
         </div>
       </div>
       <div className="acount_table">
-        <AcountTable />
+        <AcountTable handleNoLicenseClick={handleNoLicenseClick} />
       </div>
     </AddApiKeyConBlock>
   );

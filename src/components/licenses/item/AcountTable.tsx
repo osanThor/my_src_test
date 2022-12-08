@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
-const AcountTable = () => {
+const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => void }) => {
   const router = useRouter();
   const { allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(({ exchange }: RootState) => ({
     allExchangeResult: exchange.allExchangeResult,
@@ -54,11 +54,11 @@ const AcountTable = () => {
       <div className="tbody">
         {selectExchange && <SelectTableRow excPlat={selectExchange} />}
         {allExchangeResult.map((exc) => (
-          <TableRow key={exc.id} exc={exc} />
+          <TableRow key={exc.id} exc={exc} handleNoLicenseClick={handleNoLicenseClick} />
         ))}
-        {allExcLenght > 2 || <TableRow exc={null} />}
-        {allExcLenght > 1 || <TableRow exc={null} />}
-        {allExcLenght > 0 || <TableRow exc={null} />}
+        {allExcLenght > 2 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
+        {allExcLenght > 1 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
+        {allExcLenght > 0 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
       </div>
     </AcountTableBlock>
   );
@@ -100,8 +100,10 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
 };
 
 const TableRow = ({
+  handleNoLicenseClick,
   exc,
 }: {
+  handleNoLicenseClick: () => void;
   exc: {
     id: string;
     platform: string;
@@ -119,7 +121,7 @@ const TableRow = ({
   const [editable, setEditable] = useState(false);
 
   return (
-    <div className="tr">
+    <div className="tr" onClick={exc === null ? handleNoLicenseClick : () => {}}>
       <div className="td">
         <div className="thumbnail">
           {!exc || <>{exc.platform === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}</>}
@@ -145,7 +147,7 @@ const TableRow = ({
         {!exc || <input type="password" disabled={!editable} />}
         {!exc && <input type="password" disabled={!editable} />}
         <div className="status">미등록</div>
-        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
+        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)} disabled={exc === null}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
         <Button className={editable && 'editable cancel'} disabled={!editable}>

@@ -39,7 +39,7 @@ const MyPositionArea = () => {
         </div>
         <div className="switch_box">
           <label className={checkVal ? 'moreInfoLabel on' : 'moreInfoLabel'}>
-            자세히 보기
+            <span className="txt">자세히 보기</span>
             <div className="switch">
               <input ref={switchRef} className="switchBtn" type="checkbox" id="moreInfoSwitch" name="moreInfo" />
               <span className="slider round"></span>
@@ -105,15 +105,12 @@ const MyPositionAreaBlock = styled.div`
         transform: translateY(2px);
         color: ${colors.gray[4]};
         cursor: pointer;
+        input:checked + span.txt {
+          color: ${colors.blue[2]};
+        }
         & > div {
           margin-left: 8px;
         }
-      }
-      label.moreInfoLabel.on {
-        color: ${colors.blue[2]};
-      }
-      input:checked + label.moreInfoLabel {
-        color: ${colors.blue[2]};
       }
     }
   }
