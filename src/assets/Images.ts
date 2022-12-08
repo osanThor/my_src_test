@@ -128,6 +128,9 @@ import WebHook1 from 'public/assets/description/api-link-info1.jpg';
 import WebHook2 from 'public/assets/description/api-link-info2.jpg';
 import WebHook3 from 'public/assets/description/api-link-info3.jpg';
 
+//modal
+import DisplayIllustFile from 'public/assets/common/modal/display_illust.svg';
+
 ///*** !----Export----- */
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
@@ -227,3 +230,6 @@ export const MainBanner = MainBannerImage;
 
 // webhook
 export const WebHook = [WebHook1, WebHook2, WebHook3];
+
+//modal
+export const DisplayIllust = DisplayIllustFile;

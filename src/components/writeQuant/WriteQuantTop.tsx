@@ -149,11 +149,10 @@ const WriteQuantTopBlock = styled.div`
   }
   ${media.pc} {
     .writeTop_con {
-      flex-wrap: wrap;
       & > div {
         max-width: none;
         &:first-child {
-          margin-right: 0;
+          margin-right: 8px;
           margin-bottom: 1rem;
         }
         .top {

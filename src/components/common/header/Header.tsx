@@ -265,6 +265,7 @@ const GnbHeader = styled.div`
   top: 0;
   left: 0;
   background-color: ${({ theme }) => theme.bgColor};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   border-right: 1px solid #e9eaec;
   z-index: 991;
 

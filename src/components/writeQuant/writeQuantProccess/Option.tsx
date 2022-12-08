@@ -549,27 +549,25 @@ const OptionBlock = styled.div`
   }
   ${media.pc} {
     .quantity_form {
-      flex-direction: column;
-      margin-bottom: 40px;
       & > div {
         width: 100%;
         max-width: none;
         &:first-child {
-          margin-right: 0;
-          margin-bottom: 24px;
+          margin-right: 8px;
         }
         .write_quant_item {
           margin-bottom: 24px;
           .radio_title {
-            min-width: 176px;
+            min-width: 100px;
             justify-content: space-between;
+            flex-direction: column;
+            align-items: flex-start;
             .mo_info_box {
               cursor: pointer;
               position: relative;
               word-break: keep-all;
               display: flex;
               align-items: center;
-              margin-left: 1rem;
               font-size: 14px;
               color: ${colors.gray[3]};
               .notice {
@@ -624,12 +622,20 @@ const OptionBlock = styled.div`
   }
   ${media.tablet} {
     .quantity_form {
+      flex-direction: column;
+      margin-bottom: 40px;
       & > div {
+        &:first-child {
+          margin-right: 0;
+          margin-bottom: 24px;
+        }
         .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
           .radio_title {
             width: 100%;
+            flex-direction: row;
+            align-items: center;
             justify-content: space-between;
             padding: 0;
             margin-right: 0;

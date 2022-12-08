@@ -16,15 +16,20 @@ const LicenseIndex = () => {
   return (
     <LicenseIndexBlock className="license_main_con">
       <div className="chose_package">
-        <div className="BASIC">
-          <div className="package_con">
-            <h2>BASIC PACKAGE</h2>
-            <div className="price">Free</div>
+        <div className="BASIC ">
+          <div className="package_con openbeta">
+            <h1>오픈베타 이벤트</h1>
+            <h2>베이직 패키지</h2>
+            <div className="price">
+              <span>₩19,900</span>
+              무료
+            </div>
             <div className="period">FOREVER</div>
             <StyledButton onClick={() => router.push('/licenses?state=exchange')}>거래소 등록</StyledButton>
           </div>
           <div className="benefit">
             <ul>
+              <li>6개월 후 오픈베타 무료 이벤트가 종료되요</li>
               <li>원하시는 거래소를 선택하여 가입해주세요</li>
               <li className="bold">분당 주문 회수 20회</li>
             </ul>
@@ -32,16 +37,15 @@ const LicenseIndex = () => {
         </div>
         <div className="REGULAR">
           <div className="package_con">
-            <h2 className="blue">REGULAR PACKAGE</h2>
-            <div className="price">₩19,900</div>
+            <h2 className="blue">레귤러 패키지</h2>
+            <div className="price">₩29,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue disabled={!license}>
-              결제하기
+            <StyledButton blue disabled>
+              준비중
             </StyledButton>
           </div>
           <div className="benefit">
             <ul>
-              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
               <li className="bold">분당 주문 회수 30회 </li>
               <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
             </ul>
@@ -49,16 +53,15 @@ const LicenseIndex = () => {
         </div>
         <div className="PREMIUM">
           <div className="package_con">
-            <h2 className="red">PREMIUM PACKAGE</h2>
-            <div className="price">₩29,900</div>
+            <h2 className="red">프리미엄 패키지</h2>
+            <div className="price">₩39,900</div>
             <div className="period">PER MONTH</div>
-            <StyledButton blue disabled={!Array.isArray(license)}>
-              결제하기
+            <StyledButton blue disabled>
+              준비중
             </StyledButton>
           </div>
           <div className="benefit">
             <ul>
-              <li>퀀트로 베이직 패키지를 먼저 진행해주세요</li>
               <li className="bold">분당 주문 회수 40회</li>
               <li className="bold">전략 개발 의뢰 서비스 이용 가능 </li>
             </ul>
@@ -85,6 +88,10 @@ const LicenseIndexBlock = styled.div`
     word-break: keep-all;
     text-align: center;
 
+    // opendbeta
+    align-items: flex-start;
+    //
+
     & > div {
       display: flex;
       flex-direction: column;
@@ -102,6 +109,10 @@ const LicenseIndexBlock = styled.div`
         border-radius: 14px;
         padding: 40px 12px;
         margin-bottom: 20px;
+        position: relative;
+        min-height: 336px;
+        justify-content: center;
+
         h2 {
           font-size: 1.5rem;
           font-family: 'GmarketSansBold';
@@ -127,6 +138,39 @@ const LicenseIndexBlock = styled.div`
         }
         .period {
           margin-bottom: 10px;
+        }
+        // opendbeta
+        &.openbeta {
+          padding: 1rem;
+          background-color: ${colors.blue[1]};
+          h1 {
+            font-size: 1.5rem;
+            font-family: 'GmarketSansBold';
+            word-break: keep-all;
+            white-space: nowrap;
+            color: ${colors.red[0]};
+            position: absolute;
+            top: 14px;
+          }
+          .price {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0;
+            span {
+              font-size: 1.25rem;
+              position: relative;
+              &::after {
+                content: '';
+                width: 120%;
+                height: 1px;
+                background-color: ${colors.dark[1]};
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+              }
+            }
+          }
         }
       }
       &.basic {
@@ -241,6 +285,11 @@ const StyledButton = styled(Button)`
   font-size: 1.25rem;
   min-height: auto;
   border-radius: 32px;
+
+  &:disabled {
+    background-color: ${colors.gray[3]};
+    color: white;
+  }
 
   ${media.tablet} {
     width: 100%;
