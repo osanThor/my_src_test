@@ -110,6 +110,7 @@ const CommunityIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
+    setUser(false);
   }, [
     router,
     isUser,

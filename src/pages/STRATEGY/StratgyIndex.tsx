@@ -112,6 +112,7 @@ const StratgyIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
+    setUser(false);
   }, [
     router,
     isUser,
