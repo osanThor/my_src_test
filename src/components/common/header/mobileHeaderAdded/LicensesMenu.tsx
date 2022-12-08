@@ -13,11 +13,12 @@ const LicensesMenu = () => {
     };
   }, []);
   function scrollTracker() {
-    if (window.scrollY < 240) {
+    console.log(window.scrollY);
+    if (window.scrollY < 220) {
       setPoint1(true);
       setPoint2(false);
       setPoint3(false);
-    } else if (window.scrollY < 1060) {
+    } else if (window.scrollY < 760) {
       setPoint1(false);
       setPoint2(true);
       setPoint3(false);

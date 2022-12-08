@@ -40,13 +40,10 @@ const CommunityIndex: NextPage = () => {
   }));
 
   const [isUser, setUser] = useState(false);
+
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
-
-  useEffect(() => {
-    setUser(false);
-  }, [router]);
 
   useEffect(() => {
     if (!loadAuthLoading) {
@@ -113,6 +110,7 @@ const CommunityIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changePage({ page: 1 }));
     }
+    setUser(false);
   }, [
     router,
     isUser,

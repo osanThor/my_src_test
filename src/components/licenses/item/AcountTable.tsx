@@ -66,8 +66,34 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
 };
 
 const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
+  const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
+  const { exchange, apiKeyObj } = useSelector(({ exchange }: RootState) => ({
+    exchange: exchange.exchange,
+    apiKeyObj: exchange.apiKeyObj,
+  }));
+  // first state
+  useEffect(() => {
+    if (editable) {
+      if (excPlat) {
+        dispatch(
+          exchangeActions.chagneCreateApiKeyFeild({
+            exchange: excPlat,
+            apiKeyObj: { id: '', alias: '', apiKey: '', apiSecret: '' },
+          }),
+        );
+      }
+    } else {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange: '',
+          apiKeyObj: null,
+        }),
+      );
+    }
+  }, [editable, excPlat]);
 
+  useEffect(() => {}, [apiKeyObj]);
   return (
     <div className="tr">
       <div className="td">
@@ -92,8 +118,8 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
         <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
-        <Button className={editable && 'editable cancel'} disabled={!editable}>
-          <Image src={editable ? CancelIcon[1] : CancelIcon[0]} alt="cancel" />
+        <Button disabled>
+          <Image src={CancelIcon[0]} alt="cancel" />
         </Button>
       </div>
     </div>
@@ -138,6 +164,13 @@ const TableRow = ({
           }),
         );
       }
+    } else {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange: '',
+          apiKeyObj: null,
+        }),
+      );
     }
   }, [editable, exc]);
 
@@ -169,7 +202,10 @@ const TableRow = ({
       <div className="td">
         {!exc || <input type="password" disabled={!editable} />}
         {!exc && <input type="password" disabled={!editable} />}
-        <div className="status">미등록</div>
+        {!exc || (
+          <>{exc.isReferral ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
+        )}
+        {!exc && <div className="status">미등록</div>}
         <Button className={editable && 'editable'} onClick={() => setEditable(!editable)} disabled={exc === null}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
@@ -296,12 +332,22 @@ const AcountTableBlock = styled.div`
         }
 
         .status {
+          min-width: 80px;
+          text-align: center;
           background: ${colors.gray[0]};
           color: ${colors.gray[4]};
           line-height: 40px;
           border-radius: 20px;
           padding: 0 1rem;
           margin-right: 1rem;
+          &.on {
+            background-color: ${colors.blue[0]};
+            color: ${colors.blue[2]};
+          }
+          &.err {
+            background-color: ${colors.red[0]};
+            color: ${colors.red[2]};
+          }
         }
         button {
           padding: 0;
