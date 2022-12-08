@@ -60,7 +60,7 @@ const MypageIndex: NextPage = () => {
   }, [router, isUser]);
 
   useEffect(() => {
-    dispatch(boardsActions.initializeBoardsForm());
+    // dispatch(boardsActions.initializeBoardsForm());
     if (isUser) {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());

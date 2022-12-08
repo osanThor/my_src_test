@@ -15,11 +15,11 @@ const QuantroIndicatorTable = () => {
     communityDiscussion: local.communityDiscussion,
     communityNotice: local.communityNotice,
   }));
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetQuantroIndicatorDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetQuantroIndicatorDone: boards.loadGetQuantroIndicatorDone,
     getNoticesDone: boards.getNoticesDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetQuantroIndicatorDone;
   const [isNotice, setIsNotice] = useState(false);
   useEffect(() => {
     if (communityNotice) {
@@ -27,9 +27,9 @@ const QuantroIndicatorTable = () => {
     } else if (communityDiscussion) {
       setIsNotice(false);
     }
-  }, [loadGetBoardsDone]);
+  }, [loadGetQuantroIndicatorDone]);
 
-  console.log(loadGetBoardsDone);
+  console.log(loadGetQuantroIndicatorDone);
   return (
     <>
       <BoardsTableBlock>
@@ -66,7 +66,7 @@ const QuantroIndicatorTable = () => {
           ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetQuantroIndicatorDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
                   <div className="td title dark_gray pointer">
@@ -93,7 +93,7 @@ const QuantroIndicatorTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };

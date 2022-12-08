@@ -17,11 +17,11 @@ const CommissionsTable = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetComissionDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetComissionDone: boards.loadGetComissionDone,
     getNoticesDone: boards.getNoticesDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetComissionDone;
 
   return (
     <>
@@ -62,7 +62,7 @@ const CommissionsTable = () => {
           ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetComissionDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">
                     <div className="icon">
@@ -100,7 +100,7 @@ const CommissionsTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };

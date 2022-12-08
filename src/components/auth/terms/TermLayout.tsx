@@ -1,3 +1,4 @@
+import { term1, term2, term3 } from '@/src/assets/terms';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
@@ -19,10 +20,11 @@ const TermsLayOut = () => {
   const terms = [
     { id: 0, type: 'privacy' },
     { id: 1, type: 'service' },
+    { id: 2, type: 'advertisement' },
   ];
 
   const [checkItems, setCheckItems] = useState([]);
-  const [openItems, setOpenItems] = useState([false, false]);
+  const [openItems, setOpenItems] = useState([false, false, false]);
   const [allCheck, setAllCheck] = useState(false);
   const [checkAble, setCheckAble] = useState(false);
 
@@ -36,7 +38,7 @@ const TermsLayOut = () => {
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
       setCheckItems([]);
-      setOpenItems([false, false]);
+      setOpenItems([false, false, false]);
       setAllCheck(false);
     }
   };
@@ -52,14 +54,14 @@ const TermsLayOut = () => {
       setCheckAble(false);
     } else {
       setCheckItems((prev) => [...prev, id]);
-      if (checkItems.length === 1) {
+      if (checkItems.length === 2) {
         setAllCheck(true);
       }
     }
   };
   const canOpen = openItems.filter((el) => el === true);
   useEffect(() => {
-    if (canOpen.length === 2) {
+    if (canOpen.length === 3) {
       setCheckAble(true);
     } else {
       setCheckAble(false);
@@ -120,17 +122,16 @@ interface TermType {
     name: string;
     info: string;
   };
+  advertisement: {
+    name: string;
+    info: string;
+  };
   [prop: string]: any;
 }
 const typeMap: TermType = {
-  privacy: {
-    name: '개인정보처리 방침',
-    info: '내용1',
-  },
-  service: {
-    name: '퀀트로 이용 약관',
-    info: '내용2',
-  },
+  privacy: term1,
+  service: term2,
+  advertisement: term3,
 };
 const TermItem = ({
   term,
@@ -150,7 +151,10 @@ const TermItem = ({
 
   return (
     <div className="termItem">
-      <div className="term_top" onClick={() => handleOpenTerm(target, id)}>
+      <div
+        className={checkItems.includes(term.id) ? 'term_top on' : 'term_top'}
+        onClick={() => handleOpenTerm(target, id)}
+      >
         <label className={target ? 'checkSquare' : 'disabled'}>
           <input
             className="checkSquare"
@@ -163,7 +167,9 @@ const TermItem = ({
         </label>
         <span className="more">{target ? '접기' : '더보기'}</span>
       </div>
-      <div className={target ? 'term_bottom_open' : 'term_bottom'}>{termType.info}</div>
+      <div className={target ? 'term_bottom_open' : 'term_bottom'} style={{ whiteSpace: 'pre-wrap' }}>
+        {termType.info}
+      </div>
     </div>
   );
 };
@@ -171,7 +177,6 @@ const TermItem = ({
 const TermsBlock = styled.div`
   width: 100%;
   max-width: 616px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -199,16 +204,30 @@ const TermsBlock = styled.div`
       border-radius: 14px;
       transition: all 0.2s;
       margin-bottom: 1rem;
+      overflow: hidden;
 
       .term_top {
         width: 100%;
-        padding: 1.3rem 23px;
+        padding: 8px 23px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         line-height: 24px;
         font-weight: bold;
         cursor: pointer;
+        transition: all 0.2s;
+        &.on {
+          background-color: ${colors.blue[2]};
+          color: white;
+          label {
+            span {
+              background-color: white;
+            }
+          }
+          span {
+            color: white;
+          }
+        }
       }
 
       .term_bottom {
@@ -223,6 +242,7 @@ const TermsBlock = styled.div`
         overflow-y: auto;
         border-top: 1px solid ${colors.gray[2]};
         padding: 1.3rem 23px;
+        font-size: 12px;
       }
 
       &:last-child {
@@ -248,6 +268,7 @@ const TermsBlock = styled.div`
       cursor: pointer;
       color: ${colors.blue[2]};
       line-height: 37px;
+      font-size: 14px;
 
       &:hover {
         color: ${colors.blue[1]};
@@ -296,7 +317,8 @@ const TermsBlock = styled.div`
       }
     }
     input.checkSquare:checked + span.check {
-      background: url(${CheckedSqquare.src});
+      border-color: ${colors.blue[2]};
+      background: url(${CheckedSqquare.src}) no-repeat 50%;
     }
   }
 

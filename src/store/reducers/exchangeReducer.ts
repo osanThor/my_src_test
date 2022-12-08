@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { GetAllExchangeResult, LoadExchangeResponse, ResponseFailure } from '../types';
+import { CreateUpdateApiKeyPayload, GetAllExchangeResult, LoadExchangeResponse, ResponseFailure } from '../types';
 
 export type ExchangeStateType = {
   exchange: string | null;
@@ -10,6 +10,12 @@ export type ExchangeStateType = {
   apiKey: string | null;
   apiSecret: string | null;
   exchangeId: string | null;
+  apiKeyObj: {
+    id: string | null;
+    alias: string | null;
+    apiKey: string | null;
+    apiSecret: string | null;
+  } | null;
   allExchangeResult:
     | Array<{
         id: string | null;
@@ -37,6 +43,7 @@ const initialState: ExchangeStateType = {
   apiKey: '',
   apiSecret: '',
   exchangeId: '',
+  apiKeyObj: null,
   allExchangeResult: [],
   loadExchangeLoading: false,
   loadExchangeDone: { message: '' },
@@ -50,6 +57,7 @@ const exchangeSlice = createSlice({
     initializeExchangeState(state) {
       Object.assign(state, initialState);
     },
+    // get all exchange
     getAllExchange(state) {
       state.loadExchangeLoading = true;
       state.allExchangeResult = [];
@@ -58,6 +66,16 @@ const exchangeSlice = createSlice({
     getAllExchangeResult(state, action: PayloadAction<GetAllExchangeResult>) {
       state.loadExchangeLoading = false;
       state.allExchangeResult = action.payload;
+    },
+    //create API Key
+    chagneCreateApiKeyFeild(state, action: PayloadAction<CreateUpdateApiKeyPayload>) {
+      state.exchange = action.payload.exchange;
+      state.apiKeyObj = action.payload.apiKeyObj;
+    },
+    createApiKey(state, action: PayloadAction<CreateUpdateApiKeyPayload>) {
+      state.loadExchangeLoading = true;
+      state.exchange = action.payload.exchange;
+      state.apiKeyObj = action.payload.apiKeyObj;
     },
     //api res req
     loadBoardsRequest(state) {

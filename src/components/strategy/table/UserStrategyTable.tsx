@@ -17,11 +17,11 @@ const UserStrategyTable = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetUserStrategyDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetUserStrategyDone: boards.loadGetUserStrategyDone,
     getNoticesDone: boards.getNoticesDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetUserStrategyDone;
 
   return (
     <>
@@ -62,7 +62,7 @@ const UserStrategyTable = () => {
           ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetUserStrategyDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">
                     <div className="icon">
@@ -100,7 +100,7 @@ const UserStrategyTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };

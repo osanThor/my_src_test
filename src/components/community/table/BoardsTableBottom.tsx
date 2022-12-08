@@ -10,13 +10,13 @@ import SearchInput from '../../common/boards/BoardSearch/SearchInput';
 import Button from '../../common/Button';
 import Pagination from '../../common/Pagination';
 
-const BoardsTableBottom = () => {
+const BoardsTableBottom = ({ total }: { total: number }) => {
   const router = useRouter();
   const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
     communityCommission: local.communityCommission,
   }));
-  const { category, page, user, title, comment, loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
+  const { category, page, user, title, comment } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
     user: boards.user,
@@ -24,7 +24,6 @@ const BoardsTableBottom = () => {
     comment: boards.comment,
     loadGetBoardsDone: boards.loadGetBoardsDone,
   }));
-  const { total } = loadGetBoardsDone;
 
   const [searchName, setSearchName] = useState('');
   const [searchVal, setSearchVal] = useState('');

@@ -12,11 +12,11 @@ import NoBoards from '../../common/NoBoards';
 const CertifiedBoardsTable = () => {
   const router = useRouter();
 
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
+  const { loadGetCertifiedDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+    loadGetCertifiedDone: boards.loadGetCertifiedDone,
     getNoticesDone: boards.getNoticesDone,
   }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetCertifiedDone;
 
   return (
     <>
@@ -54,7 +54,7 @@ const CertifiedBoardsTable = () => {
           ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetCertifiedDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{board.id}</div>
                   <div
@@ -84,7 +84,7 @@ const CertifiedBoardsTable = () => {
           )}
         </div>
       </BoardsTableBlock>
-      <BoardsTableBottom />
+      <BoardsTableBottom total={total} />
     </>
   );
 };

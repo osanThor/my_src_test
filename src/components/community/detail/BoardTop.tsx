@@ -40,7 +40,11 @@ const BoardTop = ({
       </div>
       <div className="bottom_area">
         <div className="thumbnail">
-          <Image src={user ? user.photoUrl : Profile1[1]} alt="profile" layout="fill" />
+          {user ? (
+            <Image src={user.photoUrl} alt="profile" layout="fill" />
+          ) : (
+            <Image src={Profile1[1]} alt="profile" layout="fill" />
+          )}
         </div>
         <div className="info_con">
           <div className="profile_info">

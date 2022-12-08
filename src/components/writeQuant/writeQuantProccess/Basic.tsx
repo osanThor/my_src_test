@@ -126,6 +126,15 @@ const BasicBlock = styled.div`
         .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
+          .bg_title {
+            padding: 0;
+            min-width: auto;
+            text-align: center;
+            white-space: nowrap;
+            border-radius: 8px;
+            background-color: inherit;
+            margin-bottom: 8px;
+          }
         }
       }
     }
@@ -136,15 +145,6 @@ const BasicBlock = styled.div`
         .write_quant_item {
           flex-direction: column;
           align-items: flex-start;
-          .bg_title {
-            padding: 0;
-            min-width: auto;
-            text-align: center;
-            white-space: nowrap;
-            border-radius: 8px;
-            background-color: inherit;
-            margin-bottom: 8px;
-          }
         }
       }
     }
