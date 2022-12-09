@@ -13,12 +13,16 @@ import Button from '../../common/Button';
 
 const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => void }) => {
   const router = useRouter();
-  const { allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(({ exchange }: RootState) => ({
-    allExchangeResult: exchange.allExchangeResult,
-    loadExchangeLoading: exchange.loadExchangeLoading,
-    loadExchangeDone: exchange.loadExchangeDone,
-  }));
-  console.log(allExchangeResult);
+  const dispatch = useDispatch();
+  const { exchange, apiKeyObj, allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(
+    ({ exchange }: RootState) => ({
+      exchange: exchange.exchange,
+      apiKeyObj: exchange.apiKeyObj,
+      allExchangeResult: exchange.allExchangeResult,
+      loadExchangeLoading: exchange.loadExchangeLoading,
+      loadExchangeDone: exchange.loadExchangeDone,
+    }),
+  );
   const [selectExchange, setSelectExchange] = useState('');
   const [allExcLenght, setAllExcLenght] = useState(0);
 
@@ -38,6 +42,35 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
       setAllExcLenght(allExchangeResult.length);
     }
   }, [router, allExchangeResult, selectExchange]);
+
+  // change api key payload field
+  const handleChangeApiKeyPayload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    console.log(name, value);
+    if (name === 'alias') {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: apiKeyObj.id, alias: value, apiKey: apiKeyObj.apiKey, apiSecret: apiKeyObj.apiSecret },
+        }),
+      );
+    } else if (name === 'apiKey') {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: apiKeyObj.id, alias: apiKeyObj.alias, apiKey: value, apiSecret: apiKeyObj.apiSecret },
+        }),
+      );
+    } else if (name === 'apiSecret') {
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: apiKeyObj.id, alias: apiKeyObj.alias, apiKey: apiKeyObj.apiKey, apiSecret: value },
+        }),
+      );
+    }
+  };
+
   return (
     <AcountTableBlock>
       <div className="thead">
@@ -57,19 +90,37 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
         </div>
       </div>
       <div className="tbody">
-        {selectExchange && <SelectTableRow excPlat={selectExchange} />}
+        {selectExchange && <SelectTableRow excPlat={selectExchange} onChange={handleChangeApiKeyPayload} />}
         {allExchangeResult.map((exc) => (
-          <TableRow key={exc.id} exc={exc} handleNoLicenseClick={handleNoLicenseClick} />
+          <TableRow
+            key={exc.id}
+            exc={exc}
+            handleNoLicenseClick={handleNoLicenseClick}
+            onChange={handleChangeApiKeyPayload}
+          />
         ))}
-        {allExcLenght > 2 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
-        {allExcLenght > 1 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
-        {allExcLenght > 0 || <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} />}
+        {allExcLenght > 2 || (
+          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+        )}
+        {allExcLenght > 1 || (
+          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+        )}
+        {allExcLenght > 0 || (
+          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+        )}
       </div>
     </AcountTableBlock>
   );
 };
 
-const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
+// 거래소 선택 시 노출되는 item
+const SelectTableRow = ({
+  excPlat,
+  onChange,
+}: {
+  excPlat: string | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
   const { exchange, apiKeyObj } = useSelector(({ exchange }: RootState) => ({
@@ -77,6 +128,10 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
     apiKeyObj: exchange.apiKeyObj,
   }));
   // first state
+  const [loAlias, setLoAlias] = useState('');
+  const [loApiKey, setLoApiKey] = useState('');
+  const [loApiSecret, setLoApiSecret] = useState('');
+
   useEffect(() => {
     if (editable) {
       if (excPlat) {
@@ -88,16 +143,52 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
         );
       }
     } else {
-      dispatch(
-        exchangeActions.chagneCreateApiKeyFeild({
-          exchange: '',
-          apiKeyObj: null,
-        }),
-      );
+      setLoAlias('');
+      setLoApiKey('');
+      setLoApiSecret('');
     }
   }, [editable, excPlat]);
 
-  useEffect(() => {}, [apiKeyObj]);
+  //
+  useEffect(() => {
+    if (apiKeyObj) {
+      if (apiKeyObj.id) {
+        setEditable(false);
+      }
+    }
+  }, [apiKeyObj]);
+
+  //
+  const handleChangeSelectExchangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    console.log(name, value);
+    if (name === 'alias') {
+      setLoAlias(value);
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: '', alias: value, apiKey: loApiKey, apiSecret: loApiSecret },
+        }),
+      );
+    } else if (name === 'apiKey') {
+      setLoApiKey(value);
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: '', alias: loAlias, apiKey: value, apiSecret: loApiSecret },
+        }),
+      );
+    } else if (name === 'apiSecret') {
+      setLoApiSecret(value);
+      dispatch(
+        exchangeActions.chagneCreateApiKeyFeild({
+          exchange,
+          apiKeyObj: { id: '', alias: loAlias, apiKey: loApiKey, apiSecret: value },
+        }),
+      );
+    }
+  };
+
   return (
     <div className="tr">
       <div className="td">
@@ -111,13 +202,31 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
         <span>{excPlat}</span>
       </div>
       <div className="td">
-        <input disabled={!editable} />
+        {apiKeyObj && editable ? (
+          <input name="alias" value={loAlias} disabled={!editable} onChange={handleChangeSelectExchangeField} />
+        ) : (
+          <input name="alias" value="" disabled={!editable} onChange={onChange} />
+        )}
       </div>
       <div className="td">
-        <input disabled={!editable} />
+        {apiKeyObj && editable ? (
+          <input name="apiKey" value={loApiKey} disabled={!editable} onChange={handleChangeSelectExchangeField} />
+        ) : (
+          <input name="apiKey" value="" disabled={!editable} onChange={onChange} />
+        )}
       </div>
       <div className="td">
-        <input type="password" disabled={!editable} />
+        {apiKeyObj && editable ? (
+          <input
+            name="apiSecret"
+            value={loApiSecret}
+            type="password"
+            disabled={!editable}
+            onChange={handleChangeSelectExchangeField}
+          />
+        ) : (
+          <input name="apiSecret" value="" type="password" disabled={!editable} onChange={onChange} />
+        )}
         <div className="status">미등록</div>
         <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
@@ -130,9 +239,11 @@ const SelectTableRow = ({ excPlat }: { excPlat: string | null }) => {
   );
 };
 
+// table item
 const TableRow = ({
   handleNoLicenseClick,
   exc,
+  onChange,
 }: {
   handleNoLicenseClick: () => void;
   exc: {
@@ -148,6 +259,7 @@ const TableRow = ({
     pastProfits: [];
     positions: [];
   } | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
@@ -168,45 +280,60 @@ const TableRow = ({
           }),
         );
       }
-    } else {
-      dispatch(
-        exchangeActions.chagneCreateApiKeyFeild({
-          exchange: '',
-          apiKeyObj: null,
-        }),
-      );
     }
   }, [editable, exc]);
 
-  //const
+  //
+  useEffect(() => {
+    if (apiKeyObj && exc) {
+      if (apiKeyObj.id != exc.id) {
+        setEditable(false);
+      }
+    }
+  }, [apiKeyObj, exc]);
 
   return (
     <div className="tr" onClick={exc === null ? handleNoLicenseClick : () => {}}>
       <div className="td">
         <div className="thumbnail">
-          {!exc || <>{exc.platform === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}</>}
-          {!exc || <>{exc.platform === 'BYBIT' && <Image src={BYBIT} alt="acount thumbnail" layout="fill" />}</>}
-          {!exc || <>{exc.platform === 'BITMEX' && <Image src={BITMEX} alt="acount thumbnail" layout="fill" />}</>}
-          {!exc || <>{exc.platform === 'BITGET' && <Image src={BITGET} alt="acount thumbnail" layout="fill" />}</>}
-          {!exc || <>{exc.platform === 'FTX' && <Image src={FTX} alt="acount thumbnail" layout="fill" />}</>}
+          {exc && <>{exc.platform === 'BINANCE' && <Image src={BINANCE} alt="acount thumbnail" layout="fill" />}</>}
+          {exc && <>{exc.platform === 'BYBIT' && <Image src={BYBIT} alt="acount thumbnail" layout="fill" />}</>}
+          {exc && <>{exc.platform === 'BITMEX' && <Image src={BITMEX} alt="acount thumbnail" layout="fill" />}</>}
+          {exc && <>{exc.platform === 'BITGET' && <Image src={BITGET} alt="acount thumbnail" layout="fill" />}</>}
+          {exc && <>{exc.platform === 'FTX' && <Image src={FTX} alt="acount thumbnail" layout="fill" />}</>}
         </div>
         <span>
-          {!exc || exc.platform}
+          {exc && exc.platform}
           {!exc && '거래소'}
         </span>
       </div>
       <div className="td">
-        {!exc || <input value={exc.alias} disabled={!editable} />}
+        {exc && editable && apiKeyObj && (
+          <input value={apiKeyObj.alias} name="alias" disabled={!editable} onChange={onChange} />
+        )}
+        {exc && !editable && <input value={exc.alias} disabled={!editable} />}
         {!exc && <input disabled={!editable} />}
       </div>
       <div className="td">
-        {!exc || <input value={exc.apiKey} disabled={!editable} />}
+        {exc && editable && apiKeyObj && (
+          <input value={apiKeyObj.apiKey} name="apiKey" disabled={!editable} onChange={onChange} />
+        )}
+        {exc && !editable && <input value={exc.apiKey} disabled={!editable} />}
         {!exc && <input disabled={!editable} />}
       </div>
       <div className="td">
-        {!exc || <input type="password" disabled={!editable} />}
+        {exc && editable && apiKeyObj && (
+          <input
+            type="password"
+            value={apiKeyObj.apiSecret}
+            name="apiSecret"
+            disabled={!editable}
+            onChange={onChange}
+          />
+        )}
+        {exc && !editable && <input type="password" disabled={!editable} />}
         {!exc && <input type="password" disabled={!editable} />}
-        {!exc || (
+        {exc && (
           <>{exc.isReferral ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
         )}
         {!exc && <div className="status">미등록</div>}

@@ -3,7 +3,7 @@ import MyBoards from '@/src/components/mypage/boards/MyBoards';
 import EditMyProfile from '@/src/components/mypage/edit/EditMyProfile';
 import MyPageLayout from '@/src/components/mypage/MyPageLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions, localActions, userActions } from '@/src/store/reducers';
+import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';

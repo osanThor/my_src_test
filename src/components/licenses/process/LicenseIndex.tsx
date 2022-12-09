@@ -24,7 +24,7 @@ const LicenseIndex = () => {
               <span>₩19,900</span>
               무료
             </div>
-            <div className="period">FOREVER</div>
+            <div className="period">6개월 무료 이용</div>
             <StyledButton onClick={() => router.push('/licenses?state=exchange')}>거래소 등록</StyledButton>
           </div>
           <div className="benefit">
@@ -39,7 +39,7 @@ const LicenseIndex = () => {
           <div className="package_con">
             <h2 className="blue">레귤러 패키지</h2>
             <div className="price">₩29,900</div>
-            <div className="period">PER MONTH</div>
+            <div className="period">1개월 이용 기준</div>
             <StyledButton blue disabled>
               준비중
             </StyledButton>
@@ -55,7 +55,7 @@ const LicenseIndex = () => {
           <div className="package_con">
             <h2 className="red">프리미엄 패키지</h2>
             <div className="price">₩39,900</div>
-            <div className="period">PER MONTH</div>
+            <div className="period">1개월 이용 기준</div>
             <StyledButton blue disabled>
               준비중
             </StyledButton>
@@ -267,10 +267,6 @@ const LicenseIndexBlock = styled.div`
           }
         }
 
-        &:first-child {
-          margin-right: 8px;
-        }
-
         .benefit {
         }
       }
@@ -287,7 +283,7 @@ const StyledButton = styled(Button)`
   border-radius: 32px;
 
   &:disabled {
-    background-color: ${colors.gray[3]};
+    background-color: ${colors.gray[2]};
     color: white;
   }
 
