@@ -1,7 +1,9 @@
+import FuncModal from '@/src/components/common/modals/FuncModal';
 import Modal from '@/src/components/common/modals/Modal';
 import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
+import ApiGuideModal from '@/src/components/licenses/item/ApiGuideModal';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';
 import LicensesLayout from '@/src/components/licenses/LicensesLayout';
 import LicensesTop from '@/src/components/licenses/LicensesTop';
@@ -28,12 +30,36 @@ const LicensePageIndex: NextPage = () => {
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
+  const { exchange, apiKeyObj, exchangeId, loadExchangeLoading, loadExchangeDone, loadExchangeError } = useSelector(
+    ({ exchange }: RootState) => ({
+      exchange: exchange.exchange,
+      exchangeId: exchange.exchangeId,
+      apiKeyObj: exchange.apiKeyObj,
+      loadExchangeLoading: exchange.loadExchangeLoading,
+      loadExchangeDone: exchange.loadExchangeDone,
+      loadExchangeError: exchange.loadExchangeError,
+    }),
+  );
   const [isUser, setUser] = useState(false);
+  //not user modal
   const [noUserModal, setNoUserModal] = useState(false);
   const handleCloseNoUserModal = () => {
     setNoUserModal(false);
     router.push('/');
   };
+  //api license modal
+  const [apiLiMoOpen, setApiLiMoOpen] = useState(false);
+  const handleCloseApiLicenseModal = () => {
+    setApiLiMoOpen(false);
+  };
+  useEffect(() => {
+    const apiLicense = localStorage.getItem('ap_m_St');
+    if (apiLicense) {
+      setApiLiMoOpen(false);
+    } else {
+      setApiLiMoOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(exchangeActions.initializeExchangeState());
@@ -122,6 +148,88 @@ const LicensePageIndex: NextPage = () => {
     return;
   };
 
+  //createUpdateApiKey
+  const handleCreateUpdateKey = () => {
+    if (!apiKeyObj.alias) {
+      setMoOpen(true);
+      setMoMessage('계정명을 등록해주세요');
+      setMoSt(true);
+      return;
+    } else if (!apiKeyObj.apiKey) {
+      setMoOpen(true);
+      setMoMessage('Api Key를 등록해주세요');
+      setMoSt(true);
+      return;
+    } else if (!apiKeyObj.apiSecret) {
+      setMoOpen(true);
+      setMoMessage('Api Secret을 등록해주세요');
+      setMoSt(true);
+      return;
+    }
+    dispatch(
+      exchangeActions.createApiKey({
+        exchange,
+        apiKeyObj,
+      }),
+    );
+  };
+
+  // open close position
+  const handleOpenClosePosition = (id: string) => {
+    setFuncMoOpen(true);
+    setFuncMoMessage('API를 삭제하실 건가요?');
+    setFuncMoMessage2('');
+    setFuncMoBtnTxt('삭제하기');
+    dispatch(exchangeActions.changeExchangeId({ exchangeId: id }));
+  };
+  // close position
+  const handleClosePosition = () => {
+    dispatch(exchangeActions.closePosition({ exchangeId }));
+  };
+
+  //loadExchangeDone
+  useEffect(() => {
+    if (loadExchangeError) {
+      setMoOpen(true);
+      setMoMessage(loadExchangeError);
+      setMoSt(true);
+      return;
+    }
+
+    if (loadExchangeDone) {
+      if (loadExchangeDone.message === 'WRONG_API_KEY') {
+        setMoOpen(true);
+        setMoMessage('API Key 입력값을 확인해주세요');
+        setMoSt(true);
+        return;
+      } else if (loadExchangeDone.message === 'ALREADY_EXIST') {
+        setMoOpen(true);
+        setMoMessage('이미 존재하는 KEY입니다');
+        setMoSt(true);
+        return;
+      } else if (loadExchangeDone.message === 'UPDATED') {
+        setMoOpen(true);
+        setMoMessage('API Key가 업데이트 되었어요');
+        setMoSt(false);
+        router.push('/licenses?state=index');
+      } else if (loadExchangeDone.message === 'CREATED') {
+        setMoOpen(true);
+        setMoMessage('API Key 등록이 완료되었어요');
+        setMoSt(false);
+        router.push('/licenses?state=index');
+      }
+    }
+  }, [loadExchangeDone, loadExchangeError]);
+
+  //function 모달
+  const [funcMoOpen, setFuncMoOpen] = React.useState(false);
+  const [funcMoMessage, setFuncMoMessage] = React.useState('');
+  const [funcMoMessage2, setFuncMoMessage2] = React.useState('');
+  const [funcMoBtnTxt, setFuncMoBtnTxt] = React.useState('');
+  const handleCloseFuncModal = () => {
+    setFuncMoOpen(false);
+  };
+
   // 일반 모달
   const [moOpen, setMoOpen] = React.useState(false);
   const [moMessage, setMoMessage] = React.useState('');
@@ -139,11 +247,28 @@ const LicensePageIndex: NextPage = () => {
             {licenseIndex && <LicenseIndex />}
             {licenseExchange && <LicenseExchange />}
           </LicenseCenterLayout>
-          <AddApiKeyCon handleNoLicenseClick={handleNoLicenseClick} />
+          <AddApiKeyCon
+            handleNoLicenseClick={handleNoLicenseClick}
+            handleCreateUpdateKey={handleCreateUpdateKey}
+            handleOpenClosePosition={handleOpenClosePosition}
+          />
         </LicensesLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
       <NotUserModal open={noUserModal} onClose={handleCloseNoUserModal} />
+      <ApiGuideModal open={apiLiMoOpen} onClose={handleCloseApiLicenseModal} />
+      <FuncModal
+        open={funcMoOpen}
+        onClose={handleCloseFuncModal}
+        message={{
+          title: funcMoMessage,
+          description: funcMoMessage2,
+          btnTxt: funcMoBtnTxt,
+        }}
+        dubBtn={true}
+        onClick={handleClosePosition}
+        onClick2={handleCloseFuncModal}
+      />
     </>
   );
 };
