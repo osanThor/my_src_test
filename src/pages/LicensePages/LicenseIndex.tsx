@@ -2,6 +2,7 @@ import Modal from '@/src/components/common/modals/Modal';
 import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import AddApiKeyCon from '@/src/components/licenses/AddApiKeyCon';
+import ApiGuideModal from '@/src/components/licenses/item/ApiGuideModal';
 import LicenseCenterLayout from '@/src/components/licenses/LicenseCenterLayout';
 import LicensesLayout from '@/src/components/licenses/LicensesLayout';
 import LicensesTop from '@/src/components/licenses/LicensesTop';
@@ -38,11 +39,25 @@ const LicensePageIndex: NextPage = () => {
     }),
   );
   const [isUser, setUser] = useState(false);
+  //not user modal
   const [noUserModal, setNoUserModal] = useState(false);
   const handleCloseNoUserModal = () => {
     setNoUserModal(false);
     router.push('/');
   };
+  //api license modal
+  const [apiLiMoOpen, setApiLiMoOpen] = useState(false);
+  const handleCloseApiLicenseModal = () => {
+    setApiLiMoOpen(false);
+  };
+  useEffect(() => {
+    const apiLicense = localStorage.getItem('ap_m_St');
+    if (apiLicense) {
+      setApiLiMoOpen(false);
+    } else {
+      setApiLiMoOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(exchangeActions.initializeExchangeState());
@@ -213,6 +228,7 @@ const LicensePageIndex: NextPage = () => {
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
       <NotUserModal open={noUserModal} onClose={handleCloseNoUserModal} />
+      <ApiGuideModal open={apiLiMoOpen} onClose={handleCloseApiLicenseModal} />
     </>
   );
 };
