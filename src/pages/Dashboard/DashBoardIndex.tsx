@@ -7,7 +7,7 @@ import MyPositionArea from '@/src/components/dashboard/MyPositionArea';
 import NoticeArea from '@/src/components/dashboard/NoticeArea';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions, localActions } from '@/src/store/reducers';
+import { boardsActions, exchangeActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -56,7 +56,12 @@ const DashBoardIndex: NextPage = () => {
   }, []);
 
   // choose exchange
-  const [selectOpen, setSelectOpen] = useState(true);
+  const [selectOpen, setSelectOpen] = useState(false);
+  const handleOpenSelectWin = () => {
+    setSelectOpen(true);
+    dispatch(exchangeActions.getAllExchange());
+  };
+  const handleSelectExchange = () => {};
   const handleCloseSelectWin = () => {
     setSelectOpen(false);
   };
@@ -66,7 +71,7 @@ const DashBoardIndex: NextPage = () => {
       <UserLayout>
         <DashboardLayout>
           <NoticeArea />
-          <MyExchangeArea />
+          <MyExchangeArea handleOpenSelectWin={handleOpenSelectWin} />
           <Balance />
           <MyPositionArea />
         </DashboardLayout>

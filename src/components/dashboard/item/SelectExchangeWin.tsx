@@ -9,9 +9,14 @@ import { media } from '@/styles/theme';
 import { SelectExchangeModalType } from '@/src/interfaces/iCommon/iModal';
 import Image from 'next/image';
 import { BYBIT } from '@/src/assets/Images';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
 
 const SelectExchangeWin = ({ open, onClose }: SelectExchangeModalType) => {
   SwiperCore.use([Navigation, Pagination]);
+  const { allExchangeResult } = useSelector(({ exchange }: RootState) => ({
+    allExchangeResult: exchange.allExchangeResult,
+  }));
   return (
     <SelectExchangeWinBlock open={open} onClose={onClose}>
       <SelectExchangeWinCon>
@@ -25,62 +30,17 @@ const SelectExchangeWin = ({ open, onClose }: SelectExchangeModalType) => {
           className="mySwiper"
           breakpoints={{ 768: { slidesPerView: 5 }, 1200: { slidesPerView: 5 } }}
         >
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" layout="fill" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="exchange_item">
-              <div className="thumbnail">
-                <Image src={BYBIT} alt="exchange" />
-              </div>
-              <div className="alias">1</div>
-            </div>
-          </SwiperSlide>
+          {allExchangeResult &&
+            allExchangeResult.map((exc) => (
+              <SwiperSlide key={exc.id}>
+                <div className="exchange_item">
+                  <div className="thumbnail">
+                    <Image src={BYBIT} alt="exchange" />
+                  </div>
+                  <div className="alias">{exc.alias}</div>
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </SelectExchangeWinCon>
     </SelectExchangeWinBlock>
@@ -88,6 +48,7 @@ const SelectExchangeWin = ({ open, onClose }: SelectExchangeModalType) => {
 };
 const SelectExchangeWinBlock = styled(Dialog)`
   .MuiPaper-root {
+    width: 100%;
     max-width: 332px;
     border: 1px solid rgba(112, 112, 112, 0.8);
     border-radius: 14px;
@@ -99,23 +60,23 @@ const SelectExchangeWinBlock = styled(Dialog)`
 
   ${media.tablet} {
     .MuiPaper-root {
+      width: calc(100% - 32px);
       height: auto;
-      padding: 28px;
+      padding: 8px;
     }
   }
   ${media.mobile} {
-    padding: 20px;
   }
 `;
 const SelectExchangeWinCon = styled(DialogContent)`
   &.MuiDialogContent-root {
-    max-width: 332px;
     padding: 0;
     font-size: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     .swiper {
+      width: 100%;
       padding-bottom: 30px;
       .swiper-pagination {
         bottom: 0;
@@ -131,6 +92,7 @@ const SelectExchangeWinCon = styled(DialogContent)`
       }
     }
     .exchange_item {
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
