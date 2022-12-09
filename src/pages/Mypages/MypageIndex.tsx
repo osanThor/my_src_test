@@ -43,9 +43,9 @@ const MypageIndex: NextPage = () => {
   }, [loadAuthLoading, loadAuthDone]);
 
   useEffect(() => {
-    if (isUser) {
-      dispatch(userActions.getUserProfile());
-    }
+    // if (isUser) {
+    //   dispatch(userActions.getUserProfile());
+    // }
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch, isUser]);
 
