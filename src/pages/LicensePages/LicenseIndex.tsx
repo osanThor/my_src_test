@@ -1,3 +1,4 @@
+import FuncModal from '@/src/components/common/modals/FuncModal';
 import Modal from '@/src/components/common/modals/Modal';
 import NotUserModal from '@/src/components/common/modals/NotUserModal';
 import UserLayout from '@/src/components/layout/UserLayout';
@@ -29,9 +30,10 @@ const LicensePageIndex: NextPage = () => {
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
-  const { exchange, apiKeyObj, loadExchangeLoading, loadExchangeDone, loadExchangeError } = useSelector(
+  const { exchange, apiKeyObj, exchangeId, loadExchangeLoading, loadExchangeDone, loadExchangeError } = useSelector(
     ({ exchange }: RootState) => ({
       exchange: exchange.exchange,
+      exchangeId: exchange.exchangeId,
       apiKeyObj: exchange.apiKeyObj,
       loadExchangeLoading: exchange.loadExchangeLoading,
       loadExchangeDone: exchange.loadExchangeDone,
@@ -172,6 +174,19 @@ const LicensePageIndex: NextPage = () => {
     );
   };
 
+  // open close position
+  const handleOpenClosePosition = (id: string) => {
+    setFuncMoOpen(true);
+    setFuncMoMessage('API를 삭제하실 건가요?');
+    setFuncMoMessage2('');
+    setFuncMoBtnTxt('삭제하기');
+    dispatch(exchangeActions.changeExchangeId({ exchangeId: id }));
+  };
+  // close position
+  const handleClosePosition = () => {
+    dispatch(exchangeActions.closePosition({ exchangeId }));
+  };
+
   //loadExchangeDone
   useEffect(() => {
     if (loadExchangeError) {
@@ -206,6 +221,15 @@ const LicensePageIndex: NextPage = () => {
     }
   }, [loadExchangeDone, loadExchangeError]);
 
+  //function 모달
+  const [funcMoOpen, setFuncMoOpen] = React.useState(false);
+  const [funcMoMessage, setFuncMoMessage] = React.useState('');
+  const [funcMoMessage2, setFuncMoMessage2] = React.useState('');
+  const [funcMoBtnTxt, setFuncMoBtnTxt] = React.useState('');
+  const handleCloseFuncModal = () => {
+    setFuncMoOpen(false);
+  };
+
   // 일반 모달
   const [moOpen, setMoOpen] = React.useState(false);
   const [moMessage, setMoMessage] = React.useState('');
@@ -223,12 +247,28 @@ const LicensePageIndex: NextPage = () => {
             {licenseIndex && <LicenseIndex />}
             {licenseExchange && <LicenseExchange />}
           </LicenseCenterLayout>
-          <AddApiKeyCon handleNoLicenseClick={handleNoLicenseClick} handleCreateUpdateKey={handleCreateUpdateKey} />
+          <AddApiKeyCon
+            handleNoLicenseClick={handleNoLicenseClick}
+            handleCreateUpdateKey={handleCreateUpdateKey}
+            handleOpenClosePosition={handleOpenClosePosition}
+          />
         </LicensesLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />
       <NotUserModal open={noUserModal} onClose={handleCloseNoUserModal} />
       <ApiGuideModal open={apiLiMoOpen} onClose={handleCloseApiLicenseModal} />
+      <FuncModal
+        open={funcMoOpen}
+        onClose={handleCloseFuncModal}
+        message={{
+          title: funcMoMessage,
+          description: funcMoMessage2,
+          btnTxt: funcMoBtnTxt,
+        }}
+        dubBtn={true}
+        onClick={handleClosePosition}
+        onClick2={handleCloseFuncModal}
+      />
     </>
   );
 };

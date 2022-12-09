@@ -13,9 +13,11 @@ import CustomSelect from './item/CustomSelect';
 const AddApiKeyCon = ({
   handleNoLicenseClick,
   handleCreateUpdateKey,
+  handleOpenClosePosition,
 }: {
   handleNoLicenseClick: () => void;
   handleCreateUpdateKey: () => void;
+  handleOpenClosePosition: (id: string) => void;
 }) => {
   const dispatch = useDispatch();
   return (
@@ -39,7 +41,11 @@ const AddApiKeyCon = ({
         </div>
       </div>
       <div className="acount_table">
-        <AcountTable handleNoLicenseClick={handleNoLicenseClick} handleCreateUpdateKey={handleCreateUpdateKey} />
+        <AcountTable
+          handleNoLicenseClick={handleNoLicenseClick}
+          handleCreateUpdateKey={handleCreateUpdateKey}
+          handleOpenClosePosition={handleOpenClosePosition}
+        />
       </div>
     </AddApiKeyConBlock>
   );

@@ -14,9 +14,11 @@ import Button from '../../common/Button';
 const AcountTable = ({
   handleNoLicenseClick,
   handleCreateUpdateKey,
+  handleOpenClosePosition,
 }: {
   handleNoLicenseClick: () => void;
   handleCreateUpdateKey: () => void;
+  handleOpenClosePosition: (id: string) => void;
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -107,6 +109,7 @@ const AcountTable = ({
             handleNoLicenseClick={handleNoLicenseClick}
             onChange={handleChangeApiKeyPayload}
             onCreateUpdate={handleCreateUpdateKey}
+            onDelete={handleOpenClosePosition}
           />
         ))}
         {allExcLenght > 2 || (
@@ -115,6 +118,7 @@ const AcountTable = ({
             handleNoLicenseClick={handleNoLicenseClick}
             onChange={handleChangeApiKeyPayload}
             onCreateUpdate={handleCreateUpdateKey}
+            onDelete={handleOpenClosePosition}
           />
         )}
         {allExcLenght > 1 || (
@@ -123,6 +127,7 @@ const AcountTable = ({
             handleNoLicenseClick={handleNoLicenseClick}
             onChange={handleChangeApiKeyPayload}
             onCreateUpdate={handleCreateUpdateKey}
+            onDelete={handleOpenClosePosition}
           />
         )}
         {allExcLenght > 0 || (
@@ -131,6 +136,7 @@ const AcountTable = ({
             handleNoLicenseClick={handleNoLicenseClick}
             onChange={handleChangeApiKeyPayload}
             onCreateUpdate={handleCreateUpdateKey}
+            onDelete={handleOpenClosePosition}
           />
         )}
       </div>
@@ -272,6 +278,7 @@ const TableRow = ({
   exc,
   onChange,
   onCreateUpdate,
+  onDelete,
 }: {
   handleNoLicenseClick: () => void;
   exc: {
@@ -289,6 +296,7 @@ const TableRow = ({
   } | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCreateUpdate: () => void;
+  onDelete: (id: string) => void;
 }) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
@@ -373,7 +381,7 @@ const TableRow = ({
         >
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
-        <Button className={editable && 'editable cancel'} disabled={!editable}>
+        <Button className={editable && 'editable cancel'} disabled={!editable} onClick={() => onDelete(exc.id)}>
           <Image src={editable ? CancelIcon[1] : CancelIcon[0]} alt="cancel" />
         </Button>
       </div>
