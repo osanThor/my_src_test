@@ -28,6 +28,15 @@ const LicensePageIndex: NextPage = () => {
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
+  const { exchange, apiKeyObj, loadExchangeLoading, loadExchangeDone, loadExchangeError } = useSelector(
+    ({ exchange }: RootState) => ({
+      exchange: exchange.exchange,
+      apiKeyObj: exchange.apiKeyObj,
+      loadExchangeLoading: exchange.loadExchangeLoading,
+      loadExchangeDone: exchange.loadExchangeDone,
+      loadExchangeError: exchange.loadExchangeError,
+    }),
+  );
   const [isUser, setUser] = useState(false);
   const [noUserModal, setNoUserModal] = useState(false);
   const handleCloseNoUserModal = () => {
@@ -122,6 +131,66 @@ const LicensePageIndex: NextPage = () => {
     return;
   };
 
+  //createUpdateApiKey
+  const handleCreateUpdateKey = () => {
+    if (!apiKeyObj.alias) {
+      setMoOpen(true);
+      setMoMessage('계정명을 등록해주세요');
+      setMoSt(true);
+      return;
+    } else if (!apiKeyObj.apiKey) {
+      setMoOpen(true);
+      setMoMessage('Api Key를 등록해주세요');
+      setMoSt(true);
+      return;
+    } else if (!apiKeyObj.apiSecret) {
+      setMoOpen(true);
+      setMoMessage('Api Secret을 등록해주세요');
+      setMoSt(true);
+      return;
+    }
+    dispatch(
+      exchangeActions.createApiKey({
+        exchange,
+        apiKeyObj,
+      }),
+    );
+  };
+
+  //loadExchangeDone
+  useEffect(() => {
+    if (loadExchangeError) {
+      setMoOpen(true);
+      setMoMessage(loadExchangeError);
+      setMoSt(true);
+      return;
+    }
+
+    if (loadExchangeDone) {
+      if (loadExchangeDone.message === 'WRONG_API_KEY ') {
+        setMoOpen(true);
+        setMoMessage('API Key 입력값을 확인해주세요');
+        setMoSt(true);
+        return;
+      } else if (loadExchangeDone.message === 'ALREADY_EXIST') {
+        setMoOpen(true);
+        setMoMessage('이미 존재하는 KEY입니다');
+        setMoSt(true);
+        return;
+      } else if (loadExchangeDone.message === 'UPDATED') {
+        setMoOpen(true);
+        setMoMessage('API Key가 업데이트 되었어요');
+        setMoSt(false);
+        router.push('/licenses?state=index');
+      } else if (loadExchangeDone.message === 'CREATED') {
+        setMoOpen(true);
+        setMoMessage('API Key 등록이 완료되었어요');
+        setMoSt(false);
+        router.push('/licenses?state=index');
+      }
+    }
+  }, [loadExchangeDone, loadExchangeError]);
+
   // 일반 모달
   const [moOpen, setMoOpen] = React.useState(false);
   const [moMessage, setMoMessage] = React.useState('');
@@ -139,7 +208,7 @@ const LicensePageIndex: NextPage = () => {
             {licenseIndex && <LicenseIndex />}
             {licenseExchange && <LicenseExchange />}
           </LicenseCenterLayout>
-          <AddApiKeyCon handleNoLicenseClick={handleNoLicenseClick} />
+          <AddApiKeyCon handleNoLicenseClick={handleNoLicenseClick} handleCreateUpdateKey={handleCreateUpdateKey} />
         </LicensesLayout>
       </UserLayout>
       <Modal open={moOpen} close={onCloseMo} message={moMessage} error={moSt} />

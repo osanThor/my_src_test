@@ -8,10 +8,10 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 // api
-import { apiGetAllExchanges } from '../api';
-import { GetAllExchangeResult } from '../types';
+import { apiCreateUpdateKey, apiGetAllExchanges } from '../api';
+import { CreateUpdateApiKeyPayload, GetAllExchangeResult, LoadExchangeResponse } from '../types';
 
-function* getAllExchanges() {
+function* getAllExchangesSaga() {
   yield put(exchangeActions.loadBoardsRequest());
   try {
     const { data }: AxiosResponse<GetAllExchangeResult> = yield call(apiGetAllExchanges);
@@ -29,8 +29,27 @@ function* getAllExchanges() {
   }
 }
 
+function* createUpdateKeySaga(action: PayloadAction<CreateUpdateApiKeyPayload>) {
+  yield put(exchangeActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadExchangeResponse> = yield call(apiCreateUpdateKey, action.payload);
+    console.log(data);
+
+    yield put(exchangeActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('exchangeSaga getAllExchanges >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(exchangeActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+
 function* watchLoadfile() {
-  yield takeLatest(exchangeActions.getAllExchange, getAllExchanges);
+  yield takeLatest(exchangeActions.getAllExchange, getAllExchangesSaga);
+  yield takeLatest(exchangeActions.createApiKey, createUpdateKeySaga);
 }
 
 export default function* fileSaga() {

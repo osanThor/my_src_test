@@ -11,7 +11,13 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 
-const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => void }) => {
+const AcountTable = ({
+  handleNoLicenseClick,
+  handleCreateUpdateKey,
+}: {
+  handleNoLicenseClick: () => void;
+  handleCreateUpdateKey: () => void;
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { exchange, apiKeyObj, allExchangeResult, loadExchangeLoading, loadExchangeDone } = useSelector(
@@ -25,9 +31,6 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
   );
   const [selectExchange, setSelectExchange] = useState('');
   const [allExcLenght, setAllExcLenght] = useState(0);
-
-  //only one edit
-  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     if (router.query.selected) {
@@ -90,23 +93,45 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
         </div>
       </div>
       <div className="tbody">
-        {selectExchange && <SelectTableRow excPlat={selectExchange} onChange={handleChangeApiKeyPayload} />}
+        {selectExchange && (
+          <SelectTableRow
+            excPlat={selectExchange}
+            onChange={handleChangeApiKeyPayload}
+            onCreateUpdate={handleCreateUpdateKey}
+          />
+        )}
         {allExchangeResult.map((exc) => (
           <TableRow
             key={exc.id}
             exc={exc}
             handleNoLicenseClick={handleNoLicenseClick}
             onChange={handleChangeApiKeyPayload}
+            onCreateUpdate={handleCreateUpdateKey}
           />
         ))}
         {allExcLenght > 2 || (
-          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+          <TableRow
+            exc={null}
+            handleNoLicenseClick={handleNoLicenseClick}
+            onChange={handleChangeApiKeyPayload}
+            onCreateUpdate={handleCreateUpdateKey}
+          />
         )}
         {allExcLenght > 1 || (
-          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+          <TableRow
+            exc={null}
+            handleNoLicenseClick={handleNoLicenseClick}
+            onChange={handleChangeApiKeyPayload}
+            onCreateUpdate={handleCreateUpdateKey}
+          />
         )}
         {allExcLenght > 0 || (
-          <TableRow exc={null} handleNoLicenseClick={handleNoLicenseClick} onChange={handleChangeApiKeyPayload} />
+          <TableRow
+            exc={null}
+            handleNoLicenseClick={handleNoLicenseClick}
+            onChange={handleChangeApiKeyPayload}
+            onCreateUpdate={handleCreateUpdateKey}
+          />
         )}
       </div>
     </AcountTableBlock>
@@ -117,9 +142,11 @@ const AcountTable = ({ handleNoLicenseClick }: { handleNoLicenseClick: () => voi
 const SelectTableRow = ({
   excPlat,
   onChange,
+  onCreateUpdate,
 }: {
   excPlat: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCreateUpdate: () => void;
 }) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
@@ -228,7 +255,7 @@ const SelectTableRow = ({
           <input name="apiSecret" value="" type="password" disabled={!editable} onChange={onChange} />
         )}
         <div className="status">미등록</div>
-        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)}>
+        <Button className={editable && 'editable'} onClick={editable ? onCreateUpdate : () => setEditable(!editable)}>
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
         <Button disabled>
@@ -244,6 +271,7 @@ const TableRow = ({
   handleNoLicenseClick,
   exc,
   onChange,
+  onCreateUpdate,
 }: {
   handleNoLicenseClick: () => void;
   exc: {
@@ -260,6 +288,7 @@ const TableRow = ({
     positions: [];
   } | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCreateUpdate: () => void;
 }) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
@@ -337,7 +366,11 @@ const TableRow = ({
           <>{exc.isReferral ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
         )}
         {!exc && <div className="status">미등록</div>}
-        <Button className={editable && 'editable'} onClick={() => setEditable(!editable)} disabled={exc === null}>
+        <Button
+          className={editable && 'editable'}
+          onClick={editable ? onCreateUpdate : () => setEditable(!editable)}
+          disabled={exc === null}
+        >
           <Image src={editable ? EditPenIcon[1] : EditPenIcon[0]} alt="edit" />
         </Button>
         <Button className={editable && 'editable cancel'} disabled={!editable}>
