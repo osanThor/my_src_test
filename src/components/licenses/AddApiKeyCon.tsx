@@ -1,8 +1,10 @@
 import colors from '@/src/assets/Colors';
 import { AcountPlusIcon, ResetIcon } from '@/src/assets/Images';
+import { exchangeActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import AcountTable from './item/AcountTable';
@@ -15,12 +17,13 @@ const AddApiKeyCon = ({
   handleNoLicenseClick: () => void;
   handleCreateUpdateKey: () => void;
 }) => {
+  const dispatch = useDispatch();
   return (
     <AddApiKeyConBlock>
       <div className="addAPi_title">
         <h2>API Key 등록</h2>
         <div className="api_contrl">
-          <Button>
+          <Button onClick={() => dispatch(exchangeActions.getAllExchange())}>
             <div className="icon">
               <Image src={ResetIcon[1]} alt="reset" />
             </div>

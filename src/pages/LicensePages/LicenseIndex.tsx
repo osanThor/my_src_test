@@ -167,7 +167,7 @@ const LicensePageIndex: NextPage = () => {
     }
 
     if (loadExchangeDone) {
-      if (loadExchangeDone.message === 'WRONG_API_KEY ') {
+      if (loadExchangeDone.message === 'WRONG_API_KEY') {
         setMoOpen(true);
         setMoMessage('API Key 입력값을 확인해주세요');
         setMoSt(true);
