@@ -43,11 +43,8 @@ const MypageIndex: NextPage = () => {
   }, [loadAuthLoading, loadAuthDone]);
 
   useEffect(() => {
-    // if (isUser) {
-    //   dispatch(userActions.getUserProfile());
-    // }
     dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch, isUser]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (router.query.state === 'edit') {
@@ -60,7 +57,6 @@ const MypageIndex: NextPage = () => {
   }, [router, isUser]);
 
   useEffect(() => {
-    // dispatch(boardsActions.initializeBoardsForm());
     if (isUser) {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());
