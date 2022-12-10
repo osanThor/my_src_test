@@ -57,6 +57,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -74,6 +75,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -91,6 +93,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -108,6 +111,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -125,6 +129,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -142,6 +147,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -159,6 +165,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -175,6 +182,7 @@ export type BoardsStateType = {
       title: string;
       hits: number;
       createdAt: string;
+      deletedAt: string | null;
       _count: {
         comments: number;
       };
@@ -187,6 +195,7 @@ export type BoardsStateType = {
       id: number | null;
       board: {
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -201,6 +210,7 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -215,6 +225,7 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -230,6 +241,7 @@ export type BoardsStateType = {
           answer: string | null;
           title: string | null;
           createdAt: string;
+          deletedAt: string | null;
         }>
       | [];
   };
@@ -241,6 +253,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           } | null;

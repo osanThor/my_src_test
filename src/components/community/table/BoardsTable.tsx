@@ -55,28 +55,35 @@ const BoardsTable = () => {
           {total != 0 ? (
             <>
               {loadGetBoardsDone.boards.map((board) => (
-                <div className="tr" key={board.id}>
-                  <div className="td">{board.id}</div>
-                  <div
-                    className="td title dark_gray pointer"
-                    onClick={() => router.push(`/community/board/${board.id}`)}
-                  >
-                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-                  </div>
-                  <div
-                    className="td dark_gray pointer"
-                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)}
-                  >
-                    {(board.user && board.user.nickname) || ''}
-                  </div>
-                  <div className="td">
-                    <span className="ver_m">조회수</span>
-                    {board.hits}
-                  </div>
-                  <div className="td">
-                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-                  </div>
-                </div>
+                <>
+                  {!board.deletedAt && (
+                    <div className="tr" key={board.id}>
+                      <div className="td">{board.id}</div>
+                      <div
+                        className="td title dark_gray pointer"
+                        onClick={() => router.push(`/community/board/${board.id}`)}
+                      >
+                        <span className="tit">{board.title}</span>{' '}
+                        <span className="comments">{board._count.comments}</span>
+                      </div>
+                      <div
+                        className="td dark_gray pointer"
+                        onClick={() =>
+                          router.push(`/strategy/strategist?user=${board.user.nickname}&category=discussion`)
+                        }
+                      >
+                        {(board.user && board.user.nickname) || ''}
+                      </div>
+                      <div className="td">
+                        <span className="ver_m">조회수</span>
+                        {board.hits}
+                      </div>
+                      <div className="td">
+                        <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
+                      </div>
+                    </div>
+                  )}
+                </>
               ))}
             </>
           ) : (

@@ -34,6 +34,7 @@ export type getBoardsResult = {
     title: string;
     hits: number;
     createdAt: string;
+    deletedAt: string | null;
     user: {
       nickname: string;
     };
@@ -50,6 +51,7 @@ export type getNoticeResult =
         title: string;
         hits: number;
         createdAt: string;
+        deletedAt: string | null;
         user: {
           nickname: string;
         } | null;
@@ -66,6 +68,7 @@ export type getUserBoardsResult = {
     title: string;
     hits: number;
     createdAt: string;
+    deletedAt: string | null;
     _count: {
       comments: number;
     };
@@ -78,6 +81,7 @@ export type getUserCommentsResult = {
     id: number | null;
     board: {
       createdAt: string;
+      deletedAt: string | null;
       hits: number | null;
       title: string | null;
       user: { nickname: string | null };
@@ -92,6 +96,7 @@ export type getUserCollectionsResult = {
     board: {
       id: number | null;
       createdAt: string;
+      deletedAt: string | null;
       hits: number | null;
       title: string | null;
       user: { nickname: string | null };
@@ -106,6 +111,7 @@ export type getUserLikesResult = {
     board: {
       id: number | null;
       createdAt: string;
+      deletedAt: string | null;
       hits: number | null;
       title: string | null;
       user: { nickname: string | null };
@@ -120,6 +126,7 @@ export type getUserInquiriesResult = {
     answer: null;
     title: string | null;
     createdAt: string;
+    deletedAt: string | null;
   }>;
 };
 
@@ -131,6 +138,7 @@ export type getUserInquiryResult = {
   answer: null;
   content: string | null;
   createdAt: string | null;
+  deletedAt: string | null;
   files: Array<{ url: string }> | [];
   title: string | null;
 };
