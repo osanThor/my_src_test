@@ -253,12 +253,15 @@ export type BoardsStateType = {
   getBoardDone: {
     id: number;
     title: string | null;
+    collectors: Array<{ createdAt: string }> | [];
+    likes: Array<{ createdAt: string }> | [];
     user: {
       photoUrl: string | null;
       nickname: string | null;
       styles: Array<{ name: string }> | [];
     } | null;
     createdAt: string | null;
+    deletedAt: string | null;
     hits: number | null;
     content: string | null;
     files: Array<string> | [];
@@ -268,14 +271,18 @@ export type BoardsStateType = {
             | Array<{
                 content: string;
                 createdAt: string;
+                deletedAt: string | null;
+                file: Array<{ name: string }> | null;
                 id: number;
-                user: { nickname: string };
+                user: { nickname: string; photoUrl: string | null };
               }>
             | [];
           content: string;
           createdAt: string;
+          deletedAt: string | null;
+          file: Array<{ name: string }> | null;
           id: number;
-          user: { nickname: string };
+          user: { nickname: string; photoUrl: string | null };
         }>
       | [];
     _count: {
@@ -338,12 +345,15 @@ const initialState: BoardsStateType = {
   getBoardDone: {
     id: 0,
     title: '',
+    collectors: null,
+    likes: null,
     user: {
       photoUrl: '',
       nickname: '',
       styles: [],
     },
     createdAt: '',
+    deletedAt: '',
     hits: 0,
     content: '',
     files: [],
@@ -592,10 +602,16 @@ const boardsSlice = createSlice({
       state.commentId = action.payload.commentId;
     },
     // collection, like
+    isCollectors(state) {
+      state.isCollect = true;
+    },
     setBoardCollection(state, action: PayloadAction<setBoardCollectionPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.isCollect = action.payload.isCollect;
+    },
+    isLikes(state) {
+      state.isLike = true;
     },
     setBoardLike(state, action: PayloadAction<setBoardLikePayload>) {
       state.loadBoardsLoading = true;

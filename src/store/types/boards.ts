@@ -140,12 +140,15 @@ export type getBoardPayload = {
 export type getBoardResult = {
   id: number;
   title: string | null;
+  collectors: Array<{ createdAt: string }> | [];
+  likes: Array<{ createdAt: string }> | [];
   user: {
     photoUrl: string | null;
     nickname: string | null;
     styles: Array<{ name: string }> | [];
   };
   createdAt: string | null;
+  deletedAt: string | null;
   hits: number | null;
   content: string | null;
   files: Array<string> | [];
@@ -155,14 +158,18 @@ export type getBoardResult = {
           | Array<{
               content: string;
               createdAt: string;
+              deletedAt: string | null;
               id: number;
-              user: { nickname: string };
+              user: { nickname: string; photoUrl: string | null };
+              file: Array<{ name: string }> | null;
             }>
           | [];
         content: string;
         createdAt: string;
+        deletedAt: string | null;
+        file: Array<{ name: string }> | null;
         id: number;
-        user: { nickname: string };
+        user: { nickname: string; photoUrl: string | null };
       }>
     | [];
   _count: {

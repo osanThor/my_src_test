@@ -15,8 +15,9 @@ const BoardTop = ({
   copyURL: () => void;
   handleSetBoardCollection: () => void;
 }) => {
-  const { getBoardDone } = useSelector(({ boards }: RootState) => ({
+  const { getBoardDone, isCollect } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
+    isCollect: boards.isCollect,
   }));
   const { id, title, user, hits, createdAt } = getBoardDone;
 
@@ -28,7 +29,7 @@ const BoardTop = ({
         <div className="top_btns">
           <div className="button">
             <div className="icon" onClick={handleSetBoardCollection}>
-              <Image src={Menu7[0]} alt="collection" />
+              {isCollect ? <Image src={Menu7[1]} alt="collection" /> : <Image src={Menu7[0]} alt="collection" />}
             </div>
           </div>
           <div className="button">
@@ -40,7 +41,7 @@ const BoardTop = ({
       </div>
       <div className="bottom_area">
         <div className="thumbnail">
-          {user && user.photoUrl != 'quantro.net' ? (
+          {user && user.photoUrl != 'quantro.net' && user.photoUrl != 'byteria.co.kr' ? (
             <Image src={user.photoUrl} alt="profile" layout="fill" />
           ) : (
             <Image src={Profile1[1]} alt="profile" layout="fill" />
