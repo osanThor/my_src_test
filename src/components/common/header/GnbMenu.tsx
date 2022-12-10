@@ -78,8 +78,6 @@ const GnbMenu = () => {
       setCenter(true);
     }
   }, [router]);
-  console.log(pathName);
-  console.log(router.query);
 
   return (
     <>

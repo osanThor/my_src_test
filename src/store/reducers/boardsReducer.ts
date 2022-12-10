@@ -47,7 +47,8 @@ export type BoardsStateType = {
   comment: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<string> | [];
+  fileUrls: Array<string> | [] | string | null;
+  fileUrl: string | null;
   loadBoardsLoading: boolean;
   loadGetComissionDone: {
     total: number | null;
@@ -264,6 +265,7 @@ export type BoardsStateType = {
   boardId: number | null;
   parentCommentId: number | null;
   getBoardDone: {
+    category: string | null;
     id: number;
     title: string | null;
     collectors: Array<{ createdAt: string }> | [];
@@ -285,7 +287,7 @@ export type BoardsStateType = {
                 content: string;
                 createdAt: string;
                 deletedAt: string | null;
-                file: Array<{ name: string }> | null;
+                file: { url: string } | null;
                 id: number;
                 user: { nickname: string; photoUrl: string | null };
               }>
@@ -293,7 +295,7 @@ export type BoardsStateType = {
           content: string;
           createdAt: string;
           deletedAt: string | null;
-          file: Array<{ name: string }> | null;
+          file: { url: string } | null;
           id: number;
           user: { nickname: string; photoUrl: string | null };
         }>
@@ -339,6 +341,7 @@ const initialState: BoardsStateType = {
   title: '',
   content: '',
   fileUrls: [],
+  fileUrl: '',
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
   loadGetComissionDone: { total: 0, boards: [] },
@@ -356,6 +359,7 @@ const initialState: BoardsStateType = {
   boardId: 0,
   parentCommentId: 0,
   getBoardDone: {
+    category: '',
     id: 0,
     title: '',
     collectors: null,
@@ -581,19 +585,19 @@ const boardsSlice = createSlice({
       state.boardId = action.payload.boardId;
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     initialCommentState(state) {
       state.parentCommentId = 0;
       state.content = '';
-      state.fileUrls = [];
+      state.fileUrl = '';
     },
     createComment(state, action: PayloadAction<createCommentPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     changeCommentId(state, action: PayloadAction<changeCommentId>) {
       state.commentId = action.payload.commentId;
@@ -608,7 +612,7 @@ const boardsSlice = createSlice({
       state.commentId = action.payload.commentId;
       state.content = action.payload.content;
       state.parentCommentId = action.payload.parentCommentId;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     deleteComment(state, action: PayloadAction<deleteCommentPayload>) {
       state.loadBoardsLoading = true;

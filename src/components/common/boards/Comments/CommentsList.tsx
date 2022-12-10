@@ -36,7 +36,7 @@ const CommentItem = ({
           content: string;
           createdAt: string;
           deletedAt: string | null;
-          file: Array<{ name: string }> | null;
+          file: { url: string } | null;
           id: number;
           user: { nickname: string; photoUrl: string | null };
         }>
@@ -45,7 +45,7 @@ const CommentItem = ({
     createdAt: string;
     deletedAt: string | null;
     id: number;
-    file: Array<{ name: string }> | null;
+    file: { url: string } | null;
     user: { nickname: string; photoUrl: string | null };
   };
   handleOpenDleteComment: () => void;
@@ -62,7 +62,7 @@ const CommentItem = ({
   }));
   const [addComment, setAddComment] = useState(false);
   const [childCommentUpdate, setChildCommentUpdate] = useState(false);
-  const { childComment, content, createdAt, deletedAt, id, user } = cm;
+  const { childComment, content, createdAt, deletedAt, file, id, user } = cm;
 
   // 답글 쓰기 버튼 클릭 시 해당 comment id와 parentCommentId 비교
   const handleChangeParentsId = () => {
@@ -163,7 +163,10 @@ const CommentItem = ({
                   </Moment>
                 </div>
               </div>
-              <div className="comment_content">{content}</div>
+              <div className="comment_content">
+                {file && <img src={file.url} alt="comment file" />}
+                {content}
+              </div>
               <div className="comment_btns">
                 <div className="btn add_comment" onClick={handleChangeParentsId}>
                   답글쓰기
@@ -186,7 +189,7 @@ const CommentItem = ({
               </div>
             </div>
           )}
-          {updateComment && <UpdateCommentEditor />}
+          {updateComment && <UpdateCommentEditor file={file.url} />}
           <div className="children_comments">
             <span className="comments_spacer" />
             <div className="comments_con">
@@ -224,7 +227,7 @@ const ChlidrenItem = ({
     createdAt: string;
     deletedAt: string | null;
     id: number;
-    file: Array<{ name: string }> | null;
+    file: { url: string } | null;
     user: {
       nickname: string;
       photoUrl: string | null;
@@ -322,7 +325,10 @@ const ChlidrenItem = ({
                 </Moment>
               </div>
             </div>
-            <div className="comment_content">{child.content}</div>
+            <div className="comment_content">
+              {child.file && <img src={child.file.url} alt="comment file" />}
+              {child.content}
+            </div>
             <div className="comment_btns">
               {nickname === child.user.nickname && (
                 <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
@@ -341,7 +347,7 @@ const ChlidrenItem = ({
               )}
             </div>
           </div>
-          {updateComment && <UpdateCommentEditor />}
+          {updateComment && <UpdateCommentEditor file={child.file.url} />}
         </>
       )}
     </>
@@ -386,7 +392,11 @@ const CommentItemBlock = styled.div`
     }
     .comment_content {
       flex: 1;
+      flex-direction: column;
       padding: 0 20px;
+      img {
+        max-width: 100%;
+      }
     }
     .comment_btns {
       display: flex;

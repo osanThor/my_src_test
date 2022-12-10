@@ -146,6 +146,7 @@ export type getBoardPayload = {
   boardId: number | null;
 };
 export type getBoardResult = {
+  category: string | null;
   id: number;
   title: string | null;
   collectors: Array<{ createdAt: string }> | [];
@@ -169,13 +170,13 @@ export type getBoardResult = {
               deletedAt: string | null;
               id: number;
               user: { nickname: string; photoUrl: string | null };
-              file: Array<{ name: string }> | null;
+              file: { url: string } | null;
             }>
           | [];
         content: string;
         createdAt: string;
         deletedAt: string | null;
-        file: Array<{ name: string }> | null;
+        file: { url: string } | null;
         id: number;
         user: { nickname: string; photoUrl: string | null };
       }>
@@ -223,14 +224,14 @@ export type createCommentPayload = {
   boardId: number | null;
   parentCommentId: number | null;
   content: string | null;
-  fileUrls: Array<string> | [];
+  fileUrl: string | null;
 };
 
 export type updateCommentPayload = {
   commentId: number | null;
   parentCommentId: number | null;
   content: string | null;
-  fileUrls: Array<string> | [];
+  fileUrl: string | null;
 };
 export type updateCommentStPayload = {
   commentId: number | null;

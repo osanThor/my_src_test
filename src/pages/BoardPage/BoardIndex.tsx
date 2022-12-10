@@ -1,9 +1,5 @@
-import CommentsLayout from '@/src/components/common/boards/Comments/CommentsLayout';
-import FuncModal from '@/src/components/common/modals/FuncModal';
+import BoardDetailLayout from '@/src/components/board/detail/BoardDetailLayout';
 import Modal from '@/src/components/common/modals/Modal';
-import BoardContents from '@/src/components/community/detail/BoardContents';
-import BoardDetailLayout from '@/src/components/community/detail/BoardDetailLayout';
-import BoardTop from '@/src/components/community/detail/BoardTop';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
@@ -11,6 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import BoardDiscussionPage from './BoardDiscussionPage';
 
 const BoardIndex = () => {
   const router = useRouter();
@@ -25,18 +22,15 @@ const BoardIndex = () => {
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
   }));
-  const { boardId, getBoardDone, commentId, isCollect, isLike, loadBoardsDone, loadBoardsError } = useSelector(
-    ({ boards }: RootState) => ({
-      boardId: boards.boardId,
-      getBoardDone: boards.getBoardDone,
-      commentId: boards.commentId,
-      isCollect: boards.isCollect,
-      isLike: boards.isLike,
-      loadBoardsDone: boards.loadBoardsDone,
-      loadBoardsError: boards.loadBoardsError,
-    }),
-  );
-  //not user
+
+  const { boardId, getBoardDone, isCollect, isLike } = useSelector(({ boards }: RootState) => ({
+    boardId: boards.boardId,
+    getBoardDone: boards.getBoardDone,
+    isCollect: boards.isCollect,
+    isLike: boards.isLike,
+  }));
+
+  //not user Event handler
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) router.push('/auth/login');
@@ -71,7 +65,7 @@ const BoardIndex = () => {
       setBoardIdSt(parseInt(bId as string));
     }
   }, [bId]);
-
+  // get board
   useEffect(() => {
     if (once) {
       if (boardIdSt != 0) {
@@ -80,6 +74,18 @@ const BoardIndex = () => {
     }
   }, [once]);
 
+  //** board detail router */
+  const { category } = getBoardDone;
+  useEffect(() => {
+    if (!router.query.state) {
+      if (category === 'DISCUSSION') {
+        router.replace(`/board/${boardId}?state=community&category=DISCUSSION`);
+      }
+    }
+  }, [router, category]);
+  //** !--board detail router */
+
+  // writer check
   const { user } = getBoardDone;
   const [identity, setIdentity] = useState(false);
   useEffect(() => {
@@ -90,57 +96,9 @@ const BoardIndex = () => {
     }
   }, [nickname, user]);
 
-  const [fModalOpen, setFModalOpen] = useState(false);
-  const [fModalMessage, setFModalMessage] = useState('');
-  const handleFunctionModalClose = () => {
-    setFModalOpen(false);
-    dispatch(boardsActions.changeCommentId({ commentId: 0 }));
-  };
-  const handleOpenDeleteBoard = () => {
-    setFModalOpen(true);
-    setFModalMessage('게시글을 삭제할까요?');
-  };
-
-  const handleDleteBoard = () => {
-    dispatch(boardsActions.deleteBoard({ boardId }));
-  };
-  const [isComment, setIsComment] = useState(false);
-  const handleOpenDleteComment = () => {
-    setFModalOpen(true);
-    setFModalMessage('댓글을 삭제할까요?');
-    setIsComment(true);
-  };
-  const handleDleteComment = () => {
-    dispatch(boardsActions.deleteComment({ commentId }));
-  };
-
-  useEffect(() => {
-    if (loadBoardsError) {
-      alert(loadBoardsError);
-      return;
-    }
-
-    if (loadBoardsDone) {
-      if (loadBoardsDone.message === 'DELETED') {
-        handleFunctionModalClose();
-        dispatch(boardsActions.getBoard({ boardId }));
-        if (isComment) {
-        } else {
-          router.push('/community?category=discussion');
-        }
-      } else if (loadBoardsDone.message === 'CREATED') {
-        dispatch(boardsActions.getBoard({ boardId }));
-        dispatch(boardsActions.initialCommentState());
-      } else if (loadBoardsDone.message === 'UPDATED') {
-        dispatch(boardsActions.getBoard({ boardId }));
-        dispatch(boardsActions.initialCommentState());
-        dispatch(boardsActions.changeCommentId({ commentId: 0 }));
-      }
-    }
-  }, [loadBoardsDone, loadBoardsError]);
-
-  // collection
+  // collection, likes
   const { collectors, likes } = getBoardDone;
+  //collection
   useEffect(() => {
     if (collectors && likes) {
       if (collectors.length != 0) {
@@ -158,7 +116,7 @@ const BoardIndex = () => {
   const handleSetBoardLike = () => {
     dispatch(boardsActions.setBoardLike({ boardId, isLike: !isLike }));
   };
-
+  // copy url
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement('textarea');
@@ -183,27 +141,16 @@ const BoardIndex = () => {
     <>
       <UserLayout>
         <BoardDetailLayout>
-          <BoardTop copyURL={copyURL} handleSetBoardCollection={handleSetBoardCollection} />
-          <BoardContents
-            identity={identity}
-            handleOpenDeleteBoard={handleOpenDeleteBoard}
-            handleSetBoardLike={handleSetBoardLike}
-          />
-          <CommentsLayout handleOpenDleteComment={handleOpenDleteComment} />
+          {router.query.category === 'DISCUSSION' && (
+            <BoardDiscussionPage
+              identity={identity}
+              handleSetBoardLike={handleSetBoardLike}
+              copyURL={copyURL}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
         </BoardDetailLayout>
       </UserLayout>
-      <FuncModal
-        open={fModalOpen}
-        onClose={handleFunctionModalClose}
-        message={{
-          title: fModalMessage,
-          description: '',
-          btnTxt: '삭제하기',
-        }}
-        dubBtn={true}
-        onClick={isComment ? handleDleteComment : handleDleteBoard}
-        onClick2={handleFunctionModalClose}
-      />
       <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
     </>
   );
