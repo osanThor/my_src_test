@@ -61,7 +61,7 @@ const BoardsTable = () => {
                       <div className="td">{board.id}</div>
                       <div
                         className="td title dark_gray pointer"
-                        onClick={() => router.push(`/community/board/${board.id}`)}
+                        onClick={() => router.push(`/board/${board.id}?state=community&category=DISCUSSION`)}
                       >
                         <span className="tit">{board.title}</span>{' '}
                         <span className="comments">{board._count.comments}</span>
