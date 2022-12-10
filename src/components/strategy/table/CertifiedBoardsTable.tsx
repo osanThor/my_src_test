@@ -36,7 +36,10 @@ const CertifiedBoardsTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div className="td title dark_gray pointer">
+              <div
+                className="td title dark_gray pointer"
+                onClick={() => router.push(`/board/${notice.board.id}?state=community&category=NOTICE`)}
+              >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>
@@ -59,7 +62,7 @@ const CertifiedBoardsTable = () => {
                   <div className="td">{board.id}</div>
                   <div
                     className="td title dark_gray pointer"
-                    onClick={() => router.push(`/community/board/${board.id}`)}
+                    onClick={() => router.push(`/board/${board.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
                   >
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>

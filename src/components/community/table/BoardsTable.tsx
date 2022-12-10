@@ -36,7 +36,10 @@ const BoardsTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div className="td title dark_gray pointer">
+              <div
+                className="td title dark_gray pointer"
+                onClick={() => router.push(`/board/${notice.board.id}?state=community&category=NOTICE`)}
+              >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>

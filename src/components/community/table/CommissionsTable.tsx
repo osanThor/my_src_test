@@ -43,7 +43,7 @@ const CommissionsTable = () => {
               </div>
               <div
                 className="td title dark_gray pointer"
-                onClick={() => router.push(`/community/board/${notice.board.id}`)}
+                onClick={() => router.push(`/board/${notice.board.id}?state=community&category=NOTICE`)}
               >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
@@ -73,7 +73,7 @@ const CommissionsTable = () => {
                     className="td title dark_gray pointer"
                     onClick={
                       board.user.nickname === nickname
-                        ? () => router.push(`/community/board/${board.id}`)
+                        ? () => router.push(`/board/${board.id}?state=community&category=COMISSIOIN`)
                         : () => alert('권한이 없습니다')
                     }
                   >

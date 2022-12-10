@@ -43,7 +43,7 @@ const UserStrategyTable = () => {
               </div>
               <div
                 className="td title dark_gray pointer"
-                onClick={() => router.push(`/community/board/${notice.board.id}`)}
+                onClick={() => router.push(`/board/${notice.board.id}?state=community&category=NOTICE`)}
               >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
@@ -71,11 +71,7 @@ const UserStrategyTable = () => {
                   </div>
                   <div
                     className="td title dark_gray pointer"
-                    onClick={
-                      board.user.nickname === nickname
-                        ? () => router.push(`/community/board/${board.id}`)
-                        : () => alert('권한이 없습니다')
-                    }
+                    onClick={() => router.push(`/board/${board.id}?state=strategy&category=USER_STRATEGY`)}
                   >
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
