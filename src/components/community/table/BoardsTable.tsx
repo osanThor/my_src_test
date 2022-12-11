@@ -58,9 +58,9 @@ const BoardsTable = () => {
           {total != 0 ? (
             <>
               {loadGetBoardsDone.boards.map((board) => (
-                <>
+                <React.Fragment key={board.id}>
                   {!board.deletedAt && (
-                    <div className="tr" key={board.id}>
+                    <div className="tr">
                       <div className="td">{board.id}</div>
                       <div
                         className="td title dark_gray pointer"
@@ -86,7 +86,7 @@ const BoardsTable = () => {
                       </div>
                     </div>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </>
           ) : (

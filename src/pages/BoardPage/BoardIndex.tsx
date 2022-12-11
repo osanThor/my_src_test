@@ -1,4 +1,5 @@
 import BoardDetailLayout from '@/src/components/board/detail/BoardDetailLayout';
+import Loading from '@/src/components/common/Loading';
 import Modal from '@/src/components/common/modals/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
@@ -23,11 +24,12 @@ const BoardIndex = () => {
     nickname: user.nickname,
   }));
 
-  const { boardId, getBoardDone, isCollect, isLike } = useSelector(({ boards }: RootState) => ({
+  const { boardId, getBoardDone, isCollect, isLike, loadBoardsLoading } = useSelector(({ boards }: RootState) => ({
     boardId: boards.boardId,
     getBoardDone: boards.getBoardDone,
     isCollect: boards.isCollect,
     isLike: boards.isLike,
+    loadBoardsLoading: boards.loadBoardsLoading,
   }));
 
   //not user Event handler
@@ -150,6 +152,7 @@ const BoardIndex = () => {
             />
           )}
         </BoardDetailLayout>
+        {loadBoardsLoading && <Loading />}
       </UserLayout>
       <Modal open={modalOpen} close={handleModalClose} message={modalMessage} error={modalError} />
     </>
