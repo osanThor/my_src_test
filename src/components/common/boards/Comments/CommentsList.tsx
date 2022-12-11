@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { MoreInfoIcon, Profile1 } from '@/src/assets/Images';
+import { MoreInfoIcon, Profile, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -35,16 +35,18 @@ const CommentItem = ({
       | Array<{
           content: string;
           createdAt: string;
+          deletedAt: string | null;
+          file: { url: string } | null;
           id: number;
-          user: { nickname: string };
+          user: { nickname: string; photoUrl: string | null };
         }>
       | [];
     content: string;
     createdAt: string;
+    deletedAt: string | null;
     id: number;
-    user: {
-      nickname: string;
-    };
+    file: { url: string } | null;
+    user: { nickname: string; photoUrl: string | null };
   };
   handleOpenDleteComment: () => void;
 }) => {
@@ -60,7 +62,7 @@ const CommentItem = ({
   }));
   const [addComment, setAddComment] = useState(false);
   const [childCommentUpdate, setChildCommentUpdate] = useState(false);
-  const { childComment, content, createdAt, id, user } = cm;
+  const { childComment, content, createdAt, deletedAt, file, id, user } = cm;
 
   // 답글 쓰기 버튼 클릭 시 해당 comment id와 parentCommentId 비교
   const handleChangeParentsId = () => {
@@ -135,63 +137,80 @@ const CommentItem = ({
   });
 
   return (
-    <CommentItemBlock className="item">
-      <div className="parent_comment" style={{ marginBottom: updateComment && '16px' }}>
-        <div className="profile">
-          <div className="profile_image">
-            <Image src={Profile1[1]} alt="profile" layout="fill" />
-          </div>
-          <div className="profile_info">
-            <div className={getBoardDone.user.nickname === user.nickname ? 'nickname on' : 'nickname'}>
-              {user ? user.nickname : '닉네임없음'}
-            </div>
-            <Moment format="YYYY.MM.DD HH.MM" className="Moment">
-              {createdAt}
-            </Moment>
-          </div>
-        </div>
-        <div className="comment_content">{content}</div>
-        <div className="comment_btns">
-          <div className="btn add_comment" onClick={handleChangeParentsId}>
-            답글쓰기
-          </div>
-          {nickname === user.nickname && (
-            <div className="btn more_info" ref={MoCtrlButtonRef} onClick={handleMoCtrlWin}>
-              <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-              {isMoCntrl && (
-                <div className="board_mo_ctrl" ref={MoCtrlRef}>
-                  <div className="button" onClick={handleOpenUpdateCommentArea}>
-                    수정하기
-                  </div>
-                  <div className="button" onClick={handleOpenDlete}>
-                    삭제하기
-                  </div>
+    <>
+      {deletedAt && childComment.length === 0 ? (
+        <></>
+      ) : (
+        <CommentItemBlock className="item">
+          {deletedAt && childComment ? (
+            <div className="parent_comment delete">삭제된 댓글입니다.</div>
+          ) : (
+            <div className="parent_comment" style={{ marginBottom: updateComment && '16px' }}>
+              <div className="profile">
+                <div className="profile_image">
+                  <Image
+                    src={user && user.photoUrl != 'byteria.co.kr' ? user.photoUrl : Profile1[1]}
+                    alt="profile"
+                    layout="fill"
+                  />
                 </div>
-              )}
+                <div className="profile_info">
+                  <div className={getBoardDone.user.nickname === user.nickname ? 'nickname on' : 'nickname'}>
+                    {user ? user.nickname : '닉네임없음'}
+                  </div>
+                  <Moment format="YYYY.MM.DD HH.MM" className="Moment">
+                    {createdAt}
+                  </Moment>
+                </div>
+              </div>
+              <div className="comment_content">
+                {file && <img src={file.url} alt="comment file" />}
+                {content}
+              </div>
+              <div className="comment_btns">
+                <div className="btn add_comment" onClick={handleChangeParentsId}>
+                  답글쓰기
+                </div>
+                {nickname === user.nickname && (
+                  <div className="btn more_info" ref={MoCtrlButtonRef} onClick={handleMoCtrlWin}>
+                    <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+                    {isMoCntrl && (
+                      <div className="board_mo_ctrl" ref={MoCtrlRef}>
+                        <div className="button" onClick={handleOpenUpdateCommentArea}>
+                          수정하기
+                        </div>
+                        <div className="button" onClick={handleOpenDlete}>
+                          삭제하기
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
-        </div>
-      </div>
-      {updateComment && <UpdateCommentEditor />}
-      <div className="children_comments">
-        <span className="comments_spacer" />
-        <div className="comments_con">
-          {childComment.map((child) => (
-            <ChlidrenItem
-              key={child.id}
-              child={child}
-              handleOpenDleteComment={handleOpenDleteComment}
-              parentId={id}
-              setAddComment={setAddComment}
-              setUpdateStParent={setUpdateSt}
-              childCommentUpdate={childCommentUpdate}
-              setChildCommentUpdate={setChildCommentUpdate}
-            />
-          ))}
-          {addComment && <CommentEditor />}
-        </div>
-      </div>
-    </CommentItemBlock>
+          {updateComment && <UpdateCommentEditor file={file.url} />}
+          <div className="children_comments">
+            <span className="comments_spacer" />
+            <div className="comments_con">
+              {childComment.map((child) => (
+                <ChlidrenItem
+                  key={child.id}
+                  child={child}
+                  handleOpenDleteComment={handleOpenDleteComment}
+                  parentId={id}
+                  setAddComment={setAddComment}
+                  setUpdateStParent={setUpdateSt}
+                  childCommentUpdate={childCommentUpdate}
+                  setChildCommentUpdate={setChildCommentUpdate}
+                />
+              ))}
+              {addComment && <CommentEditor />}
+            </div>
+          </div>
+        </CommentItemBlock>
+      )}
+    </>
   );
 };
 const ChlidrenItem = ({
@@ -206,9 +225,12 @@ const ChlidrenItem = ({
   child: {
     content: string;
     createdAt: string;
+    deletedAt: string | null;
     id: number;
+    file: { url: string } | null;
     user: {
       nickname: string;
+      photoUrl: string | null;
     };
   };
   handleOpenDleteComment: () => void;
@@ -227,7 +249,7 @@ const ChlidrenItem = ({
     nickname: user.nickname,
   }));
 
-  const { id, content } = child;
+  const { id, content, deletedAt } = child;
 
   //update comment
   const [updateComment, setUpdateComment] = useState(false);
@@ -277,40 +299,57 @@ const ChlidrenItem = ({
   });
   return (
     <>
-      <div className="parent_comment">
-        <div className="profile">
-          <div className="profile_image">
-            <Image src={Profile1[1]} alt="profile" layout="fill" />
-          </div>
-          <div className="profile_info">
-            <div className={getBoardDone.user.nickname === child.user.nickname ? 'nickname on' : 'nickname'}>
-              {child.user ? child.user.nickname : '닉네임없음'}
+      {deletedAt ? (
+        <></>
+      ) : (
+        <>
+          <div className="parent_comment">
+            <div className="profile">
+              <div className="profile_image">
+                <Image
+                  src={
+                    child && child.user.photoUrl != 'quantro.net' && child.user.photoUrl != 'byteria.co.kr'
+                      ? child.user.photoUrl
+                      : Profile1[1]
+                  }
+                  alt="profile"
+                  layout="fill"
+                />
+              </div>
+              <div className="profile_info">
+                <div className={getBoardDone.user.nickname === child.user.nickname ? 'nickname on' : 'nickname'}>
+                  {child.user ? child.user.nickname : '닉네임없음'}
+                </div>
+                <Moment format="YYYY.MM.DD HH.MM" className="Moment">
+                  {child.createdAt}
+                </Moment>
+              </div>
             </div>
-            <Moment format="YYYY.MM.DD HH.MM" className="Moment">
-              {child.createdAt}
-            </Moment>
-          </div>
-        </div>
-        <div className="comment_content">{child.content}</div>
-        <div className="comment_btns">
-          {nickname === child.user.nickname && (
-            <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
-              <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-              {isMoChildCntrl && (
-                <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
-                  <div className="button" onClick={handleOpenUpdateCommentArea}>
-                    수정하기
-                  </div>
-                  <div className="button" onClick={handleOpenDelte}>
-                    삭제하기
-                  </div>
+            <div className="comment_content">
+              {child.file && <img src={child.file.url} alt="comment file" />}
+              {child.content}
+            </div>
+            <div className="comment_btns">
+              {nickname === child.user.nickname && (
+                <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
+                  <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+                  {isMoChildCntrl && (
+                    <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
+                      <div className="button" onClick={handleOpenUpdateCommentArea}>
+                        수정하기
+                      </div>
+                      <div className="button" onClick={handleOpenDelte}>
+                        삭제하기
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-        </div>
-      </div>
-      {updateComment && <UpdateCommentEditor />}
+          </div>
+          {updateComment && <UpdateCommentEditor file={child.file.url} />}
+        </>
+      )}
     </>
   );
 };
@@ -323,6 +362,9 @@ const CommentItemBlock = styled.div`
     width: 100%;
     display: flex;
     align-items: flex-start;
+    &.delete {
+      line-height: 48px;
+    }
     .profile {
       display: flex;
       align-items: center;
@@ -350,7 +392,11 @@ const CommentItemBlock = styled.div`
     }
     .comment_content {
       flex: 1;
+      flex-direction: column;
       padding: 0 20px;
+      img {
+        max-width: 100%;
+      }
     }
     .comment_btns {
       display: flex;

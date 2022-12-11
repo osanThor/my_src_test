@@ -16,6 +16,7 @@ import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
 import OpenBetaModal from '@/src/components/common/modals/OpenBetaModal';
+import FuncModal from '@/src/components/common/modals/FuncModal';
 
 function MyApp({
   Component,
@@ -74,8 +75,18 @@ function MyApp({
     if (loadAuthError) {
       localStorage.clear();
       delete axiosInstance.defaults.headers.common['Authorization'];
+      if (loadAuthDone.message === 'ACCESS_DENIED') {
+        setTokenDinedOpen(true);
+        authService.userLogOut(dispatch);
+      }
     }
-  }, [loadAuthError]);
+  }, [loadAuthError, loadAuthDone]);
+
+  const [tokenDiedOpen, setTokenDinedOpen] = useState(false);
+  const handleTokenDinedModal = () => {
+    setTokenDinedOpen(false);
+    router.push('/auth/login');
+  };
 
   // token
   useEffect(() => {
@@ -113,6 +124,20 @@ function MyApp({
           <CssBaseline />
           <Component {...pageProps} />
           <OpenBetaModal open={openModal} onClose={handleCloseOpenModal} />
+          <FuncModal
+            open={tokenDiedOpen}
+            onClose={handleTokenDinedModal}
+            message={{
+              title: '세션이 만료되었어요',
+              description: '다시 로그인해주세요',
+              btnTxt: '',
+            }}
+            dubBtn={false}
+            onClick={handleTokenDinedModal}
+            onClick2={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
         </ThemeProvider>
       </SessionProvider>
     </>

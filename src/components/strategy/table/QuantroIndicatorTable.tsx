@@ -48,7 +48,10 @@ const QuantroIndicatorTable = () => {
               <div className="td">
                 <NoticeCon />
               </div>
-              <div className="td title dark_gray pointer">
+              <div
+                className="td title dark_gray pointer"
+                onClick={() => router.push(`/board/${notice.board.id}?state=community&category=NOTICE`)}
+              >
                 <span className="tit">{notice.board.title}</span>
                 <span className="comments">{notice.board._count.comments}</span>
               </div>
@@ -69,7 +72,10 @@ const QuantroIndicatorTable = () => {
               {loadGetQuantroIndicatorDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{isNotice ? <NoticeCon /> : board.id}</div>
-                  <div className="td title dark_gray pointer">
+                  <div
+                    className="td title dark_gray pointer"
+                    onClick={() => router.push(`/board/${board.id}?state=strategy&category=QUANTRO_INDICATOR`)}
+                  >
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div

@@ -9,8 +9,10 @@ import Pagination from '@/src/components/common/Pagination';
 import NoBoards from '@/src/components/common/NoBoards';
 import Image from 'next/image';
 import { CommentLine } from '@/src/assets/Images';
+import { useRouter } from 'next/router';
 
 const MyCommentsTable = () => {
+  const router = useRouter();
   // const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
   //   communityDiscussion: local.communityDiscussion,
   //   communityNotice: local.communityNotice,
@@ -39,7 +41,7 @@ const MyCommentsTable = () => {
                 <React.Fragment key={board.id}>
                   <div className="tr">
                     <div className="td">{board.id}</div>
-                    <div className="td title dark_gray pointer">
+                    <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                       <span className="tit">{board.board.title}</span>
                       <span className="comments">{board.board._count.comments}</span>
                     </div>

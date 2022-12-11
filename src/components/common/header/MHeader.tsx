@@ -166,7 +166,7 @@ const MHeader = () => {
     } else {
       setIsWrite(false);
     }
-    if (router.pathname === '/community/board/[bId]') {
+    if (router.pathname === '/board/[bId]') {
       setIsBoard(true);
     } else {
       setIsBoard(false);

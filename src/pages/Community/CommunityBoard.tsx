@@ -140,8 +140,19 @@ const CommunityBoard = () => {
   }, [loadBoardsDone, loadBoardsError]);
 
   // collection
+  const { collectors, likes } = getBoardDone;
+  useEffect(() => {
+    if (collectors && likes) {
+      if (collectors.length != 0) {
+        dispatch(boardsActions.isCollectors());
+      }
+      if (likes.length != 0) {
+        dispatch(boardsActions.isLikes());
+      }
+    }
+  }, [collectors, likes]);
   const handleSetBoardCollection = () => {
-    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: true }));
+    dispatch(boardsActions.setBoardCollection({ boardId, isCollect: !isCollect }));
   };
   // like
   const handleSetBoardLike = () => {

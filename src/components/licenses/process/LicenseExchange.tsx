@@ -37,15 +37,15 @@ const LicenseExchange = () => {
   const handleSelectExchange = (e: any) => {
     const targetValue = e.currentTarget.children[0].value;
     if (targetValue === 'BINANCE') {
-      window.open('https://www.binance.com/en');
+      // window.open('https://www.binance.com/en');
     } else if (targetValue === 'BYBIT') {
       window.open('https://partner.bybit.com/b/quantlee');
     } else if (targetValue === 'BITMEX') {
-      window.open('https://www.bitmex.com/app/trade/XBTUSD');
+      // window.open('https://www.bitmex.com/app/trade/XBTUSD');
     } else if (targetValue === 'BITGET') {
-      window.open('https://www.bitget.com/en-GB/');
+      // window.open('https://www.bitget.com/en-GB/');
     } else if (targetValue === 'FTX') {
-      window.open('https://help.ftx.com/hc/en-us');
+      // window.open('https://help.ftx.com/hc/en-us');
     }
 
     router.replace({ query: { ...router.query, selected: targetValue } });

@@ -16,7 +16,7 @@ const BoardDetailLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="button">
             <Image src={ArrowLeft} alt="arrow left" />
           </div>
-          <span className="txt">목록</span>
+          <span className="txt">돌아가기</span>
         </div>
       </div>
       {children}

@@ -47,7 +47,7 @@ const MBoardHeader = () => {
         </div>
         <div className="right_btns">
           <div className="button" onClick={handleSetBoardCollection}>
-            <Image src={Menu7[0]} alt="collection" />
+            {isCollect ? <Image src={Menu7[1]} alt="collection" /> : <Image src={Menu7[0]} alt="collection" />}
           </div>
           <div className="button" onClick={copyURL}>
             <Image src={ShareIcon} alt="share" />

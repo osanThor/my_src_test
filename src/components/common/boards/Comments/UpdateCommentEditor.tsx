@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
 import { axiosInstance } from '@/src/store/api';
 
-const UpdateCommentEditor = () => {
+const UpdateCommentEditor = ({ file }: { file: string | null }) => {
   const dispatch = useDispatch();
   const { nickname } = useSelector(({ user }: RootState) => ({
     nickname: user.nickname,
@@ -22,7 +22,6 @@ const UpdateCommentEditor = () => {
 
   //comment change handler
   const [fileUrl, setFileUrl] = useState<string>('');
-  const [fileUrls, setFileUrls] = useState<Array<string>>([]);
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -34,6 +33,11 @@ const UpdateCommentEditor = () => {
       }),
     );
   };
+  useEffect(() => {
+    if (file) {
+      setFileUrl(file);
+    }
+  }, [file]);
   // request fileUrl
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -54,18 +58,10 @@ const UpdateCommentEditor = () => {
       setFileUrl(res.data.urls[0]);
     }
   };
-  //add fileUrl
-  useEffect(() => {
-    if (fileUrl) {
-      setFileUrls((url) => [...url, fileUrl]);
-    }
-  }, [fileUrl]);
+
   //delete fileUrl
-  const handleDeleteFileUrl = (e: React.MouseEvent<any>) => {
-    const target: HTMLInputElement = e.currentTarget.children[0];
-    console.log(target.value);
-    const newArr = fileUrls.filter((url) => url != target.value);
-    setFileUrls(newArr);
+  const handleDeleteFileUrl = () => {
+    setFileUrl('');
   };
 
   // update comment
@@ -75,8 +71,9 @@ const UpdateCommentEditor = () => {
       return;
     }
     console.log('update comment');
-    dispatch(boardsActions.updateComment({ commentId, parentCommentId, content, fileUrls }));
-    setFileUrls([]);
+    console.log(fileUrl);
+    dispatch(boardsActions.updateComment({ commentId, parentCommentId, content, fileUrl }));
+    setFileUrl('');
   };
 
   const handleCanelComment = () => {
@@ -90,17 +87,14 @@ const UpdateCommentEditor = () => {
       <div className="nickname">{nickname} gpgp</div>
       <StyledTextArea name="content" placeholder="댓글을 남겨보세요" onChange={handleChangeComment} value={content} />
       <div className="photo_area">
-        {fileUrls.length === 0 || (
+        {fileUrl && (
           <div className="file_list">
-            {fileUrls.map((url) => (
-              <div className="file" key={url}>
-                <div className="delete_file_btn" onClick={handleDeleteFileUrl}>
-                  <input type="hidden" value={url} />
-                  <Image src={CloseWhite} alt="delete_file_btn" />
-                </div>
-                <Image src={url ? url : Profile1[0]} alt="file" layout="fill" />
+            <div className="file">
+              <div className="delete_file_btn" onClick={handleDeleteFileUrl}>
+                <Image src={CloseWhite} alt="delete_file_btn" />
               </div>
-            ))}
+              <Image src={fileUrl ? fileUrl : Profile1[0]} alt="file" layout="fill" />
+            </div>
           </div>
         )}
         <div className="bottom_btns">

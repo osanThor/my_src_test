@@ -7,8 +7,10 @@ import styled from 'styled-components';
 import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import NoBoards from '@/src/components/common/NoBoards';
+import { useRouter } from 'next/router';
 
 const MyCollectionsTable = () => {
+  const router = useRouter();
   // const { communityDiscussion, communityNotice } = useSelector(({ local }: RootState) => ({
   //   communityDiscussion: local.communityDiscussion,
   //   communityNotice: local.communityNotice,
@@ -36,7 +38,7 @@ const MyCollectionsTable = () => {
               {getUserCollectionsResult.collections.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{board.board.id}</div>
-                  <div className="td title dark_gray pointer">
+                  <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                     <span className="tit">{board.board.title}</span>{' '}
                     <span className="comments">{board.board._count.comments}</span>
                   </div>

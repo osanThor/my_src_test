@@ -368,7 +368,7 @@ const TableRow = ({
             onChange={onChange}
           />
         )}
-        {exc && !editable && <input type="password" disabled={!editable} />}
+        {exc && !editable && <input type="password" value="1111111111" disabled={!editable} />}
         {!exc && <input type="password" disabled={!editable} />}
         {exc && (
           <>{exc.isReferral ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
