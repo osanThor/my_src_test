@@ -24,7 +24,7 @@ const BoardTop = ({
   return (
     <BoardTopBlock>
       <div className="top_area">
-        <div className="state">{id}</div>
+        <div className="state">{getBoardDone.category === 'NOTICE' ? <div className="notice">공지</div> : id}</div>
         <div className="title">{title}</div>
         <div className="top_btns">
           <div className="button">
@@ -116,6 +116,15 @@ const BoardTopBlock = styled.div`
       max-width: 64px;
       text-align: center;
       color: ${colors.gray[4]};
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .notice {
+        background-color: ${colors.blue[0]};
+        color: ${colors.blue[2]};
+        border-radius: 24px;
+        padding: 4px 8px;
+      }
     }
     .title {
       width: 90%;

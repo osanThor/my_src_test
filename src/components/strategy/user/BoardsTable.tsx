@@ -12,9 +12,8 @@ import NoBoards from '../../common/NoBoards';
 const BoardsTable = () => {
   const router = useRouter();
 
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
+  const { loadGetBoardsDone } = useSelector(({ boards }: RootState) => ({
     loadGetBoardsDone: boards.loadGetBoardsDone,
-    getNoticesDone: boards.getNoticesDone,
   }));
   const { total } = loadGetBoardsDone;
 
@@ -31,36 +30,12 @@ const BoardsTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getNoticesDone.map((notice) => (
-            <div className="tr" key={notice.board.id}>
-              <div className="td">
-                <NoticeCon />
-              </div>
-              <div className="td title dark_gray pointer">
-                <span className="tit">{notice.board.title}</span>
-                <span className="comments">{notice.board._count.comments}</span>
-              </div>
-              <div className="td dark_gray pointer">
-                {(notice.board.user && notice.board.user.nickname) || '퀀트로'}
-              </div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {notice.board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{notice.board.createdAt}</Moment>
-              </div>
-            </div>
-          ))}
           {total != 0 ? (
             <>
               {loadGetBoardsDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">{board.id}</div>
-                  <div
-                    className="td title dark_gray pointer"
-                    onClick={() => router.push(`/community/board/${board.id}`)}
-                  >
+                  <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div

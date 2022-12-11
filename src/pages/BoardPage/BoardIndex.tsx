@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import BoardDiscussionPage from './BoardDiscussionPage';
+import BoardNoticePage from './BoardNoticePage';
 
 const BoardIndex = () => {
   const router = useRouter();
@@ -18,10 +19,6 @@ const BoardIndex = () => {
   const { loadAuthLoading, loadAuthDone } = useSelector(({ auth }: RootState) => ({
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
-  }));
-
-  const { nickname } = useSelector(({ user }: RootState) => ({
-    nickname: user.nickname,
   }));
 
   const { boardId, getBoardDone, isCollect, isLike, loadBoardsLoading } = useSelector(({ boards }: RootState) => ({
@@ -82,21 +79,22 @@ const BoardIndex = () => {
     if (!router.query.state) {
       if (category === 'DISCUSSION') {
         router.replace(`/board/${boardId}?state=community&category=DISCUSSION`);
+      } else if (category === 'COMMISSION') {
+        router.replace(`/board/${boardId}?state=community&category=COMMISSION`);
+      } else if (category === 'NOTICE') {
+        router.replace(`/board/${boardId}?state=community&category=NOTICE`);
+      } else if (category === 'CERTIFIED_STRATEGY') {
+        router.replace(`/board/${boardId}?state=community&category=CERTIFIED_STRATEGY`);
+      } else if (category === 'USER_STRATEGY') {
+        router.replace(`/board/${boardId}?state=community&category=USER_STRATEGY`);
+      } else if (category === 'QUANTRO_STRATEGY') {
+        router.replace(`/board/${boardId}?state=community&category=QUANTRO_STRATEGY`);
+      } else if (category === 'QUANTRO_INDICATOR') {
+        router.replace(`/board/${boardId}?state=community&category=QUANTRO_INDICATOR`);
       }
     }
   }, [router, category]);
   //** !--board detail router */
-
-  // writer check
-  const { user } = getBoardDone;
-  const [identity, setIdentity] = useState(false);
-  useEffect(() => {
-    if (user) {
-      if (nickname === user.nickname) {
-        setIdentity(true);
-      }
-    }
-  }, [nickname, user]);
 
   // collection, likes
   const { collectors, likes } = getBoardDone;
@@ -145,12 +143,23 @@ const BoardIndex = () => {
         <BoardDetailLayout>
           {router.query.category === 'DISCUSSION' && (
             <BoardDiscussionPage
-              identity={identity}
               handleSetBoardLike={handleSetBoardLike}
               copyURL={copyURL}
               handleSetBoardCollection={handleSetBoardCollection}
             />
           )}
+          {router.query.category === 'COMMISSION' && <div>전략 의뢰</div>}
+          {router.query.category === 'NOTICE' && (
+            <BoardNoticePage
+              handleSetBoardLike={handleSetBoardLike}
+              copyURL={copyURL}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
+          {router.query.category === 'CERTIFIED_STRATEGY' && <div>인증전략</div>}
+          {router.query.category === 'USER_STRATEGY' && <div>사용자 전략</div>}
+          {router.query.category === 'QUANTRO_STRATEGY' && <div>공개 전략</div>}
+          {router.query.category === 'QUANTRO_INDICATOR' && <div>공개 지표</div>}
         </BoardDetailLayout>
         {loadBoardsLoading && <Loading />}
       </UserLayout>

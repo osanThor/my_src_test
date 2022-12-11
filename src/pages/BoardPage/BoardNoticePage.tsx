@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-const BoardDiscussionPage = ({
+const BoardNoticePage = ({
   copyURL,
   handleSetBoardCollection,
   handleSetBoardLike,
@@ -128,4 +128,4 @@ const BoardDiscussionPage = ({
   );
 };
 
-export default BoardDiscussionPage;
+export default BoardNoticePage;

@@ -73,7 +73,7 @@ const CommissionsTable = () => {
                     className="td title dark_gray pointer"
                     onClick={
                       board.user.nickname === nickname
-                        ? () => router.push(`/board/${board.id}?state=community&category=COMISSIOIN`)
+                        ? () => router.push(`/board/${board.id}?state=community&category=COMMISSION`)
                         : () => alert('권한이 없습니다')
                     }
                   >
