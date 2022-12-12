@@ -71,6 +71,6 @@ function* watchLoadfile() {
   yield takeLatest(exchangeActions.closePosition, closePositionSaga);
 }
 
-export default function* fileSaga() {
+export default function* exchangeSaga() {
   yield all([fork(watchLoadfile)]);
 }

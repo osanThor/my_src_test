@@ -6,7 +6,16 @@ import fileSaga from './file';
 import boardsSaga from './boards';
 import exchangeSaga from './exchange';
 import indexSaga from './indexSaga';
+import adminDashboardsSaga from './admin/adminDashboards';
 
 export default function* rootSaga() {
-  yield all([fork(authSaga), fork(userSaga), fork(fileSaga), fork(boardsSaga), fork(exchangeSaga), fork(indexSaga)]);
+  yield all([
+    fork(authSaga),
+    fork(userSaga),
+    fork(fileSaga),
+    fork(boardsSaga),
+    fork(exchangeSaga),
+    fork(indexSaga),
+    fork(adminDashboardsSaga),
+  ]);
 }

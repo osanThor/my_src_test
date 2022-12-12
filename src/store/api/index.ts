@@ -60,3 +60,6 @@ export {
   apiGetUserInquiry,
   apiGetUserByNickname,
 } from './boards';
+
+//admin
+export { apiGetAdminUserCount, apiGetAdminExchangeCount, apiGetAdminPackageCount } from './admin/dashboard';

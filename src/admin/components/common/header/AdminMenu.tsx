@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Logo, LogOutIcon, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, MMenuWhtieBar } from '@/src/assets/Images';
+import { LogOutIcon, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6 } from '@/src/assets/Images';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';

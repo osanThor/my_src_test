@@ -84,3 +84,10 @@ export type {
   getUserByNicknamePayload,
   getUserByNicknameResult,
 } from './boards';
+
+//admin
+export type {
+  GetAdminUserCountResult,
+  GetAllAdminExchagneCountResult,
+  GetAdminPackageCountResult,
+} from './admin/adminDashboards';

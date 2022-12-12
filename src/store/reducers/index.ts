@@ -10,6 +10,8 @@ import fileReducer, { FileStateType } from './fileReducer';
 import boardsReducer, { BoardsStateType } from './boardsReducer';
 import indexReducer, { IndexStateType } from './indexReducer';
 import exchangeReducer, { ExchangeStateType } from './exchangeReducer';
+//admin reducers
+import adminDashboardReducer, { AdminDashboardStateType } from './admin/adminDashboardReducer';
 
 // actions
 export { authActions } from './authReducer';
@@ -19,6 +21,8 @@ export { fileActions } from './fileReducer';
 export { boardsActions } from './boardsReducer';
 export { exchangeActions } from './exchangeReducer';
 export { indexActions } from './indexReducer';
+// admin actions
+export { adminDashboardsActions } from './admin/adminDashboardReducer';
 
 type ReducerState = {
   auth: AuthStateType;
@@ -28,6 +32,8 @@ type ReducerState = {
   boards: BoardsStateType;
   exchange: ExchangeStateType;
   index: IndexStateType;
+  //admin
+  adminDashBoards: AdminDashboardStateType;
 };
 
 // 원래 "rootReducer"로 합쳐줄 필요 없이 "configureStore()"에서 합칠 수 있지만 "HYDRATE"를 위해서 사용
@@ -49,6 +55,8 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
         boards: boardsReducer,
         exchange: exchangeReducer,
         index: indexReducer,
+        //admin
+        adminDashBoards: adminDashboardReducer,
       })(state, action);
   }
 };
