@@ -74,7 +74,7 @@ const AdminMenuBlock = styled.div`
   padding-bottom: 2rem;
 
   &.open {
-    width: 175px;
+    width: 275px;
     .admin_menu_list {
       .menu {
         .menu_txt {
@@ -159,7 +159,7 @@ const AdminMenuSpacer = styled.div`
   transition: all 0.1s;
 
   &.open {
-    width: 175px;
+    width: 275px;
   }
 `;
 

@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 
 // action
-import { exchangeActions, fileActions } from '../reducers';
+import { exchangeActions } from '../reducers';
 
 // types
 import type { AxiosResponse } from 'axios';

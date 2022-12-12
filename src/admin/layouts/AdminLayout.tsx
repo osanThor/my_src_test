@@ -20,9 +20,13 @@ const AdminLayoutBlock = styled.div`
   width: 100%;
   .container {
     width: 100%;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
     display: flex;
     .main {
+      padding: 1rem;
       flex: 1;
+      background-color: rgb(242, 245, 249);
     }
   }
 `;
