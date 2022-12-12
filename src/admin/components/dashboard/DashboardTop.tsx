@@ -12,7 +12,6 @@ const DashboardTop = () => {
       getPackageResult: adminDashBoards.getPackageResult,
     }),
   );
-  console.log(getAllUserCountResult, getAllExchangeResult, getPackageResult);
 
   return (
     <DashboardTopBlock>
@@ -30,15 +29,15 @@ const DashboardTop = () => {
         </div>
       </div>
       <div className="item">
-        <div className="title">레퍼럴 등록자 수</div>
+        <div className="title">거래소 등록자 수</div>
         <div className="content">
           <div className="count_form">
-            <div className="count_label">총 레퍼럴 등록자</div>
-            {getAllUserCountResult && getAllUserCountResult.totalUserCount}
+            <div className="count_label">총 거래소 등록자</div>
+            {getAllExchangeResult && getAllExchangeResult.totalExchangeCount}
           </div>
           <div className="count_form">
             <div className="count_label">전월 대비</div>
-            {getAllUserCountResult && getAllUserCountResult.comparedLastMonth}
+            {getAllExchangeResult && getAllExchangeResult.comparedLastMonth}
           </div>
         </div>
       </div>
@@ -47,15 +46,15 @@ const DashboardTop = () => {
         <div className="content">
           <div className="count_form">
             <div className="count_label">베이직 패키지</div>
-            {getAllUserCountResult && getAllUserCountResult.totalUserCount}
+            {getPackageResult && getPackageResult.basicCount}
           </div>
           <div className="count_form">
             <div className="count_label">레귤러 패키지</div>
-            {getAllUserCountResult && getAllUserCountResult.comparedLastMonth}
+            {getPackageResult && getPackageResult.regularCount}
           </div>
           <div className="count_form">
             <div className="count_label">프리미엄 패키지</div>
-            {getAllUserCountResult && getAllUserCountResult.comparedLastMonth}
+            {getPackageResult && getPackageResult.premiumCount}
           </div>
         </div>
       </div>

@@ -24,9 +24,10 @@ const AdminLayoutBlock = styled.div`
     overflow-y: auto;
     display: flex;
     .main {
-      padding: 1rem;
+      padding: 1rem 2rem 3rem;
       flex: 1;
       background-color: rgb(242, 245, 249);
+      overflow-y: auto;
     }
   }
 `;

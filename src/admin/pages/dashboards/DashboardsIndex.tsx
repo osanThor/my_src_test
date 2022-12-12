@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import DashBoardGraph from '../../components/dashboard/DashBoardGraph';
 import DashboardTop from '../../components/dashboard/DashboardTop';
 import AdminLayout from '../../layouts/AdminLayout';
 
@@ -26,6 +27,7 @@ const DashboardsIndex: NextPage = () => {
   return (
     <AdminLayout>
       <DashboardTop />
+      <DashBoardGraph />
     </AdminLayout>
   );
 };
