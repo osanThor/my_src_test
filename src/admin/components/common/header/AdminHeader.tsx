@@ -44,7 +44,7 @@ const AdminHeaderBlock = styled.div`
     cursor: pointer;
   }
   .logo {
-    width: 200px;
+    width: 170px;
     cursor: pointer;
   }
 `;

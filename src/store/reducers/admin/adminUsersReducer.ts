@@ -10,14 +10,9 @@ export type AdminUsersStateType = {
     nickname: string | null;
     email: string | null;
     snsType: string | null;
-    license:
-      | Array<{
-          package: string | null;
-        }>
-      | {
-          package: string | null;
-        }
-      | null;
+    license: {
+      package: string | null;
+    } | null;
     grade: string | null;
     createdAt: string | null;
   }> | null;
