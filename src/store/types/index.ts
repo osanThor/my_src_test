@@ -91,3 +91,12 @@ export type {
   GetAllAdminExchagneCountResult,
   GetAdminPackageCountResult,
 } from './admin/adminDashboards';
+
+export type {
+  getAdminUsersPayload,
+  getAdminUsersResult,
+  adminUserDetailPayload,
+  adminTelegramUsersNotice,
+  adminTelegramUsersMessage,
+  LoadAdminUsersResponse,
+} from './admin/adminUser';

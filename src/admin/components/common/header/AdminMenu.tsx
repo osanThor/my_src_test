@@ -17,11 +17,11 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             </div>
             <div className={router.pathname === '/admin/dashboard' ? 'menu_txt on' : 'menu_txt'}>대시보드</div>
           </div>
-          <div className="menu">
+          <div className="menu" onClick={() => router.push('/admin/user')}>
             <div className="menu_icon">
-              <Image src={Menu2[0]} alt="menu" />
+              <Image src={router.pathname === '/admin/user' ? Menu2[1] : Menu2[0]} alt="menu" />
             </div>
-            <div className="menu_txt">회원관리</div>
+            <div className={router.pathname === '/admin/user' ? 'menu_txt on' : 'menu_txt'}>회원관리</div>
           </div>
           <div className="menu">
             <div className="menu_icon">
@@ -118,6 +118,7 @@ const AdminMenuBlock = styled.div`
         transition: all 0.2s;
         overflow: hidden;
         white-space: nowrap;
+        transform: translateY(2px);
         &.on {
           color: ${colors.blue[2]};
         }

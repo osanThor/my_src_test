@@ -63,3 +63,11 @@ export {
 
 //admin
 export { apiGetAdminUserCount, apiGetAdminExchangeCount, apiGetAdminPackageCount } from './admin/dashboard';
+
+export {
+  apiGetAdminUsers,
+  apiGetAdminUserDetail,
+  apiDeleteAdminUser,
+  apiSendAdminUserNotice,
+  apiSendAdminUserMessage,
+} from './admin/user';
