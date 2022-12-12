@@ -111,7 +111,6 @@ function MyApp({
   const handleCloseOpenModal = () => {
     setOpenModal(false);
   };
-
   return (
     <>
       <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>

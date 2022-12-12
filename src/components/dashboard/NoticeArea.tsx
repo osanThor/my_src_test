@@ -25,7 +25,7 @@ const NoticeArea = () => {
       >
         {loadGetNoticeDone.boards.slice(0, 9).map((notice) => (
           <SwiperSlide key={notice.id}>
-            <Link href={`/community/board/${notice.id}`}>
+            <Link href={`/board/${notice.id}`}>
               <div className="notice_item">
                 <div className="notice_num">
                   <Moment format="DD">{notice.createdAt}</Moment>
