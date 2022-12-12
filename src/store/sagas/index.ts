@@ -7,6 +7,7 @@ import boardsSaga from './boards';
 import exchangeSaga from './exchange';
 import indexSaga from './indexSaga';
 import adminDashboardsSaga from './admin/adminDashboards';
+import adminUsersSaga from './admin/adminUsers';
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     fork(exchangeSaga),
     fork(indexSaga),
     fork(adminDashboardsSaga),
+    fork(adminUsersSaga),
   ]);
 }
