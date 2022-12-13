@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  getAdminBannerDetailPayload,
   getAdminBannersPayload,
   getAdminBannersResult,
   getAdminSubscripbePlatformPayload,
@@ -81,6 +82,14 @@ const adminBannersSlice = createSlice({
       state.loadAdminBannersLoading = false;
       state.getBannersResult = action.payload;
     },
+    getAdminBannerDetail(state, action: PayloadAction<getAdminBannerDetailPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.id = action.payload.id;
+    },
+    // getAdminBannerDetailResult(state, action: PayloadAction<getAdminBannerDetailPayload>) {
+    //   state.loadAdminBannersLoading = true;
+    //   state.id = action.payload.id;
+    // },
     //api res req
     loadAdminBannersRequest(state) {
       state.loadAdminBannersLoading = true;
