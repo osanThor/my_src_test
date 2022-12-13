@@ -127,7 +127,7 @@ const UserDetail = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} />
+          <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} handleSubmit={null} />
           <UserDetailBox />
           <UserMiddleBox
             messageVal={messageVal}

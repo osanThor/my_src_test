@@ -6,7 +6,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const DetailCommonTop = ({ handleDeleteModalOpen }: { handleDeleteModalOpen: () => void | null }) => {
+const DetailCommonTop = ({
+  handleDeleteModalOpen,
+  handleSubmit,
+}: {
+  handleDeleteModalOpen: () => void | null;
+  handleSubmit: () => void | null;
+}) => {
   const router = useRouter();
   const [isEdit, setIsEdit] = useState(false);
   useEffect(() => {
@@ -34,7 +40,9 @@ const DetailCommonTop = ({ handleDeleteModalOpen }: { handleDeleteModalOpen: () 
           </>
         ) : (
           <>
-            <StyledButton blue>저장</StyledButton>
+            <StyledButton blue onClick={handleSubmit}>
+              저장
+            </StyledButton>
           </>
         )}
       </div>

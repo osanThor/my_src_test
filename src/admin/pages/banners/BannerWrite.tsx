@@ -69,7 +69,7 @@ const BannerWrite = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={() => alert('저장')} />
           <BannerTop />
           <BannerBottom />
         </BasicContainer>

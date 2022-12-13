@@ -17,7 +17,11 @@ const BannerBottom = () => {
     <BannerBottomBlock>
       <div className="title">배너상세(모바일)</div>
       <div className="pc_banner_image">
-        <Image src={WebHook[0]} alt="pc_banner_image" layout="intrinsic" />
+        <Image
+          src={getBannerDetailResult?.files.length != 0 ? getBannerDetailResult?.files[0]?.name : WebHook[0]}
+          alt="pc_banner_image"
+          layout="intrinsic"
+        />
       </div>
       <div className="pc_banner_crtl">
         <div className="ctrl_con">
