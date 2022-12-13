@@ -10,6 +10,15 @@ export type getAdminBannerDetailPayload = {
   id: number | null;
 };
 
+export type getAdminBannersResult = Array<{
+  createdAt: string | null;
+  files: Array<{ file: string }> | [];
+  id: number | null;
+  isVisibleMobile: boolean;
+  isVisiblePc: boolean;
+  position: string | null;
+}> | null;
+
 export type createAdminBannerPayload = {
   position: string | null;
   isVisiblePc: boolean;

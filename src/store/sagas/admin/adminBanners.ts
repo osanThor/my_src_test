@@ -6,7 +6,7 @@ import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminBannersActions } from '../../reducers';
-import { getAdminBannersPayload, LoadAdminBannersResponse } from '../../types';
+import { getAdminBannersPayload, getAdminBannersResult, LoadAdminBannersResponse } from '../../types';
 import { apiGetAdminAllBanners } from '../../api';
 
 // api
@@ -14,10 +14,10 @@ import { apiGetAdminAllBanners } from '../../api';
 function* getAdminAllBannersSaga(action: PayloadAction<getAdminBannersPayload>) {
   yield put(adminBannersActions.loadAdminBannersRequest());
   try {
-    const { data }: AxiosResponse<LoadAdminBannersResponse> = yield call(apiGetAdminAllBanners, action.payload);
+    const { data }: AxiosResponse<getAdminBannersResult> = yield call(apiGetAdminAllBanners, action.payload);
     console.log(data);
 
-    yield put(adminBannersActions.loadAdminBannersSuccess(data));
+    yield put(adminBannersActions.getAdminBannersResult(data));
   } catch (error: any) {
     console.error('adminBannersSaga getAdminAllBannersSaga >> ', error);
 

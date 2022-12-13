@@ -91,6 +91,7 @@ export type {
   getAdminBannersPayload,
   getAdminSubscripbePlatformPayload,
   createAdminBannerPayload,
+  getAdminBannersResult,
   getAdminBannerDetailPayload,
   LoadAdminBannersResponse,
 } from './admin/adminBanners';

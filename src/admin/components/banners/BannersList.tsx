@@ -11,11 +11,11 @@ import styled from 'styled-components';
 
 const BannersList = () => {
   const router = useRouter();
-  const { getAdminUsersResult, page } = useSelector(({ adminUsers }: RootState) => ({
-    getAdminUsersResult: adminUsers.getAdminUsersResult,
-    page: adminUsers.page,
+  const { getBannersResult, page } = useSelector(({ adminBanners }: RootState) => ({
+    getBannersResult: adminBanners.getBannersResult,
+    page: adminBanners.page,
   }));
-  const { total } = getAdminUsersResult;
+  // const { total } = getBannersResult;
   return (
     <BannersListBlock>
       <div className="user_list_header">
@@ -28,42 +28,19 @@ const BannersList = () => {
         </div>
       </div>
       <div className="user_list">
-        {getAdminUsersResult &&
-          getAdminUsersResult?.users.map((user) => (
-            <div className="tr" key={user.email} onClick={() => router.push(`/admin/users/user?email=${user.email}`)}>
-              <div className="td">1</div>
-              <div className="td profile">
-                <div className="profile_Image">
-                  <Image
-                    src={
-                      user.photoUrl &&
-                      user.photoUrl != 'quantro.net' &&
-                      user.photoUrl != 'byteria.co.kr' &&
-                      user.photoUrl != 'default.com' &&
-                      user.photoUrl != 'app.quantro.net'
-                        ? user.photoUrl
-                        : Profile1[1]
-                    }
-                    alt="profile"
-                    layout="fill"
-                  />
-                </div>
-                <div className="profile_info">
-                  <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
-                  <div className="email">{user.email ? user.email : '퀀트로'}</div>
-                </div>
-              </div>
-              <div className="td">{user.snsType}</div>
-              <div className="td">{user.license ? user.license.package : 'NULL'}</div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{user.createdAt}</Moment>
-              </div>
+        {getBannersResult?.map((banner) => (
+          <div className="tr" key={banner.id} onClick={() => router.push(`/admin/banners/banner?id=${banner.id}`)}>
+            <div className="td">1</div>
+            <div className="td profile">배너이미지</div>
+            <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
+            <div className="td">{banner.position}</div>
+            <div className="td">
+              <Moment format="YYYY.MM.DD">{banner.createdAt}</Moment>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
-      <div className="bottom">
-        <Pagination total={total} page={page} />
-      </div>
+      <div className="bottom">{/* <Pagination total={total} page={page} /> */}</div>
     </BannersListBlock>
   );
 };
