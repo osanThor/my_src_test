@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { useRouter } from 'next/router';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
+import UserDetailBox from '../../components/user/detail/UserDetailBox';
+import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -14,6 +16,15 @@ const UserDetail = () => {
   const { email } = useSelector(({ adminUsers }: RootState) => ({
     email: adminUsers.email,
   }));
+
+  useEffect(() => {
+    const admin = localStorage.getItem('admin');
+    if (!admin) {
+      alert('권한이 없습니다');
+      router.push('/admin/login');
+    }
+  }, []);
+
   useEffect(() => {
     dispatch(adminUsersActions.initializeAdminUsersForm());
   }, [dispatch]);
@@ -27,6 +38,8 @@ const UserDetail = () => {
     <AdminLayout>
       <BasicContainer>
         <DetailCommonTop />
+        <UserDetailBox />
+        <UserMiddleBox />
       </BasicContainer>
     </AdminLayout>
   );
