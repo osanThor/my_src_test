@@ -16,6 +16,28 @@ export type getAdminUsersResult = Array<{
 export type adminUserDetailPayload = {
   email: string | null;
 };
+export type getAdminUserDetailResult = {
+  email: string | null;
+  nickname: string | null;
+  nicknamePrev: string | null;
+  introduction: string | null;
+  styles: Array<{ name: string | null }> | null;
+  grade: string | null;
+  license: {
+    package: string | null;
+    startedAt: string | null;
+    endedAt: string | null;
+  };
+  telegrams: Array<{
+    id: string | null;
+    name: string | null;
+  }> | null;
+  exchanges: Array<{
+    platform: string | null;
+    alias: string | null;
+    apiKey: string | null;
+  }>;
+} | null;
 export type adminTelegramUsersNotice = {
   contents: Array<string> | [];
 };

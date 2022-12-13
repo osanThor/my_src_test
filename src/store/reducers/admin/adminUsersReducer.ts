@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getAdminUsersPayload, getAdminUsersResult, ResponseFailure } from '../../types';
+import {
+  adminUserDetailPayload,
+  getAdminUserDetailResult,
+  getAdminUsersPayload,
+  getAdminUsersResult,
+  ResponseFailure,
+} from '../../types';
 
 export type AdminUsersStateType = {
   page: number | null;
+  email: string | null;
   getAdminUsersResult: Array<{
     photoUrl: string | null;
     nickname: string | null;
@@ -16,6 +23,28 @@ export type AdminUsersStateType = {
     grade: string | null;
     createdAt: string | null;
   }> | null;
+  getAdminUserDetailResult: {
+    email: string | null;
+    nickname: string | null;
+    nicknamePrev: string | null;
+    introduction: string | null;
+    styles: Array<{ name: string | null }> | null;
+    grade: string | null;
+    license: {
+      package: string | null;
+      startedAt: string | null;
+      endedAt: string | null;
+    };
+    telegrams: Array<{
+      id: string | null;
+      name: string | null;
+    }> | null;
+    exchanges: Array<{
+      platform: string | null;
+      alias: string | null;
+      apiKey: string | null;
+    }>;
+  } | null;
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {
     message: string | undefined;
@@ -25,7 +54,9 @@ export type AdminUsersStateType = {
 
 const initialState: AdminUsersStateType = {
   page: 0,
+  email: '',
   getAdminUsersResult: null,
+  getAdminUserDetailResult: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
   loadAdminUsersdError: null,
@@ -47,6 +78,15 @@ const adminUsersSlice = createSlice({
     getAdminUsersResult(state, action: PayloadAction<getAdminUsersResult>) {
       state.loadAdminUsersdLoading = false;
       state.getAdminUsersResult = action.payload;
+    },
+    getAdminUserDetail(state, action: PayloadAction<adminUserDetailPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.email = action.payload.email;
+      state.getAdminUserDetailResult = null;
+    },
+    getAdminUserDetailResult(state, action: PayloadAction<getAdminUserDetailResult>) {
+      state.loadAdminUsersdLoading = true;
+      state.getAdminUserDetailResult = action.payload;
     },
     //api res req
     loadAdminUsersRequest(state) {

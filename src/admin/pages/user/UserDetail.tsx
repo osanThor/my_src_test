@@ -1,33 +1,35 @@
 import React, { useEffect } from 'react';
-import UserTop from '../../components/user/UserTop';
 import AdminLayout from '../../layouts/AdminLayout';
 import { useDispatch } from 'react-redux';
 import BasicContainer from '../../layouts/BasicContainer';
 import { adminUsersActions } from '@/src/store/reducers';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
-import UserList from '../../components/user/UserList';
+import { useRouter } from 'next/router';
+import DetailCommonTop from '../../components/common/DetailCommonTop';
 
-const UserIndex = () => {
+const UserDetail = () => {
   const dispatch = useDispatch();
-  const { page } = useSelector(({ adminUsers }: RootState) => ({
-    page: adminUsers.page,
+  const router = useRouter();
+  const { email } = useSelector(({ adminUsers }: RootState) => ({
+    email: adminUsers.email,
   }));
   useEffect(() => {
     dispatch(adminUsersActions.initializeAdminUsersForm());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(adminUsersActions.getAdminUsers({ page }));
-  }, []);
+    if (router.query.email) {
+      dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
+    }
+  }, [router]);
   return (
     <AdminLayout>
       <BasicContainer>
-        <UserTop />
-        <UserList />
+        <DetailCommonTop />
       </BasicContainer>
     </AdminLayout>
   );
 };
 
-export default UserIndex;
+export default UserDetail;

@@ -96,6 +96,7 @@ export type {
   getAdminUsersPayload,
   getAdminUsersResult,
   adminUserDetailPayload,
+  getAdminUserDetailResult,
   adminTelegramUsersNotice,
   adminTelegramUsersMessage,
   LoadAdminUsersResponse,

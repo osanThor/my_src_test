@@ -3,12 +3,14 @@ import { Profile1 } from '@/src/assets/Images';
 import Pagination from '@/src/components/common/Pagination';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const UserList = () => {
+  const router = useRouter();
   const { getAdminUsersResult } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUsersResult: adminUsers.getAdminUsersResult,
   }));
@@ -27,7 +29,7 @@ const UserList = () => {
       <div className="user_list">
         {getAdminUsersResult &&
           getAdminUsersResult?.map((user) => (
-            <div className="tr" key={user.email}>
+            <div className="tr" key={user.email} onClick={() => router.push(`/admin/users/user?email=${user.email}`)}>
               <div className="td">1</div>
               <div className="td profile">
                 <div className="profile_Image">
@@ -138,6 +140,7 @@ const UserListBlock = styled.div`
     flex-direction: column;
     margin-bottom: 20px;
     .tr {
+      cursor: pointer;
       width: 100%;
       display: flex;
       border-bottom: 1px solid ${colors.gray[2]};
