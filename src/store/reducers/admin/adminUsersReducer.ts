@@ -3,6 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   adminUserDetailPayload,
+  changeEmailPayload,
+  changeGradePayload,
+  changelicensePackagePayload,
+  changeNicknamePayload,
+  changePagePayload,
+  changeSnsTypePayload,
   getAdminUserDetailResult,
   getAdminUsersPayload,
   getAdminUsersResult,
@@ -11,18 +17,25 @@ import {
 
 export type AdminUsersStateType = {
   page: number | null;
+  snsType: string | null;
+  nickname: string | null;
+  licensePackage: string | null;
+  grade: string | null;
   email: string | null;
-  getAdminUsersResult: Array<{
-    photoUrl: string | null;
-    nickname: string | null;
-    email: string | null;
-    snsType: string | null;
-    license: {
-      package: string | null;
-    } | null;
-    grade: string | null;
-    createdAt: string | null;
-  }> | null;
+  getAdminUsersResult: {
+    total: number | null;
+    users: Array<{
+      photoUrl: string | null;
+      nickname: string | null;
+      email: string | null;
+      snsType: string | null;
+      license: {
+        package: string | null;
+      } | null;
+      grade: string | null;
+      createdAt: string | null;
+    }> | null;
+  } | null;
   getAdminUserDetailResult: {
     email: string | null;
     nickname: string | null;
@@ -54,8 +67,12 @@ export type AdminUsersStateType = {
 
 const initialState: AdminUsersStateType = {
   page: 0,
+  snsType: '',
+  nickname: '',
+  licensePackage: '',
+  grade: '',
   email: '',
-  getAdminUsersResult: null,
+  getAdminUsersResult: { total: 0, users: [] },
   getAdminUserDetailResult: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
@@ -71,9 +88,32 @@ const adminUsersSlice = createSlice({
       Object.assign(state, initialState);
     },
     //action
+    changePage(state, action: PayloadAction<changePagePayload>) {
+      state.page = action.payload.page;
+    },
+    changeSnsType(state, action: PayloadAction<changeSnsTypePayload>) {
+      state.snsType = action.payload.snsType;
+    },
+    changeEmail(state, action: PayloadAction<changeEmailPayload>) {
+      state.email = action.payload.email;
+    },
+    changeGrade(state, action: PayloadAction<changeGradePayload>) {
+      state.grade = action.payload.grade;
+    },
+    changeLicensePakage(state, action: PayloadAction<changelicensePackagePayload>) {
+      state.licensePackage = action.payload.licensePackage;
+    },
+    changeNickname(state, action: PayloadAction<changeNicknamePayload>) {
+      state.nickname = action.payload.nickname;
+    },
     getAdminUsers(state, action: PayloadAction<getAdminUsersPayload>) {
       state.loadAdminUsersdLoading = true;
       state.page = action.payload.page;
+      state.snsType = action.payload.snsType;
+      state.nickname = action.payload.nickname;
+      state.licensePackage = action.payload.licensePackage;
+      state.grade = action.payload.grade;
+      state.email = action.payload.email;
     },
     getAdminUsersResult(state, action: PayloadAction<getAdminUsersResult>) {
       state.loadAdminUsersdLoading = false;

@@ -11,9 +11,11 @@ import styled from 'styled-components';
 
 const UserList = () => {
   const router = useRouter();
-  const { getAdminUsersResult } = useSelector(({ adminUsers }: RootState) => ({
+  const { getAdminUsersResult, page } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUsersResult: adminUsers.getAdminUsersResult,
+    page: adminUsers.page,
   }));
+  const { total } = getAdminUsersResult;
   return (
     <UserListBlock>
       <div className="user_list_header">
@@ -28,13 +30,21 @@ const UserList = () => {
       </div>
       <div className="user_list">
         {getAdminUsersResult &&
-          getAdminUsersResult?.map((user) => (
+          getAdminUsersResult?.users.map((user) => (
             <div className="tr" key={user.email} onClick={() => router.push(`/admin/users/user?email=${user.email}`)}>
               <div className="td">1</div>
               <div className="td profile">
                 <div className="profile_Image">
                   <Image
-                    src={user.photoUrl && user.photoUrl != 'quantro.net' ? user.photoUrl : Profile1[1]}
+                    src={
+                      user.photoUrl &&
+                      user.photoUrl != 'quantro.net' &&
+                      user.photoUrl != 'byteria.co.kr' &&
+                      user.photoUrl != 'default.com' &&
+                      user.photoUrl != 'app.quantro.net'
+                        ? user.photoUrl
+                        : Profile1[1]
+                    }
                     alt="profile"
                     layout="fill"
                   />
@@ -54,7 +64,7 @@ const UserList = () => {
           ))}
       </div>
       <div className="bottom">
-        <Pagination total={100} page={1} />
+        <Pagination total={total} page={page} />
       </div>
     </UserListBlock>
   );

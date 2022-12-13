@@ -1,24 +1,45 @@
 import colors from '@/src/assets/Colors';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BoardSearchLayout from '../common/BoardSearch/BoardSearchLayout';
 import CustomSelect from '../common/BoardSearch/CustomSelect';
 import SearchInput from '../common/BoardSearch/SearchInput';
 
 const UserTop = () => {
+  const router = useRouter();
   const [searchName, setSearchName] = useState('');
   const [searchVal, setSearchVal] = useState('');
+  useEffect(() => {
+    setSearchName('');
+    setSearchVal('');
+  }, [router]);
 
   return (
     <UserTopBlock>
       <div className="title">회원관리</div>
       <div className="boardTop">
         <div className="admin_tab">
-          <div className="menu">전체</div>
-          <div className="menu">일반</div>
-          <div className="menu">소셜</div>
+          <div
+            className={!router.query.snsType ? 'menu on' : 'menu'}
+            onClick={() => router.push('/admin/users?page=1')}
+          >
+            전체
+          </div>
+          <div
+            className={router.query.snsType === 'EMAIL' ? 'menu on' : 'menu'}
+            onClick={() => router.push('/admin/users?page=1&snsType=EMAIL')}
+          >
+            일반
+          </div>
+          <div
+            className={router.query.snsType === 'GOOGLE' ? 'menu on' : 'menu'}
+            onClick={() => router.push('/admin/users?page=1&snsType=GOOGLE')}
+          >
+            소셜
+          </div>
         </div>
-        <BoardSearchLayout category={''} name={''} value={''}>
+        <BoardSearchLayout name={searchName} value={searchVal}>
           <CustomSelect place={'선택'} setSearchName={setSearchName} />
           <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
         </BoardSearchLayout>

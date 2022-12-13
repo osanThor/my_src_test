@@ -1,5 +1,4 @@
 import Loading from '@/src/components/common/Loading';
-import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { adminAuthActions } from '@/src/store/reducers';
 import { NextPage } from 'next';

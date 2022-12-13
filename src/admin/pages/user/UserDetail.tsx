@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import UserDetailBox from '../../components/user/detail/UserDetailBox';
 import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
+import FuncModal from '@/src/components/common/modals/FuncModal';
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -51,14 +52,39 @@ const UserDetail = () => {
       }
     }
   }, [router, isAdmin]);
+
+  //function modal
+  const [fModalOpen, setFModalOpen] = useState(true);
+  const handleModalClose = () => {
+    setFModalOpen(false);
+  };
+  //delete user
+  const handleDeleteUser = () => {
+    console.log(email);
+    // dispatch(adminUsersActions.deleteUser())
+  };
   return (
-    <AdminLayout>
-      <BasicContainer>
-        <DetailCommonTop />
-        <UserDetailBox />
-        <UserMiddleBox />
-      </BasicContainer>
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <BasicContainer>
+          <DetailCommonTop />
+          <UserDetailBox />
+          <UserMiddleBox />
+        </BasicContainer>
+      </AdminLayout>
+      <FuncModal
+        open={fModalOpen}
+        onClose={handleModalClose}
+        message={{
+          title: '해당 회원을 삭제하시겠습니까?',
+          description: '',
+          btnTxt: '삭제하기',
+        }}
+        dubBtn={true}
+        onClick={handleDeleteUser}
+        onClick2={handleModalClose}
+      />
+    </>
   );
 };
 

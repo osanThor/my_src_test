@@ -100,5 +100,11 @@ export type {
   getAdminUserDetailResult,
   adminTelegramUsersNotice,
   adminTelegramUsersMessage,
+  changeEmailPayload,
+  changeGradePayload,
+  changeNicknamePayload,
+  changePagePayload,
+  changeSnsTypePayload,
+  changelicensePackagePayload,
   LoadAdminUsersResponse,
 } from './admin/adminUser';

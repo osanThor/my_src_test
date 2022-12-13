@@ -17,8 +17,13 @@ const UserIndex = () => {
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
     loadAdminAuthError: adminAuth.loadAdminAuthError,
   }));
-  const { page } = useSelector(({ adminUsers }: RootState) => ({
+  const { page, snsType, nickname, licensePackage, grade, email } = useSelector(({ adminUsers }: RootState) => ({
     page: adminUsers.page,
+    snsType: adminUsers.snsType,
+    nickname: adminUsers.nickname,
+    licensePackage: adminUsers.licensePackage,
+    grade: adminUsers.grade,
+    email: adminUsers.email,
   }));
 
   useEffect(() => {
@@ -45,9 +50,49 @@ const UserIndex = () => {
 
   useEffect(() => {
     if (isAdmin) {
-      dispatch(adminUsersActions.getAdminUsers({ page }));
+      dispatch(
+        adminUsersActions.getAdminUsers({
+          page,
+          snsType,
+          nickname,
+          licensePackage,
+          grade,
+          email,
+        }),
+      );
+
+      if (router.query.page) {
+        dispatch(adminUsersActions.changePage({ page: parseInt(router.query.page as string) }));
+      } else {
+        dispatch(adminUsersActions.changePage({ page: 1 }));
+      }
+      if (router.query.snsType) {
+        dispatch(adminUsersActions.changeSnsType({ snsType: router.query.snsType as string }));
+      } else {
+        dispatch(adminUsersActions.changeSnsType({ snsType: '' }));
+      }
+      if (router.query.nickname) {
+        dispatch(adminUsersActions.changeNickname({ nickname: router.query.nickname as string }));
+      } else {
+        dispatch(adminUsersActions.changeNickname({ nickname: '' }));
+      }
+      if (router.query.licensePackage) {
+        dispatch(adminUsersActions.changeLicensePakage({ licensePackage: router.query.licensePackage as string }));
+      } else {
+        dispatch(adminUsersActions.changeLicensePakage({ licensePackage: '' }));
+      }
+      if (router.query.grade) {
+        dispatch(adminUsersActions.changeGrade({ grade: router.query.grade as string }));
+      } else {
+        dispatch(adminUsersActions.changeGrade({ grade: '' }));
+      }
+      if (router.query.email) {
+        dispatch(adminUsersActions.changeEmail({ email: router.query.email as string }));
+      } else {
+        dispatch(adminUsersActions.changeEmail({ email: '' }));
+      }
     }
-  }, [isAdmin]);
+  }, [router, isAdmin, page, snsType, nickname, licensePackage, grade, email]);
   return (
     <AdminLayout>
       <BasicContainer>

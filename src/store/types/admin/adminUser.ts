@@ -1,18 +1,26 @@
 export type getAdminUsersPayload = {
   page: number | null;
+  snsType: string | null;
+  nickname: string | null;
+  licensePackage: string | null;
+  grade: string | null;
+  email: string | null;
 };
 
-export type getAdminUsersResult = Array<{
-  photoUrl: string | null;
-  nickname: string | null;
-  email: string | null;
-  snsType: string | null;
-  license: {
-    package: string | null;
-  } | null;
-  grade: string | null;
-  createdAt: string | null;
-}>;
+export type getAdminUsersResult = {
+  total: number | null;
+  users: Array<{
+    photoUrl: string | null;
+    nickname: string | null;
+    email: string | null;
+    snsType: string | null;
+    license: {
+      package: string | null;
+    } | null;
+    grade: string | null;
+    createdAt: string | null;
+  }>;
+};
 export type adminUserDetailPayload = {
   email: string | null;
 };
@@ -44,6 +52,25 @@ export type adminTelegramUsersNotice = {
 export type adminTelegramUsersMessage = {
   contents: Array<string> | [];
   idList: Array<string> | [];
+};
+
+export type changePagePayload = {
+  page: number | null;
+};
+export type changeSnsTypePayload = {
+  snsType: string | null;
+};
+export type changeNicknamePayload = {
+  nickname: string | null;
+};
+export type changelicensePackagePayload = {
+  licensePackage: string | null;
+};
+export type changeGradePayload = {
+  grade: string | null;
+};
+export type changeEmailPayload = {
+  email: string | null;
 };
 
 export type LoadAdminUsersResponse = {

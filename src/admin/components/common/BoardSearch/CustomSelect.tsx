@@ -18,14 +18,10 @@ const CustomSelect = ({
   const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
   const options = [
-    { value: 'title', txt: '사용자명' },
-    { value: 'user', txt: '이메일' },
-    { value: 'package', txt: '등록된 패키지' },
-    { value: 'comment', txt: '상태' },
-  ];
-  const strategyOptions = [
-    { value: 'title', txt: '게시글' },
-    { value: 'comment', txt: '댓글' },
+    { value: 'nickname', txt: '사용자명' },
+    { value: 'email', txt: '이메일' },
+    { value: 'licensePackage', txt: '등록된 패키지' },
+    { value: 'grade', txt: '상태' },
   ];
 
   const handleOnChangeSelectValue = (e: any) => {
@@ -59,25 +55,12 @@ const CustomSelect = ({
         {currentValue}
       </Label>
       <SelectOptions show={showOptions}>
-        {router.pathname === '/strategy/strategist' ? (
-          <>
-            {strategyOptions.map((opt) => (
-              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
-                <input type="hidden" value={opt.value} />
-                {opt.txt}
-              </Option>
-            ))}
-          </>
-        ) : (
-          <>
-            {options.map((opt) => (
-              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
-                <input type="hidden" value={opt.value} />
-                {opt.txt}
-              </Option>
-            ))}
-          </>
-        )}
+        {options.map((opt) => (
+          <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+            <input type="hidden" value={opt.value} />
+            {opt.txt}
+          </Option>
+        ))}
       </SelectOptions>
     </CustomSelectBox>
   );
