@@ -88,6 +88,13 @@ export type {
 //admin
 export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth';
 export type {
+  getAdminBannersPayload,
+  getAdminSubscripbePlatformPayload,
+  createAdminBannerPayload,
+  getAdminBannerDetailPayload,
+  LoadAdminBannersResponse,
+} from './admin/adminBanners';
+export type {
   GetAdminUserCountResult,
   GetAllAdminExchagneCountResult,
   GetAdminPackageCountResult,

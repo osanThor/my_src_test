@@ -73,3 +73,12 @@ export {
   apiSendAdminUserNotice,
   apiSendAdminUserMessage,
 } from './admin/user';
+
+export {
+  apiCreateAdminBanner,
+  apiGetAdminAllBanners,
+  apiGetAdminBannerDetail,
+  apiGetAdminMainBanners,
+  apiGetAdminSubscribeBanners,
+  apiGetAdminSubscribeByPlatformBanners,
+} from './admin/banners';

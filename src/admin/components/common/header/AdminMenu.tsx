@@ -25,15 +25,28 @@ const AdminMenu = ({ open }: { open: boolean }) => {
           </div>
           <div className="menu" onClick={() => router.push('/admin/users')}>
             <div className="menu_icon">
-              <Image src={router.pathname === '/admin/users' ? Menu2[1] : Menu2[0]} alt="menu" />
+              <Image
+                src={
+                  router.pathname === '/admin/users' || router.pathname === '/admin/users/user' ? Menu2[1] : Menu2[0]
+                }
+                alt="menu"
+              />
             </div>
-            <div className={router.pathname === '/admin/users' ? 'menu_txt on' : 'menu_txt'}>회원관리</div>
+            <div
+              className={
+                router.pathname === '/admin/users' || router.pathname === '/admin/users/user'
+                  ? 'menu_txt on'
+                  : 'menu_txt'
+              }
+            >
+              회원관리
+            </div>
           </div>
-          <div className="menu">
+          <div className="menu" onClick={() => router.push('/admin/banners')}>
             <div className="menu_icon">
-              <Image src={Menu3[0]} alt="menu" />
+              <Image src={router.pathname === '/admin/banners' ? Menu3[1] : Menu3[0]} alt="menu" />
             </div>
-            <div className="menu_txt">배너관리</div>
+            <div className={router.pathname === '/admin/banners' ? 'menu_txt on' : 'menu_txt'}>배너관리</div>
           </div>
           <div className="menu">
             <div className="menu_icon">
