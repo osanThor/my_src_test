@@ -36,6 +36,26 @@ const BannersTop = () => {
           >
             이용권 등록
           </div>
+          <div className={router.query.zone === 'SUBSCRIBE' ? 'sub_tab on' : 'sub_tab'}>
+            <div
+              className={router.query.sub === 'BYBIT' ? 'tab on' : 'tab'}
+              onClick={() => router.push('/admin/banners?page=1&zone=SUBSCRIBE&sub=BYBIT')}
+            >
+              BYBIT
+            </div>
+            <div
+              className={router.query.sub === 'BINANCE' ? 'tab on' : 'tab'}
+              onClick={() => router.push('/admin/banners?page=1&zone=SUBSCRIBE&sub=BINANCE')}
+            >
+              BINANCE
+            </div>
+            <div
+              className={router.query.sub === 'BITGET' ? 'tab on' : 'tab'}
+              onClick={() => router.push('/admin/banners?page=1&zone=SUBSCRIBE&sub=BITGET')}
+            >
+              BITGET
+            </div>
+          </div>
         </div>
         <Button blue>추가</Button>
       </div>
@@ -58,6 +78,7 @@ const BannersTopBlock = styled.div`
     .admin_tab {
       display: flex;
       align-items: center;
+      position: relative;
       .menu {
         padding: 4px 1rem;
         background-color: ${colors.blue[0]};
@@ -83,6 +104,35 @@ const BannersTopBlock = styled.div`
       min-height: auto;
       height: 48px;
       border-radius: 8px;
+    }
+    .sub_tab {
+      width: 0px;
+      overflow: hidden;
+      visibility: hidden;
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      display: flex;
+      transform: translateY(-50%);
+      transition: all 0.2s;
+      font-size: 14px;
+
+      .tab {
+        padding: 0 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        &.on {
+          color: ${colors.blue[2]};
+        }
+        &:hover {
+          color: ${colors.blue[2]};
+        }
+      }
+
+      &.on {
+        width: 100%;
+        visibility: visible;
+      }
     }
   }
 `;

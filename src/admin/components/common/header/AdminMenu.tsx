@@ -186,4 +186,4 @@ const AdminMenuSpacer = styled.div`
   }
 `;
 
-export default AdminMenu;
+export default React.memo(AdminMenu);

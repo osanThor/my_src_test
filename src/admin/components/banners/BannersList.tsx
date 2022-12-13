@@ -1,5 +1,4 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
 import Pagination from '@/src/components/common/Pagination';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';

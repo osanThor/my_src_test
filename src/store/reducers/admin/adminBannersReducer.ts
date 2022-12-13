@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getAdminBannersPayload, getAdminBannersResult, LoadAdminBannersResponse, ResponseFailure } from '../../types';
+import {
+  getAdminBannersPayload,
+  getAdminBannersResult,
+  getAdminSubscripbePlatformPayload,
+  LoadAdminBannersResponse,
+  ResponseFailure,
+} from '../../types';
 
 export type AdminBannersStateType = {
   page: number | null;
@@ -57,6 +63,19 @@ const adminBannersSlice = createSlice({
     getAdminAllBanners(state, action: PayloadAction<getAdminBannersPayload>) {
       state.loadAdminBannersLoading = true;
       state.page = action.payload.page;
+    },
+    getAdminMainBanners(state, action: PayloadAction<getAdminBannersPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.page = action.payload.page;
+    },
+    getAdminSubScribeBanners(state, action: PayloadAction<getAdminBannersPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.page = action.payload.page;
+    },
+    getAdminSubScribeByPlatformBanners(state, action: PayloadAction<getAdminSubscripbePlatformPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.page = action.payload.page;
+      state.platform = action.payload.platform;
     },
     getAdminBannersResult(state, action: PayloadAction<getAdminBannersResult>) {
       state.loadAdminBannersLoading = false;

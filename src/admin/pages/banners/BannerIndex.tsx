@@ -43,11 +43,23 @@ const BannersIndex = () => {
 
   useEffect(() => {
     if (isAdmin) {
-      dispatch(
-        adminBannersActions.getAdminAllBanners({
-          page,
-        }),
-      );
+      if (!router.query.zone) {
+        dispatch(
+          adminBannersActions.getAdminAllBanners({
+            page,
+          }),
+        );
+      } else if (router.query.zone === 'MAIN') {
+        dispatch(adminBannersActions.getAdminMainBanners({ page }));
+      } else if (router.query.zone === 'SUBSCRIBE') {
+        if (!router.query.sub) {
+          dispatch(adminBannersActions.getAdminSubScribeBanners({ page }));
+        } else if (router.query.sub) {
+          dispatch(
+            adminBannersActions.getAdminSubScribeByPlatformBanners({ platform: router.query.sub as string, page }),
+          );
+        }
+      }
 
       if (router.query.page) {
         dispatch(adminBannersActions.changePage({ page: parseInt(router.query.page as string) }));

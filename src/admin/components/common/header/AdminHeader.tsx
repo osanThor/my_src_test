@@ -59,4 +59,4 @@ const StyledButton = styled(Button)`
   height: 40px;
 `;
 
-export default AdminHeader;
+export default React.memo(AdminHeader);
