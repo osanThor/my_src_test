@@ -57,7 +57,9 @@ const BannersTop = () => {
             </div>
           </div>
         </div>
-        <Button blue>추가</Button>
+        <Button blue onClick={() => router.push('/admin/banners/bannerWrite')}>
+          추가
+        </Button>
       </div>
     </BannersTopBlock>
   );

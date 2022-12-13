@@ -8,6 +8,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminBannersActions } from '../../reducers';
 import {
   getAdminBannerDetailPayload,
+  getAdminBannerDetailResult,
   getAdminBannersPayload,
   getAdminBannersResult,
   getAdminSubscripbePlatformPayload,
@@ -102,10 +103,10 @@ function* getAdminsubScribeBannersByPlatformSaga(action: PayloadAction<getAdminS
 function* getAdminBannerDetailSaga(action: PayloadAction<getAdminBannerDetailPayload>) {
   yield put(adminBannersActions.loadAdminBannersRequest());
   try {
-    const { data }: AxiosResponse<LoadAdminBannersResponse> = yield call(apiGetAdminBannerDetail, action.payload);
+    const { data }: AxiosResponse<getAdminBannerDetailResult> = yield call(apiGetAdminBannerDetail, action.payload);
     console.log(data);
 
-    yield put(adminBannersActions.loadAdminBannersSuccess(data));
+    yield put(adminBannersActions.getAdminBannerDetailResult(data));
   } catch (error: any) {
     console.error('adminBannersSaga getAdminBannerDetailSaga >> ', error);
 

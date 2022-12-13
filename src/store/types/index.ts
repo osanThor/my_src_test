@@ -93,6 +93,7 @@ export type {
   createAdminBannerPayload,
   getAdminBannersResult,
   getAdminBannerDetailPayload,
+  getAdminBannerDetailResult,
   LoadAdminBannersResponse,
 } from './admin/adminBanners';
 export type {

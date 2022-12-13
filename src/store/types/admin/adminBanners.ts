@@ -9,6 +9,12 @@ export type getAdminSubscripbePlatformPayload = {
 export type getAdminBannerDetailPayload = {
   id: number | null;
 };
+export type getAdminBannerDetailResult = {
+  files: Array<{ name: string | null }> | [];
+  isVisibleMobile: boolean;
+  isVisiblePc: boolean;
+  position: string | null;
+} | null;
 
 export type getAdminBannersResult = Array<{
   createdAt: string | null;
