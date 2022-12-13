@@ -27,7 +27,7 @@ const UserDetail = () => {
       loadAdminUsersdError: adminUsers.loadAdminUsersdError,
     }),
   );
-
+  //admin auth
   useEffect(() => {
     const admin = localStorage.getItem('admin');
     if (!admin) {
@@ -68,7 +68,6 @@ const UserDetail = () => {
   };
   //delete user
   const handleDeleteUser = () => {
-    console.log(email);
     dispatch(adminUsersActions.adminUserDelete({ email }));
   };
 
@@ -83,15 +82,59 @@ const UserDetail = () => {
         alert('삭제 되었어요');
         router.push('/admin/users');
       }
+      if (loadAdminUsersdDone.message === 'SUCCESS') {
+        alert('전송에 성공했어요!');
+      }
     }
   }, [loadAdminUsersdError, loadAdminUsersdDone]);
+
+  //telegram message
+  const [messageVal, setMessageVal] = useState('');
+  const [idList, setIdList] = useState<Array<string>>([]);
+
+  const handleChangeTelegramMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, type, checked } = e.target;
+    if (type === 'text') {
+      setMessageVal(value);
+    } else if (type === 'checkbox') {
+      if (checked) {
+        setIdList((li) => [...li, value]);
+      } else {
+        setIdList(idList.filter((li) => li != value));
+      }
+    }
+  };
+
+  console.log(messageVal);
+  console.log(idList);
+  const handleSendTelegramMessage = () => {
+    if (!messageVal) {
+      alert('메세지를 입력 해주세요!');
+      return;
+    } else if (idList.length === 0) {
+      alert('계정을 선택 해주세요!');
+      return;
+    }
+    dispatch(
+      adminUsersActions.sendTelegramMessage({
+        contents: [messageVal],
+        idList,
+      }),
+    );
+  };
+
   return (
     <>
       <AdminLayout>
         <BasicContainer>
           <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} />
           <UserDetailBox />
-          <UserMiddleBox />
+          <UserMiddleBox
+            messageVal={messageVal}
+            idList={idList}
+            handleChangeTelegramMessage={handleChangeTelegramMessage}
+            handleSendTelegramMessage={handleSendTelegramMessage}
+          />
           <AcountTable />
         </BasicContainer>
       </AdminLayout>

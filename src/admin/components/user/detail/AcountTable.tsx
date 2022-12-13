@@ -1,6 +1,5 @@
 import colors from '@/src/assets/Colors';
 import { BINANCE, BITGET, BITMEX, BYBIT, CancelIcon, EditPenIcon, FTX, Profile1 } from '@/src/assets/Images';
-import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { exchangeActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
@@ -17,50 +16,6 @@ const AcountTable = ({}: {}) => {
   const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
   }));
-  // const [selectExchange, setSelectExchange] = useState('');
-  // const [allExcLenght, setAllExcLenght] = useState(0);
-
-  // useEffect(() => {
-  //   if (router.query.selected) {
-  //     setSelectExchange(router.query.selected as string);
-  //     if (selectExchange) {
-  //       setAllExcLenght(allExchangeResult.length + 1);
-  //     } else {
-  //       setAllExcLenght(allExcLenght - 1);
-  //     }
-  //   } else {
-  //     setSelectExchange('');
-  //     setAllExcLenght(allExchangeResult.length);
-  //   }
-  // }, [router, allExchangeResult, selectExchange]);
-
-  // // change api key payload field
-  // const handleChangeApiKeyPayload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value, name } = e.target;
-  //   console.log(name, value);
-  //   if (name === 'alias') {
-  //     dispatch(
-  //       exchangeActions.chagneCreateApiKeyFeild({
-  //         exchange,
-  //         apiKeyObj: { id: apiKeyObj.id, alias: value, apiKey: apiKeyObj.apiKey, apiSecret: apiKeyObj.apiSecret },
-  //       }),
-  //     );
-  //   } else if (name === 'apiKey') {
-  //     dispatch(
-  //       exchangeActions.chagneCreateApiKeyFeild({
-  //         exchange,
-  //         apiKeyObj: { id: apiKeyObj.id, alias: apiKeyObj.alias, apiKey: value, apiSecret: apiKeyObj.apiSecret },
-  //       }),
-  //     );
-  //   } else if (name === 'apiSecret') {
-  //     dispatch(
-  //       exchangeActions.chagneCreateApiKeyFeild({
-  //         exchange,
-  //         apiKeyObj: { id: apiKeyObj.id, alias: apiKeyObj.alias, apiKey: apiKeyObj.apiKey, apiSecret: value },
-  //       }),
-  //     );
-  //   }
-  // };
 
   return (
     <AcountTableBlock>
@@ -108,7 +63,6 @@ const TableRow = ({
     apiKeyObj: exchange.apiKeyObj,
   }));
 
-  console.log(exchange, apiKeyObj);
   // first state
   useEffect(() => {
     if (editable) {

@@ -4,14 +4,23 @@ import { Profile1 } from '@/src/assets/Images';
 import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { Checkbox, Input } from '@mui/material';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CustomSelect from './items/CustomSelect';
 
-const UserMiddleBox = () => {
+const UserMiddleBox = ({
+  messageVal,
+  idList,
+  handleChangeTelegramMessage,
+  handleSendTelegramMessage,
+}: {
+  messageVal: string | null;
+  idList: Array<string> | null;
+  handleChangeTelegramMessage: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSendTelegramMessage: () => void;
+}) => {
   const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
   }));
@@ -25,6 +34,7 @@ const UserMiddleBox = () => {
       }
     }
   }, [getAdminUserDetailResult]);
+
   return (
     <UserMiddleBoxBlock>
       <div className="package_area">
@@ -55,14 +65,19 @@ const UserMiddleBox = () => {
               <div className="telegram_list">
                 {getAdminUserDetailResult?.telegrams?.map((telegram) => (
                   <label className="telegram" key={telegram.id}>
-                    <Checkbox name="telegramId" value={telegram.id} />
+                    <Checkbox
+                      name="telegramId"
+                      value={telegram.id}
+                      onChange={handleChangeTelegramMessage}
+                      checked={idList.includes(telegram.id)}
+                    />
                     사용자명: <span>{telegram.name}</span>
                   </label>
                 ))}
               </div>
               <div className="send_notice">
-                <Input placeholder="메시지를 작성해주세요." />
-                <Button>전송</Button>
+                <Input placeholder="메시지를 작성해주세요." value={messageVal} onChange={handleChangeTelegramMessage} />
+                <Button onClick={handleSendTelegramMessage}>전송</Button>
               </div>
             </>
           ) : (
