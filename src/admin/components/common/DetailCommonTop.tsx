@@ -3,11 +3,25 @@ import { ArrowLeft } from '@/src/assets/Images';
 import Button from '@/src/components/common/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const DetailCommonTop = ({ handleDeleteModalOpen }: { handleDeleteModalOpen: () => void }) => {
+const DetailCommonTop = ({
+  handleDeleteModalOpen,
+  handleSubmit,
+}: {
+  handleDeleteModalOpen: () => void | null;
+  handleSubmit: () => void | null;
+}) => {
   const router = useRouter();
+  const [isEdit, setIsEdit] = useState(false);
+  useEffect(() => {
+    if (router.query.edit) {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
+    }
+  }, [router]);
   return (
     <DetailCommonTopBlock>
       <div className="back_btn" onClick={() => router.back()}>
@@ -17,10 +31,20 @@ const DetailCommonTop = ({ handleDeleteModalOpen }: { handleDeleteModalOpen: () 
         돌아가기
       </div>
       <div className="ctrl_btns">
-        <StyledButton yellow>수정</StyledButton>
-        <StyledButton red onClick={handleDeleteModalOpen}>
-          삭제
-        </StyledButton>
+        {isEdit ? (
+          <>
+            <StyledButton yellow>수정</StyledButton>
+            <StyledButton red onClick={handleDeleteModalOpen}>
+              삭제
+            </StyledButton>
+          </>
+        ) : (
+          <>
+            <StyledButton blue onClick={handleSubmit}>
+              저장
+            </StyledButton>
+          </>
+        )}
       </div>
     </DetailCommonTopBlock>
   );

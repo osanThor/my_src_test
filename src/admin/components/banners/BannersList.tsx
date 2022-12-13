@@ -28,8 +28,12 @@ const BannersList = () => {
       </div>
       <div className="user_list">
         {getBannersResult?.map((banner) => (
-          <div className="tr" key={banner.id} onClick={() => router.push(`/admin/banners/banner?id=${banner.id}`)}>
-            <div className="td">1</div>
+          <div
+            className="tr"
+            key={banner.id}
+            onClick={() => router.push(`/admin/banners/banner?id=${banner.id}&edit=true`)}
+          >
+            <div className="td">{banner.id}</div>
             <div className="td profile">배너이미지</div>
             <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
             <div className="td">{banner.position}</div>

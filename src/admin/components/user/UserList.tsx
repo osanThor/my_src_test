@@ -31,7 +31,11 @@ const UserList = () => {
       <div className="user_list">
         {getAdminUsersResult &&
           getAdminUsersResult?.users.map((user) => (
-            <div className="tr" key={user.email} onClick={() => router.push(`/admin/users/user?email=${user.email}`)}>
+            <div
+              className="tr"
+              key={user.email}
+              onClick={() => router.push(`/admin/users/user?email=${user.email}&edit=true`)}
+            >
               <div className="td">1</div>
               <div className="td profile">
                 <div className="profile_Image">
