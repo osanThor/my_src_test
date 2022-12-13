@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserTop from '../../components/user/UserTop';
 import AdminLayout from '../../layouts/AdminLayout';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,11 @@ import { useRouter } from 'next/router';
 const UserIndex = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { loadAdminAuthLoading, loadAdminAuthDone, loadAdminAuthError } = useSelector(({ adminAuth }: RootState) => ({
+    loadAdminAuthLoading: adminAuth.loadAdminAuthLoading,
+    loadAdminAuthDone: adminAuth.loadAdminAuthDone,
+    loadAdminAuthError: adminAuth.loadAdminAuthError,
+  }));
   const { page } = useSelector(({ adminUsers }: RootState) => ({
     page: adminUsers.page,
   }));
@@ -25,12 +30,24 @@ const UserIndex = () => {
   }, []);
 
   useEffect(() => {
+    setIsAdmin(false);
     dispatch(adminUsersActions.initializeAdminUsersForm());
   }, [dispatch]);
 
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
-    dispatch(adminUsersActions.getAdminUsers({ page }));
-  }, []);
+    if (loadAdminAuthDone) {
+      if (loadAdminAuthDone.accessToken) {
+        setIsAdmin(true);
+      }
+    }
+  }, [loadAdminAuthDone]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      dispatch(adminUsersActions.getAdminUsers({ page }));
+    }
+  }, [isAdmin]);
   return (
     <AdminLayout>
       <BasicContainer>

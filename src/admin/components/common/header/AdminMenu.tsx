@@ -1,12 +1,18 @@
 import colors from '@/src/assets/Colors';
 import { LogOutIcon, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6 } from '@/src/assets/Images';
+import { adminAuthActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const AdminMenu = ({ open }: { open: boolean }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const handleAdminLogout = () => {
+    dispatch(adminAuthActions.adminLogout());
+  };
   return (
     <>
       <AdminMenuBlock className={open && 'open'}>
@@ -48,7 +54,7 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             <div className="menu_txt">고객센터</div>
           </div>
         </div>
-        <div className="logout" onClick={() => router.push('/admin/login')}>
+        <div className="logout" onClick={handleAdminLogout}>
           <div className="icon">
             <Image src={LogOutIcon} alt="logout" />
           </div>

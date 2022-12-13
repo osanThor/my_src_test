@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import { useDispatch } from 'react-redux';
 import BasicContainer from '../../layouts/BasicContainer';
@@ -13,6 +13,11 @@ import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
 const UserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { loadAdminAuthLoading, loadAdminAuthDone, loadAdminAuthError } = useSelector(({ adminAuth }: RootState) => ({
+    loadAdminAuthLoading: adminAuth.loadAdminAuthLoading,
+    loadAdminAuthDone: adminAuth.loadAdminAuthDone,
+    loadAdminAuthError: adminAuth.loadAdminAuthError,
+  }));
   const { email } = useSelector(({ adminUsers }: RootState) => ({
     email: adminUsers.email,
   }));
@@ -26,14 +31,26 @@ const UserDetail = () => {
   }, []);
 
   useEffect(() => {
+    setIsAdmin(false);
     dispatch(adminUsersActions.initializeAdminUsersForm());
   }, [dispatch]);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    if (loadAdminAuthDone) {
+      if (loadAdminAuthDone.accessToken) {
+        setIsAdmin(true);
+      }
+    }
+  }, [loadAdminAuthDone]);
+
   useEffect(() => {
     if (router.query.email) {
-      dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
+      if (isAdmin) {
+        dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
+      }
     }
-  }, [router]);
+  }, [router, isAdmin]);
   return (
     <AdminLayout>
       <BasicContainer>

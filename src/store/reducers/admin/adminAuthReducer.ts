@@ -32,6 +32,10 @@ const adminAuthSlice = createSlice({
       Object.assign(state, initialState);
     },
     //action
+    changeAdminLoginField(state, action: PayloadAction<adminLoginPayload>) {
+      state.email = action.payload.email;
+      state.pw = action.payload.pw;
+    },
     adminLogin(state, action: PayloadAction<adminLoginPayload>) {
       state.loadAdminAuthLoading = true;
       state.email = action.payload.email;

@@ -373,6 +373,8 @@ const CommentItemBlock = styled.div`
         height: 48px;
         min-width: 48px;
         position: relative;
+        border-radius: 50%;
+        overflow: hidden;
         margin-right: 16px;
       }
       .profile_info {

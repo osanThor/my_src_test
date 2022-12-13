@@ -21,8 +21,8 @@ const UserDetailBox = () => {
               <Image src={Profile1[1]} alt="user profile" layout="fill" />
             </div>
             <div className="profile_name">
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname} readOnly />
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.email} readOnly />
+              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname || ''} readOnly />
+              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.email || ''} readOnly />
             </div>
           </div>
           <div className="profile_bott">

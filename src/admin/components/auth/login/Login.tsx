@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image';
 import { Logo } from '@/src/assets/Images';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
 
 function Copyright(props: any) {
   return (
@@ -25,8 +27,18 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const Login = () => {
-  const onSubmit = (e: any) => {};
+const Login = ({
+  handleChangeAdminField,
+  handleSubmitAdminLogin,
+}: {
+  handleChangeAdminField: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmitAdminLogin: (e: React.FormEvent) => void;
+}) => {
+  const { email, pw } = useSelector(({ adminAuth }: RootState) => ({
+    email: adminAuth.email,
+    pw: adminAuth.pw,
+  }));
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -87,26 +99,30 @@ const Login = () => {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmitAdminLogin} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="ID"
-                name="username"
-                autoComplete="username"
+                id="email"
+                label="email"
+                name="email"
+                autoComplete="email"
                 autoFocus
+                value={email}
+                onChange={handleChangeAdminField}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                label="Password"
+                name="pw"
+                label="pw"
                 type="password"
-                id="password"
-                autoComplete="current-password"
+                id="pw"
+                autoComplete="current-pw"
+                value={pw}
+                onChange={handleChangeAdminField}
               />
 
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, height: '58px' }}>
