@@ -86,6 +86,7 @@ export type {
 } from './boards';
 
 //admin
+export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth';
 export type {
   GetAdminUserCountResult,
   GetAllAdminExchagneCountResult,

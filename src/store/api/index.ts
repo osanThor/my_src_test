@@ -62,6 +62,8 @@ export {
 } from './boards';
 
 //admin
+export { apiAdminLogin, apiAdminLogout, apiAdminRefresh } from './admin/auth';
+
 export { apiGetAdminUserCount, apiGetAdminExchangeCount, apiGetAdminPackageCount } from './admin/dashboard';
 
 export {

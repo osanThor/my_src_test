@@ -11,6 +11,7 @@ import boardsReducer, { BoardsStateType } from './boardsReducer';
 import indexReducer, { IndexStateType } from './indexReducer';
 import exchangeReducer, { ExchangeStateType } from './exchangeReducer';
 //admin reducers
+import adminAuthReducer, { AdminAuthStateType } from './admin/adminAuthReducer';
 import adminDashboardReducer, { AdminDashboardStateType } from './admin/adminDashboardReducer';
 import adminUsersReducer, { AdminUsersStateType } from './admin/adminUsersReducer';
 
@@ -23,6 +24,7 @@ export { boardsActions } from './boardsReducer';
 export { exchangeActions } from './exchangeReducer';
 export { indexActions } from './indexReducer';
 // admin actions
+export { adminAuthActions } from './admin/adminAuthReducer';
 export { adminDashboardsActions } from './admin/adminDashboardReducer';
 export { adminUsersActions } from './admin/adminUsersReducer';
 
@@ -35,6 +37,7 @@ type ReducerState = {
   exchange: ExchangeStateType;
   index: IndexStateType;
   //admin
+  adminAuth: AdminAuthStateType;
   adminDashBoards: AdminDashboardStateType;
   adminUsers: AdminUsersStateType;
 };
@@ -59,6 +62,7 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
         exchange: exchangeReducer,
         index: indexReducer,
         //admin
+        adminAuth: adminAuthReducer,
         adminDashBoards: adminDashboardReducer,
         adminUsers: adminUsersReducer,
       })(state, action);
