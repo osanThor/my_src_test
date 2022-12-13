@@ -7,7 +7,12 @@ import {
 } from '../../types';
 
 // get admin All user list
-export const apiGetAdminUsers = ({ page }: getAdminUsersPayload) => axiosInstance.get(`/admin/users?page=${page}`);
+export const apiGetAdminUsers = ({ page, snsType, email, grade, licensePackage, nickname }: getAdminUsersPayload) =>
+  axiosInstance.get(
+    `/admin/users?page=${page}${snsType && `&snsType=${snsType}`}${email && `&email=${email}`}${
+      licensePackage && `&licensePackage=${licensePackage}`
+    }${nickname && `&nickname=${nickname}`}${grade && `&grade=${grade}`}`,
+  );
 
 //get admin User detail
 export const apiGetAdminUserDetail = ({ email }: adminUserDetailPayload) => axiosInstance.get(`/admin/users/${email}`);

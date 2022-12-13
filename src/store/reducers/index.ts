@@ -11,8 +11,10 @@ import boardsReducer, { BoardsStateType } from './boardsReducer';
 import indexReducer, { IndexStateType } from './indexReducer';
 import exchangeReducer, { ExchangeStateType } from './exchangeReducer';
 //admin reducers
+import adminAuthReducer, { AdminAuthStateType } from './admin/adminAuthReducer';
 import adminDashboardReducer, { AdminDashboardStateType } from './admin/adminDashboardReducer';
 import adminUsersReducer, { AdminUsersStateType } from './admin/adminUsersReducer';
+import adminBannersReducer, { AdminBannersStateType } from './admin/adminBannersReducer';
 
 // actions
 export { authActions } from './authReducer';
@@ -23,8 +25,10 @@ export { boardsActions } from './boardsReducer';
 export { exchangeActions } from './exchangeReducer';
 export { indexActions } from './indexReducer';
 // admin actions
+export { adminAuthActions } from './admin/adminAuthReducer';
 export { adminDashboardsActions } from './admin/adminDashboardReducer';
 export { adminUsersActions } from './admin/adminUsersReducer';
+export { adminBannersActions } from './admin/adminBannersReducer';
 
 type ReducerState = {
   auth: AuthStateType;
@@ -35,8 +39,10 @@ type ReducerState = {
   exchange: ExchangeStateType;
   index: IndexStateType;
   //admin
+  adminAuth: AdminAuthStateType;
   adminDashBoards: AdminDashboardStateType;
   adminUsers: AdminUsersStateType;
+  adminBanners: AdminBannersStateType;
 };
 
 // 원래 "rootReducer"로 합쳐줄 필요 없이 "configureStore()"에서 합칠 수 있지만 "HYDRATE"를 위해서 사용
@@ -59,8 +65,10 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
         exchange: exchangeReducer,
         index: indexReducer,
         //admin
+        adminAuth: adminAuthReducer,
         adminDashBoards: adminDashboardReducer,
         adminUsers: adminUsersReducer,
+        adminBanners: adminBannersReducer,
       })(state, action);
   }
 };

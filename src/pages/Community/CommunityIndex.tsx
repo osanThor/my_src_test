@@ -16,9 +16,6 @@ const CommunityIndex: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch]);
   const { communityDiscussion, communityCommission, communityRank, communityNotice } = useSelector(
     ({ local }: RootState) => ({
       communityDiscussion: local.communityDiscussion,

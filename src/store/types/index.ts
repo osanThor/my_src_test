@@ -86,6 +86,15 @@ export type {
 } from './boards';
 
 //admin
+export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth';
+export type {
+  getAdminBannersPayload,
+  getAdminSubscripbePlatformPayload,
+  createAdminBannerPayload,
+  getAdminBannersResult,
+  getAdminBannerDetailPayload,
+  LoadAdminBannersResponse,
+} from './admin/adminBanners';
 export type {
   GetAdminUserCountResult,
   GetAllAdminExchagneCountResult,
@@ -96,7 +105,14 @@ export type {
   getAdminUsersPayload,
   getAdminUsersResult,
   adminUserDetailPayload,
+  getAdminUserDetailResult,
   adminTelegramUsersNotice,
   adminTelegramUsersMessage,
+  changeEmailPayload,
+  changeGradePayload,
+  changeNicknamePayload,
+  changePagePayload,
+  changeSnsTypePayload,
+  changelicensePackagePayload,
   LoadAdminUsersResponse,
 } from './admin/adminUser';

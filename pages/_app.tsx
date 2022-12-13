@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
-import { authActions, localActions, userActions } from '@/src/store/reducers';
+import { adminAuthActions, authActions, localActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
@@ -35,6 +35,10 @@ function MyApp({
   const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
     loadAuthError: auth.loadAuthError,
+  }));
+  const { loadAdminAuthDone, loadAdminAuthError } = useSelector(({ adminAuth }: RootState) => ({
+    loadAdminAuthDone: adminAuth.loadAdminAuthDone,
+    loadAdminAuthError: adminAuth.loadAdminAuthError,
   }));
   const { bgBlur } = useSelector(({ local }: RootState) => ({
     bgBlur: local.bgBlur,
@@ -92,6 +96,40 @@ function MyApp({
   useEffect(() => {
     authService.userRefreshToken(dispatch, loadAuthDone);
   }, [dispatch, router]);
+
+  //admin
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (loadAdminAuthError) {
+      alert(loadAdminAuthError);
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      localStorage.clear();
+      router.push('/admin/login');
+      return;
+    }
+
+    if (loadAdminAuthDone) {
+      if (loadAdminAuthDone.message === 'LOGGED_IN' || loadAdminAuthDone.message === 'UPDATED') {
+        axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAdminAuthDone.accessToken;
+        timeout = setTimeout(() => {
+          console.log('admin refresh');
+          dispatch(adminAuthActions.adminRefresh());
+        }, loadAdminAuthDone.expiryTime - 30000);
+      } else {
+        clearTimeout(timeout);
+        localStorage.clear();
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        router.push('/admin/login');
+      }
+    }
+  }, [loadAdminAuthError, loadAdminAuthDone]);
+
+  useEffect(() => {
+    const admin = localStorage.getItem('admin');
+    if (admin) {
+      dispatch(adminAuthActions.adminRefresh());
+    }
+  }, [router]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);

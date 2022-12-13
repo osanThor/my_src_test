@@ -1,5 +1,4 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
 import Pagination from '@/src/components/common/Pagination';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
@@ -9,67 +8,42 @@ import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const UserList = () => {
+const BannersList = () => {
   const router = useRouter();
-  const { getAdminUsersResult, page } = useSelector(({ adminUsers }: RootState) => ({
-    getAdminUsersResult: adminUsers.getAdminUsersResult,
-    page: adminUsers.page,
+  const { getBannersResult, page } = useSelector(({ adminBanners }: RootState) => ({
+    getBannersResult: adminBanners.getBannersResult,
+    page: adminBanners.page,
   }));
-  const { total } = getAdminUsersResult;
+  // const { total } = getBannersResult;
   return (
-    <UserListBlock>
+    <BannersListBlock>
       <div className="user_list_header">
         <div className="th">
           <div className="td">NO</div>
-          <div className="td">사용자 프로필</div>
-          <div className="td">로그인 방식</div>
-          <div className="td">패키지</div>
-          <div className="td">상태</div>
-          <div className="td">가입일</div>
+          <div className="td">썸네일 이미지(PC)</div>
+          <div className="td">노출 여부</div>
+          <div className="td">노출 위치</div>
+          <div className="td">등록일</div>
         </div>
       </div>
       <div className="user_list">
-        {getAdminUsersResult &&
-          getAdminUsersResult?.users.map((user) => (
-            <div className="tr" key={user.email} onClick={() => router.push(`/admin/users/user?email=${user.email}`)}>
-              <div className="td">1</div>
-              <div className="td profile">
-                <div className="profile_Image">
-                  <Image
-                    src={
-                      user.photoUrl &&
-                      user.photoUrl != 'quantro.net' &&
-                      user.photoUrl != 'byteria.co.kr' &&
-                      user.photoUrl != 'default.com' &&
-                      user.photoUrl != 'app.quantro.net'
-                        ? user.photoUrl
-                        : Profile1[1]
-                    }
-                    alt="profile"
-                    layout="fill"
-                  />
-                </div>
-                <div className="profile_info">
-                  <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
-                  <div className="email">{user.email ? user.email : '퀀트로'}</div>
-                </div>
-              </div>
-              <div className="td">{user.snsType}</div>
-              <div className="td">{user.license ? user.license.package : 'NULL'}</div>
-              <div className="td">{user.grade}</div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{user.createdAt}</Moment>
-              </div>
+        {getBannersResult?.map((banner) => (
+          <div className="tr" key={banner.id} onClick={() => router.push(`/admin/banners/banner?id=${banner.id}`)}>
+            <div className="td">1</div>
+            <div className="td profile">배너이미지</div>
+            <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
+            <div className="td">{banner.position}</div>
+            <div className="td">
+              <Moment format="YYYY.MM.DD">{banner.createdAt}</Moment>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
-      <div className="bottom">
-        <Pagination total={total} page={page} />
-      </div>
-    </UserListBlock>
+      <div className="bottom">{/* <Pagination total={total} page={page} /> */}</div>
+    </BannersListBlock>
   );
 };
-const UserListBlock = styled.div`
+const BannersListBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -88,7 +62,6 @@ const UserListBlock = styled.div`
     }
     &:nth-child(2) {
       flex: 1;
-      max-width: 450px;
       &.profile {
         display: flex;
         .profile_Image {
@@ -121,11 +94,9 @@ const UserListBlock = styled.div`
       width: 20%;
       max-width: 250px;
     }
-    &:nth-child(6) {
+    &:last-child {
       width: 20%;
       max-width: 450px;
-    }
-    &:last-child {
       margin-right: 0;
     }
   }
@@ -166,4 +137,4 @@ const UserListBlock = styled.div`
   }
 `;
 
-export default UserList;
+export default BannersList;

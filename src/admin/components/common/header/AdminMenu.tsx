@@ -1,12 +1,18 @@
 import colors from '@/src/assets/Colors';
 import { LogOutIcon, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6 } from '@/src/assets/Images';
+import { adminAuthActions } from '@/src/store/reducers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const AdminMenu = ({ open }: { open: boolean }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const handleAdminLogout = () => {
+    dispatch(adminAuthActions.adminLogout());
+  };
   return (
     <>
       <AdminMenuBlock className={open && 'open'}>
@@ -17,17 +23,30 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             </div>
             <div className={router.pathname === '/admin/dashboard' ? 'menu_txt on' : 'menu_txt'}>대시보드</div>
           </div>
-          <div className="menu" onClick={() => router.push('/admin/user')}>
+          <div className="menu" onClick={() => router.push('/admin/users')}>
             <div className="menu_icon">
-              <Image src={router.pathname === '/admin/user' ? Menu2[1] : Menu2[0]} alt="menu" />
+              <Image
+                src={
+                  router.pathname === '/admin/users' || router.pathname === '/admin/users/user' ? Menu2[1] : Menu2[0]
+                }
+                alt="menu"
+              />
             </div>
-            <div className={router.pathname === '/admin/user' ? 'menu_txt on' : 'menu_txt'}>회원관리</div>
+            <div
+              className={
+                router.pathname === '/admin/users' || router.pathname === '/admin/users/user'
+                  ? 'menu_txt on'
+                  : 'menu_txt'
+              }
+            >
+              회원관리
+            </div>
           </div>
-          <div className="menu">
+          <div className="menu" onClick={() => router.push('/admin/banners')}>
             <div className="menu_icon">
-              <Image src={Menu3[0]} alt="menu" />
+              <Image src={router.pathname === '/admin/banners' ? Menu3[1] : Menu3[0]} alt="menu" />
             </div>
-            <div className="menu_txt">배너관리</div>
+            <div className={router.pathname === '/admin/banners' ? 'menu_txt on' : 'menu_txt'}>배너관리</div>
           </div>
           <div className="menu">
             <div className="menu_icon">
@@ -48,7 +67,7 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             <div className="menu_txt">고객센터</div>
           </div>
         </div>
-        <div className="logout" onClick={() => router.push('/admin/login')}>
+        <div className="logout" onClick={handleAdminLogout}>
           <div className="icon">
             <Image src={LogOutIcon} alt="logout" />
           </div>
@@ -167,4 +186,4 @@ const AdminMenuSpacer = styled.div`
   }
 `;
 
-export default AdminMenu;
+export default React.memo(AdminMenu);

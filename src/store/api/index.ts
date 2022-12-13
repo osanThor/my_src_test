@@ -62,6 +62,8 @@ export {
 } from './boards';
 
 //admin
+export { apiAdminLogin, apiAdminLogout, apiAdminRefresh } from './admin/auth';
+
 export { apiGetAdminUserCount, apiGetAdminExchangeCount, apiGetAdminPackageCount } from './admin/dashboard';
 
 export {
@@ -71,3 +73,12 @@ export {
   apiSendAdminUserNotice,
   apiSendAdminUserMessage,
 } from './admin/user';
+
+export {
+  apiCreateAdminBanner,
+  apiGetAdminAllBanners,
+  apiGetAdminBannerDetail,
+  apiGetAdminMainBanners,
+  apiGetAdminSubscribeBanners,
+  apiGetAdminSubscribeByPlatformBanners,
+} from './admin/banners';

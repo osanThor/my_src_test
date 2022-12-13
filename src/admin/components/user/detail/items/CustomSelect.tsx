@@ -18,10 +18,10 @@ const CustomSelect = ({
   const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
   const options = [
-    { value: 'nickname', txt: '사용자명' },
-    { value: 'email', txt: '이메일' },
-    { value: 'licensePackage', txt: '등록된 패키지' },
-    { value: 'grade', txt: '상태' },
+    { value: 'NORMAL', txt: '미신청' },
+    { value: 'user', txt: '입금대기' },
+    { value: 'package', txt: '입금완료' },
+    { value: 'comment', txt: '입금확인' },
   ];
 
   const handleOnChangeSelectValue = (e: any) => {

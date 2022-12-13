@@ -170,6 +170,7 @@ const BoardTopBlock = styled.div`
       height: 64px;
       margin-right: 20px;
       position: relative;
+      border-radius: 50%;
       overflow: hidden;
     }
     .info_con {

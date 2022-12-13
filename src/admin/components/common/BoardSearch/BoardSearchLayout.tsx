@@ -4,17 +4,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
-const BoardSearchLayout = ({
-  category,
-  name,
-  value,
-  children,
-}: {
-  category: string;
-  name: string;
-  value: string;
-  children: React.ReactNode;
-}) => {
+const BoardSearchLayout = ({ name, value, children }: { name: string; value: string; children: React.ReactNode }) => {
   const router = useRouter();
 
   const handleGoBoards = () => {
@@ -22,7 +12,23 @@ const BoardSearchLayout = ({
       alert('필터값을 선택 해주세요');
       return;
     }
-    // router.push(`/community?category=${category}&${name}=${value}`);
+    if (!value) {
+      alert('값을 입력 해주세요');
+      return;
+    }
+    if (name === 'licensePackage') {
+      if (value != 'BASIC' && value != 'REGULAR' && value != 'PREMIUM') {
+        alert('등록된 패키지 검색값은 "BASIC, REGULAR, PREMIUM"만 가능해요');
+        return;
+      }
+    }
+    if (name === 'grade') {
+      if (value != 'STRATEGIST' && value != 'NORMAL') {
+        alert('상태 검색값은 "NORMAL, STRATEGIST"만 가능해요');
+        return;
+      }
+    }
+    router.push(`/admin/users?page=1&${name}=${value}`);
   };
   return (
     <BoardSearchLayoutBLock className="search_form">
