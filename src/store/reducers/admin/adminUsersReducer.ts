@@ -55,10 +55,12 @@ export type AdminUsersStateType = {
       name: string | null;
     }> | null;
     exchanges: Array<{
+      id: string | null;
       platform: string | null;
       alias: string | null;
       apiKey: string | null;
-    }>;
+      connectionStatus: string | null;
+    }> | null;
   } | null;
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {

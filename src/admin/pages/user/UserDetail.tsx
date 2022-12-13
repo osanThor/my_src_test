@@ -10,6 +10,8 @@ import DetailCommonTop from '../../components/common/DetailCommonTop';
 import UserDetailBox from '../../components/user/detail/UserDetailBox';
 import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
 import FuncModal from '@/src/components/common/modals/FuncModal';
+import Loading from '@/src/components/common/Loading';
+import AcountTable from '../../components/user/detail/AcountTable';
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -17,11 +19,14 @@ const UserDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { email, loadAdminUsersdDone, loadAdminUsersdError } = useSelector(({ adminUsers }: RootState) => ({
-    email: adminUsers.email,
-    loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
-    loadAdminUsersdError: adminUsers.loadAdminUsersdError,
-  }));
+  const { email, loadAdminUsersdLoading, loadAdminUsersdDone, loadAdminUsersdError } = useSelector(
+    ({ adminUsers }: RootState) => ({
+      email: adminUsers.email,
+      loadAdminUsersdLoading: adminUsers.loadAdminUsersdLoading,
+      loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
+      loadAdminUsersdError: adminUsers.loadAdminUsersdError,
+    }),
+  );
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -87,6 +92,7 @@ const UserDetail = () => {
           <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} />
           <UserDetailBox />
           <UserMiddleBox />
+          <AcountTable />
         </BasicContainer>
       </AdminLayout>
       <FuncModal
@@ -101,6 +107,7 @@ const UserDetail = () => {
         onClick={handleDeleteUser}
         onClick2={handleModalClose}
       />
+      {loadAdminUsersdLoading && <Loading />}
     </>
   );
 };

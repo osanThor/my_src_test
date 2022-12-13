@@ -146,7 +146,9 @@ const UserMiddleBoxBlock = styled.div`
             font-size: 1rem;
             font-family: 'GmarketSansBold';
             color: ${colors.blue[2]};
-            margin-left: 1rem;
+            &:last-child {
+              margin-left: 1rem;
+            }
           }
         }
       }
@@ -172,24 +174,6 @@ const UserMiddleBoxBlock = styled.div`
         line-height: 2rem;
       }
     }
-  }
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  position: relative;
-  border: none;
-  font-size: 1rem;
-  border-bottom: 1px solid ${colors.gray[3]};
-  padding: 0 1rem;
-  flex: 1;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:read-only {
-    color: ${colors.blue[2]};
   }
 `;
 
