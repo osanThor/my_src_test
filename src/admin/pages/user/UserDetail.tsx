@@ -14,13 +14,13 @@ import FuncModal from '@/src/components/common/modals/FuncModal';
 const UserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loadAdminAuthLoading, loadAdminAuthDone, loadAdminAuthError } = useSelector(({ adminAuth }: RootState) => ({
-    loadAdminAuthLoading: adminAuth.loadAdminAuthLoading,
+  const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
-    loadAdminAuthError: adminAuth.loadAdminAuthError,
   }));
-  const { email } = useSelector(({ adminUsers }: RootState) => ({
+  const { email, loadAdminUsersdDone, loadAdminUsersdError } = useSelector(({ adminUsers }: RootState) => ({
     email: adminUsers.email,
+    loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
+    loadAdminUsersdError: adminUsers.loadAdminUsersdError,
   }));
 
   useEffect(() => {
@@ -54,20 +54,37 @@ const UserDetail = () => {
   }, [router, isAdmin]);
 
   //function modal
-  const [fModalOpen, setFModalOpen] = useState(true);
+  const [fModalOpen, setFModalOpen] = useState(false);
+  const handleDeleteModalOpen = () => {
+    setFModalOpen(true);
+  };
   const handleModalClose = () => {
     setFModalOpen(false);
   };
   //delete user
   const handleDeleteUser = () => {
     console.log(email);
-    // dispatch(adminUsersActions.deleteUser())
+    dispatch(adminUsersActions.adminUserDelete({ email }));
   };
+
+  useEffect(() => {
+    if (loadAdminUsersdError) {
+      alert(loadAdminUsersdError);
+      return;
+    }
+
+    if (loadAdminUsersdDone) {
+      if (loadAdminUsersdDone.message === 'DELETED') {
+        alert('삭제 되었어요');
+        router.push('/admin/users');
+      }
+    }
+  }, [loadAdminUsersdError, loadAdminUsersdDone]);
   return (
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop />
+          <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} />
           <UserDetailBox />
           <UserMiddleBox />
         </BasicContainer>

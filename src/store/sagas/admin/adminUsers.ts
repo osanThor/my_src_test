@@ -11,8 +11,9 @@ import {
   getAdminUserDetailResult,
   getAdminUsersPayload,
   getAdminUsersResult,
+  LoadAdminUsersResponse,
 } from '../../types';
-import { apiGetAdminUserDetail, apiGetAdminUsers } from '../../api';
+import { apiDeleteAdminUser, apiGetAdminUserDetail, apiGetAdminUsers } from '../../api';
 
 // api
 // get all admin users
@@ -53,9 +54,29 @@ function* getAdminUserDetailSaga(action: PayloadAction<adminUserDetailPayload>) 
   }
 }
 
+// user delete
+function* adminUserDeleteSaga(action: PayloadAction<adminUserDetailPayload>) {
+  yield put(adminUsersActions.loadAdminUsersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminUsersResponse> = yield call(apiDeleteAdminUser, action.payload);
+    console.log(data);
+
+    yield put(adminUsersActions.loadAdminUsersSuccess(data));
+  } catch (error: any) {
+    console.error('adminUsersSaga adminUserDeleteSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
+  }
+}
+
 function* watchLoadfile() {
   yield takeLatest(adminUsersActions.getAdminUsers, getAdminUsersSaga);
   yield takeLatest(adminUsersActions.getAdminUserDetail, getAdminUserDetailSaga);
+  yield takeLatest(adminUsersActions.adminUserDelete, adminUserDeleteSaga);
 }
 
 export default function* adminUsersSaga() {

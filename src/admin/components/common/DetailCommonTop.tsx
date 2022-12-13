@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
-const DetailCommonTop = () => {
+const DetailCommonTop = ({ handleDeleteModalOpen }: { handleDeleteModalOpen: () => void }) => {
   const router = useRouter();
   return (
     <DetailCommonTopBlock>
@@ -18,7 +18,9 @@ const DetailCommonTop = () => {
       </div>
       <div className="ctrl_btns">
         <StyledButton yellow>수정</StyledButton>
-        <StyledButton red>삭제</StyledButton>
+        <StyledButton red onClick={handleDeleteModalOpen}>
+          삭제
+        </StyledButton>
       </div>
     </DetailCommonTopBlock>
   );

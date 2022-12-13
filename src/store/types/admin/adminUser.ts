@@ -25,6 +25,7 @@ export type adminUserDetailPayload = {
   email: string | null;
 };
 export type getAdminUserDetailResult = {
+  photoUrl: string | null;
   email: string | null;
   nickname: string | null;
   nicknamePrev: string | null;

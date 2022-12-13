@@ -50,7 +50,7 @@ const UserMiddleBox = () => {
       <div className="telegram_area">
         <div className="title">텔레그램</div>
         <div className="telegram_con">
-          {getAdminUserDetailResult?.telegrams.length != 0 ? (
+          {getAdminUserDetailResult?.telegrams?.length != 0 ? (
             <>
               <div className="telegram_list">
                 {getAdminUserDetailResult?.telegrams?.map((telegram) => (

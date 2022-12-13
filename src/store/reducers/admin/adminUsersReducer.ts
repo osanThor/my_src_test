@@ -12,6 +12,7 @@ import {
   getAdminUserDetailResult,
   getAdminUsersPayload,
   getAdminUsersResult,
+  LoadAdminUsersResponse,
   ResponseFailure,
 } from '../../types';
 
@@ -37,6 +38,7 @@ export type AdminUsersStateType = {
     }> | null;
   } | null;
   getAdminUserDetailResult: {
+    photoUrl: string | null;
     email: string | null;
     nickname: string | null;
     nicknamePrev: string | null;
@@ -60,7 +62,7 @@ export type AdminUsersStateType = {
   } | null;
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {
-    message: string | undefined;
+    message: string | null;
   } | null;
   loadAdminUsersdError: string | null;
 };
@@ -125,8 +127,12 @@ const adminUsersSlice = createSlice({
       state.getAdminUserDetailResult = null;
     },
     getAdminUserDetailResult(state, action: PayloadAction<getAdminUserDetailResult>) {
-      state.loadAdminUsersdLoading = true;
+      state.loadAdminUsersdLoading = false;
       state.getAdminUserDetailResult = action.payload;
+    },
+    adminUserDelete(state, action: PayloadAction<adminUserDetailPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.email = action.payload.email;
     },
     //api res req
     loadAdminUsersRequest(state) {
@@ -134,8 +140,9 @@ const adminUsersSlice = createSlice({
       state.loadAdminUsersdDone = null;
       state.loadAdminUsersdError = null;
     },
-    loadAdminUsersSuccess(state, action: PayloadAction) {
+    loadAdminUsersSuccess(state, action: PayloadAction<LoadAdminUsersResponse>) {
       state.loadAdminUsersdLoading = false;
+      state.loadAdminUsersdDone = action.payload;
       state.loadAdminUsersdError = null;
     },
     loadAdminUsersFailure(state, action: PayloadAction<ResponseFailure>) {

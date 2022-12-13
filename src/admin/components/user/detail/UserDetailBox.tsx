@@ -18,7 +18,19 @@ const UserDetailBox = () => {
         <div className="prfile_info">
           <div className="profile_top">
             <div className="profile_Image">
-              <Image src={Profile1[1]} alt="user profile" layout="fill" />
+              <Image
+                src={
+                  getAdminUserDetailResult?.photoUrl &&
+                  getAdminUserDetailResult.photoUrl != 'quantro.net' &&
+                  getAdminUserDetailResult.photoUrl != 'byteria.co.kr' &&
+                  getAdminUserDetailResult.photoUrl != 'default.com' &&
+                  getAdminUserDetailResult.photoUrl != 'app.quantro.net'
+                    ? getAdminUserDetailResult.photoUrl
+                    : Profile1[1]
+                }
+                alt="user profile"
+                layout="fill"
+              />
             </div>
             <div className="profile_name">
               <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname || ''} readOnly />
@@ -28,7 +40,7 @@ const UserDetailBox = () => {
           <div className="profile_bott">
             <div className="label">트래이딩 스타일</div>
             <div className="styles">
-              {getAdminUserDetailResult?.styles.map((st) => {
+              {getAdminUserDetailResult?.styles?.map((st) => {
                 if (st.name === 'SCALPING') {
                   return (
                     <div key={st.name} className="style">
