@@ -19,7 +19,10 @@ const StrategyTop = () => {
   return (
     <StrategyTopBlock>
       <div className="title">
-        전략관리 <Button blue>공개 전략/지표 작성</Button>
+        전략관리
+        <Button blue onClick={() => router.push('/admin/strategies/write?category=PUBLIC')}>
+          공개 전략/지표 작성
+        </Button>
       </div>
       <div className="boardTop">
         <div className="admin_tab">
