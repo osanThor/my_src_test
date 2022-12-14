@@ -47,7 +47,8 @@ export type BoardsStateType = {
   comment: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<string> | [];
+  fileUrls: Array<string> | [] | string | null;
+  fileUrl: string | null;
   loadBoardsLoading: boolean;
   loadGetComissionDone: {
     total: number | null;
@@ -57,6 +58,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -74,6 +76,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -91,6 +94,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -108,6 +112,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -125,6 +130,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -142,6 +148,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -159,6 +166,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           };
@@ -175,6 +183,7 @@ export type BoardsStateType = {
       title: string;
       hits: number;
       createdAt: string;
+      deletedAt: string | null;
       _count: {
         comments: number;
       };
@@ -187,6 +196,7 @@ export type BoardsStateType = {
       id: number | null;
       board: {
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -201,6 +211,7 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -215,6 +226,7 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         createdAt: string;
+        deletedAt: string | null;
         hits: number | null;
         title: string | null;
         user: { nickname: string | null };
@@ -230,6 +242,7 @@ export type BoardsStateType = {
           answer: string | null;
           title: string | null;
           createdAt: string;
+          deletedAt: string | null;
         }>
       | [];
   };
@@ -241,6 +254,7 @@ export type BoardsStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
           } | null;
@@ -251,14 +265,18 @@ export type BoardsStateType = {
   boardId: number | null;
   parentCommentId: number | null;
   getBoardDone: {
+    category: string | null;
     id: number;
     title: string | null;
+    collectors: Array<{ createdAt: string }> | [];
+    likes: Array<{ createdAt: string }> | [];
     user: {
       photoUrl: string | null;
       nickname: string | null;
       styles: Array<{ name: string }> | [];
     } | null;
     createdAt: string | null;
+    deletedAt: string | null;
     hits: number | null;
     content: string | null;
     files: Array<string> | [];
@@ -268,14 +286,18 @@ export type BoardsStateType = {
             | Array<{
                 content: string;
                 createdAt: string;
+                deletedAt: string | null;
+                file: { url: string } | null;
                 id: number;
-                user: { nickname: string };
+                user: { nickname: string; photoUrl: string | null };
               }>
             | [];
           content: string;
           createdAt: string;
+          deletedAt: string | null;
+          file: { url: string } | null;
           id: number;
-          user: { nickname: string };
+          user: { nickname: string; photoUrl: string | null };
         }>
       | [];
     _count: {
@@ -319,6 +341,7 @@ const initialState: BoardsStateType = {
   title: '',
   content: '',
   fileUrls: [],
+  fileUrl: '',
   loadBoardsLoading: false,
   loadGetBoardsDone: { total: 0, boards: [] },
   loadGetComissionDone: { total: 0, boards: [] },
@@ -336,14 +359,18 @@ const initialState: BoardsStateType = {
   boardId: 0,
   parentCommentId: 0,
   getBoardDone: {
+    category: '',
     id: 0,
     title: '',
+    collectors: null,
+    likes: null,
     user: {
       photoUrl: '',
       nickname: '',
       styles: [],
     },
     createdAt: '',
+    deletedAt: '',
     hits: 0,
     content: '',
     files: [],
@@ -558,19 +585,19 @@ const boardsSlice = createSlice({
       state.boardId = action.payload.boardId;
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     initialCommentState(state) {
       state.parentCommentId = 0;
       state.content = '';
-      state.fileUrls = [];
+      state.fileUrl = '';
     },
     createComment(state, action: PayloadAction<createCommentPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.parentCommentId = action.payload.parentCommentId;
       state.content = action.payload.content;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     changeCommentId(state, action: PayloadAction<changeCommentId>) {
       state.commentId = action.payload.commentId;
@@ -585,17 +612,23 @@ const boardsSlice = createSlice({
       state.commentId = action.payload.commentId;
       state.content = action.payload.content;
       state.parentCommentId = action.payload.parentCommentId;
-      state.fileUrls = action.payload.fileUrls;
+      state.fileUrl = action.payload.fileUrl;
     },
     deleteComment(state, action: PayloadAction<deleteCommentPayload>) {
       state.loadBoardsLoading = true;
       state.commentId = action.payload.commentId;
     },
     // collection, like
+    isCollectors(state) {
+      state.isCollect = true;
+    },
     setBoardCollection(state, action: PayloadAction<setBoardCollectionPayload>) {
       state.loadBoardsLoading = true;
       state.boardId = action.payload.boardId;
       state.isCollect = action.payload.isCollect;
+    },
+    isLikes(state) {
+      state.isLike = true;
     },
     setBoardLike(state, action: PayloadAction<setBoardLikePayload>) {
       state.loadBoardsLoading = true;

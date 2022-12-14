@@ -38,7 +38,7 @@ const StrategyUser: NextPage = () => {
   const [isUser, setUser] = useState(false);
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
-  }, [router, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     setUser(false);

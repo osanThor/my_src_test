@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 
-const MyExchangeArea = () => {
+const MyExchangeArea = ({ handleOpenSelectWin }: { handleOpenSelectWin: () => void }) => {
   return (
     <MyExchaingeAreaBlock className="my_exchainge_area">
       <div className="exchange_area">
@@ -15,7 +15,7 @@ const MyExchangeArea = () => {
           </div>
           <div className="exchange_info">
             <div className="exchange_title">Bybit</div>
-            <div className="replace_exchange_btn">
+            <div className="replace_exchange_btn" onClick={handleOpenSelectWin}>
               <Image src={ResetIcon[1]} alt="change exchange button" />
             </div>
           </div>

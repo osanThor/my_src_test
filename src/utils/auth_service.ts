@@ -17,6 +17,7 @@ class AuthService {
   //refresh token
   userRefreshToken(dispatch: Dispatch<AnyAction>, loadAuthDone: LoadAuthResponse) {
     const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
     let auth = localStorage.getItem('Authorization');
     let timeoutId: NodeJS.Timeout;
 
@@ -36,14 +37,14 @@ class AuthService {
         dispatch(authActions.refreshToken());
       }, loadAuthDone.expiryTime - 30000);
     } else {
-      clearTimeout(timeoutId);
-      if (loadAuthDone.message === 'ACCESS_DENIED') {
-        delete axiosInstance.defaults.headers.common['Authorization'];
-        localStorage.clear();
-        console.log('토큰 만료');
-        this.router.push('/auth/login');
+      if (admin) {
         return;
       }
+      clearTimeout(timeoutId);
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      dispatch(userActions.initializeUserForm());
+      dispatch(authActions.initializeAuthForm());
+      localStorage.clear();
       console.log('Not User');
       return;
     }

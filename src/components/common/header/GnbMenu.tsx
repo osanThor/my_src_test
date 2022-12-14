@@ -52,7 +52,7 @@ const GnbMenu = () => {
       setStrategy(false);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/strategy' || pathName === '/strategy/strategist') {
+    } else if (pathName === '/strategy' || pathName === '/strategy/strategist' || router.query.state === 'strategy') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);
@@ -60,7 +60,7 @@ const GnbMenu = () => {
       setStrategy(true);
       setCommunity(false);
       setCenter(false);
-    } else if (pathName === '/community' || pathName === '/community/write' || pathName === '/community/board/[bId]') {
+    } else if (pathName === '/community' || pathName === '/community/write' || router.query.state === 'community') {
       setDachBoard(false);
       setWriteQuant(false);
       setLicenses(false);

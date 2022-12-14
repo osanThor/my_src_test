@@ -9,8 +9,10 @@ import Moment from 'react-moment';
 import Pagination from '@/src/components/common/Pagination';
 import Button from '@/src/components/common/Button';
 import NoBoards from '@/src/components/common/NoBoards';
+import { useRouter } from 'next/router';
 
 const BoardsTable = () => {
+  const router = useRouter();
   const { getUserBoardsDone, page } = useSelector(({ boards }: RootState) => ({
     getUserBoardsDone: boards.getUserBoardsDone,
     page: boards.page,
@@ -43,7 +45,7 @@ const BoardsTable = () => {
                     </label>
                   </div>
                   <div className="td">{board.id}</div>
-                  <div className="td title dark_gray pointer">
+                  <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div className="td">

@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { CreateUpdateApiKeyPayload, GetAllExchangeResult, LoadExchangeResponse, ResponseFailure } from '../types';
+import {
+  CreateUpdateApiKeyPayload,
+  GetAllExchangeResult,
+  LoadExchangeIdPayload,
+  LoadExchangeResponse,
+  ResponseFailure,
+} from '../types';
 
 export type ExchangeStateType = {
   exchange: string | null;
@@ -57,6 +63,10 @@ const exchangeSlice = createSlice({
     initializeExchangeState(state) {
       Object.assign(state, initialState);
     },
+    //state
+    changeExchangeId(state, action: PayloadAction<LoadExchangeIdPayload>) {
+      state.exchangeId = action.payload.exchangeId;
+    },
     // get all exchange
     getAllExchange(state) {
       state.loadExchangeLoading = true;
@@ -76,6 +86,11 @@ const exchangeSlice = createSlice({
       state.loadExchangeLoading = true;
       state.exchange = action.payload.exchange;
       state.apiKeyObj = action.payload.apiKeyObj;
+    },
+    //close position
+    closePosition(state, action: PayloadAction<LoadExchangeIdPayload>) {
+      state.loadExchangeLoading = true;
+      state.exchangeId = action.payload.exchangeId;
     },
     //api res req
     loadBoardsRequest(state) {

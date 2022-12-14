@@ -84,3 +84,36 @@ export type {
   getUserByNicknamePayload,
   getUserByNicknameResult,
 } from './boards';
+
+//admin
+export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth';
+export type {
+  getAdminBannersPayload,
+  getAdminSubscripbePlatformPayload,
+  createAdminBannerPayload,
+  getAdminBannersResult,
+  getAdminBannerDetailPayload,
+  getAdminBannerDetailResult,
+  LoadAdminBannersResponse,
+} from './admin/adminBanners';
+export type {
+  GetAdminUserCountResult,
+  GetAllAdminExchagneCountResult,
+  GetAdminPackageCountResult,
+} from './admin/adminDashboards';
+
+export type {
+  getAdminUsersPayload,
+  getAdminUsersResult,
+  adminUserDetailPayload,
+  getAdminUserDetailResult,
+  adminTelegramUsersNotice,
+  adminTelegramUsersMessage,
+  changeEmailPayload,
+  changeGradePayload,
+  changeNicknamePayload,
+  changePagePayload,
+  changeSnsTypePayload,
+  changelicensePackagePayload,
+  LoadAdminUsersResponse,
+} from './admin/adminUser';

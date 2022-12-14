@@ -67,12 +67,12 @@ export const apiUpdateBoard = ({ boardId, category, title, content, fileUrls }: 
 export const apiDeleteBoard = ({ boardId }: getBoardPayload) => axiosInstance.delete(`/boards/${boardId}`);
 
 // create Comment
-export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrls }: createCommentPayload) =>
-  axiosInstance.post(`/boards/${boardId}/comments`, { parentCommentId, content, fileUrls });
+export const apiCreateComment = ({ boardId, parentCommentId, content, fileUrl }: createCommentPayload) =>
+  axiosInstance.post(`/boards/${boardId}/comments`, { parentCommentId, content, fileUrl });
 
 // update comment
-export const apiUpdateComment = ({ commentId, parentCommentId, content, fileUrls }: updateCommentPayload) =>
-  axiosInstance.put(`/boards/comments/${commentId}`, { parentCommentId, content, fileUrls });
+export const apiUpdateComment = ({ commentId, parentCommentId, content, fileUrl }: updateCommentPayload) =>
+  axiosInstance.put(`/boards/comments/${commentId}`, { parentCommentId, content, fileUrl });
 // delete comment
 export const apiDeleteComment = ({ commentId }: deleteCommentPayload) =>
   axiosInstance.delete(`/boards/comments/${commentId}`);

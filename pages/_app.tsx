@@ -11,11 +11,12 @@ import { useDispatch } from 'react-redux';
 import theme from '@/styles/theme';
 import { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
-import { authActions, localActions, userActions } from '@/src/store/reducers';
+import { adminAuthActions, authActions, localActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import { axiosInstance } from '@/src/store/api';
 import { useRouter } from 'next/router';
 import OpenBetaModal from '@/src/components/common/modals/OpenBetaModal';
+import FuncModal from '@/src/components/common/modals/FuncModal';
 
 function MyApp({
   Component,
@@ -34,6 +35,10 @@ function MyApp({
   const { loadAuthDone, loadAuthError } = useSelector(({ auth }: RootState) => ({
     loadAuthDone: auth.loadAuthDone,
     loadAuthError: auth.loadAuthError,
+  }));
+  const { loadAdminAuthDone, loadAdminAuthError } = useSelector(({ adminAuth }: RootState) => ({
+    loadAdminAuthDone: adminAuth.loadAdminAuthDone,
+    loadAdminAuthError: adminAuth.loadAdminAuthError,
   }));
   const { bgBlur } = useSelector(({ local }: RootState) => ({
     bgBlur: local.bgBlur,
@@ -74,13 +79,57 @@ function MyApp({
     if (loadAuthError) {
       localStorage.clear();
       delete axiosInstance.defaults.headers.common['Authorization'];
+      if (loadAuthDone.message === 'ACCESS_DENIED') {
+        setTokenDinedOpen(true);
+        authService.userLogOut(dispatch);
+      }
     }
-  }, [loadAuthError]);
+  }, [loadAuthError, loadAuthDone]);
+
+  const [tokenDiedOpen, setTokenDinedOpen] = useState(false);
+  const handleTokenDinedModal = () => {
+    setTokenDinedOpen(false);
+    router.push('/auth/login');
+  };
 
   // token
   useEffect(() => {
     authService.userRefreshToken(dispatch, loadAuthDone);
   }, [dispatch, router]);
+
+  //admin
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (loadAdminAuthError) {
+      alert(loadAdminAuthError);
+      delete axiosInstance.defaults.headers.common['Authorization'];
+      localStorage.clear();
+      router.push('/admin/login');
+      return;
+    }
+
+    if (loadAdminAuthDone) {
+      if (loadAdminAuthDone.message === 'LOGGED_IN' || loadAdminAuthDone.message === 'UPDATED') {
+        axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + loadAdminAuthDone.accessToken;
+        timeout = setTimeout(() => {
+          console.log('admin refresh');
+          dispatch(adminAuthActions.adminRefresh());
+        }, loadAdminAuthDone.expiryTime - 30000);
+      } else {
+        clearTimeout(timeout);
+        localStorage.clear();
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        router.push('/admin/login');
+      }
+    }
+  }, [loadAdminAuthError, loadAdminAuthDone]);
+
+  useEffect(() => {
+    const admin = localStorage.getItem('admin');
+    if (admin) {
+      dispatch(adminAuthActions.adminRefresh());
+    }
+  }, [router]);
 
   // theme
   const [isDarkMode, setIsDarkMode] = React.useState(false);
@@ -100,7 +149,6 @@ function MyApp({
   const handleCloseOpenModal = () => {
     setOpenModal(false);
   };
-
   return (
     <>
       <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
@@ -113,6 +161,20 @@ function MyApp({
           <CssBaseline />
           <Component {...pageProps} />
           <OpenBetaModal open={openModal} onClose={handleCloseOpenModal} />
+          <FuncModal
+            open={tokenDiedOpen}
+            onClose={handleTokenDinedModal}
+            message={{
+              title: '세션이 만료되었어요',
+              description: '다시 로그인해주세요',
+              btnTxt: '',
+            }}
+            dubBtn={false}
+            onClick={handleTokenDinedModal}
+            onClick2={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
         </ThemeProvider>
       </SessionProvider>
     </>

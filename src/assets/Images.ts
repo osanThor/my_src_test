@@ -33,6 +33,7 @@ import ProfileEditDefaultIcon from 'public/assets/common/header/profile-edit.svg
 import EditDefaultIcon from 'public/assets/common/header/edit-Icon.svg';
 import LangKrIcon from 'public/assets/common/header/language_kr.svg';
 import MobileMenuIcon from 'public/assets/common/header/m_menu_bar.svg';
+import MobileMenuWhiteIcon from 'public/assets/common/header/m_menu_bar_white.svg';
 import PencilIconFile from 'public/assets/common/header/pencil.svg';
 
 import ProfileIcon1 from 'public/assets/common/profile/profile_icon.svg';
@@ -159,6 +160,7 @@ export const LangKr = LangKrIcon;
 //header mobile
 
 export const MMenuBar = MobileMenuIcon;
+export const MMenuWhtieBar = MobileMenuWhiteIcon;
 
 //프로필
 export const Profile1 = [ProfileIcon1, ProfileBLueIcon1];

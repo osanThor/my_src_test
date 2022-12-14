@@ -4,12 +4,14 @@ import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const IndexLayout = () => {
+  const router = useRouter();
   const {
     loadGetCertifiedDone,
     loadGetRankDone,
@@ -35,6 +37,7 @@ const IndexLayout = () => {
     DiscussionDone: index.DiscussionDone,
     QuantroStrategyDone: index.QuantroStrategyDone,
   }));
+
   return (
     <IndexLayoutBlock>
       <div className="main_banner">
@@ -111,7 +114,7 @@ const IndexLayout = () => {
             </div>
             <div className="main_bottom_con">
               {loadGetDiscussionDone.boards.slice(0, 3).map((board) => (
-                <div className="item" key={board.id}>
+                <div className="item" key={board.id} onClick={() => router.push(`/community/board/${board.id}`)}>
                   <div className="title">
                     {board.title}
                     <span className="count">{board._count.comments}</span>
@@ -238,6 +241,7 @@ const IndexLayoutBlock = styled.div`
     flex-direction: column;
     margin-bottom: 29px;
     .item {
+      cursor: pointer;
       width: 100%;
       display: flex;
       flex-direction: column;

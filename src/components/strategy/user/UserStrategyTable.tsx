@@ -14,14 +14,10 @@ import NoBoards from '../../common/NoBoards';
 const UserStrategyTable = () => {
   const router = useRouter();
 
-  const { nickname } = useSelector(({ user }: RootState) => ({
-    nickname: user.nickname,
+  const { loadGetUserStrategyDone } = useSelector(({ boards }: RootState) => ({
+    loadGetUserStrategyDone: boards.loadGetUserStrategyDone,
   }));
-  const { loadGetBoardsDone, getNoticesDone } = useSelector(({ boards }: RootState) => ({
-    loadGetBoardsDone: boards.loadGetBoardsDone,
-    getNoticesDone: boards.getNoticesDone,
-  }));
-  const { total } = loadGetBoardsDone;
+  const { total } = loadGetUserStrategyDone;
 
   return (
     <>
@@ -36,47 +32,16 @@ const UserStrategyTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getNoticesDone.map((notice) => (
-            <div className="tr" key={notice.board.id}>
-              <div className="td">
-                <NoticeCon />
-              </div>
-              <div
-                className="td title dark_gray pointer"
-                onClick={() => router.push(`/community/board/${notice.board.id}`)}
-              >
-                <span className="tit">{notice.board.title}</span>
-                <span className="comments">{notice.board._count.comments}</span>
-              </div>
-              <div className="td dark_gray pointer">
-                {(notice.board.user && notice.board.user.nickname) || '퀀트로'}
-              </div>
-              <div className="td">
-                <span className="ver_m">조회수</span>
-                {notice.board.hits}
-              </div>
-              <div className="td">
-                <Moment format="YYYY.MM.DD">{notice.board.createdAt}</Moment>
-              </div>
-            </div>
-          ))}
           {total != 0 ? (
             <>
-              {loadGetBoardsDone.boards.map((board) => (
+              {loadGetUserStrategyDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">
                     <div className="icon">
                       <Image src={Lock[0]} alt="lock" />
                     </div>
                   </div>
-                  <div
-                    className="td title dark_gray pointer"
-                    onClick={
-                      board.user.nickname === nickname
-                        ? () => router.push(`/community/board/${board.id}`)
-                        : () => alert('권한이 없습니다')
-                    }
-                  >
+                  <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
                   </div>
                   <div

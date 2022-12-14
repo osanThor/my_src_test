@@ -103,7 +103,7 @@ const LicenseCenterLayoutBlock = styled.div`
     }
     .license_description {
       width: 100%;
-      max-width: 480px;
+      max-width: 504px;
     }
   }
 

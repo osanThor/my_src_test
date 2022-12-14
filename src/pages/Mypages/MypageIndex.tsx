@@ -3,7 +3,7 @@ import MyBoards from '@/src/components/mypage/boards/MyBoards';
 import EditMyProfile from '@/src/components/mypage/edit/EditMyProfile';
 import MyPageLayout from '@/src/components/mypage/MyPageLayout';
 import { RootState } from '@/src/store/configureStore';
-import { boardsActions, localActions, userActions } from '@/src/store/reducers';
+import { boardsActions, localActions } from '@/src/store/reducers';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -43,11 +43,8 @@ const MypageIndex: NextPage = () => {
   }, [loadAuthLoading, loadAuthDone]);
 
   useEffect(() => {
-    if (isUser) {
-      dispatch(userActions.getUserProfile());
-    }
     dispatch(boardsActions.initializeBoardsForm());
-  }, [dispatch, isUser]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (router.query.state === 'edit') {
@@ -60,7 +57,6 @@ const MypageIndex: NextPage = () => {
   }, [router, isUser]);
 
   useEffect(() => {
-    // dispatch(boardsActions.initializeBoardsForm());
     if (isUser) {
       if (!router.query.board) {
         dispatch(localActions.gotoMyWritenBoards());

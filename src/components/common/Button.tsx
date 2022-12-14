@@ -51,6 +51,28 @@ const buttonStyle = css`
         opacity: 0.7;
       }
     `}
+  ${(props: any) =>
+    props.yellow &&
+    css`
+      background: lightyellow;
+      color: orange;
+      &:hover {
+        background-color: orange;
+        color: white;
+        opacity: 0.7;
+      }
+    `}
+  ${(props: any) =>
+    props.red &&
+    css`
+      background: ${colors.red[0]};
+      color: ${colors.red[1]};
+      &:hover {
+        background-color: ${colors.red[2]};
+        color: white;
+        opacity: 0.7;
+      }
+    `}
     &:disabled {
     background: ${colors.gray[0]};
     color: ${colors.gray[3]};
