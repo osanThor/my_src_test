@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import dynamic from 'next/dynamic';
 import { NextPage } from 'next';
 import {
   AlignCenter,
@@ -12,19 +13,21 @@ import {
   StrikeLine,
   UnderLine,
 } from '@/src/assets/Images';
-import ReactQuill from 'react-quill';
+// import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { RangeStatic } from 'quill';
 import { axiosInstance } from '@/src/store/api';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
+const ReactQuill = dynamic(import('react-quill'), { ssr: false });
+
 interface IEditor {
   content: string;
   onChange: (val: string) => void;
 }
 
-const Editor: NextPage<IEditor> = ({ content, onChange }) => {
-  const quillRef = React.useRef<ReactQuill>(null);
+const Editor: React.FC<IEditor> = ({ content, onChange }) => {
+  const quillRef = React.useRef(null);
 
   // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
   const imageHandler = () => {
@@ -48,7 +51,6 @@ const Editor: NextPage<IEditor> = ({ content, onChange }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(res);
 
       if (quillRef.current) {
         // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
@@ -105,6 +107,7 @@ const Editor: NextPage<IEditor> = ({ content, onChange }) => {
         theme="snow"
         modules={modules}
         formats={formats}
+        value={content}
         placeholder="내용을 입력하세요."
         onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
       />

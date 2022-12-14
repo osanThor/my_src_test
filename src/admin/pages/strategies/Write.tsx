@@ -17,13 +17,13 @@ const WritePublic = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { quantroIndicatorPayload, loadAdminStrategiesDone, loadAdminStrategiesError } = useSelector(
-    ({ adminStrategies }: RootState) => ({
+  const { quantroIndicatorPayload, quantroStrategyPayload, loadAdminStrategiesDone, loadAdminStrategiesError } =
+    useSelector(({ adminStrategies }: RootState) => ({
       quantroIndicatorPayload: adminStrategies.quantroIndicatorPayload,
+      quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
       loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
       loadAdminStrategiesError: adminStrategies.loadAdminStrategiesError,
-    }),
-  );
+    }));
   useEffect(() => {
     const admin = localStorage.getItem('admin');
     if (!admin) {
@@ -49,12 +49,45 @@ const WritePublic = () => {
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
   const handleDeleteModalOpen = () => {
-    setFModalOpen(true);
     if (router.query.category === 'PUBLIC') {
+      if (!quantroStrategyPayload) {
+        alert('값을 입력해주세요');
+        return;
+      }
+      if (!quantroStrategyPayload?.title) {
+        alert('제목을 입력해주세요');
+        return;
+      }
+      if (!quantroStrategyPayload?.content || quantroStrategyPayload?.content === '<p><br></p>') {
+        alert('내용을 입력해주세요');
+        return;
+      }
+      if (
+        !quantroStrategyPayload?.symbol ||
+        !quantroStrategyPayload?.platform ||
+        !quantroStrategyPayload?.chartCycle ||
+        !quantroStrategyPayload?.profitPct
+      ) {
+        alert('빈 값이 있습니다. 값을 채워주세요');
+        return;
+      }
       setFModalMessage('해당 전략을 등록하시겠습니까?');
     } else {
+      if (!quantroIndicatorPayload) {
+        alert('값을 입력해주세요');
+        return;
+      }
+      if (!quantroIndicatorPayload?.title) {
+        alert('제목을 입력해주세요');
+        return;
+      }
+      if (!quantroIndicatorPayload?.content || quantroIndicatorPayload?.content === '<p><br></p>') {
+        alert('내용을 입력해주세요');
+        return;
+      }
       setFModalMessage('해당 지표을 등록하시겠습니까?');
     }
+    setFModalOpen(true);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
@@ -95,7 +128,7 @@ const WritePublic = () => {
         dubBtn={true}
         onClick={
           router.query.category === 'PUBLIC'
-            ? () => alert('임시')
+            ? () => dispatch(adminStrategiesActions.createQuantroStrategy(quantroStrategyPayload))
             : () => dispatch(adminStrategiesActions.createQuantroIndicator(quantroIndicatorPayload))
         }
         onClick2={handleModalClose}
