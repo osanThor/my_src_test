@@ -29,8 +29,8 @@ export type createAdminBannerPayload = {
   position: string | null;
   isVisiblePc: boolean;
   isVisibleMobile: boolean;
-  fileUrlPc: string | boolean | null;
-  fileUrlMobile: string | boolean | null;
+  fileUrlPc: string | null;
+  fileUrlMobile: string | null;
 };
 
 export type LoadAdminBannersResponse = {

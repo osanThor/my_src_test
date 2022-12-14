@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  createAdminBannerPayload,
   getAdminBannerDetailPayload,
   getAdminBannerDetailResult,
   getAdminBannersPayload,
@@ -18,8 +19,8 @@ export type AdminBannersStateType = {
   position: string | null;
   isVisiblePc: boolean;
   isVisibleMobile: boolean;
-  fileUrlPc: string | boolean | null;
-  fileUrlMobile: string | boolean | null;
+  fileUrlPc: string | null;
+  fileUrlMobile: string | null;
   getBannersResult: Array<{
     createdAt: string | null;
     files: Array<{ file: string }> | [];
@@ -97,6 +98,14 @@ const adminBannersSlice = createSlice({
     getAdminBannerDetailResult(state, action: PayloadAction<getAdminBannerDetailResult>) {
       state.loadAdminBannersLoading = false;
       state.getBannerDetailResult = action.payload;
+    },
+    createAdminBanner(state, action: PayloadAction<createAdminBannerPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.position = action.payload.position;
+      state.fileUrlPc = action.payload.fileUrlPc;
+      state.fileUrlMobile = action.payload.fileUrlMobile;
+      state.isVisiblePc = action.payload.isVisiblePc;
+      state.isVisibleMobile = action.payload.isVisibleMobile;
     },
     //api res req
     loadAdminBannersRequest(state) {
