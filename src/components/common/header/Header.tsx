@@ -12,6 +12,7 @@ import { media } from '@/styles/theme';
 import AlramWindow from './AlramWindow';
 import MyMenuWindow from './MyMenuWindow';
 import GnbMenu from './GnbMenu';
+import { adminAuthActions } from '@/src/store/reducers';
 
 const Header = () => {
   const authService = new AuthService();
@@ -26,24 +27,36 @@ const Header = () => {
 
   React.useEffect(() => {
     const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
 
     if (user) {
       setBtnWord('로그아웃');
       setHBtnTxt('MY');
     }
     if (user === null) {
-      setBtnWord('로그인');
-      setHBtnTxt('로그인');
+      if (admin) {
+        setBtnWord('로그아웃');
+        setHBtnTxt('관리자');
+      } else {
+        setBtnWord('로그인');
+        setHBtnTxt('로그인');
+      }
     }
   }, []);
 
   const onClickHandler = () => {
     const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
 
-    if (user) {
-      authService.userLogOut(dispatch);
+    if (user || admin) {
+      if (user) {
+        authService.userLogOut(dispatch);
+      }
       setBtnWord('로그인');
       setHBtnTxt('로그인');
+      if (admin) {
+        dispatch(adminAuthActions.adminLogout());
+      }
     }
     return router.push('/auth/login');
   };

@@ -1,7 +1,7 @@
 import colors from '@/src/assets/Colors';
 import { EditIcon, LangKr, LogOutIcon, ProfileEditIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
-import { userActions } from '@/src/store/reducers';
+import { adminAuthActions, userActions } from '@/src/store/reducers';
 import AuthService from '@/src/utils/auth_service';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,8 +18,14 @@ const MyMenuWindow = ({ MyMenuRef }: { MyMenuRef: any }) => {
     isDark: user.isDark,
   }));
   const handleLogOut = () => {
-    authService.userLogOut(dispatch);
-    router.push('/auth/login');
+    const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
+    if (user) {
+      authService.userLogOut(dispatch);
+      router.push('/auth/login');
+    } else if (admin) {
+      dispatch(adminAuthActions.adminLogout());
+    }
   };
 
   const handleChangeTheme = () => {
