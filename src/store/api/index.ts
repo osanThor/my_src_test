@@ -76,4 +76,9 @@ export {
 
 export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';
 
-export { apiGetAdminAllStrategies, apiCertifiedAdminStrategy } from './admin/strategy';
+export {
+  apiGetAdminAllStrategies,
+  apiCertifiedAdminStrategy,
+  apiCreateQuantroIndicator,
+  apiCreateQuantroStrategy,
+} from './admin/strategy';

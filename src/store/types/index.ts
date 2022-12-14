@@ -126,4 +126,6 @@ export type {
   getAdminStrategiesResult,
   changeConfirmStatusPayload,
   LoadAdminStrategiesResponse,
+  createQuantroStrategyPayload,
+  createQuantroIndicatorPayload,
 } from './admin/adminStrategy';

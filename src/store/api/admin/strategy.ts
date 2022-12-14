@@ -1,5 +1,10 @@
 import { axiosInstance } from '..';
-import { certifiedAdminStrategyPayload, getAdminStrategiesPayload } from '../../types';
+import {
+  certifiedAdminStrategyPayload,
+  createQuantroIndicatorPayload,
+  createQuantroStrategyPayload,
+  getAdminStrategiesPayload,
+} from '../../types';
 
 // get all with filter
 export const apiGetAdminAllStrategies = ({
@@ -31,4 +36,34 @@ export const apiCertifiedAdminStrategy = ({
     chartCycle,
     profitPct,
     confirmStatus,
+  });
+
+///admin/strategies/quantro-strategy
+export const apiCreateQuantroStrategy = ({
+  category,
+  title,
+  content,
+  fileUrls,
+  platform,
+  symbol,
+  chartCycle,
+  profitPct,
+}: createQuantroStrategyPayload) =>
+  axiosInstance.post('/admin/strategies/quantro-strategy', {
+    category,
+    title,
+    content,
+    fileUrls,
+    platform,
+    symbol,
+    chartCycle,
+    profitPct,
+  });
+///admin/strategies/quantro-indicator
+export const apiCreateQuantroIndicator = ({ category, title, content, fileUrls }: createQuantroIndicatorPayload) =>
+  axiosInstance.post('/admin/strategies/quantro-indicator', {
+    category,
+    title,
+    content,
+    fileUrls,
   });

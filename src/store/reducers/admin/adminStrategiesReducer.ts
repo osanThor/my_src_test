@@ -8,6 +8,8 @@ import {
   changeNicknamePayload,
   changePagePayload,
   changeTitle,
+  createQuantroIndicatorPayload,
+  createQuantroStrategyPayload,
   getAdminStrategiesPayload,
   getAdminStrategiesResult,
   LoadAdminStrategiesResponse,
@@ -21,6 +23,22 @@ export type AdminStrategiesStateType = {
   nickname: string | null;
   email: string | null;
   confirmStatus: string | null;
+  quantroStrategyPayload: {
+    category: string | null;
+    title: string | null;
+    content: string | null;
+    fileUrls: [string] | [];
+    platform: string | null;
+    symbol: string | null;
+    chartCycle: string | null;
+    profitPct: number | null;
+  } | null;
+  quantroIndicatorPayload: {
+    category: string | null;
+    title: string | null;
+    content: string | null;
+    fileUrls: [string] | [];
+  } | null;
   getAdminStrategyResult: {
     total: number | null;
     strategies: Array<{
@@ -47,6 +65,8 @@ const initialState: AdminStrategiesStateType = {
   nickname: '',
   email: '',
   confirmStatus: '',
+  quantroStrategyPayload: null,
+  quantroIndicatorPayload: null,
   getAdminStrategyResult: { total: 0, strategies: null },
   loadAdminStrategiesLoading: false,
   loadAdminStrategiesDone: null,
@@ -87,6 +107,21 @@ const adminStrategiesSlice = createSlice({
     getAllAdminStrategiesResult(state, action: PayloadAction<getAdminStrategiesResult>) {
       state.loadAdminStrategiesLoading = true;
       state.getAdminStrategyResult = action.payload;
+    },
+    //quantro indicator strategy
+    changeQuantroStrategyField(state, action: PayloadAction<createQuantroStrategyPayload>) {
+      state.quantroStrategyPayload = action.payload;
+    },
+    changeQuantroIndicatorField(state, action: PayloadAction<createQuantroIndicatorPayload>) {
+      state.quantroIndicatorPayload = action.payload;
+    },
+    createQuantroStrategy(state, action: PayloadAction<createQuantroStrategyPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.quantroStrategyPayload = action.payload;
+    },
+    createQuantroIndicator(state, action: PayloadAction<createQuantroIndicatorPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.quantroIndicatorPayload = action.payload;
     },
     loadAdminStrategiesRequest(state) {
       state.loadAdminStrategiesLoading = true;

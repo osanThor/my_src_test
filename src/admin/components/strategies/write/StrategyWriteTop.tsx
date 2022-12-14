@@ -29,6 +29,7 @@ const StrategyWriteTop = () => {
 };
 const StrategyWriteTopBlock = styled.div`
   width: 100%;
+  margin-bottom: 20px;
   .boardTop {
     width: 100%;
     display: flex;

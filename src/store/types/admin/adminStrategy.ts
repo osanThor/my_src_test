@@ -35,6 +35,24 @@ export type certifiedAdminStrategyPayload = {
   confirmStatus: string | null;
 };
 
+export type createQuantroStrategyPayload = {
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: [string] | [];
+  platform: string | null;
+  symbol: string | null;
+  chartCycle: string | null;
+  profitPct: number | null;
+};
+
+export type createQuantroIndicatorPayload = {
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: [string] | [];
+};
+
 export type LoadAdminStrategiesResponse = {
   message: string | null;
 };
