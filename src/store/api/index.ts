@@ -82,3 +82,13 @@ export {
   apiGetAdminSubscribeBanners,
   apiGetAdminSubscribeByPlatformBanners,
 } from './admin/banners';
+
+export {
+  apiGetAdminAllStrategies,
+  apiCertifiedAdminStrategy,
+  apiGetAdminCertifiedStrategies,
+  apiGetAdminCommisionStrategies,
+  apiGetAdminIndicatorsStrategies,
+  apiGetAdminPublicStrategies,
+  apiGetAdminUserStrategies,
+} from './admin/strategy';

@@ -117,3 +117,9 @@ export type {
   changelicensePackagePayload,
   LoadAdminUsersResponse,
 } from './admin/adminUser';
+
+export type {
+  getAdminStrategiesPayload,
+  certifiedAdminStrategyPayload,
+  LoadAdminStrategiesResponse,
+} from './admin/adminStrategy';
