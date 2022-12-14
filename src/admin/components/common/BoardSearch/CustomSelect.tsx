@@ -30,6 +30,10 @@ const CustomSelect = ({
     { value: 'confirmStatus', txt: '상태' },
   ];
 
+  useEffect(() => {
+    setCurrentValue('선택');
+  }, [router]);
+
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
     setCurrentValue(innerText);

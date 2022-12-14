@@ -9,9 +9,11 @@ import styled from 'styled-components';
 
 const StrategiesList = () => {
   const router = useRouter();
-  const { page } = useSelector(({ adminStrategies }: RootState) => ({
+  const { page, getAdminStrategyResult } = useSelector(({ adminStrategies }: RootState) => ({
     page: adminStrategies.page,
+    getAdminStrategyResult: adminStrategies.getAdminStrategyResult,
   }));
+  const { total } = getAdminStrategyResult;
   return (
     <StrategiesListBlock>
       <div className="user_list_header">
@@ -26,20 +28,32 @@ const StrategiesList = () => {
         </div>
       </div>
       <div className="user_list">
-        <div className="tr" onClick={() => router.push(`/admin/users/user?email=edit=true`)}>
-          <div className="td"></div>
-          <div className="td profile"></div>
-          <div className="td"></div>
-          <div className="td"></div>
-          <div className="td"></div>
-          <div className="td"></div>
-          <div className="td">
-            <Moment format="YYYY.MM.DD"></Moment>
+        {getAdminStrategyResult?.strategies?.map((strategy) => (
+          <div
+            className="tr"
+            key={strategy.board.createdAt}
+            onClick={() => router.push(`/admin/strategies/strategy?edit=true`)}
+          >
+            <div className="td"></div>
+            <div className="td">{strategy.board.title}</div>
+            <div className="td">{strategy.board.user.nickname}</div>
+            <div className="td">{strategy.board.user.email}</div>
+            <div className="td">
+              {strategy.board.category === 'CERTIFIED_STRATEGY' && '인증전략'}
+              {strategy.board.category === 'USER_STRATEGY' && '사용자전략'}
+              {strategy.board.category === 'COMMISSION' && '전략개발의뢰'}
+              {strategy.board.category === 'QUANTRO_STRATEGY' && '공개전략'}
+              {strategy.board.category === 'QUANTRO_INDICATOR' && '공개지표'}
+            </div>
+            <div className="td">{strategy.confirmStatus}</div>
+            <div className="td">
+              <Moment format="YYYY.MM.DD">{strategy.board.createdAt}</Moment>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
       <div className="bottom">
-        <Pagination total={100} page={page} />
+        <Pagination total={total} page={page} />
       </div>
     </StrategiesListBlock>
   );

@@ -114,7 +114,7 @@ const BannerDetail = () => {
     } else {
       formData.append('files', files[0]);
     }
-    const res = await axiosInstance.post(`/uploads/files?zone=BANNER`, formData, {
+    const res = await axiosInstance.post(`/admin/uploads/files?zone=BANNER`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

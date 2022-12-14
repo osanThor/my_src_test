@@ -1,6 +1,5 @@
 import colors from '@/src/assets/Colors';
 import { Radio, RadioGroup } from '@mui/material';
-import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -19,7 +18,7 @@ const BannerBottom = ({
     <BannerBottomBlock>
       <div className="title">배너상세(모바일)</div>
       <div className="pc_banner_image">
-        {mobileFile ? <Image src={mobileFile} alt="mobile_banner_image" layout="intrinsic" /> : '이미지를 선택해주세요'}
+        {mobileFile ? <img src={mobileFile} alt="mobile_banner_image" /> : '이미지를 선택해주세요'}
       </div>
       <div className="pc_banner_crtl">
         <div className="ctrl_con">
@@ -116,6 +115,10 @@ const BannerBottomBlock = styled.div`
   .fileName {
     color: ${colors.gray[2]};
     flex: 1;
+    white-space: nowrap;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 

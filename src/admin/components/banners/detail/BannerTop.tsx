@@ -28,7 +28,7 @@ const BannerTop = ({
     <BannerTopBlock>
       <div className="title">배너상세</div>
       <div className="pc_banner_image">
-        {pcFile ? <Image src={pcFile} alt="pc_banner_image" layout="intrinsic" /> : '이미지를 선택해주세요'}
+        {pcFile ? <img src={pcFile} alt="pc_banner_image" /> : '이미지를 선택해주세요'}
       </div>
       <div className="pc_banner_crtl">
         <div className="ctrl_con">
@@ -128,6 +128,10 @@ const BannerTopBlock = styled.div`
   .fileName {
     color: ${colors.gray[2]};
     flex: 1;
+    white-space: nowrap;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 
