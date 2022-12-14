@@ -1,9 +1,18 @@
 import { axiosInstance } from '..';
 import { certifiedAdminStrategyPayload, getAdminStrategiesPayload } from '../../types';
 
-// get all
-export const apiGetAdminAllStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies?page=${page}`);
+// get all with filter
+export const apiGetAdminAllStrategies = ({
+  page,
+  category,
+  title,
+  nickname,
+  email,
+  confirmStatus,
+}: getAdminStrategiesPayload) =>
+  axiosInstance.get(
+    `/admin/strategies?page=${page}&category=${category}&title=${title}&nickname=${nickname}&email=${email}&confirmStatus=${confirmStatus}`,
+  );
 
 // certified strategy
 export const apiCertifiedAdminStrategy = ({

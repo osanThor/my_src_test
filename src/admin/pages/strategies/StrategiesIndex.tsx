@@ -15,8 +15,13 @@ const StrategiesIndex = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { page } = useSelector(({ adminStrategies }: RootState) => ({
+  const { page, category, title, nickname, email, confirmStatus } = useSelector(({ adminStrategies }: RootState) => ({
     page: adminStrategies.page,
+    category: adminStrategies.category,
+    title: adminStrategies.title,
+    nickname: adminStrategies.nickname,
+    email: adminStrategies.email,
+    confirmStatus: adminStrategies.confirmStatus,
   }));
 
   useEffect(() => {
@@ -46,6 +51,11 @@ const StrategiesIndex = () => {
       dispatch(
         adminStrategiesActions.getAllAdminStrategies({
           page,
+          category,
+          title,
+          nickname,
+          email,
+          confirmStatus,
         }),
       );
 
@@ -54,8 +64,45 @@ const StrategiesIndex = () => {
       } else {
         dispatch(adminStrategiesActions.changePage({ page: 1 }));
       }
+      if (!router.query.category) {
+        dispatch(adminStrategiesActions.changeCategory({ category: '' }));
+      } else {
+        if (router.query.category === 'CERTIFIED') {
+          dispatch(adminStrategiesActions.changeCategory({ category: 'CERTIFIED_STRATEGY' }));
+        } else if (router.query.category === 'USER') {
+          dispatch(adminStrategiesActions.changeCategory({ category: 'USER_STRATEGY' }));
+        } else if (router.query.category === 'COMMISION') {
+          dispatch(adminStrategiesActions.changeCategory({ category: 'COMMISSION' }));
+        } else if (router.query.category === 'PUBLIC') {
+          dispatch(adminStrategiesActions.changeCategory({ category: 'QUANTRO_STRATEGY' }));
+        } else if (router.query.category === 'INDICATOR') {
+          dispatch(adminStrategiesActions.changeCategory({ category: 'QUANTRO_INDICATOR' }));
+        }
+      }
+      if (!router.query.nickname) {
+        dispatch(adminStrategiesActions.changeNickname({ nickname: '' }));
+      } else {
+        dispatch(adminStrategiesActions.changeNickname({ nickname: router.query.nickname as string }));
+      }
+
+      if (!router.query.title) {
+        dispatch(adminStrategiesActions.changeTitle({ title: '' }));
+      } else {
+        dispatch(adminStrategiesActions.changeTitle({ title: router.query.title as string }));
+      }
+      if (!router.query.email) {
+        dispatch(adminStrategiesActions.changeEmail({ email: '' }));
+      } else {
+        dispatch(adminStrategiesActions.changeEmail({ email: router.query.email as string }));
+      }
+
+      if (!router.query.confirmStatus) {
+        dispatch(adminStrategiesActions.changeConfirmStatus({ confirmStatus: '' }));
+      } else {
+        dispatch(adminStrategiesActions.changeConfirmStatus({ confirmStatus: router.query.email as string }));
+      }
     }
-  }, [router, isAdmin, page]);
+  }, [router, isAdmin, page, category, title, nickname, email, confirmStatus]);
   return (
     <AdminLayout>
       <BasicContainer>

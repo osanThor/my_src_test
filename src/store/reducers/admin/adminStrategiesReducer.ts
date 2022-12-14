@@ -2,6 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeCategory,
+  changeConfirmStatusPayload,
+  changeEmailPayload,
+  changeNicknamePayload,
+  changePagePayload,
+  changeTitle,
   getAdminStrategiesPayload,
   getAdminStrategiesResult,
   LoadAdminStrategiesResponse,
@@ -10,6 +16,11 @@ import {
 
 export type AdminStrategiesStateType = {
   page: number | null;
+  category: string | null;
+  title: string | null;
+  nickname: string | null;
+  email: string | null;
+  confirmStatus: string | null;
   getAdminStrategyResult: {
     total: number | null;
     strategies: Array<{
@@ -31,6 +42,11 @@ export type AdminStrategiesStateType = {
 
 const initialState: AdminStrategiesStateType = {
   page: 0,
+  category: '',
+  title: '',
+  nickname: '',
+  email: '',
+  confirmStatus: '',
   getAdminStrategyResult: { total: 0, strategies: null },
   loadAdminStrategiesLoading: false,
   loadAdminStrategiesDone: null,
@@ -46,8 +62,23 @@ const adminStrategiesSlice = createSlice({
       Object.assign(state, initialState);
     },
     //action
-    changePage(state, action: PayloadAction<getAdminStrategiesPayload>) {
+    changePage(state, action: PayloadAction<changePagePayload>) {
       state.page = action.payload.page;
+    },
+    changeCategory(state, action: PayloadAction<changeCategory>) {
+      state.category = action.payload.category;
+    },
+    changeTitle(state, action: PayloadAction<changeTitle>) {
+      state.title = action.payload.title;
+    },
+    changeNickname(state, action: PayloadAction<changeNicknamePayload>) {
+      state.nickname = action.payload.nickname;
+    },
+    changeEmail(state, action: PayloadAction<changeEmailPayload>) {
+      state.email = action.payload.email;
+    },
+    changeConfirmStatus(state, action: PayloadAction<changeConfirmStatusPayload>) {
+      state.confirmStatus = action.payload.confirmStatus;
     },
     getAllAdminStrategies(state, action: PayloadAction<getAdminStrategiesPayload>) {
       state.loadAdminStrategiesLoading = true;

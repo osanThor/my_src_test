@@ -2,6 +2,14 @@
 
 export type getAdminStrategiesPayload = {
   page: number | null;
+  category: string | null;
+  title: string | null;
+  nickname: string | null;
+  email: string | null;
+  confirmStatus: string | null;
+};
+export type changeConfirmStatusPayload = {
+  confirmStatus: string | null;
 };
 
 export type getAdminStrategiesResult = {

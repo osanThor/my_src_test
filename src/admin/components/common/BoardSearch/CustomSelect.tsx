@@ -27,8 +27,7 @@ const CustomSelect = ({
     { value: 'nickname', txt: '전략가명' },
     { value: 'title', txt: '제목' },
     { value: 'email', txt: '이메일' },
-    { value: 'licensePackage', txt: '게시판' },
-    { value: 'grade', txt: '상태' },
+    { value: 'confirmStatus', txt: '상태' },
   ];
 
   const handleOnChangeSelectValue = (e: any) => {

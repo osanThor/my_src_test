@@ -124,5 +124,6 @@ export type {
   getAdminStrategiesPayload,
   certifiedAdminStrategyPayload,
   getAdminStrategiesResult,
+  changeConfirmStatusPayload,
   LoadAdminStrategiesResponse,
 } from './admin/adminStrategy';
