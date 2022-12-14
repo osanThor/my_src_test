@@ -90,8 +90,11 @@ export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth
 export type {
   getAdminBannersPayload,
   getAdminSubscripbePlatformPayload,
+  changePagePayload,
   createAdminBannerPayload,
   getAdminBannersResult,
+  changeBannerPositionPayload,
+  changeIsAllSubscribePayload,
   getAdminBannerDetailPayload,
   getAdminBannerDetailResult,
   LoadAdminBannersResponse,
@@ -112,8 +115,17 @@ export type {
   changeEmailPayload,
   changeGradePayload,
   changeNicknamePayload,
-  changePagePayload,
   changeSnsTypePayload,
   changelicensePackagePayload,
   LoadAdminUsersResponse,
 } from './admin/adminUser';
+
+export type {
+  getAdminStrategiesPayload,
+  certifiedAdminStrategyPayload,
+  getAdminStrategiesResult,
+  changeConfirmStatusPayload,
+  LoadAdminStrategiesResponse,
+  createQuantroStrategyPayload,
+  createQuantroIndicatorPayload,
+} from './admin/adminStrategy';

@@ -1,24 +1,20 @@
 import colors from '@/src/assets/Colors';
 import Button from '@/src/components/common/Button';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import BoardSearchLayout from '../common/BoardSearch/BoardSearchLayout';
-import CustomSelect from '../common/BoardSearch/CustomSelect';
-import SearchInput from '../common/BoardSearch/SearchInput';
 
 const BannersTop = () => {
   const router = useRouter();
-  const [searchName, setSearchName] = useState('');
-  const [searchVal, setSearchVal] = useState('');
-  useEffect(() => {
-    setSearchName('');
-    setSearchVal('');
-  }, [router]);
 
   return (
     <BannersTopBlock>
-      <div className="title">배너관리</div>
+      <div className="title">
+        배너관리
+        <Button blue onClick={() => router.push('/admin/banners/bannerWrite')}>
+          추가
+        </Button>
+      </div>
       <div className="boardTop">
         <div className="admin_tab">
           <div className={!router.query.zone ? 'menu on' : 'menu'} onClick={() => router.push('/admin/banners')}>
@@ -57,9 +53,6 @@ const BannersTop = () => {
             </div>
           </div>
         </div>
-        <Button blue onClick={() => router.push('/admin/banners/bannerWrite')}>
-          추가
-        </Button>
       </div>
     </BannersTopBlock>
   );
@@ -72,11 +65,18 @@ const BannersTopBlock = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    button {
+      min-height: auto;
+      height: 38px;
+      border-radius: 8px;
+    }
   }
   .boardTop {
     width: 100%;
+    height: 48px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .admin_tab {
       display: flex;
       align-items: center;
@@ -102,11 +102,7 @@ const BannersTopBlock = styled.div`
         }
       }
     }
-    button {
-      min-height: auto;
-      height: 48px;
-      border-radius: 8px;
-    }
+
     .sub_tab {
       width: 0px;
       overflow: hidden;

@@ -35,6 +35,8 @@ const CustomSelect = ({
       } else if (place === 'SUBSCRIBE_BITGET') {
         setCurrentValue('이용권등록(BITGET)');
       }
+    } else {
+      setCurrentValue('선택');
     }
   }, [place]);
 

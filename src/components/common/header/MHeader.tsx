@@ -33,6 +33,7 @@ import MBoardHeader from './MBoardHeader';
 import StrategyMenu from './mobileHeaderAdded/StrategyMenu';
 import LicensesMenu from './mobileHeaderAdded/LicensesMenu';
 import MLicenseHeader from './MLicenseHeader';
+import { adminAuthActions } from '@/src/store/reducers';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -44,25 +45,39 @@ const MHeader = () => {
     license: user.license,
   }));
   const [btnWord, setBtnWord] = React.useState('');
+  const [isAdmin, setIsAmdin] = useState(false);
   const router = useRouter();
 
   React.useEffect(() => {
     const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
 
     if (user) {
       setBtnWord('로그아웃');
     }
     if (user === null) {
-      setBtnWord('로그인');
+      if (admin) {
+        setBtnWord('로그아웃');
+        setIsAmdin(true);
+      } else {
+        setBtnWord('로그인');
+        setIsAmdin(false);
+      }
     }
   }, []);
 
   const onClickHandler = () => {
     const user = localStorage.getItem('user');
+    const admin = localStorage.getItem('admin');
 
-    if (user) {
-      authService.userLogOut(dispatch);
+    if (user || admin) {
+      if (user) {
+        authService.userLogOut(dispatch);
+      }
       setBtnWord('로그인');
+      if (admin) {
+        dispatch(adminAuthActions.adminLogout());
+      }
     }
     return router.push('/auth/login');
   };
@@ -228,7 +243,9 @@ const MHeader = () => {
                   />
                 </div>
                 <div className="profile_info">
-                  <div className="nickName">{nickname ? nickname : '로그인 해주세요'}</div>
+                  <div className="nickName">
+                    {isAdmin ? <>'관리자'</> : <>{nickname ? nickname : '로그인 해주세요'}</>}
+                  </div>
                   <div className="api_key">
                     {!license && '이용권을 등록해주세요'}
                     {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
@@ -248,12 +265,14 @@ const MHeader = () => {
                 </Link>
               </div>
             </div>
-            <div className="menu profile_edit" onClick={handleOpenMenu}>
-              <div className="icon">
-                <Image src={ProfileEditIcon} alt="edit" />
+            {btnWord != '로그인' && (
+              <div className="menu profile_edit" onClick={handleOpenMenu}>
+                <div className="icon">
+                  <Image src={ProfileEditIcon} alt="edit" />
+                </div>
+                설정
               </div>
-              설정
-            </div>
+            )}
             <div className="menu logOut" onClick={onClickHandler}>
               <div className="icon">
                 <Image src={LogOutIcon} alt="logOut" />

@@ -74,11 +74,11 @@ export {
   apiSendAdminUserMessage,
 } from './admin/user';
 
+export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';
+
 export {
-  apiCreateAdminBanner,
-  apiGetAdminAllBanners,
-  apiGetAdminBannerDetail,
-  apiGetAdminMainBanners,
-  apiGetAdminSubscribeBanners,
-  apiGetAdminSubscribeByPlatformBanners,
-} from './admin/banners';
+  apiGetAdminAllStrategies,
+  apiCertifiedAdminStrategy,
+  apiCreateQuantroIndicator,
+  apiCreateQuantroStrategy,
+} from './admin/strategy';

@@ -308,8 +308,8 @@ const ChlidrenItem = ({
               <div className="profile_image">
                 <Image
                   src={
-                    child && child.user.photoUrl != 'quantro.net' && child.user.photoUrl != 'byteria.co.kr'
-                      ? child.user.photoUrl
+                    child && child.user?.photoUrl != 'quantro.net' && child.user?.photoUrl != 'byteria.co.kr'
+                      ? child?.user?.photoUrl
                       : Profile1[1]
                   }
                   alt="profile"
@@ -317,8 +317,8 @@ const ChlidrenItem = ({
                 />
               </div>
               <div className="profile_info">
-                <div className={getBoardDone.user.nickname === child.user.nickname ? 'nickname on' : 'nickname'}>
-                  {child.user ? child.user.nickname : '닉네임없음'}
+                <div className={getBoardDone?.user?.nickname === child?.user?.nickname ? 'nickname on' : 'nickname'}>
+                  {child?.user ? child?.user?.nickname : '닉네임없음'}
                 </div>
                 <Moment format="YYYY.MM.DD HH.MM" className="Moment">
                   {child.createdAt}
@@ -330,7 +330,7 @@ const ChlidrenItem = ({
               {child.content}
             </div>
             <div className="comment_btns">
-              {nickname === child.user.nickname && (
+              {nickname === child?.user?.nickname && (
                 <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
                   <Image src={MoreInfoIcon[0]} alt="moreInfo" />
                   {isMoChildCntrl && (

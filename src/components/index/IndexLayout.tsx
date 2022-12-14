@@ -86,7 +86,7 @@ const IndexLayout = () => {
               <span className="description">사용자들의 전략을 확인해보세요</span>
             </div>
             <div className="main_bottom_con">
-              {loadGetUserStrategyDone.boards.map((board) => (
+              {loadGetUserStrategyDone.boards.slice(0, 3).map((board) => (
                 <div className="item" key={board.id}>
                   <div className="title">
                     {board.title}
