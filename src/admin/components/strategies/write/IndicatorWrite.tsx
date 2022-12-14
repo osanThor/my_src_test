@@ -46,7 +46,7 @@ const IndicatorWrite = () => {
         sx={{ width: '100%', height: '58px', p: 2, fontFamily: 'GmarketSans', mb: '20px' }}
         onChange={handleChangeTitle}
       />
-      <Editor content={contents} onChange={handleChangeContents} />
+      <Editor onChange={handleChangeContents} content={contents} />
     </IndicatorWriteBlock>
   );
 };

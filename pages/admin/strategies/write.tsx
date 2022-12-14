@@ -1,1 +1,1 @@
-export { default } from '@/src/admin/pages/strategies/WritePublic';
+export { default } from '@/src/admin/pages/strategies/Write';
