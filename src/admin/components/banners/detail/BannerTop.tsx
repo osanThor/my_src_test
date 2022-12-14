@@ -100,7 +100,9 @@ const BannerTopBlock = styled.div`
         width: 100px;
         color: ${colors.gray[5]};
         margin: 0;
+        height: auto;
         margin-right: 1rem;
+        font-size: 1rem;
       }
       label {
         margin-right: 1rem;

@@ -33,7 +33,7 @@ export type AdminBannersStateType = {
       isVisibleMobile: boolean;
       isVisiblePc: boolean;
       position: string | null;
-    }>;
+    }> | null;
   } | null;
   getBannerDetailResult: {
     files: Array<{ name: string | null }> | [];
@@ -58,7 +58,7 @@ const initialState: AdminBannersStateType = {
   isVisibleMobile: false,
   fileUrlPc: '',
   fileUrlMobile: '',
-  getBannersResult: null,
+  getBannersResult: { total: 9, banners: null },
   getBannerDetailResult: null,
   loadAdminBannersLoading: false,
   loadAdminBannersDone: null,

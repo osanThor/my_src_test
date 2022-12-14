@@ -7,17 +7,17 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminStrategiesActions } from '../../reducers';
 import { apiGetAdminAllStrategies } from '../../api';
-import { getAdminStrategiesPayload, LoadAdminStrategiesResponse } from '../../types';
+import { getAdminStrategiesPayload, getAdminStrategiesResult, LoadAdminStrategiesResponse } from '../../types';
 
 // api
 
 function* getAllUserCountSaga(action: PayloadAction<getAdminStrategiesPayload>) {
   yield put(adminStrategiesActions.loadAdminStrategiesRequest());
   try {
-    const { data }: AxiosResponse<LoadAdminStrategiesResponse> = yield call(apiGetAdminAllStrategies, action.payload);
+    const { data }: AxiosResponse<getAdminStrategiesResult> = yield call(apiGetAdminAllStrategies, action.payload);
     console.log(data);
 
-    yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
+    yield put(adminStrategiesActions.getAllAdminStrategiesResult(data));
   } catch (error: any) {
     console.error('adminStrategiesSaga getAllUserCountSaga >> ', error);
 

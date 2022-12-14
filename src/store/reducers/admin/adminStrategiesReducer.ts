@@ -1,10 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getAdminStrategiesPayload, LoadAdminStrategiesResponse, ResponseFailure } from '../../types';
+import {
+  getAdminStrategiesPayload,
+  getAdminStrategiesResult,
+  LoadAdminStrategiesResponse,
+  ResponseFailure,
+} from '../../types';
 
 export type AdminStrategiesStateType = {
   page: number | null;
+  getAdminStrategyResult: {
+    total: number | null;
+    strategies: Array<{
+      board: {
+        title: string | null;
+        user: { email: string | null; nickname: string | null };
+        category: string | null;
+        createdAt: string | null;
+      };
+      confirmStatus: string | null;
+    }> | null;
+  } | null;
   loadAdminStrategiesLoading: boolean;
   loadAdminStrategiesDone: {
     message: string | null;
@@ -14,6 +31,7 @@ export type AdminStrategiesStateType = {
 
 const initialState: AdminStrategiesStateType = {
   page: 0,
+  getAdminStrategyResult: { total: 0, strategies: null },
   loadAdminStrategiesLoading: false,
   loadAdminStrategiesDone: null,
   loadAdminStrategiesError: null,
@@ -35,9 +53,9 @@ const adminStrategiesSlice = createSlice({
       state.loadAdminStrategiesLoading = true;
       state.page = action.payload.page;
     },
-    getAllAdminStrategiesResult(state, action: PayloadAction<getAdminStrategiesPayload>) {
+    getAllAdminStrategiesResult(state, action: PayloadAction<getAdminStrategiesResult>) {
       state.loadAdminStrategiesLoading = true;
-      state.page = action.payload.page;
+      state.getAdminStrategyResult = action.payload;
     },
     loadAdminStrategiesRequest(state) {
       state.loadAdminStrategiesLoading = true;

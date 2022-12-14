@@ -5,27 +5,7 @@ import { certifiedAdminStrategyPayload, getAdminStrategiesPayload } from '../../
 export const apiGetAdminAllStrategies = ({ page }: getAdminStrategiesPayload) =>
   axiosInstance.get(`/admin/strategies?page=${page}`);
 
-// get certified
-export const apiGetAdminCertifiedStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies/certified?page=${page}`);
-
-// get User
-export const apiGetAdminUserStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies/user?page=${page}`);
-
-// get commision
-export const apiGetAdminCommisionStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies/commision?page=${page}`);
-
-// get quantro strategies
-export const apiGetAdminPublicStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies/public?page=${page}`);
-
-// get quantro indicators
-export const apiGetAdminIndicatorsStrategies = ({ page }: getAdminStrategiesPayload) =>
-  axiosInstance.get(`/admin/strategies/indicators?page=${page}`);
-
-// get quantro indicators
+// certified strategy
 export const apiCertifiedAdminStrategy = ({
   id,
   comminities,

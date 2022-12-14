@@ -76,12 +76,4 @@ export {
 
 export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';
 
-export {
-  apiGetAdminAllStrategies,
-  apiCertifiedAdminStrategy,
-  apiGetAdminCertifiedStrategies,
-  apiGetAdminCommisionStrategies,
-  apiGetAdminIndicatorsStrategies,
-  apiGetAdminPublicStrategies,
-  apiGetAdminUserStrategies,
-} from './admin/strategy';
+export { apiGetAdminAllStrategies, apiCertifiedAdminStrategy } from './admin/strategy';

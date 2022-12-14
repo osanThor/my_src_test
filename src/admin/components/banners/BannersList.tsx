@@ -1,7 +1,6 @@
 import colors from '@/src/assets/Colors';
 import Pagination from '@/src/components/common/Pagination';
 import { RootState } from '@/src/store/configureStore';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Moment from 'react-moment';
@@ -14,7 +13,7 @@ const BannersList = () => {
     getBannersResult: adminBanners.getBannersResult,
     page: adminBanners.page,
   }));
-  // const { total } = getBannersResult;
+  const { total } = getBannersResult;
   return (
     <BannersListBlock>
       <div className="user_list_header">
@@ -43,7 +42,9 @@ const BannersList = () => {
           </div>
         ))}
       </div>
-      <div className="bottom">{/* <Pagination total={total} page={page} /> */}</div>
+      <div className="bottom">
+        <Pagination total={total} page={page} />
+      </div>
     </BannersListBlock>
   );
 };
