@@ -23,6 +23,13 @@ const CustomSelect = ({
     { value: 'licensePackage', txt: '등록된 패키지' },
     { value: 'grade', txt: '상태' },
   ];
+  const straOptions = [
+    { value: 'nickname', txt: '전략가명' },
+    { value: 'title', txt: '제목' },
+    { value: 'email', txt: '이메일' },
+    { value: 'licensePackage', txt: '게시판' },
+    { value: 'grade', txt: '상태' },
+  ];
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
@@ -55,12 +62,26 @@ const CustomSelect = ({
         {currentValue}
       </Label>
       <SelectOptions show={showOptions}>
-        {options.map((opt) => (
-          <Option key={opt.value} onClick={handleOnChangeSelectValue}>
-            <input type="hidden" value={opt.value} />
-            {opt.txt}
-          </Option>
-        ))}
+        {router.pathname === '/admin/users' && (
+          <>
+            {options.map((opt) => (
+              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+                <input type="hidden" value={opt.value} />
+                {opt.txt}
+              </Option>
+            ))}
+          </>
+        )}
+        {router.pathname === '/admin/strategies' && (
+          <>
+            {straOptions.map((opt) => (
+              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+                <input type="hidden" value={opt.value} />
+                {opt.txt}
+              </Option>
+            ))}
+          </>
+        )}
       </SelectOptions>
     </CustomSelectBox>
   );

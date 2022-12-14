@@ -31,7 +31,14 @@ const adminStrategiesSlice = createSlice({
     changePage(state, action: PayloadAction<getAdminStrategiesPayload>) {
       state.page = action.payload.page;
     },
-    //api res req
+    getAllAdminStrategies(state, action: PayloadAction<getAdminStrategiesPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.page = action.payload.page;
+    },
+    getAllAdminStrategiesResult(state, action: PayloadAction<getAdminStrategiesPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.page = action.payload.page;
+    },
     loadAdminStrategiesRequest(state) {
       state.loadAdminStrategiesLoading = true;
       state.loadAdminStrategiesDone = null;

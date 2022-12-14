@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  changeBannerPositionPayload,
+  changeIsAllSubscribePayload,
+  changePagePayload,
   createAdminBannerPayload,
   getAdminBannerDetailPayload,
   getAdminBannerDetailResult,
   getAdminBannersPayload,
   getAdminBannersResult,
-  getAdminSubscripbePlatformPayload,
   LoadAdminBannersResponse,
   ResponseFailure,
 } from '../../types';
@@ -15,20 +17,24 @@ import {
 export type AdminBannersStateType = {
   page: number | null;
   id: number | null;
-  platform: string | null;
+  bannerPosition: string | null;
+  isAllSubscribe: boolean | '';
   position: string | null;
   isVisiblePc: boolean;
   isVisibleMobile: boolean;
   fileUrlPc: string | null;
   fileUrlMobile: string | null;
-  getBannersResult: Array<{
-    createdAt: string | null;
-    files: Array<{ file: string }> | [];
-    id: number | null;
-    isVisibleMobile: boolean;
-    isVisiblePc: boolean;
-    position: string | null;
-  }> | null;
+  getBannersResult: {
+    total: number | null;
+    banners: Array<{
+      createdAt: string | null;
+      files: Array<{ file: string }> | [];
+      id: number | null;
+      isVisibleMobile: boolean;
+      isVisiblePc: boolean;
+      position: string | null;
+    }>;
+  } | null;
   getBannerDetailResult: {
     files: Array<{ name: string | null }> | [];
     isVisibleMobile: boolean;
@@ -45,7 +51,8 @@ export type AdminBannersStateType = {
 const initialState: AdminBannersStateType = {
   page: 0,
   id: 0,
-  platform: '',
+  bannerPosition: '',
+  isAllSubscribe: false,
   position: '',
   isVisiblePc: false,
   isVisibleMobile: false,
@@ -67,25 +74,20 @@ const adminBannersSlice = createSlice({
       Object.assign(state, initialState);
     },
     //action
-    changePage(state, action: PayloadAction<getAdminBannersPayload>) {
+    changePage(state, action: PayloadAction<changePagePayload>) {
       state.page = action.payload.page;
+    },
+    changebannerPosition(state, action: PayloadAction<changeBannerPositionPayload>) {
+      state.bannerPosition = action.payload.bannerPosition;
+    },
+    changeisAllSubscribe(state, action: PayloadAction<changeIsAllSubscribePayload>) {
+      state.isAllSubscribe = action.payload.isAllSubscribe;
     },
     getAdminAllBanners(state, action: PayloadAction<getAdminBannersPayload>) {
       state.loadAdminBannersLoading = true;
       state.page = action.payload.page;
-    },
-    getAdminMainBanners(state, action: PayloadAction<getAdminBannersPayload>) {
-      state.loadAdminBannersLoading = true;
-      state.page = action.payload.page;
-    },
-    getAdminSubScribeBanners(state, action: PayloadAction<getAdminBannersPayload>) {
-      state.loadAdminBannersLoading = true;
-      state.page = action.payload.page;
-    },
-    getAdminSubScribeByPlatformBanners(state, action: PayloadAction<getAdminSubscripbePlatformPayload>) {
-      state.loadAdminBannersLoading = true;
-      state.page = action.payload.page;
-      state.platform = action.payload.platform;
+      state.bannerPosition = action.payload.bannerPosition;
+      state.isAllSubscribe = action.payload.isAllSubscribe;
     },
     getAdminBannersResult(state, action: PayloadAction<getAdminBannersResult>) {
       state.loadAdminBannersLoading = false;

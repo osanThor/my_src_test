@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import { useDispatch } from 'react-redux';
 import BasicContainer from '../../layouts/BasicContainer';
-import { adminUsersActions } from '@/src/store/reducers';
+import { adminStrategiesActions } from '@/src/store/reducers';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { useRouter } from 'next/router';
 import StrategyTop from '../../components/strategies/StrategyTop';
+import StrategiesList from '../../components/strategies/StrategiesList';
 
 const StrategiesIndex = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
+  }));
+  const { page } = useSelector(({ adminStrategies }: RootState) => ({
+    page: adminStrategies.page,
   }));
 
   useEffect(() => {
@@ -25,7 +29,7 @@ const StrategiesIndex = () => {
 
   useEffect(() => {
     setIsAdmin(false);
-    dispatch(adminUsersActions.initializeAdminUsersForm());
+    dispatch(adminStrategiesActions.initializeAdminStrategiesForm());
   }, [dispatch]);
 
   const [isAdmin, setIsAdmin] = useState(false);
@@ -37,55 +41,26 @@ const StrategiesIndex = () => {
     }
   }, [loadAdminAuthDone]);
 
-  //   useEffect(() => {
-  //     if (isAdmin) {
-  //       dispatch(
-  //         adminUsersActions.getAdminUsers({
-  //           page,
-  //           snsType,
-  //           nickname,
-  //           licensePackage,
-  //           grade,
-  //           email,
-  //         }),
-  //       );
+  useEffect(() => {
+    if (isAdmin) {
+      dispatch(
+        adminStrategiesActions.getAllAdminStrategies({
+          page,
+        }),
+      );
 
-  //       if (router.query.page) {
-  //         dispatch(adminUsersActions.changePage({ page: parseInt(router.query.page as string) }));
-  //       } else {
-  //         dispatch(adminUsersActions.changePage({ page: 1 }));
-  //       }
-  //       if (router.query.snsType) {
-  //         dispatch(adminUsersActions.changeSnsType({ snsType: router.query.snsType as string }));
-  //       } else {
-  //         dispatch(adminUsersActions.changeSnsType({ snsType: '' }));
-  //       }
-  //       if (router.query.nickname) {
-  //         dispatch(adminUsersActions.changeNickname({ nickname: router.query.nickname as string }));
-  //       } else {
-  //         dispatch(adminUsersActions.changeNickname({ nickname: '' }));
-  //       }
-  //       if (router.query.licensePackage) {
-  //         dispatch(adminUsersActions.changeLicensePakage({ licensePackage: router.query.licensePackage as string }));
-  //       } else {
-  //         dispatch(adminUsersActions.changeLicensePakage({ licensePackage: '' }));
-  //       }
-  //       if (router.query.grade) {
-  //         dispatch(adminUsersActions.changeGrade({ grade: router.query.grade as string }));
-  //       } else {
-  //         dispatch(adminUsersActions.changeGrade({ grade: '' }));
-  //       }
-  //       if (router.query.email) {
-  //         dispatch(adminUsersActions.changeEmail({ email: router.query.email as string }));
-  //       } else {
-  //         dispatch(adminUsersActions.changeEmail({ email: '' }));
-  //       }
-  //     }
-  //   }, [router, isAdmin, page, snsType, nickname, licensePackage, grade, email]);
+      if (router.query.page) {
+        dispatch(adminStrategiesActions.changePage({ page: parseInt(router.query.page as string) }));
+      } else {
+        dispatch(adminStrategiesActions.changePage({ page: 1 }));
+      }
+    }
+  }, [router, isAdmin, page]);
   return (
     <AdminLayout>
       <BasicContainer>
         <StrategyTop />
+        <StrategiesList />
       </BasicContainer>
     </AdminLayout>
   );

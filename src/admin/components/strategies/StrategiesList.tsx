@@ -1,53 +1,50 @@
 import colors from '@/src/assets/Colors';
 import Pagination from '@/src/components/common/Pagination';
 import { RootState } from '@/src/store/configureStore';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const BannersList = () => {
+const StrategiesList = () => {
   const router = useRouter();
-  const { getBannersResult, page } = useSelector(({ adminBanners }: RootState) => ({
-    getBannersResult: adminBanners.getBannersResult,
-    page: adminBanners.page,
+  const { page } = useSelector(({ adminStrategies }: RootState) => ({
+    page: adminStrategies.page,
   }));
-  // const { total } = getBannersResult;
   return (
-    <BannersListBlock>
+    <StrategiesListBlock>
       <div className="user_list_header">
         <div className="th">
           <div className="td">NO</div>
-          <div className="td">썸네일 이미지(PC)</div>
-          <div className="td">노출 여부</div>
-          <div className="td">노출 위치</div>
+          <div className="td">제목</div>
+          <div className="td">전략가</div>
+          <div className="td">이메일</div>
+          <div className="td">게시판</div>
+          <div className="td">상태</div>
           <div className="td">등록일</div>
         </div>
       </div>
       <div className="user_list">
-        {getBannersResult?.banners?.map((banner) => (
-          <div
-            className="tr"
-            key={banner.id}
-            onClick={() => router.push(`/admin/banners/banner?id=${banner.id}&edit=true`)}
-          >
-            <div className="td">{banner.id}</div>
-            <div className="td profile">배너이미지</div>
-            <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
-            <div className="td">{banner.position}</div>
-            <div className="td">
-              <Moment format="YYYY.MM.DD">{banner.createdAt}</Moment>
-            </div>
+        <div className="tr" onClick={() => router.push(`/admin/users/user?email=edit=true`)}>
+          <div className="td"></div>
+          <div className="td profile"></div>
+          <div className="td"></div>
+          <div className="td"></div>
+          <div className="td"></div>
+          <div className="td"></div>
+          <div className="td">
+            <Moment format="YYYY.MM.DD"></Moment>
           </div>
-        ))}
+        </div>
       </div>
-      <div className="bottom">{/* <Pagination total={total} page={page} /> */}</div>
-    </BannersListBlock>
+      <div className="bottom">
+        <Pagination total={100} page={page} />
+      </div>
+    </StrategiesListBlock>
   );
 };
-const BannersListBlock = styled.div`
+const StrategiesListBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -66,41 +63,28 @@ const BannersListBlock = styled.div`
     }
     &:nth-child(2) {
       flex: 1;
-      &.profile {
-        display: flex;
-        .profile_Image {
-          width: 56px;
-          min-width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          overflow: hidden;
-          position: relative;
-          margin-right: 1rem;
-          border: 1px solid ${colors.gray[1]};
-        }
-        .profile_info {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
+      width: 100%;
+      max-width: 500px;
     }
     &:nth-child(3) {
       width: 20%;
-      max-width: 250px;
+      max-width: 150px;
     }
     &:nth-child(4) {
       width: 20%;
       max-width: 250px;
     }
     &:nth-child(5) {
-      width: 20%;
-      max-width: 250px;
+      width: 10%;
+      max-width: 150px;
+    }
+    &:nth-child(6) {
+      width: 10%;
+      max-width: 150px;
     }
     &:last-child {
       width: 20%;
-      max-width: 450px;
+      max-width: 350px;
       margin-right: 0;
     }
   }
@@ -141,4 +125,4 @@ const BannersListBlock = styled.div`
   }
 `;
 
-export default BannersList;
+export default StrategiesList;

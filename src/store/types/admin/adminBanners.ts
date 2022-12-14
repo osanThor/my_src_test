@@ -1,6 +1,17 @@
 //admin banners
 export type getAdminBannersPayload = {
   page: number | null;
+  bannerPosition: string | null;
+  isAllSubscribe: boolean | '';
+};
+export type changePagePayload = {
+  page: number | null;
+};
+export type changeBannerPositionPayload = {
+  bannerPosition: string | null;
+};
+export type changeIsAllSubscribePayload = {
+  isAllSubscribe: boolean;
 };
 export type getAdminSubscripbePlatformPayload = {
   platform: string | null;
@@ -16,14 +27,17 @@ export type getAdminBannerDetailResult = {
   position: string | null;
 } | null;
 
-export type getAdminBannersResult = Array<{
-  createdAt: string | null;
-  files: Array<{ file: string }> | [];
-  id: number | null;
-  isVisibleMobile: boolean;
-  isVisiblePc: boolean;
-  position: string | null;
-}> | null;
+export type getAdminBannersResult = {
+  total: number | null;
+  banners: Array<{
+    createdAt: string | null;
+    files: Array<{ file: string }> | [];
+    id: number | null;
+    isVisibleMobile: boolean;
+    isVisiblePc: boolean;
+    position: string | null;
+  }>;
+} | null;
 
 export type createAdminBannerPayload = {
   position: string | null;

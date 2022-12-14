@@ -10,6 +10,7 @@ import adminAuthSaga from './admin/adminAuth';
 import adminDashboardsSaga from './admin/adminDashboards';
 import adminUsersSaga from './admin/adminUsers';
 import adminBannersSaga from './admin/adminBanners';
+import adminStrategiesSaga from './admin/adminStrategies';
 
 export default function* rootSaga() {
   yield all([
@@ -23,5 +24,6 @@ export default function* rootSaga() {
     fork(adminDashboardsSaga),
     fork(adminUsersSaga),
     fork(adminBannersSaga),
+    fork(adminStrategiesSaga),
   ]);
 }

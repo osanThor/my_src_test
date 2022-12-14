@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import Button from '@/src/components/common/Button';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -17,7 +18,9 @@ const StrategyTop = () => {
 
   return (
     <StrategyTopBlock>
-      <div className="title">전략관리</div>
+      <div className="title">
+        전략관리 <Button blue>공개 전략/지표 작성</Button>
+      </div>
       <div className="boardTop">
         <div className="admin_tab">
           <div
@@ -69,6 +72,15 @@ const StrategyTop = () => {
 const StrategyTopBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
+  & > .title {
+    display: flex;
+    justify-content: space-between;
+    button {
+      min-height: auto;
+      height: 38px;
+      border-radius: 8px;
+    }
+  }
   .boardTop {
     width: 100%;
     display: flex;
