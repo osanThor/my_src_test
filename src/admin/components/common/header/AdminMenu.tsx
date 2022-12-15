@@ -73,11 +73,11 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             </div>
             <div className={router.pathname === '/admin/strategies' ? 'menu_txt on' : 'menu_txt'}>전략관리</div>
           </div>
-          <div className="menu">
+          <div className="menu" onClick={() => router.push('/admin/boards')}>
             <div className="menu_icon">
-              <Image src={Menu6[0]} alt="menu" />
+              <Image src={router.pathname === '/admin/boards' ? Menu6[1] : Menu6[0]} alt="menu" />
             </div>
-            <div className="menu_txt">커뮤니티관리</div>
+            <div className={router.pathname === '/admin/boards' ? 'menu_txt on' : 'menu_txt'}>커뮤니티관리</div>
           </div>
           <div className="menu">
             <div className="menu_icon">

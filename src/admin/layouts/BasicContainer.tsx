@@ -17,6 +17,11 @@ const BasicContainerBlock = styled.div`
     margin-bottom: 1rem;
     font-size: 1.25rem;
     font-family: 'GmarketSansBold';
+    & > button {
+      min-height: auto;
+      height: 38px;
+      border-radius: 8px;
+    }
   }
 `;
 
