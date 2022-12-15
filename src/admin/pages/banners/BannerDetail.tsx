@@ -149,7 +149,13 @@ const BannerDetail = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} handleSubmit={null} />
+          <DetailCommonTop
+            handleDeleteModalOpen={handleDeleteModalOpen}
+            handleSubmit={null}
+            handleUpdate={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
           <BannerTop
             onChangeFile={handleChangeBannerImage}
             pcFile={pcFile}

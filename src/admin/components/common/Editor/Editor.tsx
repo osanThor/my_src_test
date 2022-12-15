@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
-import { NextPage } from 'next';
 import {
   AlignCenter,
   AlignLeft,
@@ -13,22 +12,26 @@ import {
   StrikeLine,
   UnderLine,
 } from '@/src/assets/Images';
-// import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { RangeStatic } from 'quill';
 import { axiosInstance } from '@/src/store/api';
 import colors from '@/src/assets/Colors';
 import { media } from '@/styles/theme';
-const ReactQuill = dynamic(import('react-quill'), { ssr: false });
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/configureStore';
+import { useRouter } from 'next/router';
 
 interface IEditor {
-  content: string;
   onChange: (val: string) => void;
 }
 
-const Editor: React.FC<IEditor> = ({ content, onChange }) => {
+const Editor: React.FC<IEditor> = ({ onChange }) => {
+  const router = useRouter();
   const quillRef = React.useRef(null);
-
+  const { content } = useSelector(({ adminStrategies }: RootState) => ({
+    content: adminStrategies.content,
+  }));
   // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
   const imageHandler = () => {
     // file input 임의 생성
@@ -76,6 +79,7 @@ const Editor: React.FC<IEditor> = ({ content, onChange }) => {
         // custom 핸들러 설정
         handlers: {
           image: imageHandler, // 이미지 tool 사용에 대한 핸들러 설정
+          contenteditable: 'true',
         },
       },
     }),
@@ -280,7 +284,7 @@ const EditorContainer = styled.div`
     }
   }
   .ql-toolbar.ql-snow + .ql-container.ql-snow {
-    border-top: 1px solid ${colors.blue[2]};
+    border-top: 1px solid ${colors.blue[2]} !important;
   }
   .ql-container {
     width: 100%;

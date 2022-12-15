@@ -4,6 +4,7 @@ import {
   createQuantroIndicatorPayload,
   createQuantroStrategyPayload,
   getAdminStrategiesPayload,
+  getAdminStrategyDetailPayload,
 } from '../../types';
 
 // get all with filter
@@ -18,6 +19,8 @@ export const apiGetAdminAllStrategies = ({
   axiosInstance.get(
     `/admin/strategies?page=${page}&category=${category}&title=${title}&nickname=${nickname}&email=${email}&confirmStatus=${confirmStatus}`,
   );
+export const apiGetAdminStrategyDetail = ({ id, category }: getAdminStrategyDetailPayload) =>
+  axiosInstance.get(`/admin/strategies/${id}?category=${category}`);
 
 // certified strategy
 export const apiCertifiedAdminStrategy = ({

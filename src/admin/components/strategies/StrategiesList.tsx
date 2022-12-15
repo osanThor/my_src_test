@@ -31,10 +31,14 @@ const StrategiesList = () => {
         {getAdminStrategyResult?.strategies?.map((strategy) => (
           <div
             className="tr"
-            key={strategy.board.createdAt}
-            onClick={() => router.push(`/admin/strategies/strategy?edit=true`)}
+            key={strategy.board.id}
+            onClick={() =>
+              router.push(
+                `/admin/strategies/strategy?id=${strategy.board.id}&category=${strategy.board.category}&edit=true`,
+              )
+            }
           >
-            <div className="td"></div>
+            <div className="td">{strategy.board.id}</div>
             <div className="td">{strategy.board.title}</div>
             <div className="td">{strategy.board.user.nickname}</div>
             <div className="td">{strategy.board.user.email}</div>

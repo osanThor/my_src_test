@@ -47,7 +47,7 @@ export type BoardsStateType = {
   comment: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: Array<string> | [] | string | null;
+  fileUrls: Array<string> | [] | null;
   fileUrl: string | null;
   loadBoardsLoading: boolean;
   loadGetComissionDone: {

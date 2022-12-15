@@ -35,7 +35,7 @@ const WritePublic = () => {
   useEffect(() => {
     setIsAdmin(false);
     dispatch(adminStrategiesActions.initializeAdminStrategiesForm());
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
@@ -48,7 +48,7 @@ const WritePublic = () => {
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
-  const handleDeleteModalOpen = () => {
+  const handleSubmitModalOpen = () => {
     if (router.query.category === 'PUBLIC') {
       if (!quantroStrategyPayload) {
         alert('값을 입력해주세요');
@@ -111,7 +111,7 @@ const WritePublic = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleDeleteModalOpen} />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleSubmitModalOpen} handleUpdate={null} />
           <StrategyWriteTop />
           {router.query.category === 'PUBLIC' && <PublicWrite />}
           {router.query.category === 'INDICATOR' && <IndicatorWrite />}

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import colors from '@/src/assets/Colors';
 import { Input } from '@mui/material';
-import Editor from '../../common/Editor/Editor';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/src/admin/components/common/Editor/Editor'), { ssr: false });
 import { adminStrategiesActions } from '@/src/store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from './items/CustomSelect';
@@ -32,21 +33,21 @@ const chartCycleOptions = [
 
 const PublicWrite = () => {
   const dispatch = useDispatch();
-  const { quantroStrategyPayload } = useSelector(({ adminStrategies }: RootState) => ({
+  const { content, quantroStrategyPayload } = useSelector(({ adminStrategies }: RootState) => ({
+    content: adminStrategies.content,
     quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
   }));
-  const [contents, setContents] = useState('');
   const [platform, setPlatForm] = useState('');
   const [chartCycle, setChartCycle] = useState('');
   const [filUrl, setfilUrl] = useState('');
-  const handleChangeQuantroStrategyField = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChangeQuantroStrategyField(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     if (name === 'title') {
       dispatch(
         adminStrategiesActions.changeQuantroStrategyField({
           title: value,
           category: 'QUANTRO_STRATEGY',
-          content: contents,
+          content,
           fileUrls: [filUrl],
           platform,
           symbol: quantroStrategyPayload?.symbol,
@@ -59,7 +60,7 @@ const PublicWrite = () => {
         adminStrategiesActions.changeQuantroStrategyField({
           title: quantroStrategyPayload?.title,
           category: 'QUANTRO_STRATEGY',
-          content: contents,
+          content,
           fileUrls: [filUrl],
           platform,
           symbol: value,
@@ -72,7 +73,7 @@ const PublicWrite = () => {
         adminStrategiesActions.changeQuantroStrategyField({
           title: quantroStrategyPayload?.title,
           category: 'QUANTRO_STRATEGY',
-          content: contents,
+          content,
           fileUrls: [filUrl],
           platform,
           symbol: quantroStrategyPayload?.symbol,
@@ -81,9 +82,13 @@ const PublicWrite = () => {
         }),
       );
     }
-  };
+  }
   const handleChangeContents = (val: string) => {
-    setContents(val);
+    dispatch(
+      adminStrategiesActions.changeContent({
+        content: val,
+      }),
+    );
     dispatch(
       adminStrategiesActions.changeQuantroStrategyField({
         title: quantroStrategyPayload?.title,
@@ -124,7 +129,7 @@ const PublicWrite = () => {
         sx={{ width: '100%', height: '58px', p: 2, fontFamily: 'GmarketSans', mb: '20px' }}
         onChange={handleChangeQuantroStrategyField}
       />
-      <Editor onChange={handleChangeContents} content={contents} />
+      <Editor onChange={handleChangeContents} />
       <div className="add_exchange">
         <div className="con">
           <div className="con_label">거래소 입력란</div>
