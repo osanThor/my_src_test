@@ -83,3 +83,5 @@ export {
   apiCreateQuantroIndicator,
   apiCreateQuantroStrategy,
 } from './admin/strategy';
+
+export { apiGetAdminAllBoards } from './admin/boards';

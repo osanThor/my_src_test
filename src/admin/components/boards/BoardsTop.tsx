@@ -30,14 +30,14 @@ const BoardsTop = () => {
             전체
           </div>
           <div
-            className={router.query.category === 'CERTIFIED' ? 'menu on' : 'menu'}
+            className={router.query.category === 'DISCUSSION' ? 'menu on' : 'menu'}
             onClick={() => router.push('/admin/boards?page=1&category=DISCUSSION')}
           >
             전략토론
           </div>
           <div
-            className={router.query.category === 'USER' ? 'menu on' : 'menu'}
-            onClick={() => router.push('/admin/boards?page=1&category=MOTICE')}
+            className={router.query.category === 'NOTICE' ? 'menu on' : 'menu'}
+            onClick={() => router.push('/admin/boards?page=1&category=NOTICE')}
           >
             공지사항
           </div>

@@ -38,8 +38,10 @@ const BoardSearchLayout = ({ name, value, children }: { name: string; value: str
           return;
         }
       }
-
       router.push(`/admin/strategies?page=1&${name}=${value}`);
+    }
+    if (router.pathname === '/admin/boards') {
+      router.push(`/admin/boards?page=1&${name}=${value}`);
     }
   };
   return (

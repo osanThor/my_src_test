@@ -1,3 +1,4 @@
+import FuncModal from '@/src/components/common/modals/FuncModal';
 import { RootState } from '@/src/store/configureStore';
 import { adminBoardsActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
@@ -5,10 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BoardsList from '../../components/boards/BoardsList';
 import BoardsTop from '../../components/boards/BoardsTop';
+import DetailCommonTop from '../../components/common/DetailCommonTop';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
 
-const BoardsIndex = () => {
+const BoardsDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
@@ -53,42 +55,56 @@ const BoardsIndex = () => {
           user,
         }),
       );
-
-      if (router.query.page) {
-        dispatch(adminBoardsActions.changePage({ page: parseInt(router.query.page as string) }));
-      } else {
-        dispatch(adminBoardsActions.changePage({ page: 1 }));
-      }
-      if (!router.query.category) {
-        dispatch(adminBoardsActions.changeCategory({ category: '' }));
-      } else {
-        if (router.query.category === 'DISCUSSION') {
-          dispatch(adminBoardsActions.changeCategory({ category: 'DISCUSSION' }));
-        } else if (router.query.category === 'NOTICE') {
-          dispatch(adminBoardsActions.changeCategory({ category: 'NOTICE' }));
-        }
-      }
-      if (!router.query.user) {
-        dispatch(adminBoardsActions.changeUser({ user: '' }));
-      } else {
-        dispatch(adminBoardsActions.changeUser({ user: router.query.user as string }));
-      }
-
-      if (!router.query.title) {
-        dispatch(adminBoardsActions.changeTitle({ title: '' }));
-      } else {
-        dispatch(adminBoardsActions.changeTitle({ title: router.query.title as string }));
-      }
     }
-  }, [router, isAdmin, page, category, title, user]);
+  }, [router, isAdmin]);
+  //function modal
+  const [isDelete, setIsDelete] = useState(false);
+
+  const [fModalOpen, setFModalOpen] = useState(false);
+  const [fModalMessage, setFModalMessage] = useState('');
+  const [fModalBtnTxt, setFModalBtnTxt] = useState('');
+  const handleDeleteModalOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('해당 내용을 삭제하시겠습니까?');
+    setFModalBtnTxt('삭제하기');
+    setIsDelete(true);
+  };
+  const handleModalClose = () => {
+    setFModalOpen(false);
+  };
+
+  const handleUpdateOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('변경된 내용을 등록하시겠습니까?');
+    setFModalBtnTxt('등록하기');
+    setIsDelete(false);
+  };
+
   return (
-    <AdminLayout>
-      <BasicContainer>
-        <BoardsTop />
-        <BoardsList />
-      </BasicContainer>
-    </AdminLayout>
+    <>
+      <AdminLayout>
+        <BasicContainer>
+          <DetailCommonTop
+            handleDeleteModalOpen={handleDeleteModalOpen}
+            handleUpdate={handleUpdateOpen}
+            handleSubmit={null}
+          />
+        </BasicContainer>
+      </AdminLayout>
+      <FuncModal
+        open={fModalOpen}
+        onClose={handleModalClose}
+        message={{
+          title: fModalMessage,
+          description: '',
+          btnTxt: fModalBtnTxt,
+        }}
+        dubBtn={true}
+        onClick={isDelete ? () => alert('임시') : () => alert('임시')}
+        onClick2={handleModalClose}
+      />
+    </>
   );
 };
 
-export default BoardsIndex;
+export default BoardsDetail;
