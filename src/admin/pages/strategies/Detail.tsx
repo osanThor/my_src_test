@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
-import CertifiedTop from '../../components/strategies/detail/certified/CertifiedTop';
 import CertifiedContainer from '../../containers/strategies/CertifiedContainer';
+import UserStrategyContainer from '../../containers/strategies/UserStrategyContainer';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
 
@@ -124,6 +124,7 @@ const Detail = () => {
             handleSubmit={null}
           />
           {router.query.category === 'CERTIFIED_STRATEGY' && <CertifiedContainer />}
+          {router.query.category === 'USER_STRATEGY' && <UserStrategyContainer />}
         </BasicContainer>
       </AdminLayout>
       <FuncModal

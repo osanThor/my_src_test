@@ -2,7 +2,7 @@ import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { adminStrategiesActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import CertifiedCon from '../../components/strategies/detail/certified/CertifiedCon';

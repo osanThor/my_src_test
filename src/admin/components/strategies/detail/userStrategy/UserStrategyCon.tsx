@@ -1,9 +1,6 @@
 import colors from '@/src/assets/Colors';
-import { Close } from '@/src/assets/Images';
-import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { Input } from '@mui/material';
-import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -29,54 +26,26 @@ const chartCycleOptions = [
   { txt: 'D1', value: 'D1' },
   { txt: 'W1', value: 'W1' },
 ];
-const communityOptions = [
-  { txt: 'NAVER_CAFE', value: 'NAVER_CAFE' },
-  { txt: 'NAVER_BLOG', value: 'NAVER_BLOG' },
-  { txt: 'DAUM_CAFE', value: 'DAUM_CAFE' },
-  { txt: 'TISTORY', value: 'TISTORY' },
-  { txt: 'KAKAOTALK', value: 'KAKAOTALK' },
-  { txt: 'YOUTUBE', value: 'YOUTUBE' },
-  { txt: 'TELEGRAM', value: 'TELEGRAM' },
-  { txt: 'TWITTER', value: 'TWITTER' },
-  { txt: 'FACEBOOK', value: 'FACEBOOK' },
-];
 
-const CertifiedCon = ({
-  setCommuSt,
-  commuUrlSt,
-  setCommuUrlSt,
-  commuArr,
-  handleAddCommunity,
+const UserStrategyCon = ({
   platform,
   setPlatForm,
   chartCycle,
   setChartCycle,
-  handleChangeCertifiedField,
-  handleCloseCommunity,
   handleChangeImage,
   filUrl,
 }: {
-  setCommuSt: React.Dispatch<React.SetStateAction<string>>;
-  commuUrlSt: string | null;
-  setCommuUrlSt: React.Dispatch<React.SetStateAction<string>>;
-  commuArr: Array<{ channel: string; url: string }>;
-  handleAddCommunity: () => void;
   platform: string | null;
   setPlatForm: React.Dispatch<React.SetStateAction<string>>;
   chartCycle: string | null;
   setChartCycle: React.Dispatch<React.SetStateAction<string>>;
-  handleChangeCertifiedField: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCloseCommunity: (url: string) => void;
   handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   filUrl: string | null;
 }) => {
-  const { content, getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(
-    ({ adminStrategies }: RootState) => ({
-      content: adminStrategies.content,
-      getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
-      certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
-    }),
-  );
+  const { content, getAdminStrategyDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
+    content: adminStrategies.content,
+    getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+  }));
 
   const ViewContentsRef = useRef<HTMLDivElement>(null);
 
@@ -86,7 +55,7 @@ const CertifiedCon = ({
     }
   }, [content]);
   return (
-    <CertifiedConBlock>
+    <UserStrategyConBlock>
       <div className="certified_request">
         <div className="title_user">
           <Input
@@ -116,35 +85,6 @@ const CertifiedCon = ({
             )}
           </div>
         </div>
-        <div className="add_comu">
-          <div className="label">커뮤니티 추가</div>
-          <div className="add_box">
-            <CustomSelect options={communityOptions} place={'선택'} setSearchName={setCommuSt} />
-            <Input
-              name="url"
-              value={commuUrlSt}
-              placeholder="커뮤니티 URL을 입력해주세요"
-              sx={{ width: '100%', height: '48px', p: 2, mr: '12px', fontFamily: 'GmarketSans' }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCommuUrlSt(e.target.value)}
-            />
-            <Button blue onClick={handleAddCommunity}>
-              등록
-            </Button>
-          </div>
-          {commuArr.length != 0 && (
-            <div className="comu_list">
-              {commuArr.map((commu) => (
-                <div className="community" key={commu.url}>
-                  <div className="icon"></div>
-                  {commu.url}
-                  <div className="close_btn" onClick={() => handleCloseCommunity(commu.url)}>
-                    <Image src={Close} alt="close_btn" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
         <div className="add_exchange">
           <div className="con">
             <div className="con_label">거래소 입력란</div>
@@ -154,9 +94,8 @@ const CertifiedCon = ({
             <div className="con_label">대상종목 입력란</div>
             <Input
               name="symbol"
+              value={getAdminStrategyDetailResult?.strategy?.symbol}
               placeholder="대상종목을 입력해주세요"
-              onChange={handleChangeCertifiedField}
-              value={certifiedStrategyPayload?.symbol || ''}
               sx={{ width: '100%', height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             />
           </div>
@@ -169,8 +108,7 @@ const CertifiedCon = ({
             <Input
               name="profitPct"
               type="number"
-              value={certifiedStrategyPayload?.profitPct || ''}
-              onChange={handleChangeCertifiedField}
+              value={getAdminStrategyDetailResult?.strategy?.profitPct}
               placeholder="누적 수입률을 입력해주세요"
               sx={{ flex: 1, height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             />
@@ -183,13 +121,13 @@ const CertifiedCon = ({
             <span className="button">파일 업로드</span>
           </label>
           <div className="filename">{filUrl ? filUrl : '선택 파일이 없습니다'}</div>
-          <span className="guide">※ 해당 전략의 백테스트 CSV 파일을 업로드해야합니다.</span>
+          <span className="guide">※ 해당 전략의 백테스트 결과를 캡쳐한 이미지를 업로드해주세요.</span>
         </div>
       </div>
-    </CertifiedConBlock>
+    </UserStrategyConBlock>
   );
 };
-const CertifiedConBlock = styled.div`
+const UserStrategyConBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
   .certified_request {
@@ -255,69 +193,7 @@ const CertifiedConBlock = styled.div`
         }
       }
     }
-    .add_comu {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      padding: 1rem;
-      margin-bottom: 20px;
-      & > .label {
-        line-height: 48px;
-        white-space: nowrap;
-        width: 145px;
-        font-family: 'GmarketSansBold';
-        color: ${colors.gray[5]};
-        font-size: 1rem;
-        margin-right: 1rem;
-      }
-      .add_box {
-        width: calc(50% - 80px);
-        display: flex;
-        button {
-          min-width: 100px;
-          min-height: auto;
-          height: 48px;
-          padding: 0;
-        }
-      }
-      .comu_list {
-        width: 100%;
-        margin-top: 20px;
-        .community {
-          width: 49%;
-          padding: 7px 2.3rem;
-          display: flex;
-          align-items: center;
-          padding-left: 161px;
-          color: ${colors.gray[5]};
-          font-size: 14px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          position: relative;
-          .icon {
-            width: 24px;
-            min-width: 24px;
-            margin-right: 1rem;
-            height: 24px;
-            border: 1px solid;
-            position: relative;
-          }
-          .close_btn {
-            cursor: pointer;
-            width: 24px;
-            height: 24px;
-            background-color: ${colors.dark[0]};
-            display: flex;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
-            border-radius: 50%;
-          }
-        }
-      }
-    }
+
     .add_exchange {
       width: 100%;
       margin-bottom: 20px;
@@ -391,4 +267,4 @@ const CertifiedConBlock = styled.div`
   }
 `;
 
-export default CertifiedCon;
+export default UserStrategyCon;
