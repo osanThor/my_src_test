@@ -132,4 +132,14 @@ export type {
   getAdminStrategyDetailResult,
 } from './admin/adminStrategy';
 
-export type { GetAdminAllBoardsPayload, GetAdminAllBoardsResult, LoadAdminBoardsResponse } from './admin/adminBoards';
+export type {
+  GetAdminAllBoardsPayload,
+  GetAdminBoardDetailPayload,
+  deleteAdminBoardCommentPayload,
+  getAdminBoardDetailResult,
+  GetAdminAllBoardsResult,
+  LoadAdminBoardsResponse,
+  createAdminNoticePayload,
+  updateAdminNoticePayload,
+  getAdminBoardCommentsResult,
+} from './admin/adminBoards';

@@ -35,9 +35,11 @@ const DetailCommonTop = ({
       <div className="ctrl_btns">
         {isEdit ? (
           <>
-            <StyledButton yellow onClick={handleUpdate}>
-              수정
-            </StyledButton>
+            {router.pathname != '/admin/boards/board' && (
+              <StyledButton yellow onClick={handleUpdate}>
+                수정
+              </StyledButton>
+            )}
             <StyledButton red onClick={handleDeleteModalOpen}>
               삭제
             </StyledButton>

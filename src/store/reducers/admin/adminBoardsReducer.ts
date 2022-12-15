@@ -8,8 +8,11 @@ import {
   changeUser,
   GetAdminAllBoardsPayload,
   GetAdminAllBoardsResult,
+  getAdminBoardCommentsResult,
+  GetAdminBoardDetailPayload,
   LoadAdminBoardsResponse,
   ResponseFailure,
+  getAdminBoardDetailResult,
 } from '../../types';
 
 export type AdminBoardsStateType = {
@@ -17,6 +20,7 @@ export type AdminBoardsStateType = {
   category: string | null;
   title: string | null;
   user: string | null;
+  boardId: number | null;
   getAdminAllBoardsResult: {
     total: number | null;
     boards: Array<{
@@ -31,6 +35,66 @@ export type AdminBoardsStateType = {
       };
     }> | null;
   } | null;
+  getAdminBoardDetailResult: {
+    comments:
+      | Array<{
+          childComment:
+            | Array<{
+                content: string;
+                createdAt: string;
+                deletedAt: string | null;
+                file: { url: string } | null;
+                id: number;
+                user: { nickname: string; photoUrl: string | null };
+              }>
+            | [];
+          content: string;
+          createdAt: string;
+          deletedAt: string | null;
+          id: number;
+          file: { url: string } | null;
+          user: { nickname: string; photoUrl: string | null };
+        }>
+      | [];
+    content: string | null;
+    createdAt: string | null;
+    files: [];
+    hits: number | null;
+    id: number | null;
+    title: string | null;
+    user: {
+      photoUrl: string | null;
+      nickname: string | null;
+      styles:
+        | Array<{
+            name: string | null;
+          }>
+        | [];
+    };
+    _count: {
+      likes: number | null;
+    };
+  } | null;
+  getAdminBoardCommentsResult:
+    | {
+        childComment:
+          | Array<{
+              content: string;
+              createdAt: string;
+              deletedAt: string | null;
+              file: { url: string } | null;
+              id: number;
+              user: { nickname: string; photoUrl: string | null };
+            }>
+          | [];
+        content: string;
+        createdAt: string;
+        deletedAt: string | null;
+        id: number;
+        file: { url: string } | null;
+        user: { nickname: string; photoUrl: string | null };
+      }[]
+    | [];
   loadAdminBoardsLoading: boolean;
   loadAdminBoardsDone: {
     message: string | undefined;
@@ -43,7 +107,10 @@ const initialState: AdminBoardsStateType = {
   category: '',
   title: '',
   user: '',
+  boardId: 0,
   getAdminAllBoardsResult: { total: 0, boards: [] },
+  getAdminBoardDetailResult: null,
+  getAdminBoardCommentsResult: null,
   loadAdminBoardsLoading: false,
   loadAdminBoardsDone: null,
   loadAdminBoardsError: null,
@@ -78,8 +145,24 @@ const adminBoardsSlice = createSlice({
       state.user = action.payload.user;
     },
     getAdminAllBoardsResult(state, action: PayloadAction<GetAdminAllBoardsResult>) {
-      state.loadAdminBoardsLoading = true;
+      state.loadAdminBoardsLoading = false;
       state.getAdminAllBoardsResult = action.payload;
+    },
+    getAdminBoardDetail(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    getAdminBoardDetailResult(state, action: PayloadAction<getAdminBoardDetailResult>) {
+      state.loadAdminBoardsLoading = false;
+      state.getAdminBoardDetailResult = action.payload;
+    },
+    getAdminBoardComments(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    getAdminBoardCommentsResult(state, action: PayloadAction<getAdminBoardCommentsResult>) {
+      state.loadAdminBoardsLoading = false;
+      state.getAdminBoardCommentsResult = action.payload;
     },
     //api res req
     loadAdminBoardsRequest(state) {

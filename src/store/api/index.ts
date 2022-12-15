@@ -84,4 +84,12 @@ export {
   apiCreateQuantroStrategy,
 } from './admin/strategy';
 
-export { apiGetAdminAllBoards } from './admin/boards';
+export {
+  apiGetAdminAllBoards,
+  apiCreateAdminNotice,
+  apiUpdateAdminNotice,
+  apiDeleteAdminBoardComments,
+  apiDeleteAdminBoardDetail,
+  apiGetAdminBoardComments,
+  apiGetAdminBoardDetail,
+} from './admin/boards';
