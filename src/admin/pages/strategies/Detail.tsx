@@ -16,9 +16,13 @@ const Detail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { getAdminStrategyDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
-    getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
-  }));
+  const { getAdminStrategyDetailResult, certifiedStrategyPayload, loadAdminStrategiesDone, loadAdminStrategiesError } =
+    useSelector(({ adminStrategies }: RootState) => ({
+      getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+      certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
+      loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
+      loadAdminStrategiesError: adminStrategies.loadAdminStrategiesError,
+    }));
   useEffect(() => {
     const admin = localStorage.getItem('admin');
     if (!admin) {
@@ -42,12 +46,6 @@ const Detail = () => {
   }, [loadAdminAuthDone]);
 
   useEffect(() => {
-    if (getAdminStrategyDetailResult) {
-      dispatch(adminStrategiesActions.changeContent({ content: getAdminStrategyDetailResult?.content }));
-    }
-  }, [getAdminStrategyDetailResult]);
-
-  useEffect(() => {
     if (router.query.id && router.query.category) {
       if (isAdmin) {
         dispatch(
@@ -60,21 +58,71 @@ const Detail = () => {
     }
   }, [router, isAdmin]);
 
+  // 초기 상태 저장
+  useEffect(() => {
+    if (getAdminStrategyDetailResult) {
+      dispatch(adminStrategiesActions.changeContent({ content: getAdminStrategyDetailResult?.content }));
+    }
+  }, [getAdminStrategyDetailResult]);
+
   //function modal
+  const [isDelete, setIsDelete] = useState(false);
+
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
+  const [fModalBtnTxt, setFModalBtnTxt] = useState('');
   const handleDeleteModalOpen = () => {
     setFModalOpen(true);
+    setFModalMessage('해당 내용을 삭제하시겠습니까?');
+    setFModalBtnTxt('삭제하기');
+    setIsDelete(true);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
   };
 
+  const handleUpdateOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('변경된 내용을 등록하시겠습니까?');
+    setFModalBtnTxt('등록하기');
+    setIsDelete(false);
+  };
+
+  const handleUpdateStrategy = () => {
+    if (router.query.category === 'CERTIFIED_STRATEGY') {
+      dispatch(adminStrategiesActions.updateCertifiedStrategy(certifiedStrategyPayload));
+    }
+  };
+
+  //eventHandler
+  useEffect(() => {
+    if (loadAdminStrategiesError) {
+      alert(loadAdminStrategiesError);
+      return;
+    }
+
+    if (loadAdminStrategiesDone) {
+      if (loadAdminStrategiesDone.message === 'UPDATED') {
+        setFModalOpen(false);
+        dispatch(
+          adminStrategiesActions.getAdminStrategyDetail({
+            id: parseInt(router.query.id as string),
+            category: router.query.category as string,
+          }),
+        );
+      }
+    }
+  }, [loadAdminStrategiesError, loadAdminStrategiesDone]);
+
   return (
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleDeleteModalOpen} />
+          <DetailCommonTop
+            handleDeleteModalOpen={handleDeleteModalOpen}
+            handleUpdate={handleUpdateOpen}
+            handleSubmit={null}
+          />
           {router.query.category === 'CERTIFIED_STRATEGY' && <CertifiedContainer />}
         </BasicContainer>
       </AdminLayout>
@@ -84,10 +132,10 @@ const Detail = () => {
         message={{
           title: fModalMessage,
           description: '',
-          btnTxt: '등록하기',
+          btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={() => alert('임시')}
+        onClick={isDelete ? () => alert('임시') : handleUpdateStrategy}
         onClick2={handleModalClose}
       />
     </>

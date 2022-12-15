@@ -127,7 +127,7 @@ const BannerWrite = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleDeleteModalOpen} />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleDeleteModalOpen} handleUpdate={null} />
           <BannerTop
             onChangeFile={handleChangeBannerImage}
             pcFile={pcFile}

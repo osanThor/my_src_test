@@ -1,7 +1,9 @@
 import colors from '@/src/assets/Colors';
+import { Close } from '@/src/assets/Images';
 import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { Input } from '@mui/material';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -50,6 +52,8 @@ const CertifiedCon = ({
   setPlatForm,
   chartCycle,
   setChartCycle,
+  handleChangeCertifiedField,
+  handleCloseCommunity,
   handleChangeImage,
   filUrl,
 }: {
@@ -62,13 +66,18 @@ const CertifiedCon = ({
   setPlatForm: React.Dispatch<React.SetStateAction<string>>;
   chartCycle: string | null;
   setChartCycle: React.Dispatch<React.SetStateAction<string>>;
+  handleChangeCertifiedField: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCloseCommunity: (url: string) => void;
   handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   filUrl: string | null;
 }) => {
-  const { content, getAdminStrategyDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
-    content: adminStrategies.content,
-    getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
-  }));
+  const { content, getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(
+    ({ adminStrategies }: RootState) => ({
+      content: adminStrategies.content,
+      getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+      certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
+    }),
+  );
 
   const ViewContentsRef = useRef<HTMLDivElement>(null);
 
@@ -113,7 +122,7 @@ const CertifiedCon = ({
           <div className="add_box">
             <CustomSelect options={communityOptions} place={'선택'} setSearchName={setCommuSt} />
             <Input
-              name="symbol"
+              name="url"
               value={commuUrlSt}
               placeholder="커뮤니티 URL을 입력해주세요"
               sx={{ width: '100%', height: '48px', p: 2, mr: '12px', fontFamily: 'GmarketSans' }}
@@ -126,9 +135,12 @@ const CertifiedCon = ({
           {commuArr.length != 0 && (
             <div className="comu_list">
               {commuArr.map((commu) => (
-                <div className="community" key={commu.channel}>
+                <div className="community" key={commu.url}>
                   <div className="icon"></div>
                   {commu.url}
+                  <div className="close_btn" onClick={() => handleCloseCommunity(commu.url)}>
+                    <Image src={Close} alt="close_btn" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -144,6 +156,8 @@ const CertifiedCon = ({
             <Input
               name="symbol"
               placeholder="대상종목을 입력해주세요"
+              onChange={handleChangeCertifiedField}
+              value={certifiedStrategyPayload?.symbol || ''}
               sx={{ width: '100%', height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             />
           </div>
@@ -156,6 +170,8 @@ const CertifiedCon = ({
             <Input
               name="profitPct"
               type="number"
+              value={certifiedStrategyPayload?.profitPct || ''}
+              onChange={handleChangeCertifiedField}
               placeholder="누적 수입률을 입력해주세요"
               sx={{ flex: 1, height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             />
@@ -269,8 +285,8 @@ const CertifiedConBlock = styled.div`
         width: 100%;
         margin-top: 20px;
         .community {
-          width: 50%;
-          padding: 7px 1rem;
+          width: 49%;
+          padding: 7px 2.3rem;
           display: flex;
           align-items: center;
           padding-left: 161px;
@@ -278,6 +294,7 @@ const CertifiedConBlock = styled.div`
           font-size: 14px;
           overflow: hidden;
           text-overflow: ellipsis;
+          position: relative;
           .icon {
             width: 24px;
             min-width: 24px;
@@ -285,6 +302,19 @@ const CertifiedConBlock = styled.div`
             height: 24px;
             border: 1px solid;
             position: relative;
+          }
+          .close_btn {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            background-color: ${colors.dark[0]};
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            border-radius: 50%;
           }
         }
       }

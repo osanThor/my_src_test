@@ -1,16 +1,19 @@
 import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
+import { adminStrategiesActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import CertifiedCon from '../../components/strategies/detail/certified/CertifiedCon';
 import CertifiedTop from '../../components/strategies/detail/certified/CertifiedTop';
 
 const CertifiedContainer = () => {
   const router = useRouter();
-
-  const { getAdminStrategyDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
+  const dispatch = useDispatch();
+  const { getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(({ adminStrategies }: RootState) => ({
     getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+    certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
   }));
 
   const [commuSt, setCommuSt] = useState('');
@@ -22,6 +25,7 @@ const CertifiedContainer = () => {
   const [chartCycle, setChartCycle] = useState('');
   const [filUrl, setfilUrl] = useState('');
   useEffect(() => {
+    setCommuArr([]);
     // confirm state
     if (getAdminStrategyDetailResult?.strategy?.confirmStatus === 'CONFIRMED') {
       setSelectPlace('인증완료');
@@ -50,7 +54,73 @@ const CertifiedContainer = () => {
     } else {
       setChartCycle('선택');
     }
+    //초기 세팅
+    dispatch(
+      adminStrategiesActions.changeCertifiedStarteField({
+        id: parseInt(router.query.id as string),
+        //** 커뮤니티 추가 시 추가 */
+        //** 파일 추가 시 추가 */
+        comminities: getAdminStrategyDetailResult?.strategy?.communities,
+        //** !-- */
+        platform: getAdminStrategyDetailResult?.strategy?.platform,
+        symbol: getAdminStrategyDetailResult?.strategy?.symbol,
+        chartCycle: getAdminStrategyDetailResult?.strategy?.chartCycle,
+        profitPct: getAdminStrategyDetailResult?.strategy?.profitPct,
+        confirmStatus: getAdminStrategyDetailResult?.strategy?.confirmStatus,
+      }),
+    );
+    getAdminStrategyDetailResult?.strategy?.communities?.map((cm) => setCommuArr((com) => [...com, cm]));
   }, [getAdminStrategyDetailResult]);
+  console.log(commuArr);
+  useEffect(() => {
+    if (certifiedStrategyPayload) {
+      //** 커뮤니티 업데이트 되면 추가 */
+      //** csv 파일 업데이트 되면 추가 */
+    }
+  }, [certifiedStrategyPayload]);
+
+  //chagneEvent
+  useEffect(() => {
+    dispatch(
+      adminStrategiesActions.changeCertifiedStarteField({
+        id: parseInt(router.query.id as string),
+        comminities: commuArr,
+        platform,
+        symbol: certifiedStrategyPayload?.symbol,
+        chartCycle,
+        profitPct: certifiedStrategyPayload?.profitPct,
+        confirmStatus: certifiedSt,
+      }),
+    );
+  }, [platform, chartCycle, certifiedSt, commuArr]);
+  const handleChangeCertifiedField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    if (name === 'symbol') {
+      dispatch(
+        adminStrategiesActions.changeCertifiedStarteField({
+          id: parseInt(router.query.id as string),
+          comminities: commuArr,
+          platform,
+          symbol: value,
+          chartCycle,
+          profitPct: certifiedStrategyPayload?.profitPct,
+          confirmStatus: certifiedSt,
+        }),
+      );
+    } else if (name === 'profitPct') {
+      dispatch(
+        adminStrategiesActions.changeCertifiedStarteField({
+          id: parseInt(router.query.id as string),
+          comminities: commuArr,
+          platform,
+          symbol: certifiedStrategyPayload?.symbol,
+          chartCycle,
+          profitPct: parseInt(value as string),
+          confirmStatus: certifiedSt,
+        }),
+      );
+    }
+  };
 
   //file image
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +158,10 @@ const CertifiedContainer = () => {
     setCommuUrlSt('');
     setCommuSt('');
   };
+  //close community
+  const handleCloseCommunity = (url: string) => {
+    setCommuArr(commuArr.filter((cm) => cm.url != url));
+  };
 
   function handleFindSameCommunity(el: { channel: string; url: string }) {
     if (el.channel === commuSt) {
@@ -109,6 +183,8 @@ const CertifiedContainer = () => {
         chartCycle={chartCycle}
         setChartCycle={setChartCycle}
         filUrl={filUrl}
+        handleChangeCertifiedField={handleChangeCertifiedField}
+        handleCloseCommunity={handleCloseCommunity}
         handleChangeImage={handleChangeImage}
       />
     </>

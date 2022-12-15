@@ -28,7 +28,7 @@ export type getAdminStrategiesResult = {
 
 export type certifiedAdminStrategyPayload = {
   id: number | null;
-  comminities: Array<string> | null;
+  comminities: Array<{ channel: string; url: string }> | null;
   platform: string | null;
   symbol: string | null;
   chartCycle: string | null;
@@ -46,6 +46,7 @@ export type getAdminStrategyDetailResult = {
   content: string | null;
   files: [];
   strategy: {
+    communities: Array<{ channel: string | null; url: string | null }> | null;
     platform: string | null;
     symbol: string | null;
     chartCycle: string | null;

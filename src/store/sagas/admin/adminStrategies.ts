@@ -7,12 +7,14 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminStrategiesActions } from '../../reducers';
 import {
+  apiCertifiedAdminStrategy,
   apiCreateQuantroIndicator,
   apiCreateQuantroStrategy,
   apiGetAdminAllStrategies,
   apiGetAdminStrategyDetail,
 } from '../../api';
 import {
+  certifiedAdminStrategyPayload,
   createQuantroIndicatorPayload,
   createQuantroStrategyPayload,
   getAdminStrategiesPayload,
@@ -51,6 +53,23 @@ function* getAllAdminStrategyDetailSaga(action: PayloadAction<getAdminStrategyDe
     yield put(adminStrategiesActions.getAdminStrategyDetailResult(data));
   } catch (error: any) {
     console.error('adminStrategiesSaga getAllAdminStrategiesSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminStrategiesActions.loadAdminStrategiesFailure({ status: { ok: false }, message }));
+  }
+}
+function* updateAdminCertifiedStrategySaga(action: PayloadAction<certifiedAdminStrategyPayload>) {
+  yield put(adminStrategiesActions.loadAdminStrategiesRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminStrategiesResponse> = yield call(apiCertifiedAdminStrategy, action.payload);
+    console.log(data);
+
+    yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
+  } catch (error: any) {
+    console.error('adminStrategiesSaga updateAdminCertifiedStrategySaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -103,6 +122,7 @@ function* watchLoadfile() {
   yield takeLatest(adminStrategiesActions.createQuantroStrategy, createQuantroStrategySaga);
   yield takeLatest(adminStrategiesActions.createQuantroIndicator, createQuantroIndicatorSaga);
   yield takeLatest(adminStrategiesActions.getAdminStrategyDetail, getAllAdminStrategyDetailSaga);
+  yield takeLatest(adminStrategiesActions.updateCertifiedStrategy, updateAdminCertifiedStrategySaga);
 }
 
 export default function* adminStrategiesSaga() {

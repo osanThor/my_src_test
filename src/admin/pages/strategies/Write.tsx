@@ -111,7 +111,7 @@ const WritePublic = () => {
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleSubmitModalOpen} />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleSubmitModalOpen} handleUpdate={null} />
           <StrategyWriteTop />
           {router.query.category === 'PUBLIC' && <PublicWrite />}
           {router.query.category === 'INDICATOR' && <IndicatorWrite />}

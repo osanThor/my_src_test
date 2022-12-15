@@ -16,6 +16,7 @@ import {
   getAdminStrategyDetailResult,
   LoadAdminStrategiesResponse,
   ResponseFailure,
+  certifiedAdminStrategyPayload,
 } from '../../types';
 
 export type AdminStrategiesStateType = {
@@ -27,6 +28,15 @@ export type AdminStrategiesStateType = {
   email: string | null;
   confirmStatus: string | null;
   content: string | null;
+  certifiedStrategyPayload: {
+    id: number | null;
+    comminities: Array<{ channel: string; url: string }> | null;
+    platform: string | null;
+    symbol: string | null;
+    chartCycle: string | null;
+    profitPct: number | null;
+    confirmStatus: string | null;
+  } | null;
   quantroStrategyPayload: {
     category: string | null;
     title: string | null;
@@ -61,6 +71,7 @@ export type AdminStrategiesStateType = {
     content: string | null;
     files: [];
     strategy: {
+      communities: Array<{ channel: string | null; url: string | null }> | null;
       platform: string | null;
       symbol: string | null;
       chartCycle: string | null;
@@ -86,6 +97,7 @@ const initialState: AdminStrategiesStateType = {
   email: '',
   confirmStatus: '',
   content: '',
+  certifiedStrategyPayload: null,
   quantroStrategyPayload: null,
   quantroIndicatorPayload: null,
   getAdminStrategyResult: { total: 0, strategies: null },
@@ -139,8 +151,15 @@ const adminStrategiesSlice = createSlice({
       state.category = action.payload.category;
     },
     getAdminStrategyDetailResult(state, action: PayloadAction<getAdminStrategyDetailResult>) {
-      state.loadAdminStrategiesLoading = true;
+      state.loadAdminStrategiesLoading = false;
       state.getAdminStrategyDetailResult = action.payload;
+    },
+    changeCertifiedStarteField(state, action: PayloadAction<certifiedAdminStrategyPayload>) {
+      state.certifiedStrategyPayload = action.payload;
+    },
+    updateCertifiedStrategy(state, action: PayloadAction<certifiedAdminStrategyPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.certifiedStrategyPayload = action.payload;
     },
     //quantro indicator strategy
     changeQuantroStrategyField(state, action: PayloadAction<createQuantroStrategyPayload>) {
