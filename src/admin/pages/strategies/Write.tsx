@@ -35,7 +35,7 @@ const WritePublic = () => {
   useEffect(() => {
     setIsAdmin(false);
     dispatch(adminStrategiesActions.initializeAdminStrategiesForm());
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {

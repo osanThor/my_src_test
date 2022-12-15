@@ -23,6 +23,7 @@ export type AdminStrategiesStateType = {
   nickname: string | null;
   email: string | null;
   confirmStatus: string | null;
+  content: string | null;
   quantroStrategyPayload: {
     category: string | null;
     title: string | null;
@@ -65,6 +66,7 @@ const initialState: AdminStrategiesStateType = {
   nickname: '',
   email: '',
   confirmStatus: '',
+  content: '',
   quantroStrategyPayload: null,
   quantroIndicatorPayload: null,
   getAdminStrategyResult: { total: 0, strategies: null },
@@ -99,6 +101,9 @@ const adminStrategiesSlice = createSlice({
     },
     changeConfirmStatus(state, action: PayloadAction<changeConfirmStatusPayload>) {
       state.confirmStatus = action.payload.confirmStatus;
+    },
+    changeContent(state, action: PayloadAction<{ content: string | null }>) {
+      state.content = action.payload.content;
     },
     getAllAdminStrategies(state, action: PayloadAction<getAdminStrategiesPayload>) {
       state.loadAdminStrategiesLoading = true;

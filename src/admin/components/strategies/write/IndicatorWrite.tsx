@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import colors from '@/src/assets/Colors';
 import { Input } from '@mui/material';
-import Editor from '../../common/Editor/Editor';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/src/admin/components/common/Editor/Editor'), { ssr: false });
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,8 @@ import { adminStrategiesActions } from '@/src/store/reducers';
 
 const IndicatorWrite = () => {
   const dispatch = useDispatch();
-  const { quantroIndicatorPayload } = useSelector(({ adminStrategies }: RootState) => ({
+  const { content, quantroIndicatorPayload } = useSelector(({ adminStrategies }: RootState) => ({
+    content: adminStrategies.content,
     quantroIndicatorPayload: adminStrategies.quantroIndicatorPayload,
   }));
   const handleChangeTitle = (e: any) => {
@@ -20,15 +21,18 @@ const IndicatorWrite = () => {
       adminStrategiesActions.changeQuantroIndicatorField({
         title: value,
         category: 'QUANTRO_INDICATOR',
-        content: quantroIndicatorPayload?.content,
+        content,
         fileUrls: [],
       }),
     );
   };
 
-  const [contents, setContents] = useState('');
   const handleChangeContents = (val: string) => {
-    setContents(val);
+    dispatch(
+      adminStrategiesActions.changeContent({
+        content: val,
+      }),
+    );
     dispatch(
       adminStrategiesActions.changeQuantroIndicatorField({
         title: quantroIndicatorPayload?.title,
@@ -46,7 +50,7 @@ const IndicatorWrite = () => {
         sx={{ width: '100%', height: '58px', p: 2, fontFamily: 'GmarketSans', mb: '20px' }}
         onChange={handleChangeTitle}
       />
-      <Editor onChange={handleChangeContents} content={contents} />
+      <Editor onChange={handleChangeContents} />
     </IndicatorWriteBlock>
   );
 };
