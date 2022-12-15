@@ -12,11 +12,14 @@ import {
   createQuantroStrategyPayload,
   getAdminStrategiesPayload,
   getAdminStrategiesResult,
+  getAdminStrategyDetailPayload,
+  getAdminStrategyDetailResult,
   LoadAdminStrategiesResponse,
   ResponseFailure,
 } from '../../types';
 
 export type AdminStrategiesStateType = {
+  id: number | null;
   page: number | null;
   category: string | null;
   title: string | null;
@@ -44,6 +47,7 @@ export type AdminStrategiesStateType = {
     total: number | null;
     strategies: Array<{
       board: {
+        id: number | null;
         title: string | null;
         user: { email: string | null; nickname: string | null };
         category: string | null;
@@ -51,6 +55,20 @@ export type AdminStrategiesStateType = {
       };
       confirmStatus: string | null;
     }> | null;
+  } | null;
+  getAdminStrategyDetailResult: {
+    category: string | null;
+    content: string | null;
+    files: [];
+    strategy: {
+      platform: string | null;
+      symbol: string | null;
+      chartCycle: string | null;
+      profitPct: number | null;
+      confirmStatus: string | null;
+    };
+    title: string | null;
+    user: { nickname: string | null };
   } | null;
   loadAdminStrategiesLoading: boolean;
   loadAdminStrategiesDone: {
@@ -60,6 +78,7 @@ export type AdminStrategiesStateType = {
 };
 
 const initialState: AdminStrategiesStateType = {
+  id: 0,
   page: 0,
   category: '',
   title: '',
@@ -70,6 +89,7 @@ const initialState: AdminStrategiesStateType = {
   quantroStrategyPayload: null,
   quantroIndicatorPayload: null,
   getAdminStrategyResult: { total: 0, strategies: null },
+  getAdminStrategyDetailResult: null,
   loadAdminStrategiesLoading: false,
   loadAdminStrategiesDone: null,
   loadAdminStrategiesError: null,
@@ -110,8 +130,17 @@ const adminStrategiesSlice = createSlice({
       state.page = action.payload.page;
     },
     getAllAdminStrategiesResult(state, action: PayloadAction<getAdminStrategiesResult>) {
-      state.loadAdminStrategiesLoading = true;
+      state.loadAdminStrategiesLoading = false;
       state.getAdminStrategyResult = action.payload;
+    },
+    getAdminStrategyDetail(state, action: PayloadAction<getAdminStrategyDetailPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.id = action.payload.id;
+      state.category = action.payload.category;
+    },
+    getAdminStrategyDetailResult(state, action: PayloadAction<getAdminStrategyDetailResult>) {
+      state.loadAdminStrategiesLoading = true;
+      state.getAdminStrategyDetailResult = action.payload;
     },
     //quantro indicator strategy
     changeQuantroStrategyField(state, action: PayloadAction<createQuantroStrategyPayload>) {

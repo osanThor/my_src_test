@@ -16,6 +16,7 @@ export type getAdminStrategiesResult = {
   total: number | null;
   strategies: Array<{
     board: {
+      id: number | null;
       title: string | null;
       user: { email: string | null; nickname: string | null };
       category: string | null;
@@ -34,6 +35,26 @@ export type certifiedAdminStrategyPayload = {
   profitPct: number | null;
   confirmStatus: string | null;
 };
+
+export type getAdminStrategyDetailPayload = {
+  id: number | null;
+  category: string | null;
+};
+
+export type getAdminStrategyDetailResult = {
+  category: string | null;
+  content: string | null;
+  files: [];
+  strategy: {
+    platform: string | null;
+    symbol: string | null;
+    chartCycle: string | null;
+    profitPct: number | null;
+    confirmStatus: string | null;
+  };
+  title: string | null;
+  user: { nickname: string | null };
+} | null;
 
 export type createQuantroStrategyPayload = {
   category: string | null;

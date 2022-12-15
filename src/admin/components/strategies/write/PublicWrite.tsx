@@ -40,7 +40,7 @@ const PublicWrite = () => {
   const [platform, setPlatForm] = useState('');
   const [chartCycle, setChartCycle] = useState('');
   const [filUrl, setfilUrl] = useState('');
-  const handleChangeQuantroStrategyField = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChangeQuantroStrategyField(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     if (name === 'title') {
       dispatch(
@@ -82,7 +82,7 @@ const PublicWrite = () => {
         }),
       );
     }
-  };
+  }
   const handleChangeContents = (val: string) => {
     dispatch(
       adminStrategiesActions.changeContent({

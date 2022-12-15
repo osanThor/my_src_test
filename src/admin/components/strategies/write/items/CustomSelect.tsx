@@ -3,6 +3,7 @@ import { ArrowBottomDark } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const CustomSelect = ({
@@ -14,11 +15,16 @@ const CustomSelect = ({
   place: string;
   setSearchName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCurrentValue(place);
+  }, [place]);
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
@@ -72,7 +78,7 @@ const CustomSelectBox = styled.div`
   max-height: 48px;
   margin-right: 12px;
   width: 100%;
-  min-width: 163px;
+  min-width: 200px;
   flex: 1;
   padding: 12px 16px;
   border-radius: 8px;
