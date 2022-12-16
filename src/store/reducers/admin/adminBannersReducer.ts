@@ -37,7 +37,7 @@ export type AdminBannersStateType = {
     }> | null;
   } | null;
   getBannerDetailResult: {
-    files: Array<{ name: string | null }> | [];
+    files: Array<{ url: string | null }> | [];
     isVisibleMobile: boolean;
     isVisiblePc: boolean;
     position: string | null;

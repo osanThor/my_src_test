@@ -116,8 +116,8 @@ const BannerDetail = () => {
   useEffect(() => {
     if (getBannerDetailResult) {
       if (getBannerDetailResult.files.length != 0) {
-        setPcFile(getBannerDetailResult.files[0]?.name);
-        setBobileFile(getBannerDetailResult.files[1]?.name);
+        setPcFile(getBannerDetailResult.files[0]?.url);
+        setBobileFile(getBannerDetailResult.files[1]?.url);
       }
     }
   }, [getBannerDetailResult]);
