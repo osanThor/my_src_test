@@ -31,7 +31,7 @@ export type getAdminBannersResult = {
   total: number | null;
   banners: Array<{
     createdAt: string | null;
-    files: Array<{ file: string }> | [];
+    files: Array<{ url: string }> | [];
     id: number | null;
     isVisibleMobile: boolean;
     isVisiblePc: boolean;
@@ -40,6 +40,14 @@ export type getAdminBannersResult = {
 } | null;
 
 export type createAdminBannerPayload = {
+  position: string | null;
+  isVisiblePc: boolean;
+  isVisibleMobile: boolean;
+  fileUrlPc: string | null;
+  fileUrlMobile: string | null;
+};
+export type updateAdminBannerPayload = {
+  id: number | null;
   position: string | null;
   isVisiblePc: boolean;
   isVisibleMobile: boolean;

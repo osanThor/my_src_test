@@ -12,6 +12,7 @@ import {
   getAdminBannersResult,
   LoadAdminBannersResponse,
   ResponseFailure,
+  updateAdminBannerPayload,
 } from '../../types';
 
 export type AdminBannersStateType = {
@@ -28,7 +29,7 @@ export type AdminBannersStateType = {
     total: number | null;
     banners: Array<{
       createdAt: string | null;
-      files: Array<{ file: string }> | [];
+      files: Array<{ url: string }> | [];
       id: number | null;
       isVisibleMobile: boolean;
       isVisiblePc: boolean;
@@ -108,6 +109,19 @@ const adminBannersSlice = createSlice({
       state.fileUrlMobile = action.payload.fileUrlMobile;
       state.isVisiblePc = action.payload.isVisiblePc;
       state.isVisibleMobile = action.payload.isVisibleMobile;
+    },
+    updateAdminBanner(state, action: PayloadAction<updateAdminBannerPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.id = action.payload.id;
+      state.position = action.payload.position;
+      state.fileUrlPc = action.payload.fileUrlPc;
+      state.fileUrlMobile = action.payload.fileUrlMobile;
+      state.isVisiblePc = action.payload.isVisiblePc;
+      state.isVisibleMobile = action.payload.isVisibleMobile;
+    },
+    deleteAdminBanner(state, action: PayloadAction<getAdminBannerDetailPayload>) {
+      state.loadAdminBannersLoading = true;
+      state.id = action.payload.id;
     },
     //api res req
     loadAdminBannersRequest(state) {

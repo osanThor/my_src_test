@@ -19,11 +19,14 @@ const BannerDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { id, loadAdminBannersLoading, getBannerDetailResult } = useSelector(({ adminBanners }: RootState) => ({
-    id: adminBanners.id,
-    loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
-    getBannerDetailResult: adminBanners.getBannerDetailResult,
-  }));
+  const { id, loadAdminBannersLoading, getBannerDetailResult, loadAdminBannersDone, loadAdminBannersError } =
+    useSelector(({ adminBanners }: RootState) => ({
+      id: adminBanners.id,
+      loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
+      loadAdminBannersDone: adminBanners.loadAdminBannersDone,
+      loadAdminBannersError: adminBanners.loadAdminBannersError,
+      getBannerDetailResult: adminBanners.getBannerDetailResult,
+    }));
   //admin auth
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -57,11 +60,25 @@ const BannerDetail = () => {
 
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
+  const [fModalMessage, setFModalMessage] = useState('');
+  const [fModalBtnTxt, setFModalBtnTxt] = useState('');
+
+  const [isUpdate, setIsUpdate] = useState(false);
   const handleDeleteModalOpen = () => {
     setFModalOpen(true);
+    setFModalMessage('해당 배너를 삭제하시겠습니까?');
+    setFModalBtnTxt('삭제하기');
+    setIsUpdate(false);
+  };
+  const handleUpdateModalOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('변경 사항을 등록하시겠습니까?');
+    setFModalBtnTxt('등록하기');
+    setIsUpdate(true);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
+    setIsUpdate(false);
   };
 
   const [position, setPosition] = useState('');
@@ -145,6 +162,25 @@ const BannerDetail = () => {
     }
   };
 
+  useEffect(() => {
+    if (loadAdminBannersError) {
+      alert(loadAdminBannersError);
+      return;
+    }
+
+    if (loadAdminBannersDone) {
+      if (loadAdminBannersDone.message === 'UPDATED') {
+        alert('수정이 완료되었어요');
+        setFModalOpen(false);
+        dispatch(adminBannersActions.getAdminBannerDetail({ id: parseInt(router.query.id as string) }));
+      }
+      if (loadAdminBannersDone.message === 'DELETED') {
+        alert('삭제가 완료되었어요');
+        router.back();
+      }
+    }
+  }, [loadAdminBannersDone, loadAdminBannersError]);
+
   return (
     <>
       <AdminLayout>
@@ -152,9 +188,7 @@ const BannerDetail = () => {
           <DetailCommonTop
             handleDeleteModalOpen={handleDeleteModalOpen}
             handleSubmit={null}
-            handleUpdate={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            handleUpdate={handleUpdateModalOpen}
           />
           <BannerTop
             onChangeFile={handleChangeBannerImage}
@@ -175,12 +209,26 @@ const BannerDetail = () => {
         open={fModalOpen}
         onClose={handleModalClose}
         message={{
-          title: '해당 배너를 삭제하시겠습니까?',
+          title: fModalMessage,
           description: '',
-          btnTxt: '삭제하기',
+          btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={() => alert('임시')}
+        onClick={
+          isUpdate
+            ? () =>
+                dispatch(
+                  adminBannersActions.updateAdminBanner({
+                    id: parseInt(router.query.id as string),
+                    position,
+                    isVisiblePc: isVisPc,
+                    isVisibleMobile: isVisMobile,
+                    fileUrlPc: pcFile,
+                    fileUrlMobile: mobileFile,
+                  }),
+                )
+            : () => alert('삭제')
+        }
         onClick2={handleModalClose}
       />
       {loadAdminBannersLoading && <Loading />}

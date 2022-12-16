@@ -33,7 +33,9 @@ const BannersList = () => {
             onClick={() => router.push(`/admin/banners/banner?id=${banner.id}&edit=true`)}
           >
             <div className="td">{banner.id}</div>
-            <div className="td profile">배너이미지</div>
+            <div className="td profile">
+              {banner?.files.length != 0 ? <img src={banner?.files[0].url} alt="banner iamge" /> : 'NO IMAGE'}
+            </div>
             <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
             <div className="td">{banner.position}</div>
             <div className="td">
@@ -67,6 +69,11 @@ const BannersListBlock = styled.div`
     }
     &:nth-child(2) {
       flex: 1;
+      img {
+        max-width: 100%;
+        max-height: 300px;
+      }
+
       &.profile {
         display: flex;
         .profile_Image {

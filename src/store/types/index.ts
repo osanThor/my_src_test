@@ -96,6 +96,7 @@ export type {
   changeBannerPositionPayload,
   changeIsAllSubscribePayload,
   getAdminBannerDetailPayload,
+  updateAdminBannerPayload,
   getAdminBannerDetailResult,
   LoadAdminBannersResponse,
 } from './admin/adminBanners';
