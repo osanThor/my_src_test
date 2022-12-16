@@ -32,7 +32,11 @@ const BoardsList = () => {
           <div
             className="tr"
             key={boards?.id}
-            onClick={() => router.push(`/admin/boards/board?id=${boards.id}&category=${boards.category}&edit=true`)}
+            onClick={
+              boards?.category === 'NOTICE'
+                ? () => router.push(`/admin/boards/notice?id=${boards.id}&category=${boards.category}&edit=true`)
+                : () => router.push(`/admin/boards/board?id=${boards.id}&category=${boards.category}&edit=true`)
+            }
           >
             <div className="td">{boards?.id}</div>
             <div className="td">{boards?.title}</div>

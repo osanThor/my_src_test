@@ -14,6 +14,8 @@ import {
   ResponseFailure,
   getAdminBoardDetailResult,
   deleteAdminBoardCommentPayload,
+  updateAdminNoticePayload,
+  createAdminNoticePayload,
 } from '../../types';
 
 export type AdminBoardsStateType = {
@@ -97,6 +99,17 @@ export type AdminBoardsStateType = {
         user: { nickname: string; photoUrl: string | null };
       }[]
     | [];
+  createAdminNotice: {
+    title: string | null;
+    content: string | null;
+    targetCategory: Array<string> | null;
+  } | null;
+  updateAdminNotice: {
+    boardId: number | null;
+    title: string | null;
+    content: string | null;
+    targetCategory: Array<string> | null;
+  } | null;
   loadAdminBoardsLoading: boolean;
   loadAdminBoardsDone: {
     message: string | undefined;
@@ -114,6 +127,8 @@ const initialState: AdminBoardsStateType = {
   getAdminAllBoardsResult: { total: 0, boards: [] },
   getAdminBoardDetailResult: null,
   getAdminBoardCommentsResult: null,
+  createAdminNotice: null,
+  updateAdminNotice: null,
   loadAdminBoardsLoading: false,
   loadAdminBoardsDone: null,
   loadAdminBoardsError: null,
@@ -174,6 +189,17 @@ const adminBoardsSlice = createSlice({
     deleteAdminComment(state, action: PayloadAction<deleteAdminBoardCommentPayload>) {
       state.loadAdminBoardsLoading = true;
       state.commentId = action.payload.commentId;
+    },
+    changeAdminNoticeField(state, action: PayloadAction<createAdminNoticePayload>) {
+      state.createAdminNotice = action.payload;
+    },
+    updateAdminNotice(state, action: PayloadAction<updateAdminNoticePayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.updateAdminNotice = action.payload;
+    },
+    createAdminNotice(state, action: PayloadAction<createAdminNoticePayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.createAdminNotice = action.payload;
     },
     //api res req
     loadAdminBoardsRequest(state) {

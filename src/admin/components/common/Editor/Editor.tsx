@@ -29,9 +29,30 @@ interface IEditor {
 const Editor: React.FC<IEditor> = ({ onChange }) => {
   const router = useRouter();
   const quillRef = React.useRef(null);
-  const { content } = useSelector(({ adminStrategies }: RootState) => ({
-    content: adminStrategies.content,
+  const { strateContent } = useSelector(({ adminStrategies }: RootState) => ({
+    strateContent: adminStrategies.content,
   }));
+  const { baordContent } = useSelector(({ adminBoards }: RootState) => ({
+    baordContent: adminBoards.createAdminNotice?.content,
+  }));
+
+  const [isStrategy, setIsStrategy] = React.useState(false);
+  const [isBoard, setIsBoard] = React.useState(false);
+
+  React.useEffect(() => {
+    if (router.pathname === '/admin/strategies/write' || router.pathname === '/admin/strategies/strategy') {
+      setIsStrategy(true);
+    } else {
+      setIsStrategy(false);
+    }
+
+    if (router.pathname === '/admin/boards/write_notice' || router.pathname === '/admin/boards/notice') {
+      setIsBoard(true);
+    } else {
+      setIsBoard(false);
+    }
+  }, [router]);
+
   // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
   const imageHandler = () => {
     // file input 임의 생성
@@ -106,15 +127,28 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
 
   return (
     <EditorContainer>
-      <CustomReactQuill
-        ref={quillRef}
-        theme="snow"
-        modules={modules}
-        formats={formats}
-        value={content}
-        placeholder="내용을 입력하세요."
-        onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
-      />
+      {isStrategy && (
+        <CustomReactQuill
+          ref={quillRef}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={strateContent}
+          placeholder="내용을 입력하세요."
+          onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
+        />
+      )}
+      {isBoard && (
+        <CustomReactQuill
+          ref={quillRef}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={baordContent}
+          placeholder="내용을 입력하세요."
+          onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
+        />
+      )}
     </EditorContainer>
   );
 };

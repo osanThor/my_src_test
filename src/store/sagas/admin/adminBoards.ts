@@ -7,11 +7,13 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminBoardsActions } from '../../reducers';
 import {
+  createAdminNoticePayload,
   deleteAdminBoardCommentPayload,
   GetAdminAllBoardsPayload,
   GetAdminAllBoardsResult,
   GetAdminBoardDetailPayload,
   LoadAdminBoardsResponse,
+  updateAdminNoticePayload,
 } from '../../types';
 
 // api
@@ -21,6 +23,8 @@ import {
   apiGetAdminBoardComments,
   apiDeleteAdminBoardDetail,
   apiDeleteAdminBoardComments,
+  apiCreateAdminNotice,
+  apiUpdateAdminNotice,
 } from './../../api';
 // admin get all boards
 function* getAdminAllBoardsSaga(action: PayloadAction<GetAdminAllBoardsPayload>) {
@@ -111,6 +115,42 @@ function* deleteAdminCommentSaga(action: PayloadAction<deleteAdminBoardCommentPa
     yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
   }
 }
+//create Notice
+function* createAdminNoticeSaga(action: PayloadAction<createAdminNoticePayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiCreateAdminNotice, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga createAdminNoticeSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//update Notice
+function* updateAdminNoticeSaga(action: PayloadAction<updateAdminNoticePayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiUpdateAdminNotice, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga updateAdminNoticeSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(adminBoardsActions.getAdminAllBoards, getAdminAllBoardsSaga);
@@ -118,6 +158,8 @@ function* watchLoadfile() {
   yield takeLatest(adminBoardsActions.getAdminBoardComments, getAdminBoardCommentsSaga);
   yield takeLatest(adminBoardsActions.deleteAdminBoard, deleteAdminBoardSaga);
   yield takeLatest(adminBoardsActions.deleteAdminComment, deleteAdminCommentSaga);
+  yield takeLatest(adminBoardsActions.createAdminNotice, createAdminNoticeSaga);
+  yield takeLatest(adminBoardsActions.updateAdminNotice, updateAdminNoticeSaga);
 }
 
 export default function* adminBoardsSaga() {

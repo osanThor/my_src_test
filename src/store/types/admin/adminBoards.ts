@@ -67,13 +67,13 @@ export type getAdminBoardCommentsResult =
 export type createAdminNoticePayload = {
   title: string | null;
   content: string | null;
-  targetCategory: string | null;
+  targetCategory: Array<string> | null;
 };
 export type updateAdminNoticePayload = {
   boardId: number | null;
   title: string | null;
   content: string | null;
-  targetCategory: string | null;
+  targetCategory: Array<string> | null;
 };
 export type GetAdminAllBoardsResult = {
   total: number | null;
