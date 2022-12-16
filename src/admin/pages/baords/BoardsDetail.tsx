@@ -93,22 +93,27 @@ const BoardsDetail = () => {
       return;
     }
 
-    if (loadAdminAuthDone) {
-      if (loadAdminAuthDone.message === 'DELETED') {
+    if (loadAdminBoardsDone) {
+      if (loadAdminBoardsDone.message === 'DELETED') {
         alert('삭제가 완료되었습니다.');
-        dispatch(
-          adminBoardsActions.getAdminBoardDetail({
-            boardId: parseInt(router.query.id as string),
-          }),
-        );
-        dispatch(
-          adminBoardsActions.getAdminBoardComments({
-            boardId: parseInt(router.query.id as string),
-          }),
-        );
+        setFModalOpen(false);
+        if (isComment) {
+          dispatch(
+            adminBoardsActions.getAdminBoardDetail({
+              boardId: parseInt(router.query.id as string),
+            }),
+          );
+          dispatch(
+            adminBoardsActions.getAdminBoardComments({
+              boardId: parseInt(router.query.id as string),
+            }),
+          );
+        } else {
+          router.back();
+        }
       }
     }
-  }, [loadAdminBoardsError, loadAdminAuthDone]);
+  }, [loadAdminBoardsError, loadAdminBoardsDone]);
 
   return (
     <>

@@ -4,8 +4,7 @@ import { adminBoardsActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import BoardContents from '../../components/boards/detail/BoardContents';
-import BoardTop from '../../components/boards/detail/BoardTop';
+import WriteNoticeCon from '../../components/boards/write/WriteNoticeCon';
 import CommentsLayout from '../../components/common/Comments/CommentsLayout';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import AdminLayout from '../../layouts/AdminLayout';
@@ -17,10 +16,14 @@ const BoardsNotice = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { loadAdminBoardsError, loadAdminBoardsDone } = useSelector(({ adminBoards }: RootState) => ({
-    loadAdminBoardsError: adminBoards.loadAdminBoardsError,
-    loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
-  }));
+  const { loadAdminBoardsError, loadAdminBoardsDone, getAdminBoardDetailResult, createAdminNotice } = useSelector(
+    ({ adminBoards }: RootState) => ({
+      loadAdminBoardsError: adminBoards.loadAdminBoardsError,
+      loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
+      getAdminBoardDetailResult: adminBoards.getAdminBoardDetailResult,
+      createAdminNotice: adminBoards.createAdminNotice,
+    }),
+  );
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -58,6 +61,21 @@ const BoardsNotice = () => {
       );
     }
   }, [router, isAdmin]);
+
+  useEffect(() => {
+    if (getAdminBoardDetailResult) {
+      if (getAdminBoardDetailResult?.title) {
+        dispatch(
+          adminBoardsActions.changeAdminNoticeField({
+            title: getAdminBoardDetailResult?.title,
+            content: getAdminBoardDetailResult?.content,
+            // targetCategory 내려주면 수정
+            targetCategory: [],
+          }),
+        );
+      }
+    }
+  }, [getAdminBoardDetailResult]);
   //function modal
   const [isComment, setisComment] = useState(false);
 
@@ -69,6 +87,7 @@ const BoardsNotice = () => {
     setFModalMessage('해당 내용을 삭제하시겠습니까?');
     setFModalBtnTxt('삭제하기');
     setisComment(false);
+    setIsUpdate(false);
   };
   const [commentId, setCommentId] = useState(0);
   const handleDeleteComments = (id: number | null) => {
@@ -77,14 +96,23 @@ const BoardsNotice = () => {
     setFModalBtnTxt('삭제하기');
     setisComment(true);
     setCommentId(id);
+    setIsUpdate(false);
+  };
+
+  const [isUpdate, setIsUpdate] = useState(false);
+  const handleOpenUpdate = () => {
+    setFModalOpen(true);
+    setFModalMessage('변경된 내용을 등록하시겠습니까?');
+    setFModalBtnTxt('등록하기');
+    setisComment(false);
+    setIsUpdate(true);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
     setisComment(false);
     setCommentId(0);
+    setIsUpdate(false);
   };
-  console.log(isComment);
-  console.log(commentId);
 
   //event handler
   useEffect(() => {
@@ -93,9 +121,27 @@ const BoardsNotice = () => {
       return;
     }
 
-    if (loadAdminAuthDone) {
-      if (loadAdminAuthDone.message === 'DELETED') {
+    if (loadAdminBoardsDone) {
+      if (loadAdminBoardsDone.message === 'DELETED') {
         alert('삭제가 완료되었습니다.');
+        setFModalOpen(false);
+        if (isComment) {
+          dispatch(
+            adminBoardsActions.getAdminBoardDetail({
+              boardId: parseInt(router.query.id as string),
+            }),
+          );
+          dispatch(
+            adminBoardsActions.getAdminBoardComments({
+              boardId: parseInt(router.query.id as string),
+            }),
+          );
+        } else {
+          router.back();
+        }
+      }
+      if (loadAdminBoardsDone.message === 'DELETED') {
+        alert('업데이트 되었습니다');
         dispatch(
           adminBoardsActions.getAdminBoardDetail({
             boardId: parseInt(router.query.id as string),
@@ -108,15 +154,34 @@ const BoardsNotice = () => {
         );
       }
     }
-  }, [loadAdminBoardsError, loadAdminAuthDone]);
-
+  }, [loadAdminBoardsError, loadAdminBoardsDone]);
+  const handleDelete = () => {
+    if (isComment) {
+      dispatch(adminBoardsActions.deleteAdminComment({ commentId }));
+    } else {
+      dispatch(adminBoardsActions.deleteAdminBoard({ boardId: parseInt(router.query.id as string) }));
+    }
+  };
+  const handleUpdate = () => {
+    dispatch(
+      adminBoardsActions.updateAdminNotice({
+        boardId: parseInt(router.query.id as string),
+        title: createAdminNotice?.title,
+        content: createAdminNotice?.content,
+        targetCategory: createAdminNotice?.targetCategory,
+      }),
+    );
+  };
   return (
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={handleDeleteModalOpen} handleUpdate={null} handleSubmit={null} />
-          <BoardTop />
-          <BoardContents handleSetBoardLike={() => alert('사용자 권한이 필요합니다.')} />
+          <DetailCommonTop
+            handleDeleteModalOpen={handleDeleteModalOpen}
+            handleUpdate={handleOpenUpdate}
+            handleSubmit={null}
+          />
+          <WriteNoticeCon />
           <CommentsLayout handleOpenDleteComment={handleDeleteComments} />
         </BasicContainer>
       </AdminLayout>
@@ -129,11 +194,7 @@ const BoardsNotice = () => {
           btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={
-          isComment
-            ? () => dispatch(adminBoardsActions.deleteAdminComment({ commentId }))
-            : () => dispatch(adminBoardsActions.deleteAdminBoard({ boardId: parseInt(router.query.id as string) }))
-        }
+        onClick={isUpdate ? handleUpdate : handleDelete}
         onClick2={handleModalClose}
       />
     </>

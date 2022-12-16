@@ -81,8 +81,8 @@ const BoardsWriteNotice = () => {
     }
 
     if (loadAdminBoardsDone) {
-      if (loadAdminBoardsDone.message === 'DELETED') {
-        alert('삭제가 완료되었습니다.');
+      if (loadAdminBoardsDone.message === 'CREATED') {
+        alert('공지 등록이 완료되었어요.');
         router.back();
       }
     }
