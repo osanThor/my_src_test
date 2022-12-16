@@ -33,6 +33,10 @@ const CustomSelect = ({
     { value: 'user', txt: '전략가명' },
     { value: 'title', txt: '제목' },
   ];
+  const inquiryOptions = [
+    { value: 'nickname', txt: '전략가명' },
+    { value: 'title', txt: '제목' },
+  ];
 
   useEffect(() => {
     setCurrentValue('선택');
@@ -92,6 +96,16 @@ const CustomSelect = ({
         {router.pathname === '/admin/boards' && (
           <>
             {boardOptions.map((opt) => (
+              <Option key={opt.value} onClick={handleOnChangeSelectValue}>
+                <input type="hidden" value={opt.value} />
+                {opt.txt}
+              </Option>
+            ))}
+          </>
+        )}
+        {router.query.state === 'inquiry' && (
+          <>
+            {inquiryOptions.map((opt) => (
               <Option key={opt.value} onClick={handleOnChangeSelectValue}>
                 <input type="hidden" value={opt.value} />
                 {opt.txt}

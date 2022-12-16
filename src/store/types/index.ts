@@ -157,4 +157,5 @@ export type {
   GetAdminAllInquiriesResult,
   GetAdminInquiryDetailPayload,
   GetAdminInquiryDetailResult,
+  changeIsWaitPayload,
 } from './admin/adminCustomers';

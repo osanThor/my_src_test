@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   changeGroupPayload,
+  changeIsWaitPayload,
+  changeNicknamePayload,
   changePagePayload,
+  changeTitle,
   CreateAdminGuidePayload,
   GetAdminAllGuidesPayload,
   GetAdminAllGuidesResult,
@@ -27,9 +30,32 @@ export type AdminCustomersStateType = {
   nickname: string | null;
   title: string | null;
   isWait: string | null;
-  getGuidesResult: { total: number | null; guides: Array<any> | [] };
+  getGuidesResult: {
+    total: number | null;
+    groups:
+      | Array<{
+          content: string | null;
+          createdAt: string | null;
+          group: string | null;
+          id: number | null;
+          isVisible: boolean;
+          title: string | null;
+        }>
+      | [];
+  };
   getGuideDetailResult: any;
-  getInquiriesResult: { total: number | null; inquiries: Array<any> | [] };
+  getInquiriesResult: {
+    total: number | null;
+    inquiries:
+      | Array<{
+          answer: { id: number | null };
+          createdAt: string | null;
+          id: number | null;
+          title: string | null;
+          user: { nickname: string | null; email: string | null };
+        }>
+      | [];
+  } | null;
   getInquiryDetailResult: any;
   createGuide: {
     group: string | null;
@@ -60,7 +86,7 @@ const initialState: AdminCustomersStateType = {
   nickname: '',
   title: '',
   isWait: '',
-  getGuidesResult: { total: 0, guides: [] },
+  getGuidesResult: { total: 0, groups: [] },
   getGuideDetailResult: null,
   getInquiriesResult: { total: 0, inquiries: [] },
   getInquiryDetailResult: null,
@@ -85,6 +111,15 @@ const adminCustomersSlice = createSlice({
     },
     changeGroup(state, action: PayloadAction<changeGroupPayload>) {
       state.group = action.payload.group;
+    },
+    changeNickname(state, action: PayloadAction<changeNicknamePayload>) {
+      state.nickname = action.payload.nickname;
+    },
+    changeTitle(state, action: PayloadAction<changeTitle>) {
+      state.title = action.payload.title;
+    },
+    changeIsWait(state, action: PayloadAction<changeIsWaitPayload>) {
+      state.isWait = action.payload.isWait;
     },
     getAdminAllGuides(state, action: PayloadAction<GetAdminAllGuidesPayload>) {
       state.loadAdminCustomersLoading = true;
