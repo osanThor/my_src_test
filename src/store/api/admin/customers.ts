@@ -4,6 +4,7 @@ import {
   GetAdminAllGuidesPayload,
   GetAdminAllInquiriesPayload,
   GetAdminGuideDetailPayload,
+  GetAdminInquiryDetailPayload,
   UpdateAdminGuidePayload,
 } from '../../types';
 
@@ -22,3 +23,6 @@ export const apiUpdateAdminGuide = ({ id, group, title, content, isVisible }: Up
 // Get admin all inquiries
 export const apiGetAdminAllInquiries = ({ page, nickname, title, isWait }: GetAdminAllInquiriesPayload) =>
   axiosInstance.get(`/admin/customers/inquiries?page=${page}&nickname=${nickname}&title=${title}&isWait=${isWait}`);
+// Get admin inquiries detaul
+export const apiGetAdminInquiryDetail = ({ inquiryId }: GetAdminInquiryDetailPayload) =>
+  axiosInstance.get(`/admin/customers/inquiries/${inquiryId}`);

@@ -17,6 +17,7 @@ import adminUsersReducer, { AdminUsersStateType } from './admin/adminUsersReduce
 import adminBannersReducer, { AdminBannersStateType } from './admin/adminBannersReducer';
 import adminStrategiesReducer, { AdminStrategiesStateType } from './admin/adminStrategiesReducer';
 import adminBoardsReducer, { AdminBoardsStateType } from './admin/adminBoardsReducer';
+import adminCustomersReducer, { AdminCustomersStateType } from './admin/adminCustomersReducer';
 
 // actions
 export { authActions } from './authReducer';
@@ -33,6 +34,7 @@ export { adminUsersActions } from './admin/adminUsersReducer';
 export { adminBannersActions } from './admin/adminBannersReducer';
 export { adminStrategiesActions } from './admin/adminStrategiesReducer';
 export { adminBoardsActions } from './admin/adminBoardsReducer';
+export { adminCustomersActions } from './admin/adminCustomersReducer';
 
 type ReducerState = {
   auth: AuthStateType;
@@ -49,6 +51,7 @@ type ReducerState = {
   adminBanners: AdminBannersStateType;
   adminStrategies: AdminStrategiesStateType;
   adminBoards: AdminBoardsStateType;
+  adminCustomers: AdminCustomersStateType;
 };
 
 // 원래 "rootReducer"로 합쳐줄 필요 없이 "configureStore()"에서 합칠 수 있지만 "HYDRATE"를 위해서 사용
@@ -77,6 +80,7 @@ const rootReducer = (state: any, action: AnyAction): CombinedState<ReducerState>
         adminBanners: adminBannersReducer,
         adminStrategies: adminStrategiesReducer,
         adminBoards: adminBoardsReducer,
+        adminCustomers: adminCustomersReducer,
       })(state, action);
   }
 };

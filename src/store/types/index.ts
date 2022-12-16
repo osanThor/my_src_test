@@ -151,4 +151,10 @@ export type {
   GetAdminGuideDetailPayload,
   UpdateAdminGuidePayload,
   GetAdminAllInquiriesPayload,
+  changeGroupPayload,
+  GetAdminAllGuidesResult,
+  GetAdminGuideDetailResult,
+  GetAdminAllInquiriesResult,
+  GetAdminInquiryDetailPayload,
+  GetAdminInquiryDetailResult,
 } from './admin/adminCustomers';
