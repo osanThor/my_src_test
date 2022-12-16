@@ -21,6 +21,7 @@ import {
 } from '../../types';
 import {
   apiCreateAdminGuide,
+  apiDeleteAdminGuide,
   apiGetAdminAllGuides,
   apiGetAdminAllInquiries,
   apiGetAdminGuideDetail,
@@ -101,6 +102,24 @@ function* updateAdminGuideSaga(action: PayloadAction<UpdateAdminGuidePayload>) {
     yield put(adminCustomersActions.loadAdminCustomersFailure({ status: { ok: false }, message }));
   }
 }
+// admin delete Guide detail
+function* deleteAdminGuideSaga(action: PayloadAction<UpdateAdminGuidePayload>) {
+  yield put(adminCustomersActions.loadAdminCustomersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminCustomersResponse> = yield call(apiDeleteAdminGuide, action.payload);
+    console.log(data);
+
+    yield put(adminCustomersActions.loadAdminCustomersSuccess(data));
+  } catch (error: any) {
+    console.error('adminCustomersSaga deleteAdminGuideSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminCustomersActions.loadAdminCustomersFailure({ status: { ok: false }, message }));
+  }
+}
 // admin get all inquiries
 function* getAdminAllInquiriesSaga(action: PayloadAction<GetAdminAllInquiriesPayload>) {
   yield put(adminCustomersActions.loadAdminCustomersRequest());
@@ -145,6 +164,7 @@ function* watchLoadfile() {
   yield takeLatest(adminCustomersActions.updateAdminGuideDetail, updateAdminGuideSaga);
   yield takeLatest(adminCustomersActions.getAdminAllInquiries, getAdminAllInquiriesSaga);
   yield takeLatest(adminCustomersActions.getAdminInquiryDetail, getAdminInquiryDetailSaga);
+  yield takeLatest(adminCustomersActions.deleteAdminGuideDetail, deleteAdminGuideSaga);
 }
 
 export default function* adminCustomersSaga() {

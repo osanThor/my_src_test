@@ -25,7 +25,14 @@ export type CreateAdminGuidePayload = {
 export type GetAdminGuideDetailPayload = {
   guideId: number | null;
 } | null;
-export type GetAdminGuideDetailResult = any;
+export type GetAdminGuideDetailResult = {
+  content: string | null;
+  createdAt: string | null;
+  group: string | null;
+  id: number | null;
+  isVisible: boolean;
+  title: string | null;
+} | null;
 export type UpdateAdminGuidePayload = {
   guideId: number | null;
   group: string | null;

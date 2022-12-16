@@ -43,7 +43,14 @@ export type AdminCustomersStateType = {
         }>
       | [];
   };
-  getGuideDetailResult: any;
+  getGuideDetailResult: {
+    content: string | null;
+    createdAt: string | null;
+    group: string | null;
+    id: number | null;
+    isVisible: boolean;
+    title: string | null;
+  } | null;
   getInquiriesResult: {
     total: number | null;
     inquiries:
@@ -148,6 +155,10 @@ const adminCustomersSlice = createSlice({
     updateAdminGuideDetail(state, action: PayloadAction<UpdateAdminGuidePayload>) {
       state.loadAdminCustomersLoading = true;
       state.UpdateGuide = action.payload;
+    },
+    deleteAdminGuideDetail(state, action: PayloadAction<GetAdminGuideDetailPayload>) {
+      state.loadAdminCustomersLoading = true;
+      state.guideId = action.payload.guideId;
     },
     getAdminAllInquiries(state, action: PayloadAction<GetAdminAllInquiriesPayload>) {
       state.loadAdminCustomersLoading = true;

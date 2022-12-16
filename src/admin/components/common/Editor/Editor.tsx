@@ -54,7 +54,7 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
       setIsBoard(false);
     }
 
-    if (router.pathname === '/admin/customers/write_guide') {
+    if (router.pathname === '/admin/customers/write_guide' || router.pathname == '/admin/customers/guide') {
       setIsGuide(true);
     } else {
       setIsGuide(false);
