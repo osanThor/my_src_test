@@ -1,6 +1,7 @@
 import { axiosInstance } from '..';
 import {
   CreateAdminGuidePayload,
+  CreateAdminInquiryAnswerPayload,
   GetAdminAllGuidesPayload,
   GetAdminAllInquiriesPayload,
   GetAdminGuideDetailPayload,
@@ -17,12 +18,21 @@ export const apiCreateAdminGuide = ({ group, title, content, isVisible }: Create
 // Get admin guide detail
 export const apiGetAdminGuideDetail = ({ guideId }: GetAdminGuideDetailPayload) =>
   axiosInstance.get(`/admin/customers/guides/${guideId}`);
-// Get admin guide detail
-export const apiUpdateAdminGuide = ({ id, group, title, content, isVisible }: UpdateAdminGuidePayload) =>
-  axiosInstance.post(`/admin/customers/guides/${id}`, { group, title, content, isVisible });
+// update admin guide detail
+export const apiUpdateAdminGuide = ({ guideId, group, title, content, isVisible }: UpdateAdminGuidePayload) =>
+  axiosInstance.put(`/admin/customers/guides/${guideId}`, { group, title, content, isVisible });
+// delete admin guide detail
+export const apiDeleteAdminGuide = ({ guideId }: GetAdminGuideDetailPayload) =>
+  axiosInstance.delete(`/admin/customers/guides/${guideId}`);
 // Get admin all inquiries
 export const apiGetAdminAllInquiries = ({ page, nickname, title, isWait }: GetAdminAllInquiriesPayload) =>
   axiosInstance.get(`/admin/customers/inquiries?page=${page}&nickname=${nickname}&title=${title}&isWait=${isWait}`);
 // Get admin inquiries detaul
 export const apiGetAdminInquiryDetail = ({ inquiryId }: GetAdminInquiryDetailPayload) =>
   axiosInstance.get(`/admin/customers/inquiries/${inquiryId}`);
+//delete admin inquiries detaul
+export const apiDeleteAdminInquiryDetail = ({ inquiryId }: GetAdminInquiryDetailPayload) =>
+  axiosInstance.delete(`/admin/customers/inquiries/${inquiryId}`);
+//create answer admin inquiries detaul
+export const apiCreateAdminInquiryAnswer = ({ inquiryId, content }: CreateAdminInquiryAnswerPayload) =>
+  axiosInstance.post(`/admin/customers/inquiries/${inquiryId}`, { content });

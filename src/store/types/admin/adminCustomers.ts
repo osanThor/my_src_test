@@ -27,7 +27,7 @@ export type GetAdminGuideDetailPayload = {
 } | null;
 export type GetAdminGuideDetailResult = any;
 export type UpdateAdminGuidePayload = {
-  id: number | null;
+  guideId: number | null;
   group: string | null;
   title: string | null;
   content: string | null;
@@ -54,6 +54,10 @@ export type GetAdminAllInquiriesResult = {
 } | null;
 export type GetAdminInquiryDetailPayload = {
   inquiryId: number | null;
+} | null;
+export type CreateAdminInquiryAnswerPayload = {
+  inquiryId: number | null;
+  content: string | null;
 } | null;
 export type GetAdminInquiryDetailResult = any;
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
 import {
   AlignCenter,
   AlignLeft,
@@ -35,9 +34,12 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
   const { baordContent } = useSelector(({ adminBoards }: RootState) => ({
     baordContent: adminBoards.createAdminNotice?.content,
   }));
-
+  const { guideContent } = useSelector(({ adminCustomers }: RootState) => ({
+    guideContent: adminCustomers.createGuide?.content,
+  }));
   const [isStrategy, setIsStrategy] = React.useState(false);
   const [isBoard, setIsBoard] = React.useState(false);
+  const [isGuide, setIsGuide] = React.useState(false);
 
   React.useEffect(() => {
     if (router.pathname === '/admin/strategies/write' || router.pathname === '/admin/strategies/strategy') {
@@ -50,6 +52,12 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
       setIsBoard(true);
     } else {
       setIsBoard(false);
+    }
+
+    if (router.pathname === '/admin/customers/write_guide') {
+      setIsGuide(true);
+    } else {
+      setIsGuide(false);
     }
   }, [router]);
 
@@ -145,6 +153,17 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
           modules={modules}
           formats={formats}
           value={baordContent}
+          placeholder="내용을 입력하세요."
+          onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
+        />
+      )}
+      {isGuide && (
+        <CustomReactQuill
+          ref={quillRef}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={guideContent}
           placeholder="내용을 입력하세요."
           onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
         />

@@ -64,7 +64,7 @@ export type AdminCustomersStateType = {
     isVisible: boolean;
   } | null;
   UpdateGuide: {
-    id: number | null;
+    guideId: number | null;
     group: string | null;
     title: string | null;
     content: string | null;
@@ -137,6 +137,9 @@ const adminCustomersSlice = createSlice({
     getAdminGuideDetailResult(state, action: PayloadAction<GetAdminGuideDetailResult>) {
       state.loadAdminCustomersLoading = false;
       state.getGuideDetailResult = action.payload;
+    },
+    changeAdminGuideField(state, action: PayloadAction<CreateAdminGuidePayload>) {
+      state.createGuide = action.payload;
     },
     createAdminGuideDetail(state, action: PayloadAction<CreateAdminGuidePayload>) {
       state.loadAdminCustomersLoading = true;

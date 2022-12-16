@@ -101,4 +101,7 @@ export {
   apiGetAdminGuideDetail,
   apiUpdateAdminGuide,
   apiGetAdminInquiryDetail,
+  apiCreateAdminInquiryAnswer,
+  apiDeleteAdminGuide,
+  apiDeleteAdminInquiryDetail,
 } from './admin/customers';
