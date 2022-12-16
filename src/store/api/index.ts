@@ -93,3 +93,11 @@ export {
   apiGetAdminBoardComments,
   apiGetAdminBoardDetail,
 } from './admin/boards';
+
+export {
+  apiCreateAdminGuide,
+  apiGetAdminAllGuides,
+  apiGetAdminAllInquiries,
+  apiGetAdminGuideDetail,
+  apiUpdateAdminGuide,
+} from './admin/customers';

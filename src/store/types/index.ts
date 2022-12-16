@@ -143,3 +143,12 @@ export type {
   updateAdminNoticePayload,
   getAdminBoardCommentsResult,
 } from './admin/adminBoards';
+
+export type {
+  GetAdminAllGuidesPayload,
+  CreateAdminGuidePayload,
+  LoadAdminCustomersResponse,
+  GetAdminGuideDetailPayload,
+  UpdateAdminGuidePayload,
+  GetAdminAllInquiriesPayload,
+} from './admin/adminCustomers';
