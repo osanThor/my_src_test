@@ -90,9 +90,13 @@ export type { adminLoginPayload, LoadAdminAuthResponse } from './admin/adminAuth
 export type {
   getAdminBannersPayload,
   getAdminSubscripbePlatformPayload,
+  changePagePayload,
   createAdminBannerPayload,
   getAdminBannersResult,
+  changeBannerPositionPayload,
+  changeIsAllSubscribePayload,
   getAdminBannerDetailPayload,
+  updateAdminBannerPayload,
   getAdminBannerDetailResult,
   LoadAdminBannersResponse,
 } from './admin/adminBanners';
@@ -112,8 +116,49 @@ export type {
   changeEmailPayload,
   changeGradePayload,
   changeNicknamePayload,
-  changePagePayload,
   changeSnsTypePayload,
   changelicensePackagePayload,
   LoadAdminUsersResponse,
+  updateAdminUserPayload,
 } from './admin/adminUser';
+
+export type {
+  getAdminStrategiesPayload,
+  certifiedAdminStrategyPayload,
+  getAdminStrategiesResult,
+  changeConfirmStatusPayload,
+  LoadAdminStrategiesResponse,
+  createQuantroStrategyPayload,
+  createQuantroIndicatorPayload,
+  getAdminStrategyDetailPayload,
+  getAdminStrategyDetailResult,
+} from './admin/adminStrategy';
+
+export type {
+  GetAdminAllBoardsPayload,
+  GetAdminBoardDetailPayload,
+  deleteAdminBoardCommentPayload,
+  getAdminBoardDetailResult,
+  GetAdminAllBoardsResult,
+  LoadAdminBoardsResponse,
+  createAdminNoticePayload,
+  updateAdminNoticePayload,
+  getAdminBoardCommentsResult,
+} from './admin/adminBoards';
+
+export type {
+  GetAdminAllGuidesPayload,
+  CreateAdminGuidePayload,
+  LoadAdminCustomersResponse,
+  GetAdminGuideDetailPayload,
+  UpdateAdminGuidePayload,
+  GetAdminAllInquiriesPayload,
+  changeGroupPayload,
+  GetAdminAllGuidesResult,
+  GetAdminGuideDetailResult,
+  GetAdminAllInquiriesResult,
+  GetAdminInquiryDetailPayload,
+  GetAdminInquiryDetailResult,
+  changeIsWaitPayload,
+  CreateAdminInquiryAnswerPayload,
+} from './admin/adminCustomers';

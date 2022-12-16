@@ -4,6 +4,8 @@ import {
   adminTelegramUsersNotice,
   adminUserDetailPayload,
   getAdminUsersPayload,
+  LoadAdminUsersResponse,
+  updateAdminUserPayload,
 } from '../../types';
 
 // get admin All user list
@@ -16,6 +18,15 @@ export const apiGetAdminUsers = ({ page, snsType, email, grade, licensePackage, 
 
 //get admin User detail
 export const apiGetAdminUserDetail = ({ email }: adminUserDetailPayload) => axiosInstance.get(`/admin/users/${email}`);
+
+//update admin User
+export const apiUpdateAdminUser = ({ email, nickname, introduction, grade, depositStatus }: updateAdminUserPayload) =>
+  axiosInstance.put<LoadAdminUsersResponse>(`/admin/users/${email}`, {
+    nickname,
+    introduction,
+    grade,
+    depositStatus,
+  });
 
 //get admin User delete
 export const apiDeleteAdminUser = ({ email }: adminUserDetailPayload) => axiosInstance.delete(`/admin/users/${email}`);

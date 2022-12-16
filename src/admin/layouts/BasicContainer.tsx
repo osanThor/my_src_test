@@ -13,8 +13,15 @@ const BasicContainerBlock = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   .title {
     color: ${colors.gray[5]};
+    height: 38px;
     margin-bottom: 1rem;
+    font-size: 1.25rem;
     font-family: 'GmarketSansBold';
+    & > button {
+      min-height: auto;
+      height: 38px;
+      border-radius: 8px;
+    }
   }
 `;
 

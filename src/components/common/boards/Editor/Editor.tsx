@@ -282,7 +282,7 @@ const EditorContainer = styled.div`
     }
   }
   .ql-toolbar.ql-snow + .ql-container.ql-snow {
-    border-top: 1px solid ${colors.blue[2]};
+    border-top: 1px solid ${colors.blue[2]} !important;
   }
   .ql-container {
     width: 100%;

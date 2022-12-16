@@ -16,19 +16,40 @@ const BoardSearchLayout = ({ name, value, children }: { name: string; value: str
       alert('값을 입력 해주세요');
       return;
     }
-    if (name === 'licensePackage') {
-      if (value != 'BASIC' && value != 'REGULAR' && value != 'PREMIUM') {
-        alert('등록된 패키지 검색값은 "BASIC, REGULAR, PREMIUM"만 가능해요');
-        return;
+    if (router.pathname === '/admin/users') {
+      if (name === 'licensePackage') {
+        if (value != 'BASIC' && value != 'REGULAR' && value != 'PREMIUM') {
+          alert('등록된 패키지 검색값은 "BASIC, REGULAR, PREMIUM"만 가능해요');
+          return;
+        }
+      }
+      if (name === 'grade') {
+        if (value != 'STRATEGIST' && value != 'NORMAL') {
+          alert('상태 검색값은 "NORMAL, STRATEGIST"만 가능해요');
+          return;
+        }
+      }
+      router.push(`/admin/users?page=1&${name}=${value}`);
+    }
+    if (router.pathname === '/admin/strategies') {
+      if (name === 'confirmStatus') {
+        if (value != 'REQUEST' && value != 'CHECKING' && value != 'CONFIRMED') {
+          alert('전략 상태 검색값은 "REQUEST, CHECKING, CONFIRMED"만 가능해요');
+          return;
+        }
+      }
+      router.push(`/admin/strategies?page=1&${name}=${value}`);
+    }
+    if (router.pathname === '/admin/boards') {
+      router.push(`/admin/boards?page=1&${name}=${value}`);
+    }
+    if ((router.query.state = 'inquiry')) {
+      if (router.query.isWait) {
+        router.push(`/admin/customers?state=inquiry&page=1&isWait=true&${name}=${value}`);
+      } else {
+        router.push(`/admin/customers?state=inquiry&page=1&${name}=${value}`);
       }
     }
-    if (name === 'grade') {
-      if (value != 'STRATEGIST' && value != 'NORMAL') {
-        alert('상태 검색값은 "NORMAL, STRATEGIST"만 가능해요');
-        return;
-      }
-    }
-    router.push(`/admin/users?page=1&${name}=${value}`);
   };
   return (
     <BoardSearchLayoutBLock className="search_form">

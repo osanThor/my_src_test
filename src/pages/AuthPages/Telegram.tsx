@@ -40,6 +40,11 @@ const Telegram: NextPage = () => {
       setMoMessage('텔레그램 사용자명를 찾을 수 없어요');
       setMoSt(true);
       return;
+    } else if (loadUserDone === 'ALREADY_EXIST') {
+      setMoOpen(true);
+      setMoMessage('이미 등록된 텔레그램 사용자명이에요');
+      setMoSt(true);
+      return;
     } else if (loadUserDone === 'CHANGED') {
       setMoOpen(true);
       setMoMessage('텔레그램이 연동되었어요~! 텔레그램 환영메세지를 확인해주세요.');

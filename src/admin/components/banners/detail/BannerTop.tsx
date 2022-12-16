@@ -1,33 +1,43 @@
 import colors from '@/src/assets/Colors';
-import { WebHook } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { Radio, RadioGroup } from '@mui/material';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CustomSelect from './items/CustomSelect';
 
-const BannerTop = () => {
+const BannerTop = ({
+  pcFile,
+  onChangeFile,
+  isVisPc,
+  onChangeVisible,
+  setPosition,
+}: {
+  pcFile: string | null;
+  onChangeFile: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  isVisPc: boolean;
+  onChangeVisible: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setPosition: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { getBannerDetailResult } = useSelector(({ adminBanners }: RootState) => ({
     getBannerDetailResult: adminBanners.getBannerDetailResult,
   }));
-  const [pcFileName, setPcFileName] = useState('');
-  const [position, setPosition] = useState('');
+
   return (
     <BannerTopBlock>
       <div className="title">배너상세</div>
       <div className="pc_banner_image">
-        <Image src={WebHook[0]} alt="pc_banner_image" layout="intrinsic" />
+        {pcFile ? <img src={pcFile} alt="pc_banner_image" /> : '이미지를 선택해주세요'}
       </div>
       <div className="pc_banner_crtl">
         <div className="ctrl_con">
           <div className="title">이미지 등록</div>
           <label>
-            <input name="file2" type="file" accept=".gif, .jpg, .png" />
+            <input name="fileUrlPc" type="file" accept=".gif, .jpg, .png" onChange={onChangeFile} />
             <span className="file_button">파일 선택</span>
           </label>
-          <span className="fileName">{pcFileName ? pcFileName : '선택된 파일 없음'}</span>
+          <span className="fileName">{pcFile ? pcFile : '선택된 파일 없음'}</span>
         </div>
         <div className="ctrl_con">
           <div className="title">노출 위치</div>
@@ -37,11 +47,11 @@ const BannerTop = () => {
           <div className="title">노출 여부</div>
           <RadioGroup style={{ display: 'flex', flexWrap: 'nowrap', flexDirection: 'row' }}>
             <label>
-              <Radio name="isVisiblePc" value={true} checked={getBannerDetailResult?.isVisiblePc} />
+              <Radio name="isVisiblePc" value={'true'} checked={isVisPc} onChange={onChangeVisible} />
               노출
             </label>
             <label>
-              <Radio name="isVisiblePc" value={false} checked={!getBannerDetailResult?.isVisiblePc} />
+              <Radio name="isVisiblePc" value={'false'} checked={!isVisPc} onChange={onChangeVisible} />
               미노출
             </label>
           </RadioGroup>
@@ -78,6 +88,7 @@ const BannerTopBlock = styled.div`
     .ctrl_con {
       width: 49%;
       min-width: 542px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       padding: 12px 0;
@@ -89,7 +100,9 @@ const BannerTopBlock = styled.div`
         width: 100px;
         color: ${colors.gray[5]};
         margin: 0;
+        height: auto;
         margin-right: 1rem;
+        font-size: 1rem;
       }
       label {
         margin-right: 1rem;
@@ -115,6 +128,10 @@ const BannerTopBlock = styled.div`
   .fileName {
     color: ${colors.gray[2]};
     flex: 1;
+    white-space: nowrap;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 

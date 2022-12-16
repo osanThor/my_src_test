@@ -74,11 +74,34 @@ export {
   apiSendAdminUserMessage,
 } from './admin/user';
 
+export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';
+
 export {
-  apiCreateAdminBanner,
-  apiGetAdminAllBanners,
-  apiGetAdminBannerDetail,
-  apiGetAdminMainBanners,
-  apiGetAdminSubscribeBanners,
-  apiGetAdminSubscribeByPlatformBanners,
-} from './admin/banners';
+  apiGetAdminAllStrategies,
+  apiGetAdminStrategyDetail,
+  apiCertifiedAdminStrategy,
+  apiCreateQuantroIndicator,
+  apiCreateQuantroStrategy,
+} from './admin/strategy';
+
+export {
+  apiGetAdminAllBoards,
+  apiCreateAdminNotice,
+  apiUpdateAdminNotice,
+  apiDeleteAdminBoardComments,
+  apiDeleteAdminBoardDetail,
+  apiGetAdminBoardComments,
+  apiGetAdminBoardDetail,
+} from './admin/boards';
+
+export {
+  apiCreateAdminGuide,
+  apiGetAdminAllGuides,
+  apiGetAdminAllInquiries,
+  apiGetAdminGuideDetail,
+  apiUpdateAdminGuide,
+  apiGetAdminInquiryDetail,
+  apiCreateAdminInquiryAnswer,
+  apiDeleteAdminGuide,
+  apiDeleteAdminInquiryDetail,
+} from './admin/customers';

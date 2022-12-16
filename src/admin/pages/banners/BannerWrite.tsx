@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import { useDispatch } from 'react-redux';
 import BasicContainer from '../../layouts/BasicContainer';
-import { adminBannersActions, adminUsersActions } from '@/src/store/reducers';
+import { adminBannersActions } from '@/src/store/reducers';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { useRouter } from 'next/router';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
-import UserDetailBox from '../../components/user/detail/UserDetailBox';
-import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
 import FuncModal from '@/src/components/common/modals/FuncModal';
 import Loading from '@/src/components/common/Loading';
-import AcountTable from '../../components/user/detail/AcountTable';
 import BannerTop from '../../components/banners/detail/BannerTop';
 import BannerBottom from '../../components/banners/detail/BannerBottom';
+import { axiosInstance } from '@/src/store/api';
 
 const BannerWrite = () => {
   const dispatch = useDispatch();
@@ -21,10 +19,13 @@ const BannerWrite = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { id, loadAdminBannersLoading } = useSelector(({ adminBanners }: RootState) => ({
-    id: adminBanners.id,
-    loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
-  }));
+  const { loadAdminBannersLoading, loadAdminBannersDone, loadAdminBannersError } = useSelector(
+    ({ adminBanners }: RootState) => ({
+      loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
+      loadAdminBannersDone: adminBanners.loadAdminBannersDone,
+      loadAdminBannersError: adminBanners.loadAdminBannersError,
+    }),
+  );
   //admin auth
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -48,42 +49,129 @@ const BannerWrite = () => {
     }
   }, [loadAdminAuthDone]);
 
-  useEffect(() => {
-    if (router.query.id) {
-      if (isAdmin) {
-        dispatch(adminBannersActions.getAdminBannerDetail({ id: parseInt(router.query.id as string) }));
-      }
-    }
-  }, [router, isAdmin]);
-
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
-  const handleDeleteModalOpen = () => {
+  const handleSubmitModalOpen = () => {
+    if (!position) {
+      alert('노출 위치를 설정해주세요!');
+      return;
+    } else if (!pcFile) {
+      alert('PC 파일을 등록해주세요!');
+      return;
+    } else if (!mobileFile) {
+      alert('Mobile 파일을 등록해주세요!');
+      return;
+    }
     setFModalOpen(true);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
   };
 
+  const [position, setPosition] = useState('');
+  const [pcFile, setPcFile] = useState('');
+  const [mobileFile, setBobileFile] = useState('');
+  const [isVisPc, setIsVisPc] = useState(false);
+  const [isVisMobile, setIsVisMobile] = useState(false);
+
+  const handleChangeBannerImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files, name } = e.target;
+    const formData = new FormData();
+
+    if (files.length === 0) {
+      return;
+    } else {
+      formData.append('files', files[0]);
+    }
+    const res = await axiosInstance.post(`/admin/uploads/files?zone=BANNER`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(res);
+    if (res) {
+      if (name === 'fileUrlPc') {
+        setPcFile(res.data.urls[0]);
+      } else if (name === 'fileUrlMobile') {
+        setBobileFile(res.data.urls[0]);
+      }
+    }
+  };
+
+  const handleChangeIsVisble = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'isVisiblePc') {
+      if (value === 'true') {
+        setIsVisPc(true);
+      } else {
+        setIsVisPc(false);
+      }
+    } else if (name === 'isVisibleMobile') {
+      if (value === 'true') {
+        setIsVisMobile(true);
+      } else {
+        setIsVisMobile(false);
+      }
+    }
+  };
+
+  const handleSubmitBanner = () => {
+    dispatch(
+      adminBannersActions.createAdminBanner({
+        position,
+        fileUrlPc: pcFile,
+        fileUrlMobile: mobileFile,
+        isVisiblePc: isVisPc,
+        isVisibleMobile: isVisMobile,
+      }),
+    );
+  };
+
+  //event handler
+  useEffect(() => {
+    if (loadAdminBannersError) {
+      alert(loadAdminBannersError);
+      return;
+    }
+
+    if (loadAdminBannersDone) {
+      if (loadAdminBannersDone.message === 'CREATED') {
+        alert('배너 등록이 완료되었어요');
+        router.back();
+      }
+    }
+  }, [loadAdminBannersDone, loadAdminBannersError]);
+
   return (
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={() => alert('저장')} />
-          <BannerTop />
-          <BannerBottom />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleSubmitModalOpen} handleUpdate={null} />
+          <BannerTop
+            onChangeFile={handleChangeBannerImage}
+            pcFile={pcFile}
+            isVisPc={isVisPc}
+            onChangeVisible={handleChangeIsVisble}
+            setPosition={setPosition}
+          />
+          <BannerBottom
+            onChangeFile={handleChangeBannerImage}
+            mobileFile={mobileFile}
+            isVisMobile={isVisMobile}
+            onChangeVisible={handleChangeIsVisble}
+          />
         </BasicContainer>
       </AdminLayout>
       <FuncModal
         open={fModalOpen}
         onClose={handleModalClose}
         message={{
-          title: '해당 배너를 삭제하시겠습니까?',
+          title: '해당 배너를 등록하시겠습니까?',
           description: '',
-          btnTxt: '삭제하기',
+          btnTxt: '등록하기',
         }}
         dubBtn={true}
-        onClick={() => alert('임시')}
+        onClick={handleSubmitBanner}
         onClick2={handleModalClose}
       />
       {loadAdminBannersLoading && <Loading />}

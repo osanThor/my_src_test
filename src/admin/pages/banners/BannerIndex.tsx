@@ -47,17 +47,53 @@ const BannersIndex = () => {
         dispatch(
           adminBannersActions.getAdminAllBanners({
             page,
+            bannerPosition: '',
+            isAllSubscribe: '',
           }),
         );
       } else if (router.query.zone === 'MAIN') {
-        dispatch(adminBannersActions.getAdminMainBanners({ page }));
+        dispatch(
+          adminBannersActions.getAdminAllBanners({
+            page,
+            bannerPosition: 'MAIN',
+            isAllSubscribe: '',
+          }),
+        );
       } else if (router.query.zone === 'SUBSCRIBE') {
         if (!router.query.sub) {
-          dispatch(adminBannersActions.getAdminSubScribeBanners({ page }));
-        } else if (router.query.sub) {
           dispatch(
-            adminBannersActions.getAdminSubScribeByPlatformBanners({ platform: router.query.sub as string, page }),
+            adminBannersActions.getAdminAllBanners({
+              page,
+              bannerPosition: '',
+              isAllSubscribe: true,
+            }),
           );
+        } else if (router.query.sub) {
+          if (router.query.sub === 'BYBIT') {
+            dispatch(
+              adminBannersActions.getAdminAllBanners({
+                page,
+                bannerPosition: 'SUBSCRIBE_BYBIT',
+                isAllSubscribe: '',
+              }),
+            );
+          } else if (router.query.sub === 'BINANCE') {
+            dispatch(
+              adminBannersActions.getAdminAllBanners({
+                page,
+                bannerPosition: 'SUBSCRIBE_BINANCE',
+                isAllSubscribe: '',
+              }),
+            );
+          } else if (router.query.sub === 'BITGET') {
+            dispatch(
+              adminBannersActions.getAdminAllBanners({
+                page,
+                bannerPosition: 'SUBSCRIBE_BITGET',
+                isAllSubscribe: '',
+              }),
+            );
+          }
         }
       }
 
