@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CommentsList from './CommentsList';
 
-const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
+const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: (id: number | null) => void }) => {
   const dispatch = useDispatch();
   const { getAdminBoardCommentsResult } = useSelector(({ adminBoards }: RootState) => ({
     getAdminBoardCommentsResult: adminBoards.getAdminBoardCommentsResult,

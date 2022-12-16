@@ -19,9 +19,13 @@ const BannerWrite = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { loadAdminBannersLoading } = useSelector(({ adminBanners }: RootState) => ({
-    loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
-  }));
+  const { loadAdminBannersLoading, loadAdminBannersDone, loadAdminBannersError } = useSelector(
+    ({ adminBanners }: RootState) => ({
+      loadAdminBannersLoading: adminBanners.loadAdminBannersLoading,
+      loadAdminBannersDone: adminBanners.loadAdminBannersDone,
+      loadAdminBannersError: adminBanners.loadAdminBannersError,
+    }),
+  );
   //admin auth
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -47,7 +51,17 @@ const BannerWrite = () => {
 
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
-  const handleDeleteModalOpen = () => {
+  const handleSubmitModalOpen = () => {
+    if (!position) {
+      alert('노출 위치를 설정해주세요!');
+      return;
+    } else if (!pcFile) {
+      alert('PC 파일을 등록해주세요!');
+      return;
+    } else if (!mobileFile) {
+      alert('Mobile 파일을 등록해주세요!');
+      return;
+    }
     setFModalOpen(true);
   };
   const handleModalClose = () => {
@@ -102,16 +116,6 @@ const BannerWrite = () => {
   };
 
   const handleSubmitBanner = () => {
-    if (!position) {
-      alert('노출 위치를 설정해주세요!');
-      return;
-    } else if (!pcFile) {
-      alert('PC 파일을 등록해주세요!');
-      return;
-    } else if (!mobileFile) {
-      alert('Mobile 파일을 등록해주세요!');
-      return;
-    }
     dispatch(
       adminBannersActions.createAdminBanner({
         position,
@@ -123,11 +127,26 @@ const BannerWrite = () => {
     );
   };
 
+  //event handler
+  useEffect(() => {
+    if (loadAdminBannersError) {
+      alert(loadAdminBannersError);
+      return;
+    }
+
+    if (loadAdminBannersDone) {
+      if (loadAdminBannersDone.message === 'CREATED') {
+        alert('배너 등록이 완료되었어요');
+        router.back();
+      }
+    }
+  }, [loadAdminBannersDone, loadAdminBannersError]);
+
   return (
     <>
       <AdminLayout>
         <BasicContainer>
-          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleDeleteModalOpen} handleUpdate={null} />
+          <DetailCommonTop handleDeleteModalOpen={null} handleSubmit={handleSubmitModalOpen} handleUpdate={null} />
           <BannerTop
             onChangeFile={handleChangeBannerImage}
             pcFile={pcFile}

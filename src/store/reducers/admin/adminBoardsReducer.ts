@@ -13,6 +13,9 @@ import {
   LoadAdminBoardsResponse,
   ResponseFailure,
   getAdminBoardDetailResult,
+  deleteAdminBoardCommentPayload,
+  updateAdminNoticePayload,
+  createAdminNoticePayload,
 } from '../../types';
 
 export type AdminBoardsStateType = {
@@ -21,6 +24,7 @@ export type AdminBoardsStateType = {
   title: string | null;
   user: string | null;
   boardId: number | null;
+  commentId: number | null;
   getAdminAllBoardsResult: {
     total: number | null;
     boards: Array<{
@@ -95,6 +99,17 @@ export type AdminBoardsStateType = {
         user: { nickname: string; photoUrl: string | null };
       }[]
     | [];
+  createAdminNotice: {
+    title: string | null;
+    content: string | null;
+    targetCategory: Array<string> | null;
+  } | null;
+  updateAdminNotice: {
+    boardId: number | null;
+    title: string | null;
+    content: string | null;
+    targetCategory: Array<string> | null;
+  } | null;
   loadAdminBoardsLoading: boolean;
   loadAdminBoardsDone: {
     message: string | undefined;
@@ -108,9 +123,12 @@ const initialState: AdminBoardsStateType = {
   title: '',
   user: '',
   boardId: 0,
+  commentId: 0,
   getAdminAllBoardsResult: { total: 0, boards: [] },
   getAdminBoardDetailResult: null,
   getAdminBoardCommentsResult: null,
+  createAdminNotice: null,
+  updateAdminNotice: null,
   loadAdminBoardsLoading: false,
   loadAdminBoardsDone: null,
   loadAdminBoardsError: null,
@@ -163,6 +181,25 @@ const adminBoardsSlice = createSlice({
     getAdminBoardCommentsResult(state, action: PayloadAction<getAdminBoardCommentsResult>) {
       state.loadAdminBoardsLoading = false;
       state.getAdminBoardCommentsResult = action.payload;
+    },
+    deleteAdminBoard(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    deleteAdminComment(state, action: PayloadAction<deleteAdminBoardCommentPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.commentId = action.payload.commentId;
+    },
+    changeAdminNoticeField(state, action: PayloadAction<createAdminNoticePayload>) {
+      state.createAdminNotice = action.payload;
+    },
+    updateAdminNotice(state, action: PayloadAction<updateAdminNoticePayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.updateAdminNotice = action.payload;
+    },
+    createAdminNotice(state, action: PayloadAction<createAdminNoticePayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.createAdminNotice = action.payload;
     },
     //api res req
     loadAdminBoardsRequest(state) {

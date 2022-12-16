@@ -24,6 +24,18 @@ export type getAdminUsersResult = {
 export type adminUserDetailPayload = {
   email: string | null;
 };
+export type updateAdminUserPayload = {
+  email: string | null;
+  nickname: string | null;
+  introduction: string | null;
+  grade: string | null;
+  package: {
+    licensePackage: string | null;
+    startedAt: string | null;
+    endedAt: string | null;
+  } | null;
+  depositStatus: string | null;
+};
 export type getAdminUserDetailResult = {
   photoUrl: string | null;
   email: string | null;

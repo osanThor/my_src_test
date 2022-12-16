@@ -96,6 +96,7 @@ export type {
   changeBannerPositionPayload,
   changeIsAllSubscribePayload,
   getAdminBannerDetailPayload,
+  updateAdminBannerPayload,
   getAdminBannerDetailResult,
   LoadAdminBannersResponse,
 } from './admin/adminBanners';
@@ -118,6 +119,7 @@ export type {
   changeSnsTypePayload,
   changelicensePackagePayload,
   LoadAdminUsersResponse,
+  updateAdminUserPayload,
 } from './admin/adminUser';
 
 export type {
@@ -143,3 +145,20 @@ export type {
   updateAdminNoticePayload,
   getAdminBoardCommentsResult,
 } from './admin/adminBoards';
+
+export type {
+  GetAdminAllGuidesPayload,
+  CreateAdminGuidePayload,
+  LoadAdminCustomersResponse,
+  GetAdminGuideDetailPayload,
+  UpdateAdminGuidePayload,
+  GetAdminAllInquiriesPayload,
+  changeGroupPayload,
+  GetAdminAllGuidesResult,
+  GetAdminGuideDetailResult,
+  GetAdminAllInquiriesResult,
+  GetAdminInquiryDetailPayload,
+  GetAdminInquiryDetailResult,
+  changeIsWaitPayload,
+  CreateAdminInquiryAnswerPayload,
+} from './admin/adminCustomers';

@@ -7,39 +7,35 @@ import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const BannersList = () => {
+const CustomersList = () => {
   const router = useRouter();
-  const { getBannersResult, page } = useSelector(({ adminBanners }: RootState) => ({
-    getBannersResult: adminBanners.getBannersResult,
-    page: adminBanners.page,
+  const { getGuidesResult, page } = useSelector(({ adminCustomers }: RootState) => ({
+    getGuidesResult: adminCustomers.getGuidesResult,
+    page: adminCustomers.page,
   }));
-  const { total } = getBannersResult;
+  const { total } = getGuidesResult;
   return (
-    <BannersListBlock>
+    <CustomersListBlock>
       <div className="user_list_header">
         <div className="th">
           <div className="td">NO</div>
-          <div className="td">썸네일 이미지(PC)</div>
-          <div className="td">노출 여부</div>
-          <div className="td">노출 위치</div>
+          <div className="td">질문</div>
+          <div className="td">구분</div>
           <div className="td">등록일</div>
         </div>
       </div>
       <div className="user_list">
-        {getBannersResult?.banners?.map((banner) => (
+        {getGuidesResult?.groups?.map((gruop) => (
           <div
             className="tr"
-            key={banner.id}
-            onClick={() => router.push(`/admin/banners/banner?id=${banner.id}&edit=true`)}
+            key={gruop.id}
+            onClick={() => router.push(`/admin/customers/guide?id=${gruop.id}&edit=true`)}
           >
-            <div className="td">{banner.id}</div>
-            <div className="td profile">
-              {banner?.files.length != 0 ? <img src={banner?.files[0].url} alt="banner iamge" /> : 'NO IMAGE'}
-            </div>
-            <div className="td">{banner.isVisiblePc ? '노출' : '미노출'}</div>
-            <div className="td">{banner.position}</div>
+            <div className="td">{gruop.id}</div>
+            <div className="td">{gruop.title}</div>
+            <div className="td">{gruop?.group}</div>
             <div className="td">
-              <Moment format="YYYY.MM.DD">{banner.createdAt}</Moment>
+              <Moment format="YYYY.MM.DD">{gruop?.createdAt}</Moment>
             </div>
           </div>
         ))}
@@ -47,10 +43,10 @@ const BannersList = () => {
       <div className="bottom">
         <Pagination total={total} page={page} />
       </div>
-    </BannersListBlock>
+    </CustomersListBlock>
   );
 };
-const BannersListBlock = styled.div`
+const CustomersListBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -69,30 +65,11 @@ const BannersListBlock = styled.div`
     }
     &:nth-child(2) {
       flex: 1;
-      img {
-        max-width: 100%;
-        max-height: 300px;
-      }
-
-      &.profile {
-        display: flex;
-        .profile_Image {
-          width: 56px;
-          min-width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          overflow: hidden;
-          position: relative;
-          margin-right: 1rem;
-          border: 1px solid ${colors.gray[1]};
-        }
-        .profile_info {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      justify-content: flex-start;
+      padding-left: 2rem;
     }
     &:nth-child(3) {
       width: 20%;
@@ -149,4 +126,4 @@ const BannersListBlock = styled.div`
   }
 `;
 
-export default BannersList;
+export default CustomersList;

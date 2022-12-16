@@ -19,7 +19,9 @@ const BoardsTop = () => {
     <BoardsTopBlock>
       <div className="title">
         커뮤니티 관리
-        <Button blue>공지사항 등록</Button>
+        <Button blue onClick={() => router.push('/admin/boards/write_notice')}>
+          공지사항 등록
+        </Button>
       </div>
       <div className="boardTop">
         <div className="admin_tab">

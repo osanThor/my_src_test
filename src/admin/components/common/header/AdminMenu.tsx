@@ -79,11 +79,11 @@ const AdminMenu = ({ open }: { open: boolean }) => {
             </div>
             <div className={router.pathname === '/admin/boards' ? 'menu_txt on' : 'menu_txt'}>커뮤니티관리</div>
           </div>
-          <div className="menu">
+          <div className="menu" onClick={() => router.push('/admin/customers?state=guide')}>
             <div className="menu_icon">
-              <Image src={Menu5[0]} alt="menu" />
+              <Image src={router.pathname === '/admin/customers' ? Menu5[1] : Menu5[0]} alt="menu" />
             </div>
-            <div className="menu_txt">고객센터</div>
+            <div className={router.pathname === '/admin/customers' ? 'menu_txt on' : 'menu_txt'}>고객센터</div>
           </div>
         </div>
         <div className="logout" onClick={handleAdminLogout}>

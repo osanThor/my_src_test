@@ -4,6 +4,7 @@ import {
   getAdminBannerDetailPayload,
   getAdminBannersPayload,
   getAdminSubscripbePlatformPayload,
+  updateAdminBannerPayload,
 } from '../../types';
 
 // get admin all banners
@@ -27,3 +28,14 @@ export const apiCreateAdminBanner = ({
 //get banner detail
 export const apiGetAdminBannerDetail = ({ id }: getAdminBannerDetailPayload) =>
   axiosInstance.get(`/admin/banners/${id}`);
+
+// create admin banner
+export const apiUpdateAdminBanner = ({
+  id,
+  position,
+  isVisibleMobile,
+  isVisiblePc,
+  fileUrlMobile,
+  fileUrlPc,
+}: updateAdminBannerPayload) =>
+  axiosInstance.put(`/admin/banners/${id}`, { position, isVisibleMobile, isVisiblePc, fileUrlMobile, fileUrlPc });

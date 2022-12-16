@@ -7,14 +7,25 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminBoardsActions } from '../../reducers';
 import {
+  createAdminNoticePayload,
+  deleteAdminBoardCommentPayload,
   GetAdminAllBoardsPayload,
   GetAdminAllBoardsResult,
   GetAdminBoardDetailPayload,
   LoadAdminBoardsResponse,
+  updateAdminNoticePayload,
 } from '../../types';
 
 // api
-import { apiGetAdminAllBoards, apiGetAdminBoardDetail, apiGetAdminBoardComments } from './../../api';
+import {
+  apiGetAdminAllBoards,
+  apiGetAdminBoardDetail,
+  apiGetAdminBoardComments,
+  apiDeleteAdminBoardDetail,
+  apiDeleteAdminBoardComments,
+  apiCreateAdminNotice,
+  apiUpdateAdminNotice,
+} from './../../api';
 // admin get all boards
 function* getAdminAllBoardsSaga(action: PayloadAction<GetAdminAllBoardsPayload>) {
   yield put(adminBoardsActions.loadAdminBoardsRequest());
@@ -68,11 +79,87 @@ function* getAdminBoardCommentsSaga(action: PayloadAction<GetAdminBoardDetailPay
     yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
   }
 }
+//delete board
+function* deleteAdminBoardSaga(action: PayloadAction<GetAdminBoardDetailPayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiDeleteAdminBoardDetail, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga deleteAdminBoardSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//delete Comment
+function* deleteAdminCommentSaga(action: PayloadAction<deleteAdminBoardCommentPayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiDeleteAdminBoardComments, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga deleteAdminCommentSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//create Notice
+function* createAdminNoticeSaga(action: PayloadAction<createAdminNoticePayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiCreateAdminNotice, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga createAdminNoticeSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+//update Notice
+function* updateAdminNoticeSaga(action: PayloadAction<updateAdminNoticePayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminBoardsResponse> = yield call(apiUpdateAdminNotice, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.loadAdminBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga updateAdminNoticeSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(adminBoardsActions.getAdminAllBoards, getAdminAllBoardsSaga);
   yield takeLatest(adminBoardsActions.getAdminBoardDetail, getAdminBoardSaga);
   yield takeLatest(adminBoardsActions.getAdminBoardComments, getAdminBoardCommentsSaga);
+  yield takeLatest(adminBoardsActions.deleteAdminBoard, deleteAdminBoardSaga);
+  yield takeLatest(adminBoardsActions.deleteAdminComment, deleteAdminCommentSaga);
+  yield takeLatest(adminBoardsActions.createAdminNotice, createAdminNoticeSaga);
+  yield takeLatest(adminBoardsActions.updateAdminNotice, updateAdminNoticeSaga);
 }
 
 export default function* adminBoardsSaga() {
