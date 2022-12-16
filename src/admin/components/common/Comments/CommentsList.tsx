@@ -224,18 +224,16 @@ const ChlidrenItem = ({
               {child.content}
             </div>
             <div className="comment_btns">
-              {nickname === child?.user?.nickname && (
-                <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
-                  <Image src={MoreInfoIcon[0]} alt="moreInfo" />
-                  {isMoChildCntrl && (
-                    <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
-                      <div className="button" onClick={handleOpenDelte}>
-                        삭제하기
-                      </div>
+              <div className="btn more_info" ref={MoChildCtrlButtonRef} onClick={handleMoChildCtrlWin}>
+                <Image src={MoreInfoIcon[0]} alt="moreInfo" />
+                {isMoChildCntrl && (
+                  <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
+                    <div className="button" onClick={handleOpenDelte}>
+                      삭제하기
                     </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </>

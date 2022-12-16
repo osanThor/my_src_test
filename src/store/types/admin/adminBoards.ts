@@ -11,7 +11,6 @@ export type GetAdminBoardDetailPayload = {
 
 export type deleteAdminBoardCommentPayload = {
   commentId: number | null;
-  comment: number | null;
 };
 export type getAdminBoardDetailResult = {
   comments:

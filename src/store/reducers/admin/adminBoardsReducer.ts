@@ -13,6 +13,7 @@ import {
   LoadAdminBoardsResponse,
   ResponseFailure,
   getAdminBoardDetailResult,
+  deleteAdminBoardCommentPayload,
 } from '../../types';
 
 export type AdminBoardsStateType = {
@@ -21,6 +22,7 @@ export type AdminBoardsStateType = {
   title: string | null;
   user: string | null;
   boardId: number | null;
+  commentId: number | null;
   getAdminAllBoardsResult: {
     total: number | null;
     boards: Array<{
@@ -108,6 +110,7 @@ const initialState: AdminBoardsStateType = {
   title: '',
   user: '',
   boardId: 0,
+  commentId: 0,
   getAdminAllBoardsResult: { total: 0, boards: [] },
   getAdminBoardDetailResult: null,
   getAdminBoardCommentsResult: null,
@@ -163,6 +166,14 @@ const adminBoardsSlice = createSlice({
     getAdminBoardCommentsResult(state, action: PayloadAction<getAdminBoardCommentsResult>) {
       state.loadAdminBoardsLoading = false;
       state.getAdminBoardCommentsResult = action.payload;
+    },
+    deleteAdminBoard(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    deleteAdminComment(state, action: PayloadAction<deleteAdminBoardCommentPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.commentId = action.payload.commentId;
     },
     //api res req
     loadAdminBoardsRequest(state) {

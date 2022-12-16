@@ -24,7 +24,7 @@ export const apiGetAdminBoardComments = ({ boardId }: GetAdminBoardDetailPayload
   axiosInstance.get(`/admin/boards/${boardId}/comments`);
 
 // delete admin board detail
-export const apiDeleteAdminBoardComments = ({ commentId, comment }: deleteAdminBoardCommentPayload) =>
+export const apiDeleteAdminBoardComments = ({ commentId }: deleteAdminBoardCommentPayload) =>
   axiosInstance.delete(`/admin/boards/comments/${commentId}`);
 
 // create admin notice
