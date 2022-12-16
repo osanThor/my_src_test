@@ -175,6 +175,10 @@ const adminCustomersSlice = createSlice({
       state.loadAdminCustomersLoading = false;
       state.getInquiryDetailResult = action.payload;
     },
+    deleteAdminInquiry(state, action: PayloadAction<GetAdminInquiryDetailPayload>) {
+      state.loadAdminCustomersLoading = true;
+      state.inquiryId = action.payload.inquiryId;
+    },
     //api res req
     loadAdminCustomersRequest(state) {
       state.loadAdminCustomersLoading = true;

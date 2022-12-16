@@ -31,7 +31,7 @@ const InquiriesList = () => {
           <div
             className="tr"
             key={inquiry.id}
-            onClick={() => router.push(`/admin/customers/guide?id=${inquiry.id}&edit=true`)}
+            onClick={() => router.push(`/admin/customers/inquiry?id=${inquiry.id}&edit=true`)}
           >
             <div className="td">{inquiry.id}</div>
             <div className="td">{inquiry.title}</div>
