@@ -10,7 +10,7 @@ import { media } from '@/styles/theme';
 import { useDispatch } from 'react-redux';
 import { boardsActions } from '@/src/store/reducers';
 
-const CommentsList = ({ handleOpenDleteComment }: { handleOpenDleteComment: () => void }) => {
+const CommentsList = ({ handleOpenDleteComment }: { handleOpenDleteComment: (id: number | null) => void }) => {
   const { getAdminBoardCommentsResult } = useSelector(({ adminBoards }: RootState) => ({
     getAdminBoardCommentsResult: adminBoards.getAdminBoardCommentsResult,
   }));
@@ -45,7 +45,7 @@ const CommentItem = ({
     file: { url: string } | null;
     user: { nickname: string; photoUrl: string | null };
   };
-  handleOpenDleteComment: () => void;
+  handleOpenDleteComment: (id: number | null) => void;
 }) => {
   const dispatch = useDispatch();
   //state
@@ -55,8 +55,8 @@ const CommentItem = ({
   const { childComment, content, createdAt, deletedAt, file, id, user } = cm;
 
   //delte comment open
-  const handleOpenDlete = () => {
-    handleOpenDleteComment();
+  const handleOpenDlete = (id: number | null) => {
+    handleOpenDleteComment(id);
   };
   //ctrl buttons modal
   const [isMoCntrl, setIsMoCtrl] = useState(false);
@@ -115,7 +115,7 @@ const CommentItem = ({
                   <Image src={MoreInfoIcon[0]} alt="moreInfo" />
                   {isMoCntrl && (
                     <div className="board_mo_ctrl" ref={MoCtrlRef}>
-                      <div className="button" onClick={handleOpenDlete}>
+                      <div className="button" onClick={() => handleOpenDlete(id)}>
                         삭제하기
                       </div>
                     </div>
@@ -152,7 +152,7 @@ const ChlidrenItem = ({
       photoUrl: string | null;
     };
   };
-  handleOpenDleteComment: () => void;
+  handleOpenDleteComment: (id: number | null) => void;
 }) => {
   const dispatch = useDispatch();
   const { getBoardDone, commentId } = useSelector(({ boards }: RootState) => ({
@@ -165,9 +165,8 @@ const ChlidrenItem = ({
 
   const { id, content, deletedAt } = child;
 
-  const handleOpenDelte = () => {
-    handleOpenDleteComment();
-    dispatch(boardsActions.changeCommentId({ commentId: child.id }));
+  const handleOpenDelte = (id: number | null) => {
+    handleOpenDleteComment(id);
     // update comment와 충돌 방지
   };
   const [isMoChildCntrl, setIsMoChildCtrl] = useState(false);
@@ -228,7 +227,7 @@ const ChlidrenItem = ({
                 <Image src={MoreInfoIcon[0]} alt="moreInfo" />
                 {isMoChildCntrl && (
                   <div className="board_mo_ctrl" ref={MoChildCtrlRef}>
-                    <div className="button" onClick={handleOpenDelte}>
+                    <div className="button" onClick={() => handleOpenDelte(child?.id)}>
                       삭제하기
                     </div>
                   </div>

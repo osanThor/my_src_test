@@ -17,12 +17,10 @@ const BoardsDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  // const { page, category, title, user } = useSelector(({ adminBoards }: RootState) => ({
-  //   page: adminBoards.page,
-  //   category: adminBoards.category,
-  //   title: adminBoards.title,
-  //   user: adminBoards.user,
-  // }));
+  const { loadAdminBoardsError, loadAdminBoardsDone } = useSelector(({ adminBoards }: RootState) => ({
+    loadAdminBoardsError: adminBoards.loadAdminBoardsError,
+    loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
+  }));
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -70,16 +68,47 @@ const BoardsDetail = () => {
     setFModalOpen(true);
     setFModalMessage('해당 내용을 삭제하시겠습니까?');
     setFModalBtnTxt('삭제하기');
-    setisComment(true);
+    setisComment(false);
   };
-  const handleDeleteComments = () => {
+  const [commentId, setCommentId] = useState(0);
+  const handleDeleteComments = (id: number | null) => {
     setFModalOpen(true);
     setFModalMessage('해당 댓글을 삭제하시겠습니까?');
     setFModalBtnTxt('삭제하기');
+    setisComment(true);
+    setCommentId(id);
   };
   const handleModalClose = () => {
     setFModalOpen(false);
+    setisComment(false);
+    setCommentId(0);
   };
+  console.log(isComment);
+  console.log(commentId);
+
+  //event handler
+  useEffect(() => {
+    if (loadAdminBoardsError) {
+      alert(loadAdminBoardsError);
+      return;
+    }
+
+    if (loadAdminAuthDone) {
+      if (loadAdminAuthDone.message === 'DELETED') {
+        alert('삭제가 완료되었습니다.');
+        dispatch(
+          adminBoardsActions.getAdminBoardDetail({
+            boardId: parseInt(router.query.id as string),
+          }),
+        );
+        dispatch(
+          adminBoardsActions.getAdminBoardComments({
+            boardId: parseInt(router.query.id as string),
+          }),
+        );
+      }
+    }
+  }, [loadAdminBoardsError, loadAdminAuthDone]);
 
   return (
     <>
@@ -100,7 +129,11 @@ const BoardsDetail = () => {
           btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={isComment ? () => alert('임시') : () => alert('임시')}
+        onClick={
+          isComment
+            ? () => dispatch(adminBoardsActions.deleteAdminComment({ commentId }))
+            : () => dispatch(adminBoardsActions.deleteAdminBoard({ boardId: parseInt(router.query.id as string) }))
+        }
         onClick2={handleModalClose}
       />
     </>
