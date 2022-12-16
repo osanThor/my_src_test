@@ -119,6 +119,7 @@ export type {
   changeSnsTypePayload,
   changelicensePackagePayload,
   LoadAdminUsersResponse,
+  updateAdminUserPayload,
 } from './admin/adminUser';
 
 export type {
