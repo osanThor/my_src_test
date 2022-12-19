@@ -257,12 +257,13 @@ const UserMiddleBoxBlock = styled.div`
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       .telegram_list {
         width: 100%;
         display: flex;
         flex-direction: column;
         margin-bottom: 1rem;
+        max-height: 300px;
+        overflow-y: auto;
         .telegram {
           cursor: pointer;
           width: 100%;
