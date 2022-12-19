@@ -14,15 +14,14 @@ export type changeConfirmStatusPayload = {
 
 export type getAdminStrategiesResult = {
   total: number | null;
-  strategies: Array<{
-    board: {
-      id: number | null;
-      title: string | null;
-      user: { email: string | null; nickname: string | null };
-      category: string | null;
-      createdAt: string | null;
-    };
-    confirmStatus: string | null;
+  boards: Array<{
+    category: string | null;
+    createdAt: string | null;
+    deletedAt: string | null;
+    id: number | null;
+    strategy: { confirmStatus: string } | null;
+    title: string | null;
+    user: { email: string | null; nickname: string | null };
   }> | null;
 } | null;
 

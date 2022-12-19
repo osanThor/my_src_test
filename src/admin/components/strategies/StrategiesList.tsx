@@ -28,30 +28,28 @@ const StrategiesList = () => {
         </div>
       </div>
       <div className="user_list">
-        {getAdminStrategyResult?.strategies?.map((strategy) => (
+        {getAdminStrategyResult?.boards?.map((strategy) => (
           <div
             className="tr"
-            key={strategy.board.id}
+            key={strategy.id}
             onClick={() =>
-              router.push(
-                `/admin/strategies/strategy?id=${strategy.board.id}&category=${strategy.board.category}&edit=true`,
-              )
+              router.push(`/admin/strategies/strategy?id=${strategy.id}&category=${strategy.category}&edit=true`)
             }
           >
-            <div className="td">{strategy.board.id}</div>
-            <div className="td">{strategy.board.title}</div>
-            <div className="td">{strategy.board.user.nickname}</div>
-            <div className="td">{strategy.board.user.email}</div>
+            <div className="td">{strategy.id}</div>
+            <div className="td">{strategy.title}</div>
+            <div className="td">{strategy.user.nickname}</div>
+            <div className="td">{strategy.user.email}</div>
             <div className="td">
-              {strategy.board.category === 'CERTIFIED_STRATEGY' && '인증전략'}
-              {strategy.board.category === 'USER_STRATEGY' && '사용자전략'}
-              {strategy.board.category === 'COMMISSION' && '전략개발의뢰'}
-              {strategy.board.category === 'QUANTRO_STRATEGY' && '공개전략'}
-              {strategy.board.category === 'QUANTRO_INDICATOR' && '공개지표'}
+              {strategy.category === 'CERTIFIED_STRATEGY' && '인증전략'}
+              {strategy.category === 'USER_STRATEGY' && '사용자전략'}
+              {strategy.category === 'COMMISSION' && '전략개발의뢰'}
+              {strategy.category === 'QUANTRO_STRATEGY' && '공개전략'}
+              {strategy.category === 'QUANTRO_INDICATOR' && '공개지표'}
             </div>
-            <div className="td">{strategy.confirmStatus}</div>
+            <div className="td">{strategy?.strategy?.confirmStatus}</div>
             <div className="td">
-              <Moment format="YYYY.MM.DD">{strategy.board.createdAt}</Moment>
+              <Moment format="YYYY.MM.DD">{strategy.createdAt}</Moment>
             </div>
           </div>
         ))}
