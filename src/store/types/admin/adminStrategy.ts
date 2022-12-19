@@ -33,6 +33,7 @@ export type certifiedAdminStrategyPayload = {
   chartCycle: string | null;
   profitPct: number | null;
   confirmStatus: string | null;
+  fileUrl: string | null;
 };
 
 export type getAdminStrategyDetailPayload = {
@@ -59,23 +60,37 @@ export type getAdminStrategyDetailResult = {
   title: string | null;
   user: { nickname: string | null };
 } | null;
+export type getAdminCommissionDetailResult = {
+  category: string | null;
+  content: string | null;
+  files: [];
+  commission: {
+    answer: string | null;
+  };
+  title: string | null;
+  user: { nickname: string | null };
+} | null;
+export type commissionPayload = {
+  id: number | null;
+  answer: string | null;
+};
 
 export type createQuantroStrategyPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: [string] | [];
   platform: string | null;
   symbol: string | null;
   chartCycle: string | null;
   profitPct: number | null;
+  fileUrls: Array<string> | null;
 };
 
 export type createQuantroIndicatorPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: [string] | [];
+  fileUrls: Array<string> | [];
 };
 
 export type LoadAdminStrategiesResponse = {

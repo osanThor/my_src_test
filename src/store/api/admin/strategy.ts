@@ -1,6 +1,7 @@
 import { axiosInstance } from '..';
 import {
   certifiedAdminStrategyPayload,
+  commissionPayload,
   createQuantroIndicatorPayload,
   createQuantroStrategyPayload,
   deleteAdminStrategyPayload,
@@ -28,6 +29,10 @@ export const apiGetAdminStrategyDetail = ({ id, category }: getAdminStrategyDeta
 // delete strategy
 export const apiDeleteAdminStrategy = ({ id }: deleteAdminStrategyPayload) =>
   axiosInstance.get(`/admin/strategies/${id}`);
+
+//update commission
+export const apiUpdateAdminCommission = ({ id, answer }: commissionPayload) =>
+  axiosInstance.put(`/admin/strategies/commission/${id}`, { answer });
 
 // certified strategy
 export const apiCertifiedAdminStrategy = ({

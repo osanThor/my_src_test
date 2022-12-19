@@ -13,9 +13,11 @@ import {
   apiDeleteAdminStrategy,
   apiGetAdminAllStrategies,
   apiGetAdminStrategyDetail,
+  apiUpdateAdminCommission,
 } from '../../api';
 import {
   certifiedAdminStrategyPayload,
+  commissionPayload,
   createQuantroIndicatorPayload,
   createQuantroStrategyPayload,
   deleteAdminStrategyPayload,
@@ -49,10 +51,15 @@ function* getAllAdminStrategiesSaga(action: PayloadAction<getAdminStrategiesPayl
 function* getAllAdminStrategyDetailSaga(action: PayloadAction<getAdminStrategyDetailPayload>) {
   yield put(adminStrategiesActions.loadAdminStrategiesRequest());
   try {
-    const { data }: AxiosResponse<getAdminStrategyDetailResult> = yield call(apiGetAdminStrategyDetail, action.payload);
+    const { data }: AxiosResponse = yield call(apiGetAdminStrategyDetail, action.payload);
     console.log(data);
-
-    yield put(adminStrategiesActions.getAdminStrategyDetailResult(data));
+    if (action.payload.category === 'CERTIFIED_STRATEGY') {
+      yield put(adminStrategiesActions.getAdminStrategyDetailResult(data));
+    } else if (action.payload.category === 'COMMISSION') {
+      yield put(adminStrategiesActions.getAdminCommissionDetailResult(data));
+    } else {
+      yield put(adminStrategiesActions.getAdminStrategyDetailResult(data));
+    }
   } catch (error: any) {
     console.error('adminStrategiesSaga getAllAdminStrategiesSaga >> ', error);
 
@@ -74,6 +81,25 @@ function* deleteAdminStrategySaga(action: PayloadAction<deleteAdminStrategyPaylo
     yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
   } catch (error: any) {
     console.error('adminStrategiesSaga deleteAdminStrategySaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminStrategiesActions.loadAdminStrategiesFailure({ status: { ok: false }, message }));
+  }
+}
+
+//update commission
+function* updateAdminCommissionSaga(action: PayloadAction<commissionPayload>) {
+  yield put(adminStrategiesActions.loadAdminStrategiesRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminStrategiesResponse> = yield call(apiUpdateAdminCommission, action.payload);
+    console.log(data);
+
+    yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
+  } catch (error: any) {
+    console.error('adminStrategiesSaga updateAdminCommissionSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -147,6 +173,7 @@ function* watchLoadfile() {
   yield takeLatest(adminStrategiesActions.createQuantroIndicator, createQuantroIndicatorSaga);
   yield takeLatest(adminStrategiesActions.getAdminStrategyDetail, getAllAdminStrategyDetailSaga);
   yield takeLatest(adminStrategiesActions.updateCertifiedStrategy, updateAdminCertifiedStrategySaga);
+  yield takeLatest(adminStrategiesActions.updateAdminCommission, updateAdminCommissionSaga);
 }
 
 export default function* adminStrategiesSaga() {

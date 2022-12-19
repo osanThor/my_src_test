@@ -135,6 +135,8 @@ export type {
   getAdminStrategyDetailPayload,
   deleteAdminStrategyPayload,
   getAdminStrategyDetailResult,
+  getAdminCommissionDetailResult,
+  commissionPayload,
 } from './admin/adminStrategy';
 
 export type {
