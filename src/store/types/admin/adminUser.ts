@@ -29,7 +29,7 @@ export type updateAdminUserPayload = {
   nickname: string | null;
   introduction: string | null;
   grade: string | null;
-  package: {
+  licensePackageInfo: {
     licensePackage: string | null;
     startedAt: string | null;
     endedAt: string | null;
@@ -37,6 +37,7 @@ export type updateAdminUserPayload = {
   depositStatus: string | null;
 };
 export type getAdminUserDetailResult = {
+  depositStatus: string | null;
   photoUrl: string | null;
   email: string | null;
   nickname: string | null;

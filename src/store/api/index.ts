@@ -71,6 +71,7 @@ export {
   apiGetAdminUserDetail,
   apiDeleteAdminUser,
   apiSendAdminUserNotice,
+  apiUpdateAdminUser,
   apiSendAdminUserMessage,
 } from './admin/user';
 

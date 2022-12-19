@@ -12,6 +12,7 @@ import UserMiddleBox from '../../components/user/detail/UserMiddleBox';
 import FuncModal from '@/src/components/common/modals/FuncModal';
 import Loading from '@/src/components/common/Loading';
 import AcountTable from '../../components/user/detail/AcountTable';
+import moment from 'moment';
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -19,14 +20,21 @@ const UserDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { email, loadAdminUsersdLoading, loadAdminUsersdDone, loadAdminUsersdError } = useSelector(
-    ({ adminUsers }: RootState) => ({
-      email: adminUsers.email,
-      loadAdminUsersdLoading: adminUsers.loadAdminUsersdLoading,
-      loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
-      loadAdminUsersdError: adminUsers.loadAdminUsersdError,
-    }),
-  );
+  const {
+    email,
+    updateUserPayload,
+    getAdminUserDetailResult,
+    loadAdminUsersdLoading,
+    loadAdminUsersdDone,
+    loadAdminUsersdError,
+  } = useSelector(({ adminUsers }: RootState) => ({
+    email: adminUsers.email,
+    updateUserPayload: adminUsers.updateUserPayload,
+    getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
+    loadAdminUsersdLoading: adminUsers.loadAdminUsersdLoading,
+    loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
+    loadAdminUsersdError: adminUsers.loadAdminUsersdError,
+  }));
   //admin auth
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -58,6 +66,96 @@ const UserDetail = () => {
     }
   }, [router, isAdmin]);
 
+  //** setting */
+  useEffect(() => {
+    if (getAdminUserDetailResult) {
+      dispatch(
+        adminUsersActions.chagneAdminUserField({
+          email: getAdminUserDetailResult?.email,
+          nickname: getAdminUserDetailResult?.nickname,
+          introduction: getAdminUserDetailResult?.introduction,
+          grade: getAdminUserDetailResult?.grade,
+          licensePackageInfo: {
+            licensePackage: getAdminUserDetailResult?.license?.package,
+            startedAt: getAdminUserDetailResult?.license?.startedAt,
+            endedAt: getAdminUserDetailResult?.license?.endedAt,
+          },
+          depositStatus: getAdminUserDetailResult?.depositStatus,
+        }),
+      );
+    }
+  }, [getAdminUserDetailResult]);
+
+  //change user info
+  const handleChangeUserField = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value, name } = e.target;
+    console.log(name, value);
+    if (name === 'nickname') {
+      dispatch(
+        adminUsersActions.chagneAdminUserField({
+          email: updateUserPayload?.email,
+          nickname: value,
+          introduction: updateUserPayload?.introduction,
+          grade: updateUserPayload?.grade,
+          licensePackageInfo: {
+            licensePackage: updateUserPayload?.licensePackageInfo?.licensePackage,
+            startedAt: updateUserPayload?.licensePackageInfo?.startedAt,
+            endedAt: updateUserPayload?.licensePackageInfo?.endedAt,
+          },
+          depositStatus: updateUserPayload?.depositStatus,
+        }),
+      );
+    } else if (name === 'introduction') {
+      dispatch(
+        adminUsersActions.chagneAdminUserField({
+          email: updateUserPayload?.email,
+          nickname: updateUserPayload?.nickname,
+          introduction: value,
+          grade: updateUserPayload?.grade,
+          licensePackageInfo: {
+            licensePackage: updateUserPayload?.licensePackageInfo?.licensePackage,
+            startedAt: updateUserPayload?.licensePackageInfo?.startedAt,
+            endedAt: updateUserPayload?.licensePackageInfo?.endedAt,
+          },
+          depositStatus: updateUserPayload?.depositStatus,
+        }),
+      );
+    } else if (name === 'startedAt') {
+      console.log(moment(value).format('yyyy-MM-DDThh:mm:ss.sss[Z]'));
+      dispatch(
+        adminUsersActions.chagneAdminUserField({
+          email: updateUserPayload?.email,
+          nickname: updateUserPayload?.nickname,
+          introduction: updateUserPayload?.introduction,
+          grade: updateUserPayload?.grade,
+          licensePackageInfo: {
+            licensePackage: updateUserPayload?.licensePackageInfo?.licensePackage,
+            startedAt: moment(value).format('yyyy-MM-DDThh:mm:ss.sss[Z]'),
+            endedAt: updateUserPayload?.licensePackageInfo?.endedAt,
+          },
+          depositStatus: updateUserPayload?.depositStatus,
+        }),
+      );
+    } else if (name === 'endedAt') {
+      dispatch(
+        adminUsersActions.chagneAdminUserField({
+          email: updateUserPayload?.email,
+          nickname: updateUserPayload?.nickname,
+          introduction: updateUserPayload?.introduction,
+          grade: updateUserPayload?.grade,
+          licensePackageInfo: {
+            licensePackage: updateUserPayload?.licensePackageInfo?.licensePackage,
+            startedAt: updateUserPayload?.licensePackageInfo?.startedAt,
+            endedAt: moment(value).format('yyyy-MM-DDThh:mm:ss.sss[Z]'),
+          },
+          depositStatus: updateUserPayload?.depositStatus,
+        }),
+      );
+    }
+  };
+
+  console.log(updateUserPayload);
+
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
@@ -83,11 +181,25 @@ const UserDetail = () => {
   // update user info
   const [isUpdate, setIsUpdate] = useState(false);
   const handleUpdateModalOpen = () => {
+    if (!updateUserPayload?.nickname) {
+      alert('닉네임을 확인해주세요');
+      return;
+    } else if (!updateUserPayload?.introduction) {
+      alert('소개를 작성해주세요');
+      return;
+    } else if (!updateUserPayload?.licensePackageInfo?.licensePackage) {
+      alert('패키지 이름을 선택해주세요');
+      return;
+    } else if (!updateUserPayload?.licensePackageInfo?.startedAt) {
+      alert('패키지 시작 날짜를 선택해주세요');
+      return;
+    }
     setFModalOpen(true);
     setFModalMessage('변경 내용을 등록하시겠습니까?');
     setFModalBtnTxt('등록하기');
     setIsUpdate(true);
   };
+
   //change img
   const [isChangeImg, setIsChangeImg] = useState(false);
   const handleChangeImgModalOpen = () => {
@@ -97,12 +209,14 @@ const UserDetail = () => {
     setFModalBtnTxt('변경하기');
     setIsChangeImg(true);
   };
+
   //** Modal eventhandler */
   const handleModalClick = () => {
     if (isDelete) {
       dispatch(adminUsersActions.adminUserDelete({ email }));
     } else if (isUpdate) {
       //update user
+      dispatch(adminUsersActions.updateAdminUser(updateUserPayload));
     } else if (isChangeImg) {
       //change user img
       dispatch(adminUsersActions.changeAdminUserDefaultImage({ email }));
@@ -173,12 +287,16 @@ const UserDetail = () => {
             handleSubmit={null}
             handleUpdate={handleUpdateModalOpen}
           />
-          <UserDetailBox handleChangeImgModalOpen={handleChangeImgModalOpen} />
+          <UserDetailBox
+            handleChangeImgModalOpen={handleChangeImgModalOpen}
+            handleChangeUserField={handleChangeUserField}
+          />
           <UserMiddleBox
             messageVal={messageVal}
             idList={idList}
             handleChangeTelegramMessage={handleChangeTelegramMessage}
             handleSendTelegramMessage={handleSendTelegramMessage}
+            handleChangeUserField={handleChangeUserField}
           />
           <AcountTable />
         </BasicContainer>

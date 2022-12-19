@@ -7,9 +7,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const UserDetailBox = ({ handleChangeImgModalOpen }: { handleChangeImgModalOpen: () => void }) => {
-  const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
+const UserDetailBox = ({
+  handleChangeImgModalOpen,
+  handleChangeUserField,
+}: {
+  handleChangeImgModalOpen: () => void;
+  handleChangeUserField: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+}) => {
+  const { getAdminUserDetailResult, updateUserPayload } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
+    updateUserPayload: adminUsers.updateUserPayload,
   }));
   return (
     <UserDetailBoxBlock>
@@ -37,8 +44,13 @@ const UserDetailBox = ({ handleChangeImgModalOpen }: { handleChangeImgModalOpen:
               </div>
             </div>
             <div className="profile_name">
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname || ''} readOnly />
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.email || ''} readOnly />
+              <Input
+                name="nickname"
+                style={{ flex: 1 }}
+                value={updateUserPayload?.nickname || ''}
+                onChange={handleChangeUserField}
+              />
+              <Input style={{ flex: 1 }} value={updateUserPayload?.email || ''} readOnly />
             </div>
           </div>
           <div className="profile_bott">
@@ -82,10 +94,11 @@ const UserDetailBox = ({ handleChangeImgModalOpen }: { handleChangeImgModalOpen:
         </div>
         <TextareaAutosize
           style={{ flex: 1, height: 'auto' }}
+          name="introduction"
           className="introduce"
-          value={getAdminUserDetailResult?.introduction ? getAdminUserDetailResult?.introduction : ''}
+          value={updateUserPayload?.introduction ? updateUserPayload?.introduction : ''}
           placeholder="자기소개"
-          readOnly
+          onChange={handleChangeUserField}
         />
       </div>
     </UserDetailBoxBlock>

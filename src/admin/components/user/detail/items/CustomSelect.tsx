@@ -6,9 +6,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const CustomSelect = ({
+  options,
   place,
   setSearchName,
 }: {
+  options: Array<{ value: string; txt: string }>;
   place: string;
   setSearchName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -17,12 +19,10 @@ const CustomSelect = ({
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
   const selectRef = useRef<HTMLDivElement>(null);
-  const options = [
-    { value: 'NORMAL', txt: '미신청' },
-    { value: 'user', txt: '입금대기' },
-    { value: 'package', txt: '입금완료' },
-    { value: 'comment', txt: '입금확인' },
-  ];
+
+  useEffect(() => {
+    setCurrentValue(place);
+  }, [place]);
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;
@@ -74,7 +74,6 @@ const CustomSelectBox = styled.div`
   position: relative;
   height: 48px;
   max-height: 48px;
-  margin-right: 12px;
   width: 100%;
   min-width: 163px;
   flex: 1;

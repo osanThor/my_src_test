@@ -15,6 +15,7 @@ import {
   getAdminUsersResult,
   LoadAdminUsersResponse,
   ResponseFailure,
+  updateAdminUserPayload,
 } from '../../types';
 
 export type AdminUsersStateType = {
@@ -39,6 +40,7 @@ export type AdminUsersStateType = {
     }> | null;
   } | null;
   getAdminUserDetailResult: {
+    depositStatus: string | null;
     photoUrl: string | null;
     email: string | null;
     nickname: string | null;
@@ -63,6 +65,18 @@ export type AdminUsersStateType = {
       connectionStatus: string | null;
     }> | null;
   } | null;
+  updateUserPayload: {
+    email: string | null;
+    nickname: string | null;
+    introduction: string | null;
+    grade: string | null;
+    licensePackageInfo: {
+      licensePackage: string | null;
+      startedAt: string | null;
+      endedAt: string | null;
+    } | null;
+    depositStatus: string | null;
+  } | null;
   //telegram
   contents: Array<string> | null;
   idList: Array<string> | null;
@@ -84,6 +98,7 @@ const initialState: AdminUsersStateType = {
   getAdminUserDetailResult: null,
   contents: [],
   idList: [],
+  updateUserPayload: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
   loadAdminUsersdError: null,
@@ -150,6 +165,13 @@ const adminUsersSlice = createSlice({
       state.loadAdminUsersdLoading = true;
       state.contents = action.payload.contents;
       state.idList = action.payload.idList;
+    },
+    chagneAdminUserField(state, action: PayloadAction<updateAdminUserPayload>) {
+      state.updateUserPayload = action.payload;
+    },
+    updateAdminUser(state, action: PayloadAction<updateAdminUserPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.updateUserPayload = action.payload;
     },
     //api res req
     loadAdminUsersRequest(state) {

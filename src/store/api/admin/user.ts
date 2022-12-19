@@ -20,12 +20,20 @@ export const apiGetAdminUsers = ({ page, snsType, email, grade, licensePackage, 
 export const apiGetAdminUserDetail = ({ email }: adminUserDetailPayload) => axiosInstance.get(`/admin/users/${email}`);
 
 //update admin User
-export const apiUpdateAdminUser = ({ email, nickname, introduction, grade, depositStatus }: updateAdminUserPayload) =>
+export const apiUpdateAdminUser = ({
+  email,
+  nickname,
+  introduction,
+  grade,
+  depositStatus,
+  licensePackageInfo,
+}: updateAdminUserPayload) =>
   axiosInstance.put<LoadAdminUsersResponse>(`/admin/users/${email}`, {
     nickname,
     introduction,
     grade,
     depositStatus,
+    licensePackageInfo,
   });
 
 //delete admin User
