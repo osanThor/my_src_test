@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  adminExchangePayload,
   adminTelegramPayload,
   adminTelegramUsersMessage,
   adminUserDetailPayload,
@@ -86,6 +87,8 @@ export type AdminUsersStateType = {
     id: string | null;
     username: string | null;
   };
+  //exchange
+  exchangeId: { id: string | null };
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {
     message: string | null;
@@ -106,6 +109,7 @@ const initialState: AdminUsersStateType = {
   idList: [],
   telegramPayload: { id: '', username: '' },
   updateUserPayload: null,
+  exchangeId: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
   loadAdminUsersdError: null,
@@ -190,6 +194,13 @@ const adminUsersSlice = createSlice({
     deleteAdminTelegram(state, action: PayloadAction<adminTelegramPayload>) {
       state.loadAdminUsersdLoading = true;
       state.telegramPayload = action.payload;
+    },
+    changeAdminExchangeId(state, action: PayloadAction<adminExchangePayload>) {
+      state.exchangeId = action.payload;
+    },
+    deleteAdminExchange(state, action: PayloadAction<adminExchangePayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.exchangeId = action.payload;
     },
     //api res req
     loadAdminUsersRequest(state) {

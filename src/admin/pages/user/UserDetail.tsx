@@ -27,6 +27,7 @@ const UserDetail = () => {
     updateUserPayload,
     telegramPayload,
     getAdminUserDetailResult,
+    exchangeId,
     loadAdminUsersdLoading,
     loadAdminUsersdDone,
     loadAdminUsersdError,
@@ -35,6 +36,7 @@ const UserDetail = () => {
     updateUserPayload: adminUsers.updateUserPayload,
     telegramPayload: adminUsers.telegramPayload,
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
+    exchangeId: adminUsers.exchangeId,
     loadAdminUsersdLoading: adminUsers.loadAdminUsersdLoading,
     loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
     loadAdminUsersdError: adminUsers.loadAdminUsersdError,
@@ -172,6 +174,7 @@ const UserDetail = () => {
     setIsDelete(false);
     setIsUpdate(false);
     setIsChangeImg(false);
+    setdeleteExchange(false);
   };
 
   //delete user
@@ -212,6 +215,21 @@ const UserDetail = () => {
     setFModalSubMessage('Default 이미지는 랜덤으로 지정돼요');
     setFModalBtnTxt('변경하기');
     setIsChangeImg(true);
+  };
+
+  //delete Exchange
+  const [deleteExchange, setdeleteExchange] = useState(false);
+  const handleDeleteExcModalOpen = (val: string) => {
+    setFModalOpen(true);
+    setFModalMessage('해당 거래소를 삭제하시겠습니까?');
+    setFModalBtnTxt('삭제하기');
+    setdeleteExchange(true);
+    console.log(val);
+    dispatch(
+      adminUsersActions.changeAdminExchangeId({
+        id: val,
+      }),
+    );
   };
 
   // add telegram
@@ -263,6 +281,9 @@ const UserDetail = () => {
     } else if (isChangeImg) {
       //change user img
       dispatch(adminUsersActions.changeAdminUserDefaultImage({ email }));
+    } else if (deleteExchange) {
+      //delete exchange
+      dispatch(adminUsersActions.deleteAdminExchange(exchangeId));
     }
   };
 
@@ -280,9 +301,10 @@ const UserDetail = () => {
       }
       if (loadAdminUsersdDone.message === 'DELETED') {
         alert('삭제 되었어요');
-        if (deleteTelegram) {
+        if (deleteTelegram || deleteExchange) {
           dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
           setDeleteTelegram(false);
+          setFModalOpen(false);
         } else {
           router.push('/admin/users');
         }
@@ -359,7 +381,7 @@ const UserDetail = () => {
             handleAddTelegramOpen={handleAddTelegramOpen}
             handleDeleteTelegramOpen={handleDeleteTelegramOpen}
           />
-          <AcountTable />
+          <AcountTable handleDeleteExcModalOpen={handleDeleteExcModalOpen} />
         </BasicContainer>
       </AdminLayout>
       <FuncModal

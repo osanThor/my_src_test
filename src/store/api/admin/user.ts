@@ -1,5 +1,6 @@
 import { axiosInstance } from '..';
 import {
+  adminExchangePayload,
   adminTelegramPayload,
   adminTelegramUsersMessage,
   adminTelegramUsersNotice,
@@ -59,3 +60,7 @@ export const apiSendAdminUserNotice = ({ contents }: adminTelegramUsersNotice) =
 // send message to specify telegram users
 export const apiSendAdminUserMessage = ({ contents, idList }: adminTelegramUsersMessage) =>
   axiosInstance.post(`/admin/users/telegram/message`, { contents, idList });
+
+//delete telegram
+export const apiDeleteAdminUserExchange = ({ id }: adminExchangePayload) =>
+  axiosInstance.delete(`/admin/users/exchanges/${id}?id=${id}`);

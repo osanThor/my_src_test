@@ -121,6 +121,7 @@ export type {
   LoadAdminUsersResponse,
   updateAdminUserPayload,
   adminTelegramPayload,
+  adminExchangePayload,
 } from './admin/adminUser';
 
 export type {

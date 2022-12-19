@@ -7,6 +7,7 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminUsersActions } from '../../reducers';
 import {
+  adminExchangePayload,
   adminTelegramPayload,
   adminTelegramUsersMessage,
   adminUserDetailPayload,
@@ -24,6 +25,7 @@ import {
   apiChangeAdminUserDefaultPhoto,
   apiUpdateAdminUser,
   apiAddAdminUserTelegram,
+  apiDeleteAdminUserExchange,
 } from '../../api';
 
 // api
@@ -158,6 +160,24 @@ function* deleteAdminTelegramSaga(action: PayloadAction<adminTelegramPayload>) {
     yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
   }
 }
+//delete user exchange
+function* deleteAdminExchangeSaga(action: PayloadAction<adminExchangePayload>) {
+  yield put(adminUsersActions.loadAdminUsersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminUsersResponse> = yield call(apiDeleteAdminUserExchange, action.payload);
+    console.log(data);
+
+    yield put(adminUsersActions.loadAdminUsersSuccess(data));
+  } catch (error: any) {
+    console.error('adminUsersSaga addAdminExchangeSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
+  }
+}
 
 // send telegram message
 function* sendAdminTelegramMessageSaga(action: PayloadAction<adminTelegramUsersMessage>) {
@@ -187,6 +207,7 @@ function* watchLoadfile() {
   yield takeLatest(adminUsersActions.updateAdminUser, updateAdminUserSaga);
   yield takeLatest(adminUsersActions.addAdminTelegram, addAdminTelegramSaga);
   yield takeLatest(adminUsersActions.deleteAdminTelegram, deleteAdminTelegramSaga);
+  yield takeLatest(adminUsersActions.deleteAdminExchange, deleteAdminExchangeSaga);
 }
 
 export default function* adminUsersSaga() {

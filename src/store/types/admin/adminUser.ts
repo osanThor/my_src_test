@@ -75,6 +75,9 @@ export type adminTelegramPayload = {
   id: string | null;
   username: string | null;
 };
+export type adminExchangePayload = {
+  id: string | null;
+};
 
 export type changePagePayload = {
   page: number | null;
