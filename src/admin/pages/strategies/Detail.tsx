@@ -66,11 +66,12 @@ const Detail = () => {
   }, [getAdminStrategyDetailResult]);
 
   //function modal
-  const [isDelete, setIsDelete] = useState(false);
 
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
   const [fModalBtnTxt, setFModalBtnTxt] = useState('');
+
+  const [isDelete, setIsDelete] = useState(false);
   const handleDeleteModalOpen = () => {
     setFModalOpen(true);
     setFModalMessage('해당 내용을 삭제하시겠습니까?');
@@ -88,9 +89,13 @@ const Detail = () => {
     setIsDelete(false);
   };
 
-  const handleUpdateStrategy = () => {
+  const handleClickStrategyModal = () => {
     if (router.query.category === 'CERTIFIED_STRATEGY') {
       dispatch(adminStrategiesActions.updateCertifiedStrategy(certifiedStrategyPayload));
+    }
+
+    if (isDelete) {
+      dispatch(adminStrategiesActions.deleteAdminStrategy({ id: parseInt(router.query.id as string) }));
     }
   };
 
@@ -110,6 +115,10 @@ const Detail = () => {
             category: router.query.category as string,
           }),
         );
+      }
+      if (loadAdminStrategiesDone.message === 'DELETED') {
+        alert('삭제가 완료됐습니다');
+        router.back();
       }
     }
   }, [loadAdminStrategiesError, loadAdminStrategiesDone]);
@@ -136,7 +145,7 @@ const Detail = () => {
           btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={isDelete ? () => alert('임시') : handleUpdateStrategy}
+        onClick={handleClickStrategyModal}
         onClick2={handleModalClose}
       />
     </>

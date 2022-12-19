@@ -41,6 +41,10 @@ export type getAdminStrategyDetailPayload = {
   category: string | null;
 };
 
+export type deleteAdminStrategyPayload = {
+  id: number | null;
+};
+
 export type getAdminStrategyDetailResult = {
   category: string | null;
   content: string | null;

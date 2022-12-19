@@ -17,6 +17,7 @@ import {
   LoadAdminStrategiesResponse,
   ResponseFailure,
   certifiedAdminStrategyPayload,
+  deleteAdminStrategyPayload,
 } from '../../types';
 
 export type AdminStrategiesStateType = {
@@ -153,6 +154,10 @@ const adminStrategiesSlice = createSlice({
     getAdminStrategyDetailResult(state, action: PayloadAction<getAdminStrategyDetailResult>) {
       state.loadAdminStrategiesLoading = false;
       state.getAdminStrategyDetailResult = action.payload;
+    },
+    deleteAdminStrategy(state, action: PayloadAction<deleteAdminStrategyPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.id = action.payload.id;
     },
     changeCertifiedStarteField(state, action: PayloadAction<certifiedAdminStrategyPayload>) {
       state.certifiedStrategyPayload = action.payload;

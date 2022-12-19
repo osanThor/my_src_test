@@ -133,6 +133,7 @@ export type {
   createQuantroStrategyPayload,
   createQuantroIndicatorPayload,
   getAdminStrategyDetailPayload,
+  deleteAdminStrategyPayload,
   getAdminStrategyDetailResult,
 } from './admin/adminStrategy';
 

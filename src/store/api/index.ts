@@ -87,6 +87,7 @@ export {
   apiCertifiedAdminStrategy,
   apiCreateQuantroIndicator,
   apiCreateQuantroStrategy,
+  apiDeleteAdminStrategy,
 } from './admin/strategy';
 
 export {

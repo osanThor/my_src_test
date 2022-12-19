@@ -3,6 +3,7 @@ import {
   certifiedAdminStrategyPayload,
   createQuantroIndicatorPayload,
   createQuantroStrategyPayload,
+  deleteAdminStrategyPayload,
   getAdminStrategiesPayload,
   getAdminStrategyDetailPayload,
 } from '../../types';
@@ -19,8 +20,14 @@ export const apiGetAdminAllStrategies = ({
   axiosInstance.get(
     `/admin/strategies?page=${page}&category=${category}&title=${title}&nickname=${nickname}&email=${email}&confirmStatus=${confirmStatus}`,
   );
+
+// get detail
 export const apiGetAdminStrategyDetail = ({ id, category }: getAdminStrategyDetailPayload) =>
   axiosInstance.get(`/admin/strategies/${id}?category=${category}`);
+
+// delete strategy
+export const apiDeleteAdminStrategy = ({ id }: deleteAdminStrategyPayload) =>
+  axiosInstance.get(`/admin/strategies/${id}`);
 
 // certified strategy
 export const apiCertifiedAdminStrategy = ({
@@ -41,7 +48,7 @@ export const apiCertifiedAdminStrategy = ({
     confirmStatus,
   });
 
-///admin/strategies/quantro-strategy
+/// create quantro-strategy
 export const apiCreateQuantroStrategy = ({
   category,
   title,
@@ -62,7 +69,8 @@ export const apiCreateQuantroStrategy = ({
     chartCycle,
     profitPct,
   });
-///admin/strategies/quantro-indicator
+
+/// creaqte quantro-indicator
 export const apiCreateQuantroIndicator = ({ category, title, content, fileUrls }: createQuantroIndicatorPayload) =>
   axiosInstance.post('/admin/strategies/quantro-indicator', {
     category,
