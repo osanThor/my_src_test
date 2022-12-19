@@ -1,15 +1,21 @@
 import colors from '@/src/assets/Colors';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
-const CommissionTop = ({}: {}) => {
+const DefaultTop = ({}: {}) => {
+  const router = useRouter();
   return (
-    <CommissionTopBlock>
-      <div className="title">전략개발의뢰</div>
-    </CommissionTopBlock>
+    <DefaultTopBlock>
+      <div className="title">
+        {router.query.category === 'COMMISSION' && '전략개발의뢰'}
+        {router.query.category === 'QUANTRO_STRATEGY' && '공개전략'}
+        {router.query.category === 'QUANTRO_INDICATOR' && '공개지표'}
+      </div>
+    </DefaultTopBlock>
   );
 };
-const CommissionTopBlock = styled.div`
+const DefaultTopBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
   & > .title {
@@ -47,4 +53,4 @@ const CommissionTopBlock = styled.div`
   }
 `;
 
-export default CommissionTop;
+export default DefaultTop;

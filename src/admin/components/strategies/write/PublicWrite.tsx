@@ -119,7 +119,7 @@ const PublicWrite = () => {
     });
 
     if (res) {
-      setfileUrls((file) => [...file, res.data.urls[0]]);
+      setfileUrls([res.data.urls[0]]);
       setfileUrl(res.data.urls[0]);
     }
   };

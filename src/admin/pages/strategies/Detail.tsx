@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import CertifiedContainer from '../../containers/strategies/CertifiedContainer';
 import CommissionContainer from '../../containers/strategies/CommissionContainer';
+import IndicatorContainer from '../../containers/strategies/IndicatorContainer';
+import PublicContainer from '../../containers/strategies/PublicContainer';
 import UserStrategyContainer from '../../containers/strategies/UserStrategyContainer';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
@@ -157,6 +159,8 @@ const Detail = () => {
           {router.query.category === 'CERTIFIED_STRATEGY' && <CertifiedContainer />}
           {router.query.category === 'USER_STRATEGY' && <UserStrategyContainer />}
           {router.query.category === 'COMMISSION' && <CommissionContainer />}
+          {router.query.category === 'QUANTRO_STRATEGY' && <PublicContainer />}
+          {router.query.category === 'QUANTRO_INDICATOR' && <IndicatorContainer />}
         </BasicContainer>
       </AdminLayout>
       <FuncModal
