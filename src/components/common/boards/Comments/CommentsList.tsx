@@ -149,13 +149,13 @@ const CommentItem = ({
               <div className="profile">
                 <div className="profile_image">
                   <Image
-                    src={user && user.photoUrl != 'byteria.co.kr' ? user.photoUrl : Profile1[1]}
+                    src={user && user?.photoUrl != 'byteria.co.kr' ? user.photoUrl : Profile1[1]}
                     alt="profile"
                     layout="fill"
                   />
                 </div>
                 <div className="profile_info">
-                  <div className={getBoardDone.user.nickname === user.nickname ? 'nickname on' : 'nickname'}>
+                  <div className={getBoardDone?.user?.nickname === user?.nickname ? 'nickname on' : 'nickname'}>
                     {user ? user.nickname : '닉네임없음'}
                   </div>
                   <Moment format="YYYY.MM.DD HH.MM" className="Moment">

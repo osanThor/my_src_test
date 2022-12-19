@@ -29,7 +29,7 @@ export type updateAdminUserPayload = {
   nickname: string | null;
   introduction: string | null;
   grade: string | null;
-  package: {
+  licensePackageInfo: {
     licensePackage: string | null;
     startedAt: string | null;
     endedAt: string | null;
@@ -37,6 +37,8 @@ export type updateAdminUserPayload = {
   depositStatus: string | null;
 };
 export type getAdminUserDetailResult = {
+  id: string | null;
+  depositStatus: string | null;
   photoUrl: string | null;
   email: string | null;
   nickname: string | null;
@@ -67,6 +69,14 @@ export type adminTelegramUsersNotice = {
 export type adminTelegramUsersMessage = {
   contents: Array<string> | [];
   idList: Array<string> | [];
+};
+
+export type adminTelegramPayload = {
+  id: string | null;
+  username: string | null;
+};
+export type adminExchangePayload = {
+  id: string | null;
 };
 
 export type changePagePayload = {

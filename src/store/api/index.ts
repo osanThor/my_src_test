@@ -71,7 +71,12 @@ export {
   apiGetAdminUserDetail,
   apiDeleteAdminUser,
   apiSendAdminUserNotice,
+  apiUpdateAdminUser,
   apiSendAdminUserMessage,
+  apiAddAdminUserTelegram,
+  apiChangeAdminUserDefaultPhoto,
+  apiDeleteAdminUserTelegram,
+  apiDeleteAdminUserExchange,
 } from './admin/user';
 
 export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';
@@ -82,6 +87,8 @@ export {
   apiCertifiedAdminStrategy,
   apiCreateQuantroIndicator,
   apiCreateQuantroStrategy,
+  apiDeleteAdminStrategy,
+  apiUpdateAdminCommission,
 } from './admin/strategy';
 
 export {
@@ -91,7 +98,8 @@ export {
   apiDeleteAdminBoardComments,
   apiDeleteAdminBoardDetail,
   apiGetAdminBoardComments,
-  apiGetAdminBoardDetail,
+  apiGetAdminDiscussionDetail,
+  apiGetAdminNoticeDetail,
 } from './admin/boards';
 
 export {

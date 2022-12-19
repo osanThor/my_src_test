@@ -17,6 +17,9 @@ import {
   LoadAdminStrategiesResponse,
   ResponseFailure,
   certifiedAdminStrategyPayload,
+  deleteAdminStrategyPayload,
+  getAdminCommissionDetailResult,
+  commissionPayload,
 } from '../../types';
 
 export type AdminStrategiesStateType = {
@@ -36,34 +39,34 @@ export type AdminStrategiesStateType = {
     chartCycle: string | null;
     profitPct: number | null;
     confirmStatus: string | null;
+    fileUrl: string | null;
   } | null;
   quantroStrategyPayload: {
     category: string | null;
     title: string | null;
     content: string | null;
-    fileUrls: [string] | [];
     platform: string | null;
     symbol: string | null;
     chartCycle: string | null;
     profitPct: number | null;
+    fileUrls: Array<string> | null;
   } | null;
   quantroIndicatorPayload: {
     category: string | null;
     title: string | null;
     content: string | null;
-    fileUrls: [string] | [];
+    fileUrls: Array<string> | [];
   } | null;
   getAdminStrategyResult: {
     total: number | null;
-    strategies: Array<{
-      board: {
-        id: number | null;
-        title: string | null;
-        user: { email: string | null; nickname: string | null };
-        category: string | null;
-        createdAt: string | null;
-      };
-      confirmStatus: string | null;
+    boards: Array<{
+      category: string | null;
+      createdAt: string | null;
+      deletedAt: string | null;
+      id: number | null;
+      strategy: { confirmStatus: string } | null;
+      title: string | null;
+      user: { email: string | null; nickname: string | null };
     }> | null;
   } | null;
   getAdminStrategyDetailResult: {
@@ -81,6 +84,17 @@ export type AdminStrategiesStateType = {
     title: string | null;
     user: { nickname: string | null };
   } | null;
+  getAdminCommissionDetailResult: {
+    category: string | null;
+    content: string | null;
+    files: [];
+    commission: {
+      answer: string | null;
+    };
+    title: string | null;
+    user: { nickname: string | null };
+  } | null;
+  answer: string | null;
   loadAdminStrategiesLoading: boolean;
   loadAdminStrategiesDone: {
     message: string | null;
@@ -100,8 +114,10 @@ const initialState: AdminStrategiesStateType = {
   certifiedStrategyPayload: null,
   quantroStrategyPayload: null,
   quantroIndicatorPayload: null,
-  getAdminStrategyResult: { total: 0, strategies: null },
+  getAdminStrategyResult: { total: 0, boards: null },
   getAdminStrategyDetailResult: null,
+  getAdminCommissionDetailResult: null,
+  answer: null,
   loadAdminStrategiesLoading: false,
   loadAdminStrategiesDone: null,
   loadAdminStrategiesError: null,
@@ -153,6 +169,23 @@ const adminStrategiesSlice = createSlice({
     getAdminStrategyDetailResult(state, action: PayloadAction<getAdminStrategyDetailResult>) {
       state.loadAdminStrategiesLoading = false;
       state.getAdminStrategyDetailResult = action.payload;
+    },
+    getAdminCommissionDetailResult(state, action: PayloadAction<getAdminCommissionDetailResult>) {
+      state.loadAdminStrategiesLoading = false;
+      state.getAdminCommissionDetailResult = action.payload;
+    },
+    changeAdminCommission(state, action: PayloadAction<commissionPayload>) {
+      state.id = action.payload.id;
+      state.answer = action.payload.answer;
+    },
+    updateAdminCommission(state, action: PayloadAction<commissionPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.id = action.payload.id;
+      state.answer = action.payload.answer;
+    },
+    deleteAdminStrategy(state, action: PayloadAction<deleteAdminStrategyPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.id = action.payload.id;
     },
     changeCertifiedStarteField(state, action: PayloadAction<certifiedAdminStrategyPayload>) {
       state.certifiedStrategyPayload = action.payload;

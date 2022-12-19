@@ -43,7 +43,7 @@ const BoardSearchLayout = ({ name, value, children }: { name: string; value: str
     if (router.pathname === '/admin/boards') {
       router.push(`/admin/boards?page=1&${name}=${value}`);
     }
-    if ((router.query.state = 'inquiry')) {
+    if (router.query.state === 'inquiry') {
       if (router.query.isWait) {
         router.push(`/admin/customers?state=inquiry&page=1&isWait=true&${name}=${value}`);
       } else {

@@ -120,6 +120,8 @@ export type {
   changelicensePackagePayload,
   LoadAdminUsersResponse,
   updateAdminUserPayload,
+  adminTelegramPayload,
+  adminExchangePayload,
 } from './admin/adminUser';
 
 export type {
@@ -131,7 +133,10 @@ export type {
   createQuantroStrategyPayload,
   createQuantroIndicatorPayload,
   getAdminStrategyDetailPayload,
+  deleteAdminStrategyPayload,
   getAdminStrategyDetailResult,
+  getAdminCommissionDetailResult,
+  commissionPayload,
 } from './admin/adminStrategy';
 
 export type {
@@ -144,6 +149,7 @@ export type {
   createAdminNoticePayload,
   updateAdminNoticePayload,
   getAdminBoardCommentsResult,
+  getAdminNoticeDetailResult,
 } from './admin/adminBoards';
 
 export type {

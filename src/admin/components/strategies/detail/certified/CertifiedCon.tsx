@@ -54,7 +54,7 @@ const CertifiedCon = ({
   handleChangeCertifiedField,
   handleCloseCommunity,
   handleChangeImage,
-  filUrl,
+  fileUrl,
 }: {
   setCommuSt: React.Dispatch<React.SetStateAction<string>>;
   commuUrlSt: string | null;
@@ -68,7 +68,7 @@ const CertifiedCon = ({
   handleChangeCertifiedField: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCloseCommunity: (url: string) => void;
   handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  filUrl: string | null;
+  fileUrl: string | null;
 }) => {
   const { content, getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(
     ({ adminStrategies }: RootState) => ({
@@ -182,7 +182,7 @@ const CertifiedCon = ({
             <input type="file" onChange={handleChangeImage} />
             <span className="button">파일 업로드</span>
           </label>
-          <div className="filename">{filUrl ? filUrl : '선택 파일이 없습니다'}</div>
+          <div className="filename">{fileUrl ? fileUrl : '선택 파일이 없습니다'}</div>
           <span className="guide">※ 해당 전략의 백테스트 CSV 파일을 업로드해야합니다.</span>
         </div>
       </div>

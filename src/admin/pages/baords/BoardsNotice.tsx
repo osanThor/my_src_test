@@ -16,11 +16,11 @@ const BoardsNotice = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { loadAdminBoardsError, loadAdminBoardsDone, getAdminBoardDetailResult, createAdminNotice } = useSelector(
+  const { loadAdminBoardsError, loadAdminBoardsDone, getAdminNoticeDetailResult, createAdminNotice } = useSelector(
     ({ adminBoards }: RootState) => ({
       loadAdminBoardsError: adminBoards.loadAdminBoardsError,
       loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
-      getAdminBoardDetailResult: adminBoards.getAdminBoardDetailResult,
+      getAdminNoticeDetailResult: adminBoards.getAdminNoticeDetailResult,
       createAdminNotice: adminBoards.createAdminNotice,
     }),
   );
@@ -50,7 +50,7 @@ const BoardsNotice = () => {
   useEffect(() => {
     if (isAdmin) {
       dispatch(
-        adminBoardsActions.getAdminBoardDetail({
+        adminBoardsActions.getAdminNoticeDetail({
           boardId: parseInt(router.query.id as string),
         }),
       );
@@ -63,19 +63,17 @@ const BoardsNotice = () => {
   }, [router, isAdmin]);
 
   useEffect(() => {
-    if (getAdminBoardDetailResult) {
-      if (getAdminBoardDetailResult?.title) {
-        dispatch(
-          adminBoardsActions.changeAdminNoticeField({
-            title: getAdminBoardDetailResult?.title,
-            content: getAdminBoardDetailResult?.content,
-            // targetCategory 내려주면 수정
-            targetCategory: [],
-          }),
-        );
-      }
+    if (getAdminNoticeDetailResult) {
+      dispatch(
+        adminBoardsActions.changeAdminNoticeField({
+          title: getAdminNoticeDetailResult?.title,
+          content: getAdminNoticeDetailResult?.content,
+          // targetCategory 내려주면 수정
+          targetCategory: getAdminNoticeDetailResult?.notice?.targetCategories?.map(({ category }) => category),
+        }),
+      );
     }
-  }, [getAdminBoardDetailResult]);
+  }, [getAdminNoticeDetailResult]);
   //function modal
   const [isComment, setisComment] = useState(false);
 
@@ -127,7 +125,7 @@ const BoardsNotice = () => {
         setFModalOpen(false);
         if (isComment) {
           dispatch(
-            adminBoardsActions.getAdminBoardDetail({
+            adminBoardsActions.getAdminNoticeDetail({
               boardId: parseInt(router.query.id as string),
             }),
           );
@@ -143,7 +141,7 @@ const BoardsNotice = () => {
       if (loadAdminBoardsDone.message === 'DELETED') {
         alert('업데이트 되었습니다');
         dispatch(
-          adminBoardsActions.getAdminBoardDetail({
+          adminBoardsActions.getAdminNoticeDetail({
             boardId: parseInt(router.query.id as string),
           }),
         );
@@ -155,6 +153,7 @@ const BoardsNotice = () => {
       }
     }
   }, [loadAdminBoardsError, loadAdminBoardsDone]);
+
   const handleDelete = () => {
     if (isComment) {
       dispatch(adminBoardsActions.deleteAdminComment({ commentId }));

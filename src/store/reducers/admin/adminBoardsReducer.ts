@@ -16,6 +16,7 @@ import {
   deleteAdminBoardCommentPayload,
   updateAdminNoticePayload,
   createAdminNoticePayload,
+  getAdminNoticeDetailResult,
 } from '../../types';
 
 export type AdminBoardsStateType = {
@@ -60,6 +61,47 @@ export type AdminBoardsStateType = {
           user: { nickname: string; photoUrl: string | null };
         }>
       | [];
+    content: string | null;
+    createdAt: string | null;
+    files: [];
+    hits: number | null;
+    id: number | null;
+    title: string | null;
+    user: {
+      photoUrl: string | null;
+      nickname: string | null;
+      styles:
+        | Array<{
+            name: string | null;
+          }>
+        | [];
+    };
+    _count: {
+      likes: number | null;
+    };
+  } | null;
+  getAdminNoticeDetailResult: {
+    comments:
+      | Array<{
+          childComment:
+            | Array<{
+                content: string;
+                createdAt: string;
+                deletedAt: string | null;
+                file: { url: string } | null;
+                id: number;
+                user: { nickname: string; photoUrl: string | null };
+              }>
+            | [];
+          content: string;
+          createdAt: string;
+          deletedAt: string | null;
+          id: number;
+          file: { url: string } | null;
+          user: { nickname: string; photoUrl: string | null };
+        }>
+      | [];
+    notice: { targetCategories: Array<{ category: string }> | null } | null;
     content: string | null;
     createdAt: string | null;
     files: [];
@@ -126,6 +168,7 @@ const initialState: AdminBoardsStateType = {
   commentId: 0,
   getAdminAllBoardsResult: { total: 0, boards: [] },
   getAdminBoardDetailResult: null,
+  getAdminNoticeDetailResult: null,
   getAdminBoardCommentsResult: null,
   createAdminNotice: null,
   updateAdminNotice: null,
@@ -166,13 +209,21 @@ const adminBoardsSlice = createSlice({
       state.loadAdminBoardsLoading = false;
       state.getAdminAllBoardsResult = action.payload;
     },
-    getAdminBoardDetail(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+    getAdminDiscussionDetail(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
       state.loadAdminBoardsLoading = true;
       state.boardId = action.payload.boardId;
     },
-    getAdminBoardDetailResult(state, action: PayloadAction<getAdminBoardDetailResult>) {
+    getAdminDiscussionDetailResult(state, action: PayloadAction<getAdminBoardDetailResult>) {
       state.loadAdminBoardsLoading = false;
       state.getAdminBoardDetailResult = action.payload;
+    },
+    getAdminNoticeDetail(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
+      state.loadAdminBoardsLoading = true;
+      state.boardId = action.payload.boardId;
+    },
+    getAdminNoticeDetailResult(state, action: PayloadAction<getAdminNoticeDetailResult>) {
+      state.loadAdminBoardsLoading = false;
+      state.getAdminNoticeDetailResult = action.payload;
     },
     getAdminBoardComments(state, action: PayloadAction<GetAdminBoardDetailPayload>) {
       state.loadAdminBoardsLoading = true;

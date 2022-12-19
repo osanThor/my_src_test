@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  adminExchangePayload,
+  adminTelegramPayload,
   adminTelegramUsersMessage,
   adminUserDetailPayload,
   changeEmailPayload,
@@ -15,6 +17,7 @@ import {
   getAdminUsersResult,
   LoadAdminUsersResponse,
   ResponseFailure,
+  updateAdminUserPayload,
 } from '../../types';
 
 export type AdminUsersStateType = {
@@ -39,6 +42,8 @@ export type AdminUsersStateType = {
     }> | null;
   } | null;
   getAdminUserDetailResult: {
+    id: string | null;
+    depositStatus: string | null;
     photoUrl: string | null;
     email: string | null;
     nickname: string | null;
@@ -63,9 +68,27 @@ export type AdminUsersStateType = {
       connectionStatus: string | null;
     }> | null;
   } | null;
+  updateUserPayload: {
+    email: string | null;
+    nickname: string | null;
+    introduction: string | null;
+    grade: string | null;
+    licensePackageInfo: {
+      licensePackage: string | null;
+      startedAt: string | null;
+      endedAt: string | null;
+    } | null;
+    depositStatus: string | null;
+  } | null;
   //telegram
   contents: Array<string> | null;
   idList: Array<string> | null;
+  telegramPayload: {
+    id: string | null;
+    username: string | null;
+  };
+  //exchange
+  exchangeId: { id: string | null };
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {
     message: string | null;
@@ -84,6 +107,9 @@ const initialState: AdminUsersStateType = {
   getAdminUserDetailResult: null,
   contents: [],
   idList: [],
+  telegramPayload: { id: '', username: '' },
+  updateUserPayload: null,
+  exchangeId: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
   loadAdminUsersdError: null,
@@ -142,10 +168,39 @@ const adminUsersSlice = createSlice({
       state.loadAdminUsersdLoading = true;
       state.email = action.payload.email;
     },
+    changeAdminUserDefaultImage(state, action: PayloadAction<adminUserDetailPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.email = action.payload.email;
+    },
     sendTelegramMessage(state, action: PayloadAction<adminTelegramUsersMessage>) {
       state.loadAdminUsersdLoading = true;
       state.contents = action.payload.contents;
       state.idList = action.payload.idList;
+    },
+    chagneAdminUserField(state, action: PayloadAction<updateAdminUserPayload>) {
+      state.updateUserPayload = action.payload;
+    },
+    updateAdminUser(state, action: PayloadAction<updateAdminUserPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.updateUserPayload = action.payload;
+    },
+    changeAdminTelegramField(state, action: PayloadAction<adminTelegramPayload>) {
+      state.telegramPayload = action.payload;
+    },
+    addAdminTelegram(state, action: PayloadAction<adminTelegramPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.telegramPayload = action.payload;
+    },
+    deleteAdminTelegram(state, action: PayloadAction<adminTelegramPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.telegramPayload = action.payload;
+    },
+    changeAdminExchangeId(state, action: PayloadAction<adminExchangePayload>) {
+      state.exchangeId = action.payload;
+    },
+    deleteAdminExchange(state, action: PayloadAction<adminExchangePayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.exchangeId = action.payload;
     },
     //api res req
     loadAdminUsersRequest(state) {

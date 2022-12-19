@@ -19,12 +19,13 @@ import {
 // api
 import {
   apiGetAdminAllBoards,
-  apiGetAdminBoardDetail,
   apiGetAdminBoardComments,
   apiDeleteAdminBoardDetail,
   apiDeleteAdminBoardComments,
   apiCreateAdminNotice,
   apiUpdateAdminNotice,
+  apiGetAdminDiscussionDetail,
+  apiGetAdminNoticeDetail,
 } from './../../api';
 // admin get all boards
 function* getAdminAllBoardsSaga(action: PayloadAction<GetAdminAllBoardsPayload>) {
@@ -45,15 +46,32 @@ function* getAdminAllBoardsSaga(action: PayloadAction<GetAdminAllBoardsPayload>)
   }
 }
 // admin get board detail and comments
-function* getAdminBoardSaga(action: PayloadAction<GetAdminBoardDetailPayload>) {
+function* getAdminDiscussionSaga(action: PayloadAction<GetAdminBoardDetailPayload>) {
   yield put(adminBoardsActions.loadAdminBoardsRequest());
   try {
-    const { data }: AxiosResponse<any> = yield call(apiGetAdminBoardDetail, action.payload);
+    const { data }: AxiosResponse<any> = yield call(apiGetAdminDiscussionDetail, action.payload);
     console.log(data);
 
-    yield put(adminBoardsActions.getAdminBoardDetailResult(data));
+    yield put(adminBoardsActions.getAdminDiscussionDetailResult(data));
   } catch (error: any) {
-    console.error('adminBoardsSaga getAdminBoardSaga >> ', error);
+    console.error('adminBoardsSaga getAdminDiscussionSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminBoardsActions.loadAdminBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+function* getAdminNoticeSaga(action: PayloadAction<GetAdminBoardDetailPayload>) {
+  yield put(adminBoardsActions.loadAdminBoardsRequest());
+  try {
+    const { data }: AxiosResponse<any> = yield call(apiGetAdminNoticeDetail, action.payload);
+    console.log(data);
+
+    yield put(adminBoardsActions.getAdminNoticeDetailResult(data));
+  } catch (error: any) {
+    console.error('adminBoardsSaga getAdminNoticeSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -154,7 +172,8 @@ function* updateAdminNoticeSaga(action: PayloadAction<updateAdminNoticePayload>)
 
 function* watchLoadfile() {
   yield takeLatest(adminBoardsActions.getAdminAllBoards, getAdminAllBoardsSaga);
-  yield takeLatest(adminBoardsActions.getAdminBoardDetail, getAdminBoardSaga);
+  yield takeLatest(adminBoardsActions.getAdminDiscussionDetail, getAdminDiscussionSaga);
+  yield takeLatest(adminBoardsActions.getAdminNoticeDetail, getAdminNoticeSaga);
   yield takeLatest(adminBoardsActions.getAdminBoardComments, getAdminBoardCommentsSaga);
   yield takeLatest(adminBoardsActions.deleteAdminBoard, deleteAdminBoardSaga);
   yield takeLatest(adminBoardsActions.deleteAdminComment, deleteAdminCommentSaga);

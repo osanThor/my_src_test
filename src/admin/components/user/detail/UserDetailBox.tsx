@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
+import { Profile1, ResetIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { Input, TextareaAutosize } from '@mui/material';
 import Image from 'next/image';
@@ -7,9 +7,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const UserDetailBox = () => {
-  const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
+const UserDetailBox = ({
+  handleChangeImgModalOpen,
+  handleChangeUserField,
+}: {
+  handleChangeImgModalOpen: () => void;
+  handleChangeUserField: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+}) => {
+  const { getAdminUserDetailResult, updateUserPayload } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
+    updateUserPayload: adminUsers.updateUserPayload,
   }));
   return (
     <UserDetailBoxBlock>
@@ -19,6 +26,7 @@ const UserDetailBox = () => {
           <div className="profile_top">
             <div className="profile_Image">
               <Image
+                className="image"
                 src={
                   getAdminUserDetailResult?.photoUrl &&
                   getAdminUserDetailResult.photoUrl != 'quantro.net' &&
@@ -31,10 +39,18 @@ const UserDetailBox = () => {
                 alt="user profile"
                 layout="fill"
               />
+              <div className="chagne_btn" onClick={handleChangeImgModalOpen}>
+                <Image src={ResetIcon[1]} alt="reset" />
+              </div>
             </div>
             <div className="profile_name">
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname || ''} readOnly />
-              <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.email || ''} readOnly />
+              <Input
+                name="nickname"
+                style={{ flex: 1 }}
+                value={updateUserPayload?.nickname || ''}
+                onChange={handleChangeUserField}
+              />
+              <Input style={{ flex: 1 }} value={updateUserPayload?.email || ''} readOnly />
             </div>
           </div>
           <div className="profile_bott">
@@ -78,10 +94,11 @@ const UserDetailBox = () => {
         </div>
         <TextareaAutosize
           style={{ flex: 1, height: 'auto' }}
+          name="introduction"
           className="introduce"
-          value={getAdminUserDetailResult?.introduction ? getAdminUserDetailResult?.introduction : ''}
+          value={updateUserPayload?.introduction ? updateUserPayload?.introduction : ''}
           placeholder="자기소개"
-          readOnly
+          onChange={handleChangeUserField}
         />
       </div>
     </UserDetailBoxBlock>
@@ -110,7 +127,19 @@ const UserDetailBoxBlock = styled.div`
           margin-right: 20px;
           position: relative;
           border-radius: 50%;
-          overflow: hidden;
+          .image {
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .chagne_btn {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+          }
         }
         .profile_name {
           flex: 1;

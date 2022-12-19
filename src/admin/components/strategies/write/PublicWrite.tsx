@@ -39,7 +39,8 @@ const PublicWrite = () => {
   }));
   const [platform, setPlatForm] = useState('');
   const [chartCycle, setChartCycle] = useState('');
-  const [filUrl, setfilUrl] = useState('');
+  const [fileUrls, setfileUrls] = useState<Array<string>>([]);
+  const [fileUrl, setfileUrl] = useState('');
   function handleChangeQuantroStrategyField(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     if (name === 'title') {
@@ -48,11 +49,11 @@ const PublicWrite = () => {
           title: value,
           category: 'QUANTRO_STRATEGY',
           content,
-          fileUrls: [filUrl],
           platform,
           symbol: quantroStrategyPayload?.symbol,
           chartCycle,
           profitPct: quantroStrategyPayload?.profitPct,
+          fileUrls,
         }),
       );
     } else if (name === 'symbol') {
@@ -61,11 +62,11 @@ const PublicWrite = () => {
           title: quantroStrategyPayload?.title,
           category: 'QUANTRO_STRATEGY',
           content,
-          fileUrls: [filUrl],
           platform,
           symbol: value,
           chartCycle,
           profitPct: quantroStrategyPayload?.profitPct,
+          fileUrls,
         }),
       );
     } else if (name === 'profitPct') {
@@ -74,11 +75,11 @@ const PublicWrite = () => {
           title: quantroStrategyPayload?.title,
           category: 'QUANTRO_STRATEGY',
           content,
-          fileUrls: [filUrl],
           platform,
           symbol: quantroStrategyPayload?.symbol,
           chartCycle,
           profitPct: parseInt(value),
+          fileUrls,
         }),
       );
     }
@@ -94,11 +95,11 @@ const PublicWrite = () => {
         title: quantroStrategyPayload?.title,
         category: 'QUANTRO_STRATEGY',
         content: val,
-        fileUrls: [filUrl],
         platform,
         symbol: quantroStrategyPayload?.symbol,
         chartCycle,
         profitPct: quantroStrategyPayload?.profitPct,
+        fileUrls,
       }),
     );
   };
@@ -111,14 +112,15 @@ const PublicWrite = () => {
     } else {
       formData.append('files', files[0]);
     }
-    const res = await axiosInstance.post(`/admin/uploads/files?zone=BANNER`, formData, {
+    const res = await axiosInstance.post(`/admin/uploads/files?zone=STRATEGY`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 
     if (res) {
-      setfilUrl(res.data.urls[0]);
+      setfileUrls([res.data.urls[0]]);
+      setfileUrl(res.data.urls[0]);
     }
   };
   return (
@@ -165,7 +167,7 @@ const PublicWrite = () => {
           <input type="file" onChange={handleChangeImage} />
           <span className="button">파일 업로드</span>
         </label>
-        <div className="filename">{filUrl ? filUrl : '선택 파일이 없습니다'}</div>
+        <div className="filename">{fileUrl ? fileUrl : '선택 파일이 없습니다'}</div>
         <span className="guide">※ 해당 전략의 백테스트 결과를 캡쳐한 이미지를 업로드해주세요.</span>
       </div>
     </PublicWriteBlock>

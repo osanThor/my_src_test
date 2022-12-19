@@ -14,15 +14,14 @@ export type changeConfirmStatusPayload = {
 
 export type getAdminStrategiesResult = {
   total: number | null;
-  strategies: Array<{
-    board: {
-      id: number | null;
-      title: string | null;
-      user: { email: string | null; nickname: string | null };
-      category: string | null;
-      createdAt: string | null;
-    };
-    confirmStatus: string | null;
+  boards: Array<{
+    category: string | null;
+    createdAt: string | null;
+    deletedAt: string | null;
+    id: number | null;
+    strategy: { confirmStatus: string } | null;
+    title: string | null;
+    user: { email: string | null; nickname: string | null };
   }> | null;
 } | null;
 
@@ -34,11 +33,16 @@ export type certifiedAdminStrategyPayload = {
   chartCycle: string | null;
   profitPct: number | null;
   confirmStatus: string | null;
+  fileUrl: string | null;
 };
 
 export type getAdminStrategyDetailPayload = {
   id: number | null;
   category: string | null;
+};
+
+export type deleteAdminStrategyPayload = {
+  id: number | null;
 };
 
 export type getAdminStrategyDetailResult = {
@@ -56,23 +60,37 @@ export type getAdminStrategyDetailResult = {
   title: string | null;
   user: { nickname: string | null };
 } | null;
+export type getAdminCommissionDetailResult = {
+  category: string | null;
+  content: string | null;
+  files: [];
+  commission: {
+    answer: string | null;
+  };
+  title: string | null;
+  user: { nickname: string | null };
+} | null;
+export type commissionPayload = {
+  id: number | null;
+  answer: string | null;
+};
 
 export type createQuantroStrategyPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: [string] | [];
   platform: string | null;
   symbol: string | null;
   chartCycle: string | null;
   profitPct: number | null;
+  fileUrls: Array<string> | null;
 };
 
 export type createQuantroIndicatorPayload = {
   category: string | null;
   title: string | null;
   content: string | null;
-  fileUrls: [string] | [];
+  fileUrls: Array<string> | [];
 };
 
 export type LoadAdminStrategiesResponse = {

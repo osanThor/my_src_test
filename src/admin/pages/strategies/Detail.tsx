@@ -1,3 +1,4 @@
+import Loading from '@/src/components/common/Loading';
 import FuncModal from '@/src/components/common/modals/FuncModal';
 import { RootState } from '@/src/store/configureStore';
 import { adminStrategiesActions } from '@/src/store/reducers';
@@ -6,6 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import CertifiedContainer from '../../containers/strategies/CertifiedContainer';
+import CommissionContainer from '../../containers/strategies/CommissionContainer';
+import IndicatorContainer from '../../containers/strategies/IndicatorContainer';
+import PublicContainer from '../../containers/strategies/PublicContainer';
 import UserStrategyContainer from '../../containers/strategies/UserStrategyContainer';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
@@ -16,13 +20,23 @@ const Detail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { getAdminStrategyDetailResult, certifiedStrategyPayload, loadAdminStrategiesDone, loadAdminStrategiesError } =
-    useSelector(({ adminStrategies }: RootState) => ({
-      getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
-      certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
-      loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
-      loadAdminStrategiesError: adminStrategies.loadAdminStrategiesError,
-    }));
+  const {
+    getAdminStrategyDetailResult,
+    getAdminCommissionDetailResult,
+    certifiedStrategyPayload,
+    answer,
+    loadAdminStrategiesLoading,
+    loadAdminStrategiesDone,
+    loadAdminStrategiesError,
+  } = useSelector(({ adminStrategies }: RootState) => ({
+    getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+    getAdminCommissionDetailResult: adminStrategies.getAdminCommissionDetailResult,
+    certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
+    answer: adminStrategies.answer,
+    loadAdminStrategiesLoading: adminStrategies.loadAdminStrategiesLoading,
+    loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
+    loadAdminStrategiesError: adminStrategies.loadAdminStrategiesError,
+  }));
   useEffect(() => {
     const admin = localStorage.getItem('admin');
     if (!admin) {
@@ -62,15 +76,18 @@ const Detail = () => {
   useEffect(() => {
     if (getAdminStrategyDetailResult) {
       dispatch(adminStrategiesActions.changeContent({ content: getAdminStrategyDetailResult?.content }));
+    } else if (getAdminCommissionDetailResult) {
+      dispatch(adminStrategiesActions.changeContent({ content: getAdminCommissionDetailResult?.content }));
     }
-  }, [getAdminStrategyDetailResult]);
+  }, [getAdminStrategyDetailResult, getAdminCommissionDetailResult]);
 
   //function modal
-  const [isDelete, setIsDelete] = useState(false);
 
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
   const [fModalBtnTxt, setFModalBtnTxt] = useState('');
+
+  const [isDelete, setIsDelete] = useState(false);
   const handleDeleteModalOpen = () => {
     setFModalOpen(true);
     setFModalMessage('해당 내용을 삭제하시겠습니까?');
@@ -88,9 +105,21 @@ const Detail = () => {
     setIsDelete(false);
   };
 
-  const handleUpdateStrategy = () => {
+  const handleClickStrategyModal = () => {
     if (router.query.category === 'CERTIFIED_STRATEGY') {
       dispatch(adminStrategiesActions.updateCertifiedStrategy(certifiedStrategyPayload));
+    }
+
+    if (router.query.category === 'USER_STRATEGY') {
+      alert(new Error());
+    }
+
+    if (router.query.category === 'COMMISSION') {
+      dispatch(adminStrategiesActions.updateAdminCommission({ id: parseInt(router.query.id as string), answer }));
+    }
+
+    if (isDelete) {
+      dispatch(adminStrategiesActions.deleteAdminStrategy({ id: parseInt(router.query.id as string) }));
     }
   };
 
@@ -111,6 +140,10 @@ const Detail = () => {
           }),
         );
       }
+      if (loadAdminStrategiesDone.message === 'DELETED') {
+        alert('삭제가 완료됐습니다');
+        router.back();
+      }
     }
   }, [loadAdminStrategiesError, loadAdminStrategiesDone]);
 
@@ -125,6 +158,9 @@ const Detail = () => {
           />
           {router.query.category === 'CERTIFIED_STRATEGY' && <CertifiedContainer />}
           {router.query.category === 'USER_STRATEGY' && <UserStrategyContainer />}
+          {router.query.category === 'COMMISSION' && <CommissionContainer />}
+          {router.query.category === 'QUANTRO_STRATEGY' && <PublicContainer />}
+          {router.query.category === 'QUANTRO_INDICATOR' && <IndicatorContainer />}
         </BasicContainer>
       </AdminLayout>
       <FuncModal
@@ -136,9 +172,10 @@ const Detail = () => {
           btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={isDelete ? () => alert('임시') : handleUpdateStrategy}
+        onClick={handleClickStrategyModal}
         onClick2={handleModalClose}
       />
+      {loadAdminStrategiesLoading && <Loading />}
     </>
   );
 };
