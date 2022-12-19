@@ -73,6 +73,9 @@ export {
   apiSendAdminUserNotice,
   apiUpdateAdminUser,
   apiSendAdminUserMessage,
+  apiAddAdminUserTelegram,
+  apiChangeAdminUserDefaultPhoto,
+  apiDeleteAdminUserTelegram,
 } from './admin/user';
 
 export { apiCreateAdminBanner, apiGetAdminAllBanners, apiGetAdminBannerDetail } from './admin/banners';

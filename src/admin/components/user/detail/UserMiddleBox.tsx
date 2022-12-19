@@ -33,12 +33,16 @@ const UserMiddleBox = ({
   handleChangeTelegramMessage,
   handleSendTelegramMessage,
   handleChangeUserField,
+  handleAddTelegramOpen,
+  handleDeleteTelegramOpen,
 }: {
   messageVal: string | null;
   idList: Array<string> | null;
   handleChangeTelegramMessage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSendTelegramMessage: () => void;
   handleChangeUserField: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleAddTelegramOpen: () => void;
+  handleDeleteTelegramOpen: (val: string) => void;
 }) => {
   const dispatch = useDispatch();
   const { getAdminUserDetailResult, updateUserPayload } = useSelector(({ adminUsers }: RootState) => ({
@@ -74,7 +78,6 @@ const UserMiddleBox = ({
       }
     }
   }, [getAdminUserDetailResult, updateUserPayload]);
-  console.log(packageSt);
 
   useEffect(() => {
     dispatch(
@@ -92,7 +95,6 @@ const UserMiddleBox = ({
       }),
     );
   }, [gradeSt, packageSt, depositSt]);
-  console.log(moment(updateUserPayload?.licensePackageInfo?.startedAt).format('yyyy-MM-DDThh:mm:ss.sss[Z]'));
   return (
     <UserMiddleBoxBlock>
       <div className="package_area">
@@ -125,7 +127,12 @@ const UserMiddleBox = ({
         <CustomSelect options={depositStatusOptions} place={depositSt} setSearchName={setDepositSt} />
       </div>
       <div className="telegram_area">
-        <div className="title">텔레그램</div>
+        <div className="title">
+          텔레그램
+          <div className="add_btn" onClick={handleAddTelegramOpen}>
+            +
+          </div>
+        </div>
         <div className="telegram_con">
           {getAdminUserDetailResult?.telegrams?.length != 0 ? (
             <>
@@ -139,6 +146,9 @@ const UserMiddleBox = ({
                       checked={idList.includes(telegram.id)}
                     />
                     사용자명: <span>{telegram.name}</span>
+                    <span className="delete_btn" onClick={() => handleDeleteTelegramOpen(telegram.name)}>
+                      삭제
+                    </span>
                   </label>
                 ))}
               </div>
@@ -217,6 +227,31 @@ const UserMiddleBoxBlock = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    .title {
+      display: flex;
+      align-items: center;
+      position: relative;
+      .add_btn {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'GmarketSansBold';
+        color: ${colors.blue[2]};
+        margin-left: 1rem;
+        font-size: 1.75rem;
+        position: absolute;
+        top: 0;
+        left: 70px;
+        transition: all 0.2s;
+        &:hover {
+          transform: scale(1.15);
+        }
+      }
+    }
     .telegram_con {
       width: 100%;
       flex: 1;
@@ -237,12 +272,23 @@ const UserMiddleBoxBlock = styled.div`
           border: 1px solid ${colors.blue[2]};
           color: ${colors.gray[5]};
           border-radius: 34px;
+          position: relative;
           span {
             font-size: 1rem;
             font-family: 'GmarketSansBold';
             color: ${colors.blue[2]};
             &:last-child {
               margin-left: 1rem;
+            }
+          }
+          span.delete_btn {
+            color: ${colors.red[2]};
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            &:hover {
+              opacity: 0.7;
             }
           }
         }

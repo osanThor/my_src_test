@@ -1,5 +1,6 @@
 import { axiosInstance } from '..';
 import {
+  adminTelegramPayload,
   adminTelegramUsersMessage,
   adminTelegramUsersNotice,
   adminUserDetailPayload,
@@ -42,6 +43,14 @@ export const apiDeleteAdminUser = ({ email }: adminUserDetailPayload) => axiosIn
 //change admin User default photo
 export const apiChangeAdminUserDefaultPhoto = ({ email }: adminUserDetailPayload) =>
   axiosInstance.put<LoadAdminUsersResponse>(`/admin/users/${email}/default-photo`);
+
+// add telegram
+export const apiAddAdminUserTelegram = ({ id, username }: adminTelegramPayload) =>
+  axiosInstance.post(`/admin/users/${id}/telegram?username=${username}`);
+
+//delete telegram
+export const apiDeleteAdminUserTelegram = ({ id, username }: adminTelegramPayload) =>
+  axiosInstance.delete(`/admin/users/${id}/telegram?username=${username}`);
 
 // send notice to all telegram users
 export const apiSendAdminUserNotice = ({ contents }: adminTelegramUsersNotice) =>

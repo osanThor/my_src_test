@@ -120,6 +120,7 @@ export type {
   changelicensePackagePayload,
   LoadAdminUsersResponse,
   updateAdminUserPayload,
+  adminTelegramPayload,
 } from './admin/adminUser';
 
 export type {

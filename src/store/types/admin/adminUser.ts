@@ -37,6 +37,7 @@ export type updateAdminUserPayload = {
   depositStatus: string | null;
 };
 export type getAdminUserDetailResult = {
+  id: string | null;
   depositStatus: string | null;
   photoUrl: string | null;
   email: string | null;
@@ -68,6 +69,11 @@ export type adminTelegramUsersNotice = {
 export type adminTelegramUsersMessage = {
   contents: Array<string> | [];
   idList: Array<string> | [];
+};
+
+export type adminTelegramPayload = {
+  id: string | null;
+  username: string | null;
 };
 
 export type changePagePayload = {

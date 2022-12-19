@@ -7,6 +7,7 @@ import type { AxiosResponse } from 'axios';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminUsersActions } from '../../reducers';
 import {
+  adminTelegramPayload,
   adminTelegramUsersMessage,
   adminUserDetailPayload,
   getAdminUserDetailResult,
@@ -15,8 +16,15 @@ import {
   LoadAdminUsersResponse,
   updateAdminUserPayload,
 } from '../../types';
-import { apiDeleteAdminUser, apiGetAdminUserDetail, apiGetAdminUsers, apiSendAdminUserMessage } from '../../api';
-import { apiChangeAdminUserDefaultPhoto, apiUpdateAdminUser } from '../../api/admin/user';
+import {
+  apiDeleteAdminUser,
+  apiGetAdminUserDetail,
+  apiGetAdminUsers,
+  apiSendAdminUserMessage,
+  apiChangeAdminUserDefaultPhoto,
+  apiUpdateAdminUser,
+  apiAddAdminUserTelegram,
+} from '../../api';
 
 // api
 // get all admin users
@@ -114,6 +122,43 @@ function* adminChangeUserDefaultImageSaga(action: PayloadAction<adminUserDetailP
   }
 }
 
+//add user telegram
+function* addAdminTelegramSaga(action: PayloadAction<adminTelegramPayload>) {
+  yield put(adminUsersActions.loadAdminUsersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminUsersResponse> = yield call(apiAddAdminUserTelegram, action.payload);
+    console.log(data);
+
+    yield put(adminUsersActions.loadAdminUsersSuccess(data));
+  } catch (error: any) {
+    console.error('adminUsersSaga addAdminTelegramSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
+  }
+}
+//delete user telegram
+function* deleteAdminTelegramSaga(action: PayloadAction<adminTelegramPayload>) {
+  yield put(adminUsersActions.loadAdminUsersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminUsersResponse> = yield call(apiAddAdminUserTelegram, action.payload);
+    console.log(data);
+
+    yield put(adminUsersActions.loadAdminUsersSuccess(data));
+  } catch (error: any) {
+    console.error('adminUsersSaga addAdminTelegramSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
+  }
+}
+
 // send telegram message
 function* sendAdminTelegramMessageSaga(action: PayloadAction<adminTelegramUsersMessage>) {
   yield put(adminUsersActions.loadAdminUsersRequest());
@@ -140,6 +185,8 @@ function* watchLoadfile() {
   yield takeLatest(adminUsersActions.changeAdminUserDefaultImage, adminChangeUserDefaultImageSaga);
   yield takeLatest(adminUsersActions.sendTelegramMessage, sendAdminTelegramMessageSaga);
   yield takeLatest(adminUsersActions.updateAdminUser, updateAdminUserSaga);
+  yield takeLatest(adminUsersActions.addAdminTelegram, addAdminTelegramSaga);
+  yield takeLatest(adminUsersActions.deleteAdminTelegram, deleteAdminTelegramSaga);
 }
 
 export default function* adminUsersSaga() {

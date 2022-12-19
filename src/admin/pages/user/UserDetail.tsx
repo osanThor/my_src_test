@@ -13,6 +13,8 @@ import FuncModal from '@/src/components/common/modals/FuncModal';
 import Loading from '@/src/components/common/Loading';
 import AcountTable from '../../components/user/detail/AcountTable';
 import moment from 'moment';
+import AddTelegramModal from '../../components/user/detail/items/AddTelegramModal';
+import DeleteTelegramModal from '../../components/user/detail/items/DeleteTelegramModal';
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,7 @@ const UserDetail = () => {
   const {
     email,
     updateUserPayload,
+    telegramPayload,
     getAdminUserDetailResult,
     loadAdminUsersdLoading,
     loadAdminUsersdDone,
@@ -30,6 +33,7 @@ const UserDetail = () => {
   } = useSelector(({ adminUsers }: RootState) => ({
     email: adminUsers.email,
     updateUserPayload: adminUsers.updateUserPayload,
+    telegramPayload: adminUsers.telegramPayload,
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
     loadAdminUsersdLoading: adminUsers.loadAdminUsersdLoading,
     loadAdminUsersdDone: adminUsers.loadAdminUsersdDone,
@@ -210,6 +214,45 @@ const UserDetail = () => {
     setIsChangeImg(true);
   };
 
+  // add telegram
+  const [addTelegram, setAddTelegram] = useState(false);
+  const handleAddTelegramOpen = () => {
+    setAddTelegram(true);
+  };
+  const handleAddTelegramClose = () => {
+    setAddTelegram(false);
+  };
+  const handleAddTelegram = () => {
+    dispatch(
+      adminUsersActions.addAdminTelegram({
+        id: getAdminUserDetailResult?.id,
+        username: telegramPayload?.username,
+      }),
+    );
+  };
+  // Delete telegram
+  const [deleteTelegram, setDeleteTelegram] = useState(false);
+  const handleDeleteTelegramOpen = (val: string) => {
+    setDeleteTelegram(true);
+    dispatch(
+      adminUsersActions.changeAdminTelegramField({
+        id: getAdminUserDetailResult?.id,
+        username: val,
+      }),
+    );
+  };
+  const handleDeleteTelegramClose = () => {
+    setDeleteTelegram(false);
+  };
+  const handleDeleteTelegram = () => {
+    dispatch(
+      adminUsersActions.deleteAdminTelegram({
+        id: getAdminUserDetailResult?.id,
+        username: telegramPayload?.username,
+      }),
+    );
+  };
+
   //** Modal eventhandler */
   const handleModalClick = () => {
     if (isDelete) {
@@ -237,10 +280,26 @@ const UserDetail = () => {
       }
       if (loadAdminUsersdDone.message === 'DELETED') {
         alert('삭제 되었어요');
-        router.push('/admin/users');
+        if (deleteTelegram) {
+          dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
+          setDeleteTelegram(false);
+        } else {
+          router.push('/admin/users');
+        }
       }
       if (loadAdminUsersdDone.message === 'SUCCESS') {
         alert('전송에 성공했어요!');
+      }
+      if (loadAdminUsersdDone.message === 'NOT_FOUND_TELEGRAM' || loadAdminUsersdDone.message === 'WRONG_USERNAME') {
+        alert('텔레그램 사용자명를 찾을 수 없어요');
+        return;
+      } else if (loadAdminUsersdDone.message === 'ALREADY_EXIST') {
+        alert('이미 등록된 텔레그램 사용자명이에요');
+        return;
+      } else if (loadAdminUsersdDone.message === 'CHANGED') {
+        alert('텔레그램이 연동되었어요~!');
+        setFModalOpen(false);
+        dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
       }
     }
   }, [loadAdminUsersdError, loadAdminUsersdDone]);
@@ -297,6 +356,8 @@ const UserDetail = () => {
             handleChangeTelegramMessage={handleChangeTelegramMessage}
             handleSendTelegramMessage={handleSendTelegramMessage}
             handleChangeUserField={handleChangeUserField}
+            handleAddTelegramOpen={handleAddTelegramOpen}
+            handleDeleteTelegramOpen={handleDeleteTelegramOpen}
           />
           <AcountTable />
         </BasicContainer>
@@ -313,6 +374,10 @@ const UserDetail = () => {
         onClick={handleModalClick}
         onClick2={handleModalClose}
       />
+      {/** telegram */}
+      <AddTelegramModal open={addTelegram} onClose={handleAddTelegramClose} onClick={handleAddTelegram} />
+      <DeleteTelegramModal open={deleteTelegram} onClose={handleDeleteTelegramClose} onClick={handleDeleteTelegram} />
+      {/** laoding */}
       {loadAdminUsersdLoading && <Loading />}
     </>
   );

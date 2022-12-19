@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+  adminTelegramPayload,
   adminTelegramUsersMessage,
   adminUserDetailPayload,
   changeEmailPayload,
@@ -40,6 +41,7 @@ export type AdminUsersStateType = {
     }> | null;
   } | null;
   getAdminUserDetailResult: {
+    id: string | null;
     depositStatus: string | null;
     photoUrl: string | null;
     email: string | null;
@@ -80,6 +82,10 @@ export type AdminUsersStateType = {
   //telegram
   contents: Array<string> | null;
   idList: Array<string> | null;
+  telegramPayload: {
+    id: string | null;
+    username: string | null;
+  };
   loadAdminUsersdLoading: boolean;
   loadAdminUsersdDone: {
     message: string | null;
@@ -98,6 +104,7 @@ const initialState: AdminUsersStateType = {
   getAdminUserDetailResult: null,
   contents: [],
   idList: [],
+  telegramPayload: { id: '', username: '' },
   updateUserPayload: null,
   loadAdminUsersdLoading: false,
   loadAdminUsersdDone: null,
@@ -172,6 +179,17 @@ const adminUsersSlice = createSlice({
     updateAdminUser(state, action: PayloadAction<updateAdminUserPayload>) {
       state.loadAdminUsersdLoading = true;
       state.updateUserPayload = action.payload;
+    },
+    changeAdminTelegramField(state, action: PayloadAction<adminTelegramPayload>) {
+      state.telegramPayload = action.payload;
+    },
+    addAdminTelegram(state, action: PayloadAction<adminTelegramPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.telegramPayload = action.payload;
+    },
+    deleteAdminTelegram(state, action: PayloadAction<adminTelegramPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.telegramPayload = action.payload;
     },
     //api res req
     loadAdminUsersRequest(state) {
