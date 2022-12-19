@@ -97,7 +97,8 @@ export {
   apiDeleteAdminBoardComments,
   apiDeleteAdminBoardDetail,
   apiGetAdminBoardComments,
-  apiGetAdminBoardDetail,
+  apiGetAdminDiscussionDetail,
+  apiGetAdminNoticeDetail,
 } from './admin/boards';
 
 export {

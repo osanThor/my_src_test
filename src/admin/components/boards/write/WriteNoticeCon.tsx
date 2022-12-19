@@ -16,7 +16,7 @@ const WriteNoticeCon = () => {
   const { createAdminNotice } = useSelector(({ adminBoards }: RootState) => ({
     createAdminNotice: adminBoards.createAdminNotice,
   }));
-  const [targetArr, setTargetArr] = useState<Array<string>>([]);
+  // const [targetArr, setTargetArr] = useState<Array<string>>([]);
   const handleChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked } = e.target;
     if (name === 'title') {
@@ -29,34 +29,53 @@ const WriteNoticeCon = () => {
       );
     } else if (name === 'targetCategory') {
       if (checked) {
-        setTargetArr((tg) => [...tg, value]);
+        console.log('추가');
+        dispatch(
+          adminBoardsActions.changeAdminNoticeField({
+            title: createAdminNotice?.title,
+            content: createAdminNotice?.content,
+            targetCategory: createAdminNotice?.targetCategory?.concat([value]),
+          }),
+        );
+        // setTargetArr((tg) => [...tg, value]);
       } else {
-        setTargetArr(targetArr.filter((tg) => tg != value));
+        console.log('빼기');
+        dispatch(
+          adminBoardsActions.changeAdminNoticeField({
+            title: createAdminNotice?.title,
+            content: createAdminNotice?.content,
+            targetCategory: createAdminNotice?.targetCategory?.filter((tg) => tg != value),
+          }),
+        );
+        // setTargetArr(targetArr.filter((tg) => tg != value));
       }
     }
   };
 
-  useEffect(() => {
-    dispatch(
-      adminBoardsActions.changeAdminNoticeField({
-        title: createAdminNotice?.title,
-        content: createAdminNotice?.content,
-        targetCategory: targetArr,
-      }),
-    );
-  }, [targetArr]);
+  // useEffect(() => {
+  //   dispatch(
+  //     adminBoardsActions.changeAdminNoticeField({
+  //       title: createAdminNotice?.title,
+  //       content: createAdminNotice?.content,
+  //       targetCategory: targetArr,
+  //     }),
+  //   );
+  // }, [targetArr]);
 
-  console.log(createAdminNotice);
+  console.log(createAdminNotice?.targetCategory);
 
   const handleChangeContents = (val: string) => {
-    dispatch(
-      adminBoardsActions.changeAdminNoticeField({
-        title: createAdminNotice?.title,
-        content: val,
-        targetCategory: createAdminNotice?.targetCategory,
-      }),
-    );
+    if (createAdminNotice?.title) {
+      dispatch(
+        adminBoardsActions.changeAdminNoticeField({
+          title: createAdminNotice?.title,
+          content: val,
+          targetCategory: createAdminNotice?.targetCategory,
+        }),
+      );
+    }
   };
+
   return (
     <WriteNoticeConBlock>
       <div className="title">{router.pathname === '/admin/boards/notice' ? '공지상세' : '공지등록'}</div>
@@ -75,7 +94,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'CERTIFIED_STRATEGY'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('CERTIFIED_STRATEGY')}
+            checked={createAdminNotice?.targetCategory?.includes('CERTIFIED_STRATEGY') || false}
           />
           퀀트로 인증전략
         </label>
@@ -84,7 +103,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'USER_STRATEGY'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('USER_STRATEGY')}
+            checked={createAdminNotice?.targetCategory?.includes('USER_STRATEGY') || false}
           />
           사용자 전략
         </label>
@@ -93,7 +112,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'DISCUSSION'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('DISCUSSION')}
+            checked={createAdminNotice?.targetCategory?.includes('DISCUSSION') || false}
           />
           전략토론
         </label>
@@ -102,7 +121,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'COMMISSION'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('COMMISSION')}
+            checked={createAdminNotice?.targetCategory?.includes('COMMISSION') || false}
           />
           전략 개발의뢰
         </label>
@@ -111,7 +130,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'QUANTRO_STRATEGY'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('QUANTRO_STRATEGY')}
+            checked={createAdminNotice?.targetCategory?.includes('QUANTRO_STRATEGY') || false}
           />
           공개 전략
         </label>
@@ -120,7 +139,7 @@ const WriteNoticeCon = () => {
             name="targetCategory"
             value={'QUANTRO_INDICATOR'}
             onChange={handleChangeField}
-            checked={targetArr?.includes('QUANTRO_INDICATOR')}
+            checked={createAdminNotice?.targetCategory?.includes('QUANTRO_INDICATOR') || false}
           />
           공개 지표
         </label>

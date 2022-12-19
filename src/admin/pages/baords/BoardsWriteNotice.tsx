@@ -4,10 +4,7 @@ import { adminBoardsActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import BoardContents from '../../components/boards/detail/BoardContents';
-import BoardTop from '../../components/boards/detail/BoardTop';
 import WriteNoticeCon from '../../components/boards/write/WriteNoticeCon';
-import CommentsLayout from '../../components/common/Comments/CommentsLayout';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
@@ -87,6 +84,16 @@ const BoardsWriteNotice = () => {
       }
     }
   }, [loadAdminBoardsError, loadAdminBoardsDone]);
+
+  useEffect(() => {
+    dispatch(
+      adminBoardsActions.changeAdminNoticeField({
+        title: '',
+        content: '',
+        targetCategory: [],
+      }),
+    );
+  }, []);
 
   return (
     <>

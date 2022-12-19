@@ -47,10 +47,11 @@ const BoardsDetail = () => {
   useEffect(() => {
     if (isAdmin) {
       dispatch(
-        adminBoardsActions.getAdminBoardDetail({
+        adminBoardsActions.getAdminDiscussionDetail({
           boardId: parseInt(router.query.id as string),
         }),
       );
+
       dispatch(
         adminBoardsActions.getAdminBoardComments({
           boardId: parseInt(router.query.id as string),
@@ -99,10 +100,11 @@ const BoardsDetail = () => {
         setFModalOpen(false);
         if (isComment) {
           dispatch(
-            adminBoardsActions.getAdminBoardDetail({
+            adminBoardsActions.getAdminDiscussionDetail({
               boardId: parseInt(router.query.id as string),
             }),
           );
+
           dispatch(
             adminBoardsActions.getAdminBoardComments({
               boardId: parseInt(router.query.id as string),

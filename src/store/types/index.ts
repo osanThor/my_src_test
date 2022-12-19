@@ -147,6 +147,7 @@ export type {
   createAdminNoticePayload,
   updateAdminNoticePayload,
   getAdminBoardCommentsResult,
+  getAdminNoticeDetailResult,
 } from './admin/adminBoards';
 
 export type {
