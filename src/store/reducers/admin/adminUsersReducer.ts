@@ -142,6 +142,10 @@ const adminUsersSlice = createSlice({
       state.loadAdminUsersdLoading = true;
       state.email = action.payload.email;
     },
+    changeAdminUserDefaultImage(state, action: PayloadAction<adminUserDetailPayload>) {
+      state.loadAdminUsersdLoading = true;
+      state.email = action.payload.email;
+    },
     sendTelegramMessage(state, action: PayloadAction<adminTelegramUsersMessage>) {
       state.loadAdminUsersdLoading = true;
       state.contents = action.payload.contents;

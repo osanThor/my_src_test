@@ -60,15 +60,53 @@ const UserDetail = () => {
 
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
-  const handleDeleteModalOpen = () => {
-    setFModalOpen(true);
-  };
+  const [fModalMessage, setFModalMessage] = useState('');
+  const [fModalSubMessage, setFModalSubMessage] = useState('');
+  const [fModalBtnTxt, setFModalBtnTxt] = useState('');
+
   const handleModalClose = () => {
     setFModalOpen(false);
+    setFModalSubMessage('');
+    setIsDelete(false);
+    setIsUpdate(false);
+    setIsChangeImg(false);
   };
+
   //delete user
-  const handleDeleteUser = () => {
-    dispatch(adminUsersActions.adminUserDelete({ email }));
+  const [isDelete, setIsDelete] = useState(false);
+  const handleDeleteModalOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('해당 회원을 삭제하시겠습니까?');
+    setFModalBtnTxt('삭제하기');
+    setIsDelete(true);
+  };
+  // update user info
+  const [isUpdate, setIsUpdate] = useState(false);
+  const handleUpdateModalOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('변경 내용을 등록하시겠습니까?');
+    setFModalBtnTxt('등록하기');
+    setIsUpdate(true);
+  };
+  //change img
+  const [isChangeImg, setIsChangeImg] = useState(false);
+  const handleChangeImgModalOpen = () => {
+    setFModalOpen(true);
+    setFModalMessage('이미지를 변경하시겠습니까?');
+    setFModalSubMessage('Default 이미지는 랜덤으로 지정돼요');
+    setFModalBtnTxt('변경하기');
+    setIsChangeImg(true);
+  };
+  //** Modal eventhandler */
+  const handleModalClick = () => {
+    if (isDelete) {
+      dispatch(adminUsersActions.adminUserDelete({ email }));
+    } else if (isUpdate) {
+      //update user
+    } else if (isChangeImg) {
+      //change user img
+      dispatch(adminUsersActions.changeAdminUserDefaultImage({ email }));
+    }
   };
 
   useEffect(() => {
@@ -78,6 +116,11 @@ const UserDetail = () => {
     }
 
     if (loadAdminUsersdDone) {
+      if (loadAdminUsersdDone.message === 'UPDATED') {
+        alert('변경 되었어요');
+        setFModalOpen(false);
+        dispatch(adminUsersActions.getAdminUserDetail({ email: router.query.email as string }));
+      }
       if (loadAdminUsersdDone.message === 'DELETED') {
         alert('삭제 되었어요');
         router.push('/admin/users');
@@ -105,8 +148,6 @@ const UserDetail = () => {
     }
   };
 
-  console.log(messageVal);
-  console.log(idList);
   const handleSendTelegramMessage = () => {
     if (!messageVal) {
       alert('메세지를 입력 해주세요!');
@@ -130,11 +171,9 @@ const UserDetail = () => {
           <DetailCommonTop
             handleDeleteModalOpen={handleDeleteModalOpen}
             handleSubmit={null}
-            handleUpdate={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            handleUpdate={handleUpdateModalOpen}
           />
-          <UserDetailBox />
+          <UserDetailBox handleChangeImgModalOpen={handleChangeImgModalOpen} />
           <UserMiddleBox
             messageVal={messageVal}
             idList={idList}
@@ -148,12 +187,12 @@ const UserDetail = () => {
         open={fModalOpen}
         onClose={handleModalClose}
         message={{
-          title: '해당 회원을 삭제하시겠습니까?',
-          description: '',
-          btnTxt: '삭제하기',
+          title: fModalMessage,
+          description: fModalSubMessage,
+          btnTxt: fModalBtnTxt,
         }}
         dubBtn={true}
-        onClick={handleDeleteUser}
+        onClick={handleModalClick}
         onClick2={handleModalClose}
       />
       {loadAdminUsersdLoading && <Loading />}

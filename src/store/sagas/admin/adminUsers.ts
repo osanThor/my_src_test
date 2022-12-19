@@ -15,6 +15,7 @@ import {
   LoadAdminUsersResponse,
 } from '../../types';
 import { apiDeleteAdminUser, apiGetAdminUserDetail, apiGetAdminUsers, apiSendAdminUserMessage } from '../../api';
+import { apiChangeAdminUserDefaultPhoto } from '../../api/admin/user';
 
 // api
 // get all admin users
@@ -73,6 +74,25 @@ function* adminUserDeleteSaga(action: PayloadAction<adminUserDetailPayload>) {
     yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
   }
 }
+// chagne user default iamge
+function* adminChangeUserDefaultImageSaga(action: PayloadAction<adminUserDetailPayload>) {
+  yield put(adminUsersActions.loadAdminUsersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminUsersResponse> = yield call(apiChangeAdminUserDefaultPhoto, action.payload);
+    console.log(data);
+
+    yield put(adminUsersActions.loadAdminUsersSuccess(data));
+  } catch (error: any) {
+    console.error('adminUsersSaga adminChangeUserDefaultImageSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminUsersActions.loadAdminUsersFailure({ status: { ok: false }, message }));
+  }
+}
+
 // send telegram message
 function* sendAdminTelegramMessageSaga(action: PayloadAction<adminTelegramUsersMessage>) {
   yield put(adminUsersActions.loadAdminUsersRequest());
@@ -96,6 +116,7 @@ function* watchLoadfile() {
   yield takeLatest(adminUsersActions.getAdminUsers, getAdminUsersSaga);
   yield takeLatest(adminUsersActions.getAdminUserDetail, getAdminUserDetailSaga);
   yield takeLatest(adminUsersActions.adminUserDelete, adminUserDeleteSaga);
+  yield takeLatest(adminUsersActions.changeAdminUserDefaultImage, adminChangeUserDefaultImageSaga);
   yield takeLatest(adminUsersActions.sendTelegramMessage, sendAdminTelegramMessageSaga);
 }
 

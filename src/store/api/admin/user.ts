@@ -28,8 +28,12 @@ export const apiUpdateAdminUser = ({ email, nickname, introduction, grade, depos
     depositStatus,
   });
 
-//get admin User delete
+//delete admin User
 export const apiDeleteAdminUser = ({ email }: adminUserDetailPayload) => axiosInstance.delete(`/admin/users/${email}`);
+
+//change admin User default photo
+export const apiChangeAdminUserDefaultPhoto = ({ email }: adminUserDetailPayload) =>
+  axiosInstance.put<LoadAdminUsersResponse>(`/admin/users/${email}/default-photo`);
 
 // send notice to all telegram users
 export const apiSendAdminUserNotice = ({ contents }: adminTelegramUsersNotice) =>

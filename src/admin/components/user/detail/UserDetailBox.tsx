@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Profile1 } from '@/src/assets/Images';
+import { Profile1, ResetIcon } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { Input, TextareaAutosize } from '@mui/material';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const UserDetailBox = () => {
+const UserDetailBox = ({ handleChangeImgModalOpen }: { handleChangeImgModalOpen: () => void }) => {
   const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
     getAdminUserDetailResult: adminUsers.getAdminUserDetailResult,
   }));
@@ -19,6 +19,7 @@ const UserDetailBox = () => {
           <div className="profile_top">
             <div className="profile_Image">
               <Image
+                className="image"
                 src={
                   getAdminUserDetailResult?.photoUrl &&
                   getAdminUserDetailResult.photoUrl != 'quantro.net' &&
@@ -31,6 +32,9 @@ const UserDetailBox = () => {
                 alt="user profile"
                 layout="fill"
               />
+              <div className="chagne_btn" onClick={handleChangeImgModalOpen}>
+                <Image src={ResetIcon[1]} alt="reset" />
+              </div>
             </div>
             <div className="profile_name">
               <Input style={{ flex: 1 }} value={getAdminUserDetailResult?.nickname || ''} readOnly />
@@ -110,7 +114,19 @@ const UserDetailBoxBlock = styled.div`
           margin-right: 20px;
           position: relative;
           border-radius: 50%;
-          overflow: hidden;
+          .image {
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          .chagne_btn {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+          }
         }
         .profile_name {
           flex: 1;
