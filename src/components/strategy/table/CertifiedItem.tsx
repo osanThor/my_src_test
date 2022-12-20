@@ -49,6 +49,9 @@ const CertifiedItem = ({
   let pos = { top: 0, left: 0, x: 0, y: 0 };
 
   const mouseDownHandler = function (e: any) {
+    if (!ele) {
+      return;
+    }
     ele.style.userSelect = 'none';
     pos = {
       // The current scroll

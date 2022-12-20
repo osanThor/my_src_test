@@ -189,7 +189,7 @@ const CommentItem = ({
               </div>
             </div>
           )}
-          {updateComment && <UpdateCommentEditor file={file.url} />}
+          {updateComment && <UpdateCommentEditor file={file?.url} />}
           <div className="children_comments">
             <span className="comments_spacer" />
             <div className="comments_con">
