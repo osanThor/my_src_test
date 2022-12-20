@@ -268,6 +268,10 @@ const InquiryConBlock = styled.div`
       border: 1px solid ${colors.gray[3]};
       border-radius: 7px;
       transition: all 0.2s;
+      margin-right: 0.5rem;
+      &:last-child {
+        margin-right: 0;
+      }
 
       &:hover {
         background-color: ${colors.gray[1]};
