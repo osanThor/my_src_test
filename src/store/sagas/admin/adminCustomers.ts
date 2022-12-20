@@ -8,6 +8,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { adminCustomersActions } from '../../reducers';
 import {
   CreateAdminGuidePayload,
+  CreateAdminInquiryAnswerPayload,
   GetAdminAllGuidesPayload,
   GetAdminAllGuidesResult,
   GetAdminAllInquiriesPayload,
@@ -21,6 +22,7 @@ import {
 } from '../../types';
 import {
   apiCreateAdminGuide,
+  apiCreateAdminInquiryAnswer,
   apiDeleteAdminGuide,
   apiDeleteAdminInquiryDetail,
   apiGetAdminAllGuides,
@@ -175,6 +177,24 @@ function* deleteAdminInquirySaga(action: PayloadAction<GetAdminInquiryDetailPayl
     yield put(adminCustomersActions.loadAdminCustomersFailure({ status: { ok: false }, message }));
   }
 }
+// admin create inquiry answer
+function* createAdminInquirySaga(action: PayloadAction<CreateAdminInquiryAnswerPayload>) {
+  yield put(adminCustomersActions.loadAdminCustomersRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminCustomersResponse> = yield call(apiCreateAdminInquiryAnswer, action.payload);
+    console.log(data);
+
+    yield put(adminCustomersActions.loadAdminCustomersSuccess(data));
+  } catch (error: any) {
+    console.error('adminCustomersSaga createAdminInquirySaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminCustomersActions.loadAdminCustomersFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(adminCustomersActions.getAdminAllGuides, getAdminAllGuidesSaga);
@@ -185,6 +205,7 @@ function* watchLoadfile() {
   yield takeLatest(adminCustomersActions.getAdminInquiryDetail, getAdminInquiryDetailSaga);
   yield takeLatest(adminCustomersActions.deleteAdminGuideDetail, deleteAdminGuideSaga);
   yield takeLatest(adminCustomersActions.deleteAdminInquiry, deleteAdminInquirySaga);
+  yield takeLatest(adminCustomersActions.createAdminInquiryAnswer, createAdminInquirySaga);
 }
 
 export default function* adminCustomersSaga() {

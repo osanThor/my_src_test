@@ -66,7 +66,18 @@ export type CreateAdminInquiryAnswerPayload = {
   inquiryId: number | null;
   content: string | null;
 } | null;
-export type GetAdminInquiryDetailResult = any;
+export type GetAdminInquiryDetailResult = {
+  answer: { content: string | null; createdAt: string | null; id: number | null; inquiryId: number | null } | null;
+  content: string | null;
+  createdAt: '2022-12-01T04:57:24.779Z';
+  files: Array<{ url: string }> | [];
+  title: string | null;
+  user: {
+    nickname: string | null;
+    photoUrl: string | null;
+    styles: Array<{ name: string | null }> | [];
+  };
+};
 
 export type changeGroupPayload = {
   group: string | null;

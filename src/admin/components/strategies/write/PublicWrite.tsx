@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import colors from '@/src/assets/Colors';
 import { Input } from '@mui/material';
@@ -33,14 +33,35 @@ const chartCycleOptions = [
 
 const PublicWrite = () => {
   const dispatch = useDispatch();
-  const { content, quantroStrategyPayload } = useSelector(({ adminStrategies }: RootState) => ({
-    content: adminStrategies.content,
-    quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
-  }));
+  const { content, quantroStrategyPayload, getAdminStrategyDetailResult } = useSelector(
+    ({ adminStrategies }: RootState) => ({
+      content: adminStrategies.content,
+      quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
+      getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
+    }),
+  );
   const [platform, setPlatForm] = useState('');
   const [chartCycle, setChartCycle] = useState('');
   const [fileUrls, setfileUrls] = useState<Array<string>>([]);
   const [fileUrl, setfileUrl] = useState('');
+
+  useEffect(() => {
+    if (getAdminStrategyDetailResult) {
+      if (getAdminStrategyDetailResult?.strategy?.platform) {
+        setPlatForm(getAdminStrategyDetailResult?.strategy?.platform);
+      }
+      if (getAdminStrategyDetailResult?.strategy?.chartCycle) {
+        setChartCycle(getAdminStrategyDetailResult?.strategy?.chartCycle);
+      }
+      if (getAdminStrategyDetailResult?.files) {
+        setfileUrls(getAdminStrategyDetailResult?.files?.map((file) => file.url));
+        setfileUrl(getAdminStrategyDetailResult?.files[0].url);
+      }
+    }
+  }, [getAdminStrategyDetailResult]);
+
+  console.log(chartCycle);
+
   function handleChangeQuantroStrategyField(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     if (name === 'title') {
@@ -104,7 +125,7 @@ const PublicWrite = () => {
     );
   };
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files, name } = e.target;
+    const { files } = e.target;
     const formData = new FormData();
 
     if (files.length === 0) {
@@ -121,13 +142,28 @@ const PublicWrite = () => {
     if (res) {
       setfileUrls([res.data.urls[0]]);
       setfileUrl(res.data.urls[0]);
+      dispatch(
+        adminStrategiesActions.changeQuantroStrategyField({
+          title: quantroStrategyPayload?.title,
+          category: 'QUANTRO_STRATEGY',
+          content: quantroStrategyPayload?.content,
+          platform,
+          symbol: quantroStrategyPayload?.symbol,
+          chartCycle,
+          profitPct: quantroStrategyPayload?.profitPct,
+          fileUrls: [res.data.urls[0]],
+        }),
+      );
     }
   };
+  console.log(quantroStrategyPayload);
+
   return (
     <PublicWriteBlock>
       <Input
         name="title"
         placeholder="전략 이름이 들어가는 곳이에요"
+        value={quantroStrategyPayload?.title || ''}
         sx={{ width: '100%', height: '58px', p: 2, fontFamily: 'GmarketSans', mb: '20px' }}
         onChange={handleChangeQuantroStrategyField}
       />
@@ -135,20 +171,21 @@ const PublicWrite = () => {
       <div className="add_exchange">
         <div className="con">
           <div className="con_label">거래소 입력란</div>
-          <CustomSelect options={platformOptions} place={'선택'} setSearchName={setPlatForm} />
+          <CustomSelect options={platformOptions} place={platform} setSearchName={setPlatForm} />
         </div>
         <div className="con">
           <div className="con_label">대상종목 입력란</div>
           <Input
             name="symbol"
             placeholder="대상종목을 입력해주세요"
+            value={quantroStrategyPayload?.symbol || ''}
             sx={{ width: '100%', height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             onChange={handleChangeQuantroStrategyField}
           />
         </div>
         <div className="con">
           <div className="con_label">차트주기 입력란</div>
-          <CustomSelect options={chartCycleOptions} place={'선택'} setSearchName={setChartCycle} />
+          <CustomSelect options={chartCycleOptions} place={chartCycle} setSearchName={setChartCycle} />
         </div>
         <div className="con">
           <div className="con_label">누적 수입률 입력란</div>
@@ -156,6 +193,7 @@ const PublicWrite = () => {
             name="profitPct"
             type="number"
             placeholder="누적 수입률을 입력해주세요"
+            value={quantroStrategyPayload?.profitPct || ''}
             sx={{ width: '100%', height: '48px', p: 2, fontFamily: 'GmarketSans' }}
             onChange={handleChangeQuantroStrategyField}
           />

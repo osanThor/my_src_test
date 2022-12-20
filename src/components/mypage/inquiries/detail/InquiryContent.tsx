@@ -1,46 +1,72 @@
 import colors from '@/src/assets/Colors';
+import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const InquiryContent = () => {
+  const router = useRouter();
   const { getInquiryResult } = useSelector(({ boards }: RootState) => ({
     getInquiryResult: boards.getInquiryResult,
   }));
-  const { content, files } = getInquiryResult;
+  const { qId } = router.query;
   return (
     <InquiryContentBlock>
-      <StyledTextarea value={content} readOnly />
+      <StyledTextarea value={getInquiryResult?.content} readOnly />
       <div className="download_area">
         <div className="file_con">
           <div className="file_title">첨부파일 1</div>
           <label>
-            <a href={files[0] && files[0].url} download className={files[0] ? 'file_button' : 'file_button disabled'}>
+            <a
+              href={getInquiryResult?.files[0] && getInquiryResult?.files[0].url}
+              download
+              className={getInquiryResult?.files[0] ? 'file_button' : 'file_button disabled'}
+            >
               파일 선택
             </a>
           </label>
-          <span className="fileName">{files[0] ? files[0].url : '선택된 파일 없음'}</span>
+          <span className="fileName">
+            {getInquiryResult?.files[0] ? getInquiryResult?.files[0].url : '선택된 파일 없음'}
+          </span>
         </div>
         <div className="file_con">
           <div className="file_title">첨부파일 2</div>
           <label>
-            <a href={files[1] && files[1].url} download className={files[1] ? 'file_button' : 'file_button disabled'}>
+            <a
+              href={getInquiryResult?.files[1] && getInquiryResult?.files[1].url}
+              download
+              className={getInquiryResult?.files[1] ? 'file_button' : 'file_button disabled'}
+            >
               파일 선택
             </a>
           </label>
-          <span className="fileName">{files[1] ? files[1].url : '선택된 파일 없음'}</span>
+          <span className="fileName">
+            {getInquiryResult?.files[1] ? getInquiryResult?.files[1].url : '선택된 파일 없음'}
+          </span>
         </div>
         <div className="file_con">
           <div className="file_title">첨부파일 3</div>
           <label>
-            <a href={files[2] && files[2].url} download className={files[2] ? 'file_button' : 'file_button disabled'}>
+            <a
+              href={getInquiryResult?.files[2] && getInquiryResult?.files[2].url}
+              download
+              className={getInquiryResult?.files[2] ? 'file_button' : 'file_button disabled'}
+            >
               파일 선택
             </a>
           </label>
-          <span className="fileName">{files[2] ? files[2].url : '선택된 파일 없음'}</span>
+          <span className="fileName">
+            {getInquiryResult?.files[2] ? getInquiryResult?.files[2].url : '선택된 파일 없음'}
+          </span>
         </div>
+      </div>
+      <div className="edit">
+        {!getInquiryResult?.answer && (
+          <Button onClick={() => router.push(`/mypage/inquiries/modify?id=${qId}`)}>수정하기</Button>
+        )}
       </div>
     </InquiryContentBlock>
   );
@@ -95,6 +121,18 @@ const InquiryContentBlock = styled.div`
         text-overflow: ellipsis;
         color: ${colors.gray[2]};
       }
+    }
+  }
+  .edit {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    button {
+      width: 96px;
+      min-height: auto;
+      height: 36px;
+      padding: 0.25rem;
+      border-radius: 8px;
     }
   }
   ${media.tablet} {

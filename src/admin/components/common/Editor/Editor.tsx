@@ -34,30 +34,43 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
   const { baordContent } = useSelector(({ adminBoards }: RootState) => ({
     baordContent: adminBoards.createAdminNotice?.content,
   }));
-  const { guideContent } = useSelector(({ adminCustomers }: RootState) => ({
+  const { guideContent, inquiryCon } = useSelector(({ adminCustomers }: RootState) => ({
     guideContent: adminCustomers.createGuide?.content,
+    inquiryCon: adminCustomers.createInquiryAnswer?.content,
   }));
   const [isStrategy, setIsStrategy] = React.useState(false);
   const [isBoard, setIsBoard] = React.useState(false);
   const [isGuide, setIsGuide] = React.useState(false);
+  const [isCustomers, setIsCustomers] = React.useState(false);
+
+  const [zone, setZone] = React.useState('');
 
   React.useEffect(() => {
     if (router.pathname === '/admin/strategies/write' || router.pathname === '/admin/strategies/strategy') {
       setIsStrategy(true);
+      setZone('STRATEGY');
     } else {
       setIsStrategy(false);
     }
 
     if (router.pathname === '/admin/boards/write_notice' || router.pathname === '/admin/boards/notice') {
       setIsBoard(true);
+      setZone('BOARD');
     } else {
       setIsBoard(false);
     }
 
     if (router.pathname === '/admin/customers/write_guide' || router.pathname == '/admin/customers/guide') {
       setIsGuide(true);
+      setZone('BOARD');
     } else {
       setIsGuide(false);
+    }
+    if (router.pathname === '/admin/customers/inquiry') {
+      setIsCustomers(true);
+      setZone('INQUIRY');
+    } else {
+      setIsCustomers(false);
     }
   }, [router]);
 
@@ -83,6 +96,8 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log(zone);
+      console.log(res);
 
       if (quillRef.current) {
         // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
@@ -164,6 +179,17 @@ const Editor: React.FC<IEditor> = ({ onChange }) => {
           modules={modules}
           formats={formats}
           value={guideContent}
+          placeholder="내용을 입력하세요."
+          onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
+        />
+      )}
+      {isCustomers && (
+        <CustomReactQuill
+          ref={quillRef}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={inquiryCon}
           placeholder="내용을 입력하세요."
           onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
         />

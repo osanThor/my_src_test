@@ -48,7 +48,7 @@ export type deleteAdminStrategyPayload = {
 export type getAdminStrategyDetailResult = {
   category: string | null;
   content: string | null;
-  files: [];
+  files: Array<{ url: string }> | [];
   strategy: {
     communities: Array<{ channel: string | null; url: string | null }> | null;
     platform: string | null;
@@ -63,7 +63,7 @@ export type getAdminStrategyDetailResult = {
 export type getAdminCommissionDetailResult = {
   category: string | null;
   content: string | null;
-  files: [];
+  files: Array<{ url: string }> | [];
   commission: {
     answer: string | null;
   };
@@ -85,8 +85,27 @@ export type createQuantroStrategyPayload = {
   profitPct: number | null;
   fileUrls: Array<string> | null;
 };
+export type updateQuantroStrategyPayload = {
+  id: number | null;
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  platform: string | null;
+  symbol: string | null;
+  chartCycle: string | null;
+  profitPct: number | null;
+  fileUrls: Array<string> | null;
+};
 
 export type createQuantroIndicatorPayload = {
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
+
+export type updateQuantroIndicatorPayload = {
+  id: number | null;
   category: string | null;
   title: string | null;
   content: string | null;

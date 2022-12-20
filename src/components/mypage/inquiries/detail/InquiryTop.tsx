@@ -16,13 +16,12 @@ const InquiryTop = () => {
   const { photoUrl } = useSelector(({ user }: RootState) => ({
     photoUrl: user.photoUrl,
   }));
-  const { title, user, createdAt } = getInquiryResult;
 
   return (
     <InquiryTopBlock>
       <div className="top_area">
         <div className="state">{inquiryId}</div>
-        <div className="title">{title}</div>
+        <div className="title">{getInquiryResult?.title}</div>
         <div className="top_btns"></div>
       </div>
       <div className="bottom_area">
@@ -31,9 +30,11 @@ const InquiryTop = () => {
         </div>
         <div className="info_con">
           <div className="profile_info">
-            <div className="nickname">{user.nickname ? user.nickname : '퀀트로'}</div>
+            <div className="nickname">
+              {getInquiryResult?.user.nickname ? getInquiryResult?.user.nickname : '퀀트로'}
+            </div>
             <div className="styles">
-              {user.styles.map((st) => {
+              {getInquiryResult?.user.styles.map((st) => {
                 if (st.name === 'SCALPING') {
                   return (
                     <div key={st.name} className="style">
@@ -69,7 +70,7 @@ const InquiryTop = () => {
             </div>
           </div>
           <div className="board_info">
-            <Moment format="YYYY.MM.DD HH:MM">{createdAt}</Moment>
+            <Moment format="YYYY.MM.DD HH:MM">{getInquiryResult?.createdAt}</Moment>
           </div>
         </div>
       </div>
@@ -140,6 +141,7 @@ const InquiryTopBlock = styled.div`
       margin-right: 20px;
       position: relative;
       overflow: hidden;
+      border-radius: 50%;
     }
     .info_con {
       width: 100%;

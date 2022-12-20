@@ -25,18 +25,13 @@ class AuthService {
       dispatch(authActions.refreshToken());
       timeoutId = setTimeout(() => {
         if (!auth) return;
-        if (loadAuthDone.message === 'ACCESS_DENIED') {
-          delete axiosInstance.defaults.headers.common['Authorization'];
-          localStorage.clear();
-          console.log('토큰 만료');
-          this.router.push('/auth/login');
-          clearTimeout(timeoutId);
-          return;
-        }
         console.log('refresh!');
         dispatch(authActions.refreshToken());
       }, loadAuthDone.expiryTime - 30000);
     } else {
+      if (loadAuthDone.message === 'CAN_CREATE') {
+        return;
+      }
       if (admin) {
         return;
       }
@@ -48,6 +43,7 @@ class AuthService {
       console.log('Not User');
       return;
     }
+    clearTimeout(timeoutId);
   }
 
   userLogOut(dispatch: Dispatch<AnyAction>) {

@@ -59,6 +59,7 @@ export {
   apiSetBoardLike,
   apiGetUserInquiry,
   apiGetUserByNickname,
+  apiUpdateUserInquiry,
 } from './boards';
 
 //admin
@@ -89,6 +90,8 @@ export {
   apiCreateQuantroStrategy,
   apiDeleteAdminStrategy,
   apiUpdateAdminCommission,
+  apiUpdateQuantroIndicator,
+  apiUpdateQuantroStrategy,
 } from './admin/strategy';
 
 export {

@@ -41,7 +41,7 @@ const MyCommentsTable = () => {
                 <React.Fragment key={board.id}>
                   <div className="tr">
                     <div className="td">{board.id}</div>
-                    <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
+                    <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.board.id}`)}>
                       <span className="tit">{board.board.title}</span>
                       <span className="comments">{board.board._count.comments}</span>
                     </div>

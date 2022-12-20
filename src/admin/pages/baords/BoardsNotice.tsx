@@ -1,3 +1,4 @@
+import Loading from '@/src/components/common/Loading';
 import FuncModal from '@/src/components/common/modals/FuncModal';
 import { RootState } from '@/src/store/configureStore';
 import { adminBoardsActions } from '@/src/store/reducers';
@@ -16,14 +17,19 @@ const BoardsNotice = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { loadAdminBoardsError, loadAdminBoardsDone, getAdminNoticeDetailResult, createAdminNotice } = useSelector(
-    ({ adminBoards }: RootState) => ({
-      loadAdminBoardsError: adminBoards.loadAdminBoardsError,
-      loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
-      getAdminNoticeDetailResult: adminBoards.getAdminNoticeDetailResult,
-      createAdminNotice: adminBoards.createAdminNotice,
-    }),
-  );
+  const {
+    loadAdminBoardsError,
+    loadAdminBoardsDone,
+    loadAdminBoardsLoading,
+    getAdminNoticeDetailResult,
+    createAdminNotice,
+  } = useSelector(({ adminBoards }: RootState) => ({
+    loadAdminBoardsError: adminBoards.loadAdminBoardsError,
+    loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
+    loadAdminBoardsLoading: adminBoards.loadAdminBoardsLoading,
+    getAdminNoticeDetailResult: adminBoards.getAdminNoticeDetailResult,
+    createAdminNotice: adminBoards.createAdminNotice,
+  }));
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -196,6 +202,7 @@ const BoardsNotice = () => {
         onClick={isUpdate ? handleUpdate : handleDelete}
         onClick2={handleModalClose}
       />
+      {loadAdminBoardsLoading && <Loading />}
     </>
   );
 };

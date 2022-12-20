@@ -1,9 +1,7 @@
 import colors from '@/src/assets/Colors';
 import { ArrowBottomDark } from '@/src/assets/Images';
 import { media } from '@/styles/theme';
-import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const CustomSelect = ({
@@ -15,8 +13,6 @@ const CustomSelect = ({
   place: string;
   setSearchName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
@@ -25,6 +21,7 @@ const CustomSelect = ({
   useEffect(() => {
     setCurrentValue(place);
   }, [place]);
+  console.log(place);
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;

@@ -121,6 +121,7 @@ function MyApp({
         delete axiosInstance.defaults.headers.common['Authorization'];
         router.push('/admin/login');
       }
+      clearTimeout(timeout);
     }
   }, [loadAdminAuthError, loadAdminAuthDone]);
 
