@@ -37,6 +37,9 @@ class AuthService {
         dispatch(authActions.refreshToken());
       }, loadAuthDone.expiryTime - 30000);
     } else {
+      if (loadAuthDone.message === 'CAN_CREATE') {
+        return;
+      }
       if (admin) {
         return;
       }

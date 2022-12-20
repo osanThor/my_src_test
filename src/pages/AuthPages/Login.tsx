@@ -111,6 +111,7 @@ const Login: NextPage = () => {
     }
 
     // google login
+    console.log(status);
     if (status === 'authenticated') {
       if (loadAuthDone.message === 'CAN_CREATE') {
         const { user, accessToken } = session;
@@ -125,7 +126,7 @@ const Login: NextPage = () => {
         router.push('/');
       }
     }
-  }, [loadAuthDone, loadAuthError]);
+  }, [loadAuthDone, loadAuthError, status]);
 
   //loading
   const [googleLoading, setGoogleLogin] = useState(false);
