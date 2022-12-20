@@ -22,7 +22,6 @@ const UserStrategyTable = () => {
     getNoticesDone: boards.getNoticesDone,
   }));
   const { total } = loadGetUserStrategyDone;
-
   return (
     <>
       <BoardsTableBlock>
@@ -36,7 +35,7 @@ const UserStrategyTable = () => {
           </div>
         </div>
         <div className="tbody">
-          {getNoticesDone.map((notice) => (
+          {getNoticesDone?.map((notice) => (
             <div className="tr notice" key={notice.board.id}>
               <div className="td">
                 <NoticeCon />

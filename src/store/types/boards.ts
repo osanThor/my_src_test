@@ -43,30 +43,35 @@ export type getBoardsResult = {
     deletedAt: string | null;
     user: {
       nickname: string;
+      styles: Array<{ name: string }> | null;
+    };
+    strategy: {
+      calcMdd: number | null;
+      calcProfitPct: number | null;
+      calcWinningPct: number | null;
+      communities: Array<{ channel: string | null; url: string | null }> | null;
     };
     _count: {
       comments: number;
     };
   }>;
 };
-export type getNoticeResult =
-  | Array<{
-      targetCategory: string | null;
-      board: {
-        id: number;
-        title: string;
-        hits: number;
-        createdAt: string;
-        deletedAt: string | null;
-        user: {
-          nickname: string;
-        } | null;
-        _count: {
-          comments: number;
-        };
-      };
-    }>
-  | [];
+export type getNoticeResult = Array<{
+  targetCategory: string | null;
+  board: {
+    id: number;
+    title: string;
+    hits: number;
+    createdAt: string;
+    deletedAt: string | null;
+    user: {
+      nickname: string;
+    } | null;
+    _count: {
+      comments: number;
+    };
+  };
+}> | null;
 export type getUserBoardsResult = {
   total: number | null;
   boards: Array<{
