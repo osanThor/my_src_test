@@ -38,6 +38,7 @@ import {
   getUserInquiryResult,
   getUserByNicknamePayload,
   getUserByNicknameResult,
+  updateUserInquiruesPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -384,14 +385,7 @@ const initialState: BoardsStateType = {
   isCollect: false,
   isLike: false,
   inquiryId: 0,
-  getInquiryResult: {
-    user: { nickname: '', styles: [{ name: '' }] },
-    answer: null,
-    content: '',
-    createdAt: '',
-    files: [{ url: '' }],
-    title: '',
-  },
+  getInquiryResult: null,
   nickname: '',
   getUserInfo: {
     email: '',
@@ -577,6 +571,13 @@ const boardsSlice = createSlice({
     },
     createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.loadBoardsLoading = true;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    updateInquiries(state, action: PayloadAction<updateUserInquiruesPayload>) {
+      state.loadBoardsLoading = true;
+      state.inquiryId = action.payload.inquiryId;
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;

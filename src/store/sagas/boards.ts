@@ -27,6 +27,7 @@ import {
   setBoardLikePayload,
   updateBoardPayload,
   updateCommentPayload,
+  updateUserInquiruesPayload,
 } from '../types';
 
 // api
@@ -51,6 +52,7 @@ import {
   apiSetBoardLike,
   apiGetUserInquiry,
   apiGetUserByNickname,
+  apiUpdateUserInquiry,
 } from '../api';
 
 // get boards
@@ -243,6 +245,23 @@ function* createInquiry(action: PayloadAction<CreateUserInquiruesPayload>) {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// update user inpuiry
+function* updateInquiry(action: PayloadAction<updateUserInquiruesPayload>) {
+  try {
+    yield put(boardsActions.loadBoardsRequest());
+    const { data } = yield call(apiUpdateUserInquiry, action.payload);
+    console.log(data);
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('userSaga updateInquiry >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 // get board
 function* getBoardSaga(action: PayloadAction<getBoardPayload>) {
   yield put(boardsActions.loadBoardsRequest());
@@ -426,6 +445,7 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.setBoardLike, setBoardLikeSaga);
   yield takeLatest(boardsActions.getUserInquiry, getUserInquirySaga);
   yield takeLatest(boardsActions.getUserByNickname, getUserByNicknameSaga);
+  yield takeLatest(boardsActions.updateInquiries, updateInquiry);
 }
 
 export default function* boardsSaga() {

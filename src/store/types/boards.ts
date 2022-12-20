@@ -9,6 +9,12 @@ export type CreateUserInquiruesPayload = {
   content: string | null;
   fileUrls: Array<string> | [];
 };
+export type updateUserInquiruesPayload = {
+  inquiryId: number | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
 
 export type getBoardsPayload = {
   category: string | null;

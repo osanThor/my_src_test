@@ -27,7 +27,7 @@ class AuthService {
         if (!auth) return;
         console.log('refresh!');
         dispatch(authActions.refreshToken());
-      }, loadAuthDone.expiryTime - 120000);
+      }, loadAuthDone.expiryTime - 30000);
     } else {
       if (loadAuthDone.message === 'CAN_CREATE') {
         return;

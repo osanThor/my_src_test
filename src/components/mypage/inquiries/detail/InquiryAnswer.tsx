@@ -9,22 +9,23 @@ const InquiryAnswer = () => {
   const { getInquiryResult } = useSelector(({ boards }: RootState) => ({
     getInquiryResult: boards.getInquiryResult,
   }));
-  const { answer } = getInquiryResult;
   const viewRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (answer) {
+    if (getInquiryResult?.answer) {
       if (!viewRef.current) {
         return;
       }
-      viewRef.current.innerHTML = answer?.content;
+      viewRef.current.innerHTML = getInquiryResult?.answer?.content;
     }
-  }, [answer]);
+  }, [getInquiryResult?.answer]);
   return (
     <InquiryAnswerBlock>
       <div className="answer_top">
-        <div className={answer ? 'answer_status on' : 'answer_status'}>{answer ? '답변' : '대기'}</div>
+        <div className={getInquiryResult?.answer ? 'answer_status on' : 'answer_status'}>
+          {getInquiryResult?.answer ? '답변' : '대기'}
+        </div>
       </div>
-      {answer ? (
+      {getInquiryResult?.answer ? (
         <div className="answerView" ref={viewRef} />
       ) : (
         <div className="noAnswer">답변 대기중입니다. 조금만 기다려주세요!</div>
@@ -62,6 +63,9 @@ const InquiryAnswerBlock = styled.div`
     padding: 24px 36px;
     border: 1px solid ${colors.blue[2]};
     border-radius: 14px;
+    img {
+      max-width: 100%;
+    }
   }
   ${media.tablet} {
     padding: 20px 0;

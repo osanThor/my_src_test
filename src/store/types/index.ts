@@ -83,6 +83,7 @@ export type {
   getUserInquiryResult,
   getUserByNicknamePayload,
   getUserByNicknameResult,
+  updateUserInquiruesPayload,
 } from './boards';
 
 //admin
