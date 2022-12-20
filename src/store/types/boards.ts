@@ -80,6 +80,7 @@ export type getUserCommentsResult = {
     content: string | null;
     id: number | null;
     board: {
+      id: number | null;
       createdAt: string;
       deletedAt: string | null;
       hits: number | null;
