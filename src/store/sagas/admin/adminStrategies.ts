@@ -14,6 +14,8 @@ import {
   apiGetAdminAllStrategies,
   apiGetAdminStrategyDetail,
   apiUpdateAdminCommission,
+  apiUpdateQuantroIndicator,
+  apiUpdateQuantroStrategy,
 } from '../../api';
 import {
   certifiedAdminStrategyPayload,
@@ -26,6 +28,8 @@ import {
   getAdminStrategyDetailPayload,
   getAdminStrategyDetailResult,
   LoadAdminStrategiesResponse,
+  updateQuantroIndicatorPayload,
+  updateQuantroStrategyPayload,
 } from '../../types';
 
 // api
@@ -165,6 +169,43 @@ function* createQuantroIndicatorSaga(action: PayloadAction<createQuantroIndicato
     yield put(adminStrategiesActions.loadAdminStrategiesFailure({ status: { ok: false }, message }));
   }
 }
+//update quantro strategy
+function* updateQuantroStrategySaga(action: PayloadAction<updateQuantroStrategyPayload>) {
+  yield put(adminStrategiesActions.loadAdminStrategiesRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminStrategiesResponse> = yield call(apiUpdateQuantroStrategy, action.payload);
+    console.log(data);
+
+    yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
+  } catch (error: any) {
+    console.error('adminStrategiesSaga updateQuantroStrategySaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminStrategiesActions.loadAdminStrategiesFailure({ status: { ok: false }, message }));
+  }
+}
+
+//update quantro indicator
+function* updateQuantroIndicatorSaga(action: PayloadAction<updateQuantroIndicatorPayload>) {
+  yield put(adminStrategiesActions.loadAdminStrategiesRequest());
+  try {
+    const { data }: AxiosResponse<LoadAdminStrategiesResponse> = yield call(apiUpdateQuantroIndicator, action.payload);
+    console.log(data);
+
+    yield put(adminStrategiesActions.loadAdminStrategiesSuccess(data));
+  } catch (error: any) {
+    console.error('adminStrategiesSaga updateQuantroIndicatorSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(adminStrategiesActions.loadAdminStrategiesFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(adminStrategiesActions.getAllAdminStrategies, getAllAdminStrategiesSaga);
@@ -174,6 +215,8 @@ function* watchLoadfile() {
   yield takeLatest(adminStrategiesActions.getAdminStrategyDetail, getAllAdminStrategyDetailSaga);
   yield takeLatest(adminStrategiesActions.updateCertifiedStrategy, updateAdminCertifiedStrategySaga);
   yield takeLatest(adminStrategiesActions.updateAdminCommission, updateAdminCommissionSaga);
+  yield takeLatest(adminStrategiesActions.updateQuantroStrategy, updateQuantroStrategySaga);
+  yield takeLatest(adminStrategiesActions.updateQuantroIndicator, updateQuantroIndicatorSaga);
 }
 
 export default function* adminStrategiesSaga() {

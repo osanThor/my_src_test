@@ -137,6 +137,8 @@ export type {
   getAdminStrategyDetailResult,
   getAdminCommissionDetailResult,
   commissionPayload,
+  updateQuantroStrategyPayload,
+  updateQuantroIndicatorPayload,
 } from './admin/adminStrategy';
 
 export type {

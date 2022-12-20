@@ -25,6 +25,7 @@ const CustomSelect = ({
   useEffect(() => {
     setCurrentValue(place);
   }, [place]);
+  console.log(place);
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;

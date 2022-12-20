@@ -20,6 +20,8 @@ import {
   deleteAdminStrategyPayload,
   getAdminCommissionDetailResult,
   commissionPayload,
+  updateQuantroStrategyPayload,
+  updateQuantroIndicatorPayload,
 } from '../../types';
 
 export type AdminStrategiesStateType = {
@@ -57,6 +59,24 @@ export type AdminStrategiesStateType = {
     content: string | null;
     fileUrls: Array<string> | [];
   } | null;
+  updateQuantroStrategyPayload: {
+    id: number | null;
+    category: string | null;
+    title: string | null;
+    content: string | null;
+    platform: string | null;
+    symbol: string | null;
+    chartCycle: string | null;
+    profitPct: number | null;
+    fileUrls: Array<string> | null;
+  } | null;
+  updateQuantroIndicatorPayload: {
+    id: number | null;
+    category: string | null;
+    title: string | null;
+    content: string | null;
+    fileUrls: Array<string> | [];
+  } | null;
   getAdminStrategyResult: {
     total: number | null;
     boards: Array<{
@@ -72,7 +92,7 @@ export type AdminStrategiesStateType = {
   getAdminStrategyDetailResult: {
     category: string | null;
     content: string | null;
-    files: [];
+    files: Array<{ url: string }> | [];
     strategy: {
       communities: Array<{ channel: string | null; url: string | null }> | null;
       platform: string | null;
@@ -87,7 +107,7 @@ export type AdminStrategiesStateType = {
   getAdminCommissionDetailResult: {
     category: string | null;
     content: string | null;
-    files: [];
+    files: Array<{ url: string }> | [];
     commission: {
       answer: string | null;
     };
@@ -114,6 +134,8 @@ const initialState: AdminStrategiesStateType = {
   certifiedStrategyPayload: null,
   quantroStrategyPayload: null,
   quantroIndicatorPayload: null,
+  updateQuantroStrategyPayload: null,
+  updateQuantroIndicatorPayload: null,
   getAdminStrategyResult: { total: 0, boards: null },
   getAdminStrategyDetailResult: null,
   getAdminCommissionDetailResult: null,
@@ -208,6 +230,14 @@ const adminStrategiesSlice = createSlice({
     createQuantroIndicator(state, action: PayloadAction<createQuantroIndicatorPayload>) {
       state.loadAdminStrategiesLoading = true;
       state.quantroIndicatorPayload = action.payload;
+    },
+    updateQuantroStrategy(state, action: PayloadAction<updateQuantroStrategyPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.updateQuantroStrategyPayload = action.payload;
+    },
+    updateQuantroIndicator(state, action: PayloadAction<updateQuantroIndicatorPayload>) {
+      state.loadAdminStrategiesLoading = true;
+      state.updateQuantroIndicatorPayload = action.payload;
     },
     loadAdminStrategiesRequest(state) {
       state.loadAdminStrategiesLoading = true;

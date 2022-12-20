@@ -7,6 +7,8 @@ import {
   deleteAdminStrategyPayload,
   getAdminStrategiesPayload,
   getAdminStrategyDetailPayload,
+  updateQuantroIndicatorPayload,
+  updateQuantroStrategyPayload,
 } from '../../types';
 
 // get all with filter
@@ -75,9 +77,41 @@ export const apiCreateQuantroStrategy = ({
     profitPct,
   });
 
-/// creaqte quantro-indicator
+/// Update quantro-strategy
+export const apiUpdateQuantroStrategy = ({
+  id,
+  category,
+  title,
+  content,
+  fileUrls,
+  platform,
+  symbol,
+  chartCycle,
+  profitPct,
+}: updateQuantroStrategyPayload) =>
+  axiosInstance.put(`/admin/strategies/quantro-strategy/${id}`, {
+    category,
+    title,
+    content,
+    fileUrls,
+    platform,
+    symbol,
+    chartCycle,
+    profitPct,
+  });
+
+/// create quantro-indicator
 export const apiCreateQuantroIndicator = ({ category, title, content, fileUrls }: createQuantroIndicatorPayload) =>
   axiosInstance.post('/admin/strategies/quantro-indicator', {
+    category,
+    title,
+    content,
+    fileUrls,
+  });
+
+/// update quantro-indicator
+export const apiUpdateQuantroIndicator = ({ id, category, title, content, fileUrls }: updateQuantroIndicatorPayload) =>
+  axiosInstance.put(`/admin/strategies/quantro-indicator/${id}`, {
     category,
     title,
     content,

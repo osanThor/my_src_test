@@ -24,6 +24,7 @@ const Detail = () => {
     getAdminStrategyDetailResult,
     getAdminCommissionDetailResult,
     certifiedStrategyPayload,
+    quantroStrategyPayload,
     answer,
     loadAdminStrategiesLoading,
     loadAdminStrategiesDone,
@@ -32,6 +33,7 @@ const Detail = () => {
     getAdminStrategyDetailResult: adminStrategies.getAdminStrategyDetailResult,
     getAdminCommissionDetailResult: adminStrategies.getAdminCommissionDetailResult,
     certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
+    quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
     answer: adminStrategies.answer,
     loadAdminStrategiesLoading: adminStrategies.loadAdminStrategiesLoading,
     loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
@@ -118,6 +120,22 @@ const Detail = () => {
       dispatch(adminStrategiesActions.updateAdminCommission({ id: parseInt(router.query.id as string), answer }));
     }
 
+    if (router.query.category === 'QUANTRO_STRATEGY') {
+      dispatch(
+        adminStrategiesActions.updateQuantroStrategy({
+          id: parseInt(router.query.id as string),
+          category: quantroStrategyPayload?.category,
+          title: quantroStrategyPayload?.title,
+          content: quantroStrategyPayload?.content,
+          platform: quantroStrategyPayload?.platform,
+          symbol: quantroStrategyPayload?.symbol,
+          chartCycle: quantroStrategyPayload?.chartCycle,
+          profitPct: quantroStrategyPayload?.profitPct,
+          fileUrls: quantroStrategyPayload?.fileUrls,
+        }),
+      );
+    }
+
     if (isDelete) {
       dispatch(adminStrategiesActions.deleteAdminStrategy({ id: parseInt(router.query.id as string) }));
     }
@@ -132,6 +150,7 @@ const Detail = () => {
 
     if (loadAdminStrategiesDone) {
       if (loadAdminStrategiesDone.message === 'UPDATED') {
+        alert('변경되었습니다.');
         setFModalOpen(false);
         dispatch(
           adminStrategiesActions.getAdminStrategyDetail({
