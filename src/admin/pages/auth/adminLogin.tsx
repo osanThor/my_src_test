@@ -1,6 +1,7 @@
 import Loading from '@/src/components/common/Loading';
 import { RootState } from '@/src/store/configureStore';
 import { adminAuthActions } from '@/src/store/reducers';
+import AuthService from '@/src/utils/auth_service';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -11,6 +12,7 @@ import Login from '../../components/auth/login/Login';
 const AdminLogin: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const authService = new AuthService();
   const { email, pw, loadAdminAuthLoading, loadAdminAuthDone, loadAdminAuthError } = useSelector(
     ({ adminAuth }: RootState) => ({
       email: adminAuth.email,
@@ -32,6 +34,14 @@ const AdminLogin: NextPage = () => {
 
   const handleSubmitAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    const user = localStorage.getItem('user');
+    if (user) {
+      if (confirm('사용자 계정 로그인 상태입니다. 로그아웃 하시겠습니까?')) {
+        authService.userLogOut(dispatch);
+      } else {
+        return;
+      }
+    }
     if (!email) {
       alert('이메일을 입력해주세요!');
       return;

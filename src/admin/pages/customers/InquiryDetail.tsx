@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
 import InquiryCon from '../../components/customers/inquiry/InquiryCon';
-import WriteGuideCon from '../../components/customers/write/WriteGuideCon';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
 
