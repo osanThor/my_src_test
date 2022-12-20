@@ -140,6 +140,7 @@ const InquiryTopBlock = styled.div`
       margin-right: 20px;
       position: relative;
       overflow: hidden;
+      border-radius: 50%;
     }
     .info_con {
       width: 100%;
