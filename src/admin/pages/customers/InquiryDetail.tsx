@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DetailCommonTop from '../../components/common/DetailCommonTop';
-import WriteGuideCon from '../../components/customers/write/WriteGuideCon';
+import InquiryCon from '../../components/customers/inquiry/InquiryCon';
 import AdminLayout from '../../layouts/AdminLayout';
 import BasicContainer from '../../layouts/BasicContainer';
 
@@ -15,9 +15,10 @@ const GuideDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { getInquiryDetailResult, loadAdminCustomersError, loadAdminCustomersDone } = useSelector(
+  const { getInquiryDetailResult, createInquiryAnswer, loadAdminCustomersError, loadAdminCustomersDone } = useSelector(
     ({ adminCustomers }: RootState) => ({
       getInquiryDetailResult: adminCustomers.getInquiryDetailResult,
+      createInquiryAnswer: adminCustomers.createInquiryAnswer,
       loadAdminCustomersError: adminCustomers.loadAdminCustomersError,
       loadAdminCustomersDone: adminCustomers.loadAdminCustomersDone,
     }),
@@ -54,18 +55,18 @@ const GuideDetail = () => {
       );
     }
   }, [router, isAdmin]);
-  //   useEffect(() => {
-  //     if (getInquiryDetailResult) {
-  //       dispatch(
-  //         adminCustomersActions.changeAdminGuideField({
-  //           group: getGuideDetailResult?.group,
-  //           title: getGuideDetailResult?.title,
-  //           content: getGuideDetailResult?.content,
-  //           isVisible: getGuideDetailResult?.isVisible,
-  //         }),
-  //       );
-  //     }
-  //   }, [getInquiryDetailResult]);
+
+  useEffect(() => {
+    if (getInquiryDetailResult) {
+      dispatch(
+        adminCustomersActions.changeAdminInquiryField({
+          inquiryId: parseInt(router.query.id as string),
+          content: getInquiryDetailResult?.answer?.content,
+        }),
+      );
+    }
+  }, [getInquiryDetailResult]);
+
   //function modal
   const [fModalOpen, setFModalOpen] = useState(false);
   const [fModalMessage, setFModalMessage] = useState('');
@@ -98,8 +99,8 @@ const GuideDetail = () => {
     }
 
     if (loadAdminCustomersDone) {
-      if (loadAdminCustomersDone.message === 'UPDATED') {
-        alert('1:1 문의 수정이 완료되었어요.');
+      if (loadAdminCustomersDone.message === 'CREATED') {
+        alert('1:1 문의 답변 등록이 완료되었어요.');
         setFModalOpen(false);
         dispatch(
           adminCustomersActions.getAdminInquiryDetail({
@@ -123,7 +124,7 @@ const GuideDetail = () => {
             handleUpdate={handleOpenUpdateGuide}
             handleSubmit={null}
           />
-          <WriteGuideCon />
+          <InquiryCon />
         </BasicContainer>
       </AdminLayout>
       <FuncModal
@@ -137,7 +138,7 @@ const GuideDetail = () => {
         dubBtn={true}
         onClick={
           isUpdate
-            ? () => alert('문의 업데이트')
+            ? () => dispatch(adminCustomersActions.createAdminInquiryAnswer(createInquiryAnswer))
             : () =>
                 dispatch(adminCustomersActions.deleteAdminInquiry({ inquiryId: parseInt(router.query.id as string) }))
         }

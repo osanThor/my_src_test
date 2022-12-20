@@ -128,7 +128,7 @@ const LicensePageIndex: NextPage = () => {
     dispatch(userActions.telegramUsername({ username }));
   };
   React.useEffect(() => {
-    if (loadUserDone === 'NOT_FOUND_TELEGRAM') {
+    if (loadUserDone === 'NOT_FOUND_TELEGRAM' || loadUserDone === 'WRONG_USERNAME') {
       setMoOpen(true);
       setMoMessage('텔레그램 사용자명를 찾을 수 없어요');
       setMoSt(true);

@@ -42,6 +42,47 @@ export type getAdminBoardDetailResult = {
   user: { photoUrl: string | null; nickname: string | null; styles: Array<{ name: string | null }> | [] };
   _count: { likes: number | null };
 };
+export type getAdminNoticeDetailResult = {
+  comments:
+    | Array<{
+        childComment:
+          | Array<{
+              content: string;
+              createdAt: string;
+              deletedAt: string | null;
+              file: { url: string } | null;
+              id: number;
+              user: { nickname: string; photoUrl: string | null };
+            }>
+          | [];
+        content: string;
+        createdAt: string;
+        deletedAt: string | null;
+        id: number;
+        file: { url: string } | null;
+        user: { nickname: string; photoUrl: string | null };
+      }>
+    | [];
+  notice: { targetCategories: Array<{ category: string }> | null } | null;
+  content: string | null;
+  createdAt: string | null;
+  files: [];
+  hits: number | null;
+  id: number | null;
+  title: string | null;
+  user: {
+    photoUrl: string | null;
+    nickname: string | null;
+    styles:
+      | Array<{
+          name: string | null;
+        }>
+      | [];
+  };
+  _count: {
+    likes: number | null;
+  };
+} | null;
 
 export type getAdminBoardCommentsResult =
   | Array<{

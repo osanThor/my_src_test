@@ -1,3 +1,4 @@
+import Loading from '@/src/components/common/Loading';
 import FuncModal from '@/src/components/common/modals/FuncModal';
 import { RootState } from '@/src/store/configureStore';
 import { adminBoardsActions } from '@/src/store/reducers';
@@ -17,10 +18,13 @@ const BoardsDetail = () => {
   const { loadAdminAuthDone } = useSelector(({ adminAuth }: RootState) => ({
     loadAdminAuthDone: adminAuth.loadAdminAuthDone,
   }));
-  const { loadAdminBoardsError, loadAdminBoardsDone } = useSelector(({ adminBoards }: RootState) => ({
-    loadAdminBoardsError: adminBoards.loadAdminBoardsError,
-    loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
-  }));
+  const { loadAdminBoardsLoading, loadAdminBoardsError, loadAdminBoardsDone } = useSelector(
+    ({ adminBoards }: RootState) => ({
+      loadAdminBoardsLoading: adminBoards.loadAdminBoardsLoading,
+      loadAdminBoardsError: adminBoards.loadAdminBoardsError,
+      loadAdminBoardsDone: adminBoards.loadAdminBoardsDone,
+    }),
+  );
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
@@ -47,10 +51,11 @@ const BoardsDetail = () => {
   useEffect(() => {
     if (isAdmin) {
       dispatch(
-        adminBoardsActions.getAdminBoardDetail({
+        adminBoardsActions.getAdminDiscussionDetail({
           boardId: parseInt(router.query.id as string),
         }),
       );
+
       dispatch(
         adminBoardsActions.getAdminBoardComments({
           boardId: parseInt(router.query.id as string),
@@ -99,10 +104,11 @@ const BoardsDetail = () => {
         setFModalOpen(false);
         if (isComment) {
           dispatch(
-            adminBoardsActions.getAdminBoardDetail({
+            adminBoardsActions.getAdminDiscussionDetail({
               boardId: parseInt(router.query.id as string),
             }),
           );
+
           dispatch(
             adminBoardsActions.getAdminBoardComments({
               boardId: parseInt(router.query.id as string),
@@ -141,6 +147,7 @@ const BoardsDetail = () => {
         }
         onClick2={handleModalClose}
       />
+      {loadAdminBoardsLoading && <Loading />}
     </>
   );
 };

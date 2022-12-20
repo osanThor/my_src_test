@@ -33,6 +33,6 @@ export const apiGetAdminInquiryDetail = ({ inquiryId }: GetAdminInquiryDetailPay
 //delete admin inquiries detaul
 export const apiDeleteAdminInquiryDetail = ({ inquiryId }: GetAdminInquiryDetailPayload) =>
   axiosInstance.delete(`/admin/customers/inquiries/${inquiryId}`);
-//create answer admin inquiries detaul
+//create answer admin inquiries detail
 export const apiCreateAdminInquiryAnswer = ({ inquiryId, content }: CreateAdminInquiryAnswerPayload) =>
-  axiosInstance.post(`/admin/customers/inquiries/${inquiryId}`, { content });
+  axiosInstance.post(`/admin/customers/inquiries/${inquiryId}/answer`, { content });

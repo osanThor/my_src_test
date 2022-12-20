@@ -1,5 +1,6 @@
 import colors from '@/src/assets/Colors';
 import { BINANCE, BITGET, BITMEX, BYBIT, CancelIcon, EditPenIcon, FTX, Profile1 } from '@/src/assets/Images';
+import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { exchangeActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
@@ -10,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const AcountTable = ({}: {}) => {
+const AcountTable = ({ handleDeleteExcModalOpen }: { handleDeleteExcModalOpen: (val: string) => void }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { getAdminUserDetailResult } = useSelector(({ adminUsers }: RootState) => ({
@@ -37,7 +38,7 @@ const AcountTable = ({}: {}) => {
       </div>
       <div className="tbody">
         {getAdminUserDetailResult?.exchanges?.map((exc) => (
-          <TableRow key={exc.id} exc={exc} />
+          <TableRow key={exc.id} exc={exc} handleDeleteExcModalOpen={handleDeleteExcModalOpen} />
         ))}
       </div>
     </AcountTableBlock>
@@ -47,6 +48,7 @@ const AcountTable = ({}: {}) => {
 // table item
 const TableRow = ({
   exc,
+  handleDeleteExcModalOpen,
 }: {
   exc: {
     id: string | null;
@@ -55,6 +57,7 @@ const TableRow = ({
     apiKey: string | null;
     connectionStatus: string | null;
   } | null;
+  handleDeleteExcModalOpen: (val: string) => void;
 }) => {
   const dispatch = useDispatch();
   const [editable, setEditable] = useState(false);
@@ -121,6 +124,9 @@ const TableRow = ({
           <>{exc.connectionStatus ? <div className="status on">연결중</div> : <div className="status err">오류</div>}</>
         )}
         {!exc && <div className="status">미등록</div>}
+        <Button className="canel" onClick={() => handleDeleteExcModalOpen(exc.id)}>
+          <Image src={CancelIcon[1]} alt="cancel" />
+        </Button>
       </div>
     </div>
   );
@@ -269,12 +275,12 @@ const AcountTableBlock = styled.div`
           justify-content: center;
           &:last-child {
             margin-right: 0;
-          }
-          &.editable.cancel {
             background-color: ${colors.red[0]};
             &:hover {
               opacity: 0.7;
             }
+          }
+          &.cancel {
           }
         }
       }

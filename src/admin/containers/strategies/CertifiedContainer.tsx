@@ -23,7 +23,7 @@ const CertifiedContainer = () => {
   const [certifiedSt, setCertufuedSt] = useState('');
   const [platform, setPlatForm] = useState('');
   const [chartCycle, setChartCycle] = useState('');
-  const [filUrl, setfilUrl] = useState('');
+  const [fileUrl, setfileUrl] = useState('');
   useEffect(() => {
     setCommuArr([]);
     // confirm state
@@ -67,6 +67,7 @@ const CertifiedContainer = () => {
         chartCycle: getAdminStrategyDetailResult?.strategy?.chartCycle,
         profitPct: getAdminStrategyDetailResult?.strategy?.profitPct,
         confirmStatus: getAdminStrategyDetailResult?.strategy?.confirmStatus,
+        fileUrl,
       }),
     );
     getAdminStrategyDetailResult?.strategy?.communities?.map((cm) => setCommuArr((com) => [...com, cm]));
@@ -90,6 +91,7 @@ const CertifiedContainer = () => {
         chartCycle,
         profitPct: certifiedStrategyPayload?.profitPct,
         confirmStatus: certifiedSt,
+        fileUrl,
       }),
     );
   }, [platform, chartCycle, certifiedSt, commuArr]);
@@ -105,6 +107,7 @@ const CertifiedContainer = () => {
           chartCycle,
           profitPct: certifiedStrategyPayload?.profitPct,
           confirmStatus: certifiedSt,
+          fileUrl,
         }),
       );
     } else if (name === 'profitPct') {
@@ -117,6 +120,7 @@ const CertifiedContainer = () => {
           chartCycle,
           profitPct: parseInt(value as string),
           confirmStatus: certifiedSt,
+          fileUrl,
         }),
       );
     }
@@ -132,14 +136,14 @@ const CertifiedContainer = () => {
     } else {
       formData.append('files', files[0]);
     }
-    const res = await axiosInstance.post(`/admin/uploads/files?zone=BANNER`, formData, {
+    const res = await axiosInstance.post(`/admin/uploads/files?zone=STRATEGY`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 
     if (res) {
-      setfilUrl(res.data.urls[0]);
+      setfileUrl(res.data.urls[0]);
     }
   };
   //add community
@@ -182,7 +186,7 @@ const CertifiedContainer = () => {
         setPlatForm={setPlatForm}
         chartCycle={chartCycle}
         setChartCycle={setChartCycle}
-        filUrl={filUrl}
+        fileUrl={fileUrl}
         handleChangeCertifiedField={handleChangeCertifiedField}
         handleCloseCommunity={handleCloseCommunity}
         handleChangeImage={handleChangeImage}

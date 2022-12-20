@@ -2,6 +2,7 @@ export type IModalType = IModalProps;
 export type IFuncModalType = IFuncModalProps;
 export type INotUserModalType = INotUserModalProps;
 export type SelectExchangeModalType = SelectExchangeModalProps;
+export type IThreeModalType = IThreeModalProps;
 
 interface IModalProps {
   open: boolean;
@@ -18,7 +19,11 @@ interface IFuncModalProps {
   onClick: () => void;
   onClick2: () => void;
 }
-
+interface IThreeModalProps {
+  open: boolean;
+  onClose: () => void;
+  onClick: () => void;
+}
 interface INotUserModalProps {
   open: boolean;
   onClose: () => void;

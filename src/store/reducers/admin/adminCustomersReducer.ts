@@ -8,6 +8,7 @@ import {
   changePagePayload,
   changeTitle,
   CreateAdminGuidePayload,
+  CreateAdminInquiryAnswerPayload,
   GetAdminAllGuidesPayload,
   GetAdminAllGuidesResult,
   GetAdminAllInquiriesPayload,
@@ -63,7 +64,18 @@ export type AdminCustomersStateType = {
         }>
       | [];
   } | null;
-  getInquiryDetailResult: any;
+  getInquiryDetailResult: {
+    answer: { content: string | null; createdAt: string | null; id: number | null; inquiryId: number | null } | null;
+    content: string | null;
+    createdAt: '2022-12-01T04:57:24.779Z';
+    files: Array<{ url: string }> | [];
+    title: string | null;
+    user: {
+      nickname: string | null;
+      photoUrl: string | null;
+      styles: Array<{ name: string | null }> | [];
+    };
+  };
   createGuide: {
     group: string | null;
     title: string | null;
@@ -76,6 +88,10 @@ export type AdminCustomersStateType = {
     title: string | null;
     content: string | null;
     isVisible: boolean;
+  } | null;
+  createInquiryAnswer: {
+    inquiryId: number | null;
+    content: string | null;
   } | null;
   loadAdminCustomersLoading: boolean;
   loadAdminCustomersDone: {
@@ -99,6 +115,7 @@ const initialState: AdminCustomersStateType = {
   getInquiryDetailResult: null,
   createGuide: null,
   UpdateGuide: null,
+  createInquiryAnswer: null,
   loadAdminCustomersLoading: false,
   loadAdminCustomersDone: null,
   loadAdminCustomersError: null,
@@ -178,6 +195,13 @@ const adminCustomersSlice = createSlice({
     deleteAdminInquiry(state, action: PayloadAction<GetAdminInquiryDetailPayload>) {
       state.loadAdminCustomersLoading = true;
       state.inquiryId = action.payload.inquiryId;
+    },
+    changeAdminInquiryField(state, action: PayloadAction<CreateAdminInquiryAnswerPayload>) {
+      state.createInquiryAnswer = action.payload;
+    },
+    createAdminInquiryAnswer(state, action: PayloadAction<CreateAdminInquiryAnswerPayload>) {
+      state.loadAdminCustomersLoading = true;
+      state.createInquiryAnswer = action.payload;
     },
     //api res req
     loadAdminCustomersRequest(state) {
