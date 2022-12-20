@@ -311,7 +311,7 @@ export type BoardsStateType = {
   inquiryId: number | null;
   getInquiryResult: {
     user: { nickname: string; styles: Array<{ name: string }> };
-    answer: null;
+    answer: { content: string | null; createdAt: string | null } | null;
     content: string | null;
     createdAt: string | null;
     files: Array<{ url: string }> | [];
