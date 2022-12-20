@@ -25,6 +25,7 @@ const Detail = () => {
     getAdminCommissionDetailResult,
     certifiedStrategyPayload,
     quantroStrategyPayload,
+    quantroIndicatorPayload,
     answer,
     loadAdminStrategiesLoading,
     loadAdminStrategiesDone,
@@ -34,6 +35,7 @@ const Detail = () => {
     getAdminCommissionDetailResult: adminStrategies.getAdminCommissionDetailResult,
     certifiedStrategyPayload: adminStrategies.certifiedStrategyPayload,
     quantroStrategyPayload: adminStrategies.quantroStrategyPayload,
+    quantroIndicatorPayload: adminStrategies.quantroIndicatorPayload,
     answer: adminStrategies.answer,
     loadAdminStrategiesLoading: adminStrategies.loadAdminStrategiesLoading,
     loadAdminStrategiesDone: adminStrategies.loadAdminStrategiesDone,
@@ -132,6 +134,18 @@ const Detail = () => {
           chartCycle: quantroStrategyPayload?.chartCycle,
           profitPct: quantroStrategyPayload?.profitPct,
           fileUrls: quantroStrategyPayload?.fileUrls,
+        }),
+      );
+    }
+
+    if (router.query.category === 'QUANTRO_INDICATOR') {
+      dispatch(
+        adminStrategiesActions.updateQuantroIndicator({
+          id: parseInt(router.query.id as string),
+          category: quantroIndicatorPayload?.category,
+          title: quantroIndicatorPayload?.title,
+          content: quantroIndicatorPayload?.content,
+          fileUrls: quantroIndicatorPayload?.fileUrls,
         }),
       );
     }

@@ -125,7 +125,7 @@ const PublicWrite = () => {
     );
   };
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files, name } = e.target;
+    const { files } = e.target;
     const formData = new FormData();
 
     if (files.length === 0) {
