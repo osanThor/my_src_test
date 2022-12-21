@@ -27,6 +27,12 @@ const CommunityWrite: NextPage = () => {
       loadBoardsError: boards.loadBoardsError,
     }),
   );
+  //not user Event handler
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (!user) router.push('/auth/login');
+  }, []);
+
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
