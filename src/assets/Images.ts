@@ -143,6 +143,12 @@ import TistoryIcon from 'public/assets/common/community/tistory.svg';
 import KakaotalkIcon from 'public/assets/common/community/kakaotalk.svg';
 import TelegramIcon from 'public/assets/common/community/telegram.svg';
 
+//rank
+import CrownIcon from 'public/assets/common/rank/Crown.svg';
+import SecndIcon from 'public/assets/common/rank/sec.svg';
+import ThrndIcon from 'public/assets/common/rank/thr.svg';
+import RankTemIcon from 'public/assets/common/rank/rank_tem.svg';
+
 ///*** !----Export----- */
 //로고
 export const Logo = [LogoImage, WhiteLogoImage];
@@ -257,3 +263,7 @@ export const Youtube = YoutubeIcon;
 export const Tistory = TistoryIcon;
 export const Kakaotalk = KakaotalkIcon;
 export const Telegram = TelegramIcon;
+
+//ranking
+export const Rank = [CrownIcon, SecndIcon, ThrndIcon];
+export const RankTemplete = RankTemIcon;

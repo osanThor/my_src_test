@@ -67,18 +67,12 @@ const CertifiedContainer = () => {
         chartCycle: getAdminStrategyDetailResult?.strategy?.chartCycle,
         profitPct: getAdminStrategyDetailResult?.strategy?.profitPct,
         confirmStatus: getAdminStrategyDetailResult?.strategy?.confirmStatus,
-        fileUrl,
+        fileUrl: getAdminStrategyDetailResult?.files[0]?.url,
       }),
     );
     getAdminStrategyDetailResult?.strategy?.communities?.map((cm) => setCommuArr((com) => [...com, cm]));
+    setfileUrl(getAdminStrategyDetailResult?.files[0]?.url);
   }, [getAdminStrategyDetailResult]);
-  console.log(commuArr);
-  useEffect(() => {
-    if (certifiedStrategyPayload) {
-      //** 커뮤니티 업데이트 되면 추가 */
-      //** csv 파일 업데이트 되면 추가 */
-    }
-  }, [certifiedStrategyPayload]);
 
   //chagneEvent
   useEffect(() => {
@@ -126,24 +120,37 @@ const CertifiedContainer = () => {
     }
   };
 
-  //file image
+  //csv file
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files, name } = e.target;
+    const { files } = e.target;
     const formData = new FormData();
 
     if (files.length === 0) {
       return;
     } else {
-      formData.append('files', files[0]);
+      formData.append('file', files[0]);
     }
-    const res = await axiosInstance.post(`/admin/uploads/files?zone=STRATEGY`, formData, {
+    const res = await axiosInstance.post(`/admin/uploads/strategies/csv`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
+    console.log(res);
 
     if (res) {
-      setfileUrl(res.data.urls[0]);
+      setfileUrl(res.data.url);
+      dispatch(
+        adminStrategiesActions.changeCertifiedStarteField({
+          id: parseInt(router.query.id as string),
+          comminities: commuArr,
+          platform,
+          symbol: certifiedStrategyPayload?.symbol,
+          chartCycle,
+          profitPct: certifiedStrategyPayload?.profitPct,
+          confirmStatus: certifiedSt,
+          fileUrl: res.data.url,
+        }),
+      );
     }
   };
   //add community

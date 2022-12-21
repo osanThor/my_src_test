@@ -30,10 +30,7 @@ export type UserStateType = {
   verifyCode: number | string | null;
   isDark: boolean;
   nicknamePrev: string | null;
-  license:
-    | { endedAt: string | null; package: string; startedAt: string | null }
-    | Array<{ endedAt: string | null; package: string; startedAt: string | null }>
-    | null;
+  license: { endedAt: string | null; package: string; startedAt: string | null } | null;
   styles: Array<{ name: string }> | [];
   stylesSt: Array<string> | [];
   introduction: string | null;
@@ -41,7 +38,6 @@ export type UserStateType = {
     boards: number | null;
     comments: number | null;
   };
-
   title: string | null;
   content: string | null;
   fileUrls: Array<string> | [];

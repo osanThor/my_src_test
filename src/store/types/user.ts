@@ -58,10 +58,7 @@ export type UserProfilePayload = {
   email: string | null;
   nicknamePrev: string | null;
   nickname: string | null;
-  license:
-    | { endedAt: string | null; package: string; startedAt: string | null }
-    | Array<{ endedAt: string | null; package: string; startedAt: string | null }>
-    | null;
+  license: { endedAt: string | null; package: string; startedAt: string | null } | null;
   styles: Array<{ name: string }> | [];
   introduction: string | null;
   _count: {

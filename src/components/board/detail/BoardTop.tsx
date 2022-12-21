@@ -19,13 +19,14 @@ const BoardTop = ({
     getBoardDone: boards.getBoardDone,
     isCollect: boards.isCollect,
   }));
-  const { id, title, user, hits, createdAt } = getBoardDone;
 
   return (
     <BoardTopBlock>
       <div className="top_area">
-        <div className="state">{getBoardDone.category === 'NOTICE' ? <div className="notice">공지</div> : id}</div>
-        <div className="title">{title}</div>
+        <div className="state">
+          {getBoardDone?.category === 'NOTICE' ? <div className="notice">공지</div> : getBoardDone?.id}
+        </div>
+        <div className="title">{getBoardDone?.title}</div>
         <div className="top_btns">
           <div className="button">
             <div className="icon" onClick={handleSetBoardCollection}>
@@ -41,56 +42,57 @@ const BoardTop = ({
       </div>
       <div className="bottom_area">
         <div className="thumbnail">
-          {user && user.photoUrl != 'quantro.net' && user.photoUrl != 'byteria.co.kr' ? (
-            <Image src={user.photoUrl} alt="profile" layout="fill" />
+          {getBoardDone?.user &&
+          getBoardDone?.user?.photoUrl != 'quantro.net' &&
+          getBoardDone?.user?.photoUrl != 'byteria.co.kr' ? (
+            <Image src={getBoardDone?.user?.photoUrl} alt="profile" layout="fill" />
           ) : (
             <Image src={Profile1[1]} alt="profile" layout="fill" />
           )}
         </div>
         <div className="info_con">
           <div className="profile_info">
-            <div className="nickname">{user ? user.nickname : '퀀트로'}</div>
+            <div className="nickname">{getBoardDone?.user ? getBoardDone?.user?.nickname : '퀀트로'}</div>
             <div className="styles">
-              {user &&
-                user.styles.map((st) => {
-                  if (st.name === 'SCALPING') {
-                    return (
-                      <div key={st.name} className="style">
-                        <span>#스캘핑</span>
-                      </div>
-                    );
-                  } else if (st.name === 'SHORT_HIT') {
-                    return (
-                      <div key={st.name} className="style">
-                        <span>#단타</span>
-                      </div>
-                    );
-                  } else if (st.name === 'SWING') {
-                    return (
-                      <div key={st.name} className="style">
-                        <span>#스윙</span>
-                      </div>
-                    );
-                  } else if (st.name === 'TREND') {
-                    return (
-                      <div key={st.name} className="style">
-                        <span>#추세매매</span>
-                      </div>
-                    );
-                  } else if (st.name === 'R_TREND') {
-                    return (
-                      <div key={st.name} className="style">
-                        <span>#역추세매매</span>
-                      </div>
-                    );
-                  }
-                })}
+              {getBoardDone?.user?.styles.map((st) => {
+                if (st.name === 'SCALPING') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#스캘핑</span>
+                    </div>
+                  );
+                } else if (st.name === 'SHORT_HIT') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#단타</span>
+                    </div>
+                  );
+                } else if (st.name === 'SWING') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#스윙</span>
+                    </div>
+                  );
+                } else if (st.name === 'TREND') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#추세매매</span>
+                    </div>
+                  );
+                } else if (st.name === 'R_TREND') {
+                  return (
+                    <div key={st.name} className="style">
+                      <span>#역추세매매</span>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
           <div className="board_info">
-            <Moment format="YYYY.MM.DD HH:MM">{createdAt}</Moment>
+            <Moment format="YYYY.MM.DD HH:MM">{getBoardDone?.createdAt}</Moment>
             <div className="hits_count">
-              조회수 <span>{hits}</span>
+              조회수 <span>{getBoardDone?.hits}</span>
             </div>
           </div>
         </div>

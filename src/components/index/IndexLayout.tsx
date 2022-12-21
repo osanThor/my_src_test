@@ -10,34 +10,24 @@ import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CertifiedItem from '../strategy/table/CertifiedItem';
+import IndexRanking from './IndexRanking';
 
 const IndexLayout = () => {
   const router = useRouter();
-  const {
-    loadGetCertifiedDone,
-    loadGetRankDone,
-    loadGetUserStrategyDone,
-    loadGetDiscussionDone,
-    loadGetQuantroStrategyDone,
-    loadBoardsLoading,
-    CertifiedDone,
-    RankDone,
-    UserStrategyDone,
-    DiscussionDone,
-    QuantroStrategyDone,
-  } = useSelector(({ index }: RootState) => ({
-    loadGetCertifiedDone: index.loadGetCertifiedDone,
-    loadGetRankDone: index.loadGetRankDone,
-    loadGetUserStrategyDone: index.loadGetUserStrategyDone,
-    loadGetDiscussionDone: index.loadGetDiscussionDone,
-    loadGetQuantroStrategyDone: index.loadGetQuantroStrategyDone,
-    loadBoardsLoading: index.loadBoardsLoading,
-    CertifiedDone: index.CertifiedDone,
-    RankDone: index.RankDone,
-    UserStrategyDone: index.UserStrategyDone,
-    DiscussionDone: index.DiscussionDone,
-    QuantroStrategyDone: index.QuantroStrategyDone,
-  }));
+  const { loadGetCertifiedDone, loadGetUserStrategyDone, loadGetDiscussionDone, loadGetQuantroStrategyDone } =
+    useSelector(({ index }: RootState) => ({
+      loadGetCertifiedDone: index.loadGetCertifiedDone,
+      loadGetRankDone: index.loadGetRankDone,
+      loadGetUserStrategyDone: index.loadGetUserStrategyDone,
+      loadGetDiscussionDone: index.loadGetDiscussionDone,
+      loadGetQuantroStrategyDone: index.loadGetQuantroStrategyDone,
+      loadBoardsLoading: index.loadBoardsLoading,
+      CertifiedDone: index.CertifiedDone,
+      RankDone: index.RankDone,
+      UserStrategyDone: index.UserStrategyDone,
+      DiscussionDone: index.DiscussionDone,
+      QuantroStrategyDone: index.QuantroStrategyDone,
+    }));
 
   return (
     <IndexLayoutBlock>
@@ -65,7 +55,7 @@ const IndexLayout = () => {
               ))}
             </div>
           </div>
-          <div className="lank">
+          <div className="rank">
             <div className="main_top_con">
               <div className="main_tit">랭킹</div>
 
@@ -76,6 +66,7 @@ const IndexLayout = () => {
               </Link>
               <span className="description dis_m">퀀트로에서 랭크를 확인해보세요.</span>
             </div>
+            <IndexRanking />
           </div>
         </div>
         <div className="main_bottom">
@@ -145,7 +136,7 @@ const IndexLayout = () => {
               <span className="description">퀀트로에서 제공하는 전략과 지표를 확인해보세요.</span>
             </div>
             <div className="main_bottom_con">
-              {loadGetQuantroStrategyDone.boards.map((board) => (
+              {loadGetQuantroStrategyDone.boards.slice(0, 3).map((board) => (
                 <div className="item" key={board.id}>
                   <div className="title">
                     {board.title}
@@ -288,9 +279,11 @@ const IndexLayoutBlock = styled.div`
       max-width: 811px;
       margin-right: 20px;
     }
-    .lank {
+    .rank {
       width: 45%;
       max-width: 645px;
+      display: flex;
+      flex-direction: column;
     }
   }
   .main_bottom {
@@ -309,7 +302,6 @@ const IndexLayoutBlock = styled.div`
   }
   .main_certified_list {
     width: 100%;
-    margin-bottom: 20px;
     display: grid;
     transition: all 0.2s;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -347,10 +339,12 @@ const IndexLayoutBlock = styled.div`
           width: 100%;
           max-width: none;
           margin-right: 0;
+          margin-bottom: 20px;
         }
-        .lank {
+        .rank {
           width: 100%;
           max-width: none;
+          margin-bottom: 20px;
         }
       }
       .main_bottom {

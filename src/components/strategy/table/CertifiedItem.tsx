@@ -13,6 +13,7 @@ import {
 } from '@/src/assets/Images';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -44,6 +45,7 @@ const CertifiedItem = ({
     };
   };
 }) => {
+  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [ele, setEle] = useState<HTMLDivElement>();
@@ -90,7 +92,10 @@ const CertifiedItem = ({
     ele.style.removeProperty('user-select');
   };
   return (
-    <CertifiedItemBlock className="certified_box">
+    <CertifiedItemBlock
+      className="certified_box"
+      onClick={() => router.push(`/board/${board?.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
+    >
       <div className="top">
         <div className="user">
           <div className="photo">

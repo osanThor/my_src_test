@@ -12,8 +12,11 @@ import {
   getBoardPayload,
   getBoardsPayload,
   getBoardsResult,
+  getGuidesResult,
   getNoticePayload,
   getNoticeResult,
+  getRankingPayload,
+  getRankingResult,
   GetUserBoardsPayload,
   getUserByNicknamePayload,
   getUserCollectionsResult,
@@ -54,6 +57,7 @@ import {
   apiGetUserByNickname,
   apiUpdateUserInquiry,
 } from '../api';
+import { apiGetGuides, apiGetRank } from '../api/boards';
 
 // get boards
 function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
@@ -78,6 +82,25 @@ function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
     }
   } catch (error: any) {
     console.error('boardsSaga getBoardsSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+
+//get Ranking
+function* getRankingSaga(action: PayloadAction<getRankingPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<getRankingResult> = yield call(apiGetRank, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.getUserRankingResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga getRankingSaga >> ', error);
 
     const message =
       error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
@@ -424,6 +447,24 @@ function* getUserByNicknameSaga(action: PayloadAction<getUserByNicknamePayload>)
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// get user guides
+function* getUserGuidesSaga() {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<getGuidesResult> = yield call(apiGetGuides);
+    console.log(data);
+
+    yield put(boardsActions.getUserGuidesResult(data));
+  } catch (error: any) {
+    console.error('boardsSaga getUserGuidesSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -446,6 +487,8 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.getUserInquiry, getUserInquirySaga);
   yield takeLatest(boardsActions.getUserByNickname, getUserByNicknameSaga);
   yield takeLatest(boardsActions.updateInquiries, updateInquiry);
+  yield takeLatest(boardsActions.getUserRanking, getRankingSaga);
+  yield takeLatest(boardsActions.getUserGuides, getUserGuidesSaga);
 }
 
 export default function* boardsSaga() {

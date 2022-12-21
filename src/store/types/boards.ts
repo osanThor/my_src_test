@@ -146,6 +146,45 @@ export type getUserInquiriesResult = {
 export type getUserInquiryPayload = {
   inquiryId: number | null;
 };
+export type getRankingPayload = {
+  period: string | null;
+};
+export type getRankingResult = {
+  message: string | null;
+  popularityStrategies: Array<{
+    board: {
+      id: number | null;
+      title: string | null;
+      user: { nickname: string | null; photoUrl: string | null } | null;
+      _count: {
+        likes: number | null;
+        collectors: number | null;
+      };
+    };
+  }> | null;
+  profitPctStrategies: Array<{
+    board: {
+      id: number | null;
+      title: string | null;
+      user: { nickname: string | null; photoUrl: string | null } | null;
+    };
+    profitPct: number | null;
+  }>;
+  profitPctTraders: Array<{
+    user: {
+      nickname: string | null;
+      photoUrl: string | null;
+    };
+    totalProfit: number | null;
+  }> | null;
+  profitTraders: Array<{
+    user: {
+      nickname: string | null;
+      photoUrl: string | null;
+    };
+    profit: number | null;
+  }> | null;
+} | null;
 export type getUserInquiryResult = {
   user: { nickname: string; styles: Array<{ name: string }> };
   answer: null;
@@ -168,7 +207,7 @@ export type getBoardResult = {
     photoUrl: string | null;
     nickname: string | null;
     styles: Array<{ name: string }> | [];
-  };
+  } | null;
   createdAt: string | null;
   deletedAt: string | null;
   hits: number | null;
@@ -181,9 +220,9 @@ export type getBoardResult = {
               content: string;
               createdAt: string;
               deletedAt: string | null;
+              file: { url: string } | null;
               id: number;
               user: { nickname: string; photoUrl: string | null };
-              file: { url: string } | null;
             }>
           | [];
         content: string;
@@ -197,7 +236,14 @@ export type getBoardResult = {
   _count: {
     likes: number | null;
   };
-};
+  strategy: {
+    chartCycle: string | null;
+    confirmStatus: string | null;
+    platform: string | null;
+    symbol: string | null;
+    profitPct: number | null;
+  };
+} | null;
 export type updateBoardPayload = {
   boardId: number | null;
   category: string | null;
@@ -276,6 +322,14 @@ export type getUserByNicknameResult = {
   styles: Array<{ name: string }> | [];
   _count: { boards: number | null; comments: number | null };
 };
+
+export type getGuidesResult = Array<{
+  id: number | null;
+  group: string | null;
+  title: string | null;
+  content: string | null;
+  createdAt: string | null;
+}> | null;
 export type LoadBoardsResponse = {
   message: string | null;
 };

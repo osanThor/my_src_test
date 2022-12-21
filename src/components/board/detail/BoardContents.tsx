@@ -26,13 +26,12 @@ const BoardContents = ({
     getBoardDone: boards.getBoardDone,
     isLike: boards.isLike,
   }));
-  const { id, content, _count } = getBoardDone;
 
   useEffect(() => {
     if (ViewContentsRef.current) {
-      ViewContentsRef.current.innerHTML = content;
+      ViewContentsRef.current.innerHTML = getBoardDone?.content;
     }
-  }, [content]);
+  }, [getBoardDone]);
 
   const [isMoCntrl, setIsMoCtrl] = useState(false);
   const MoCtrlRef = useRef<HTMLDivElement>(null);
@@ -64,7 +63,7 @@ const BoardContents = ({
               <div className="icon">
                 <Image src={isLike ? Like[1] : Like[0]} alt="like" />
               </div>
-              <span className="count">{_count.likes}</span>
+              <span className="count">{getBoardDone?._count.likes}</span>
             </div>
           </div>
           <div className="right">
@@ -94,7 +93,7 @@ const BoardContents = ({
             <div
               className="button resized"
               onClick={() => {
-                dispatch(boardsActions.getBoard({ boardId: id }));
+                dispatch(boardsActions.getBoard({ boardId: getBoardDone?.id }));
               }}
             >
               <Image src={ResetIcon[1]} alt="reset" />

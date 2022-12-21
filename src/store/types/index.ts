@@ -84,6 +84,9 @@ export type {
   getUserByNicknamePayload,
   getUserByNicknameResult,
   updateUserInquiruesPayload,
+  getRankingPayload,
+  getRankingResult,
+  getGuidesResult,
 } from './boards';
 
 //admin

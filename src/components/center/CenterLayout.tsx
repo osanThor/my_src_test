@@ -1,115 +1,71 @@
 import colors from '@/src/assets/Colors';
 import { ArrowLeft, Close } from '@/src/assets/Images';
+import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
+import { group } from 'console';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const FAQ = [
-  {
-    id: 0,
-    category: '대시보드',
-    FAQ: [
-      {
-        id: 0,
-        q: '퀀트로가 무엇인가요?',
-        a: '대답입니다',
-      },
-      {
-        id: 1,
-        q: '시스템트레이딩이 뭔가요?',
-        a: '대답입니다2',
-      },
-      {
-        id: 2,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다3',
-      },
-      {
-        id: 3,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다4',
-      },
-      {
-        id: 4,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다5',
-      },
-      {
-        id: 5,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다6',
-      },
-      {
-        id: 6,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다7',
-      },
-      {
-        id: 7,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다7',
-      },
-    ],
-  },
-  {
-    id: 1,
-    category: '퀀트작성',
-    FAQ: [
-      {
-        id: 6,
-        q: '퀀트로가 무엇인가요?',
-        a: '대답입니다',
-      },
-      {
-        id: 7,
-        q: '시스템트레이딩이 뭔가요?',
-        a: '대답입니다2',
-      },
-      {
-        id: 8,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다3',
-      },
-      {
-        id: 9,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다4',
-      },
-      {
-        id: 10,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다5',
-      },
-      {
-        id: 11,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다6',
-      },
-      {
-        id: 12,
-        q: '전략"이 무엇인가요?',
-        a: '대답입니다7',
-      },
-    ],
-  },
-];
+type FaqAllArray =
+  | Array<{
+      id: string;
+      FAQ: Array<{ id: number; createdAt: string; title: string; content: string }>;
+    }>
+  | [];
+type FaqType = {
+  id: string;
+  FAQ: Array<{ id: number; createdAt: string; title: string; content: string }>;
+};
+type FaqItemType = { id: number; createdAt: string; title: string; content: string };
 
 const CenterLayout = () => {
   const [isSelected, setIsSelected] = useState(false);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-  const handleSelectQ = (faq: { id: number; q: string; a: string }) => {
-    setIsSelected(true);
-    setQuestion(faq.q);
-    setAnswer(faq.a);
-  };
+  const { getGuidesResult } = useSelector(({ boards }: RootState) => ({
+    getGuidesResult: boards.getGuidesResult,
+  }));
 
+  const [DASHBOARD, setDASHBOARD] = useState<FaqType>({ id: 'DASHBOARD', FAQ: [] });
+  const [QUANT, setQUANT] = useState<FaqType>({ id: 'QUANT', FAQ: [] });
+  const [SUBSCRIBE, setSUBSCRIBE] = useState<FaqType>({ id: 'SUBSCRIBE', FAQ: [] });
+  const [STRATEGY, setSTRATEGY] = useState<FaqType>({ id: 'STRATEGY', FAQ: [] });
+  const [COMMUNITY, setCOMMUNITY] = useState<FaqType>({ id: 'COMMUNITY', FAQ: [] });
+  const [faqArr, setFaqArr] = useState<FaqAllArray>([]);
+
+  useEffect(() => {
+    if (getGuidesResult) {
+      setDASHBOARD({ id: 'DASHBOARD', FAQ: getGuidesResult?.filter((group) => group.group === 'DASHBOARD') });
+      setQUANT({ id: 'QUANT', FAQ: getGuidesResult?.filter((group) => group.group === 'QUANT') });
+      setSUBSCRIBE({ id: 'SUBSCRIBE', FAQ: getGuidesResult?.filter((group) => group.group === 'SUBSCRIBE') });
+      setSTRATEGY({ id: 'STRATEGY', FAQ: getGuidesResult?.filter((group) => group.group === 'STRATEGY') });
+      setCOMMUNITY({ id: 'COMMUNITY', FAQ: getGuidesResult?.filter((group) => group.group === 'COMMUNITY') });
+    }
+  }, [getGuidesResult]);
+
+  useEffect(() => {
+    setFaqArr([DASHBOARD, QUANT, SUBSCRIBE, STRATEGY, COMMUNITY]);
+  }, [DASHBOARD, QUANT, SUBSCRIBE, STRATEGY, COMMUNITY]);
+
+  const handleSelectQ = (faq: FaqItemType) => {
+    setIsSelected(true);
+    setQuestion(faq.title);
+    setAnswer(faq.content);
+  };
   const handleCloseQ = () => {
     setIsSelected(false);
     setQuestion('');
     setAnswer('');
   };
+
+  const viewRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!viewRef.current) return;
+    viewRef.current.innerHTML = answer;
+  }, [answer]);
   return (
     <CenterLayoutBlock className="container">
       <div className="FAQ_top">
@@ -120,13 +76,13 @@ const CenterLayout = () => {
       </div>
       <div className={isSelected ? 'FAQ_main_box on' : 'FAQ_main_box'}>
         <div className="FAQ_list">
-          {FAQ.map((cate) => (
+          {faqArr?.map((cate) => (
             <div className="FAQ_contents" key={cate.id}>
-              <div className="FAQ_category">{cate.category}</div>
+              <div className="FAQ_category">{cate.id}</div>
               <div className="FAQ_content_list">
                 {cate.FAQ.map((faq) => (
                   <div className="FAQ_content " key={faq.id} onClick={() => handleSelectQ(faq)}>
-                    <div className="FAQ_Q">{faq.q}</div>
+                    <div className="FAQ_Q">{faq.title}</div>
                   </div>
                 ))}
               </div>
@@ -146,7 +102,7 @@ const CenterLayout = () => {
                 <Image src={Close} alt="closeButton" />
               </div>
             </div>
-            {answer}
+            <div className="viewCon" ref={viewRef} />
           </div>
         </div>
       </div>
@@ -286,6 +242,11 @@ const CenterLayoutBlock = styled.div`
       text-align: center;
       word-break: keep-all;
       font-size: 15px;
+    }
+  }
+  .viewCon {
+    img {
+      max-width: 100%;
     }
   }
   ${media.tablet} {
