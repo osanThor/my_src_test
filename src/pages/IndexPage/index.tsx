@@ -6,21 +6,22 @@ import IndexLayout from '@/src/components/index/IndexLayout';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
-import { indexActions } from '@/src/store/reducers';
+import { boardsActions, indexActions } from '@/src/store/reducers';
 import { useRouter } from 'next/router';
 
 const IndexPage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loadBoardsLoading, CertifiedDone, RankDone, UserStrategyDone, DiscussionDone, QuantroStrategyDone } =
-    useSelector(({ index }: RootState) => ({
+  const { CertifiedDone, UserStrategyDone, DiscussionDone, QuantroStrategyDone } = useSelector(
+    ({ index }: RootState) => ({
       loadBoardsLoading: index.loadBoardsLoading,
       CertifiedDone: index.CertifiedDone,
       RankDone: index.RankDone,
       UserStrategyDone: index.UserStrategyDone,
       DiscussionDone: index.DiscussionDone,
       QuantroStrategyDone: index.QuantroStrategyDone,
-    }));
+    }),
+  );
 
   useEffect(() => {
     dispatch(
@@ -32,6 +33,8 @@ const IndexPage: NextPage = () => {
         comment: '',
       }),
     );
+
+    dispatch(boardsActions.getUserRanking({ period: 'ALL' }));
   }, []);
   useEffect(() => {
     if (CertifiedDone) {
