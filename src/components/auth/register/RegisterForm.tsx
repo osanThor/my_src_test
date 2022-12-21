@@ -162,7 +162,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     ) : emailError ? (
                       <>
@@ -176,7 +176,7 @@ const RegisterForm = ({
                         <div>
                           <Image src={Notice[0]} alt="notice" />
                         </div>
-                        <span>텔레그램 @quantro_alarm_bot 봇을 등록해야 이메일을 찾을 수 있어요</span>
+                        <span>텔레그램 @quantro_alarm_bot을 등록해야 이메일을 찾을 수 있어요</span>
                       </>
                     )}
                   </div>
@@ -272,7 +272,7 @@ const RegisterFormBlock = styled.div`
       .selectImage {
         cursor: pointer;
         &.blue {
-          background-color: ${colors.blue[2]};
+          background-color: ${colors.gray[2]};
         }
         width: 30%;
         max-width: 160px;
@@ -318,7 +318,7 @@ const RegisterFormBlock = styled.div`
           .notice {
             width: 100%;
             max-width: none;
-            font-size: 14px;
+            font-size: 12px;
             color: ${colors.gray[3]};
             display: flex;
             align-items: center;
