@@ -146,6 +146,41 @@ export type getUserInquiriesResult = {
 export type getUserInquiryPayload = {
   inquiryId: number | null;
 };
+export type getRankingPayload = {
+  period: string | null;
+};
+export type getRankingResult = {
+  message: string | null;
+  popularityStrategies: Array<{
+    board: {
+      id: number | null;
+      title: string | null;
+      _count: {
+        likes: number | null;
+        collectors: number | null;
+      };
+    };
+  }> | null;
+  profitPctStrategies: Array<{
+    board: {
+      id: number | null;
+      title: string | null;
+    };
+    profitPct: number | null;
+  }>;
+  profitPctTraders: Array<{
+    user: {
+      nickname: string | null;
+    };
+    totalProfit: number | null;
+  }> | null;
+  profitTraders: Array<{
+    user: {
+      nickname: string | null;
+    };
+    profit: number | null;
+  }> | null;
+} | null;
 export type getUserInquiryResult = {
   user: { nickname: string; styles: Array<{ name: string }> };
   answer: null;

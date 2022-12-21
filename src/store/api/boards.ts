@@ -6,6 +6,7 @@ import {
   getBoardPayload,
   getBoardsPayload,
   getNoticePayload,
+  getRankingPayload,
   GetUserBoardsPayload,
   getUserByNicknamePayload,
   GetUserInquiriesPayload,
@@ -46,10 +47,11 @@ export const apiGetUserCollection = ({ category, page }: GetUserBoardsPayload) =
 // get user Inquiries
 export const apiGetUserInquiries = ({ page }: GetUserInquiriesPayload) =>
   axiosInstance.get(`/users/inquiries${page ? `?page=${page}` : ''}`);
-
 // read user Inquiry
 export const apiGetUserInquiry = ({ inquiryId }: getUserInquiryPayload) =>
   axiosInstance.get(`/users/inquiries/${inquiryId}`);
+//get rank
+export const apiGetRank = ({ period }: getRankingPayload) => axiosInstance.get(`/boards/ranking?period=${period}`);
 
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>

@@ -39,6 +39,8 @@ import {
   getUserByNicknamePayload,
   getUserByNicknameResult,
   updateUserInquiruesPayload,
+  getRankingPayload,
+  getRankingResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -270,6 +272,7 @@ export type BoardsStateType = {
       _count: { comments: number };
     };
   }> | null;
+  period: string | null;
   boardId: number | null;
   parentCommentId: number | null;
   getBoardDone: {
@@ -335,6 +338,38 @@ export type BoardsStateType = {
     styles: Array<{ name: string }> | [];
     _count: { boards: number | null; comments: number | null };
   };
+  getRankingResult: {
+    message: string | null;
+    popularityStrategies: Array<{
+      board: {
+        id: number | null;
+        title: string | null;
+        _count: {
+          likes: number | null;
+          collectors: number | null;
+        };
+      };
+    }> | null;
+    profitPctStrategies: Array<{
+      board: {
+        id: number | null;
+        title: string | null;
+      };
+      profitPct: number | null;
+    }>;
+    profitPctTraders: Array<{
+      user: {
+        nickname: string | null;
+      };
+      totalProfit: number | null;
+    }> | null;
+    profitTraders: Array<{
+      user: {
+        nickname: string | null;
+      };
+      profit: number | null;
+    }> | null;
+  } | null;
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -365,6 +400,8 @@ const initialState: BoardsStateType = {
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: null,
   boardId: 0,
+  period: 'ALL',
+  getRankingResult: null,
   parentCommentId: 0,
   getBoardDone: {
     category: '',
@@ -652,6 +689,15 @@ const boardsSlice = createSlice({
     getUserByNicknameResult(state, action: PayloadAction<getUserByNicknameResult>) {
       state.loadBoardsLoading = true;
       state.getUserInfo = action.payload;
+    },
+    //get ranking
+    getUserRanking(state, action: PayloadAction<getRankingPayload>) {
+      state.loadBoardsLoading = true;
+      state.period = action.payload.period;
+    },
+    getUserRankingResult(state, action: PayloadAction<getRankingResult>) {
+      state.loadBoardsLoading = false;
+      state.getRankingResult = action.payload;
     },
     //api res req
     loadBoardsRequest(state) {
