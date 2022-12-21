@@ -145,7 +145,7 @@ const IndexLayout = () => {
               <span className="description">퀀트로에서 제공하는 전략과 지표를 확인해보세요.</span>
             </div>
             <div className="main_bottom_con">
-              {loadGetQuantroStrategyDone.boards.map((board) => (
+              {loadGetQuantroStrategyDone.boards.slice(0, 3).map((board) => (
                 <div className="item" key={board.id}>
                   <div className="title">
                     {board.title}

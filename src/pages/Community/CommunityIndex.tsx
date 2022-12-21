@@ -77,10 +77,7 @@ const CommunityIndex: NextPage = () => {
         dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
       }
     } else if (communityRank) {
-      dispatch(boardsActions.getBoards({ category: 'COMMISSION', page, user, title, comment }));
-      if (isUser) {
-        dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
-      }
+      dispatch(boardsActions.getUserRanking({ period: 'ALL' }));
     } else if (communityNotice) {
       dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
       if (isUser) {

@@ -344,6 +344,7 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         title: string | null;
+        user: { nickname: string | null; photoUrl: string | null } | null;
         _count: {
           likes: number | null;
           collectors: number | null;
@@ -354,18 +355,21 @@ export type BoardsStateType = {
       board: {
         id: number | null;
         title: string | null;
+        user: { nickname: string | null; photoUrl: string | null } | null;
       };
       profitPct: number | null;
     }>;
     profitPctTraders: Array<{
       user: {
         nickname: string | null;
+        photoUrl: string | null;
       };
       totalProfit: number | null;
     }> | null;
     profitTraders: Array<{
       user: {
         nickname: string | null;
+        photoUrl: string | null;
       };
       profit: number | null;
     }> | null;
