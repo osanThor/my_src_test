@@ -38,15 +38,14 @@ const BoardDiscussionPage = ({
   );
 
   // writer check
-  const { user } = getBoardDone;
   const [identity, setIdentity] = useState(false);
   useEffect(() => {
-    if (user) {
-      if (nickname === user.nickname) {
+    if (getBoardDone?.user) {
+      if (nickname === getBoardDone?.user.nickname) {
         setIdentity(true);
       }
     }
-  }, [nickname, user]);
+  }, [nickname, getBoardDone]);
 
   // function modal(delete board, commetn modal )
   const [fModalOpen, setFModalOpen] = useState(false);

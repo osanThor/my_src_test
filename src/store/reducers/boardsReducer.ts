@@ -315,7 +315,14 @@ export type BoardsStateType = {
     _count: {
       likes: number | null;
     };
-  };
+    strategy: {
+      chartCycle: string | null;
+      confirmStatus: string | null;
+      platform: string | null;
+      symbol: string | null;
+      profitPct: number | null;
+    };
+  } | null;
   commentId: number | null;
   isCollect: boolean;
   isLike: boolean;
@@ -416,27 +423,7 @@ const initialState: BoardsStateType = {
   getRankingResult: null,
   getGuidesResult: null,
   parentCommentId: 0,
-  getBoardDone: {
-    category: '',
-    id: 0,
-    title: '',
-    collectors: null,
-    likes: null,
-    user: {
-      photoUrl: '',
-      nickname: '',
-      styles: [],
-    },
-    createdAt: '',
-    deletedAt: '',
-    hits: 0,
-    content: '',
-    files: [],
-    comments: [],
-    _count: {
-      likes: 0,
-    },
-  },
+  getBoardDone: null,
   commentId: 0,
   isCollect: false,
   isLike: false,
@@ -703,7 +690,7 @@ const boardsSlice = createSlice({
       state.nickname = action.payload.nickname;
     },
     getUserByNicknameResult(state, action: PayloadAction<getUserByNicknameResult>) {
-      state.loadBoardsLoading = true;
+      state.loadBoardsLoading = false;
       state.getUserInfo = action.payload;
     },
     //get ranking

@@ -4,6 +4,7 @@ import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { Input } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -70,6 +71,7 @@ const CertifiedCon = ({
   handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileUrl: string | null;
 }) => {
+  const router = useRouter();
   const { content, getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(
     ({ adminStrategies }: RootState) => ({
       content: adminStrategies.content,
@@ -179,6 +181,11 @@ const CertifiedCon = ({
         <div className="file">
           <div className="file_label">파일 업로드</div>
           <label>
+            {router.query.category === 'CERTIFIED_STRATEGY' ? (
+              <input type="file" onChange={handleChangeImage} accept={'.csv'} />
+            ) : (
+              <input type="file" onChange={handleChangeImage} />
+            )}
             <input type="file" onChange={handleChangeImage} />
             <span className="button">파일 업로드</span>
           </label>

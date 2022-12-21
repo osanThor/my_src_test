@@ -4,14 +4,16 @@ import Modal from '@/src/components/common/modals/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import BoardCertifiedPage from './BoardCertifiedPage';
 import BoardDiscussionPage from './BoardDiscussionPage';
 import BoardNoticePage from './BoardNoticePage';
 
-const BoardIndex = () => {
+const BoardIndex: NextPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [boardIdSt, setBoardIdSt] = useState(0);
@@ -74,33 +76,33 @@ const BoardIndex = () => {
   }, [once]);
 
   //** board detail router */
-  const { category } = getBoardDone;
   useEffect(() => {
     if (!router.query.state) {
-      if (category === 'DISCUSSION') {
+      if (getBoardDone?.category === 'DISCUSSION') {
         router.replace(`/board/${boardId}?state=community&category=DISCUSSION`);
-      } else if (category === 'COMMISSION') {
+      } else if (getBoardDone?.category === 'COMMISSION') {
         router.replace(`/board/${boardId}?state=community&category=COMMISSION`);
-      } else if (category === 'NOTICE') {
+      } else if (getBoardDone?.category === 'NOTICE') {
         router.replace(`/board/${boardId}?state=community&category=NOTICE`);
-      } else if (category === 'CERTIFIED_STRATEGY') {
-        router.replace(`/board/${boardId}?state=community&category=CERTIFIED_STRATEGY`);
-      } else if (category === 'USER_STRATEGY') {
-        router.replace(`/board/${boardId}?state=community&category=USER_STRATEGY`);
-      } else if (category === 'QUANTRO_STRATEGY') {
-        router.replace(`/board/${boardId}?state=community&category=QUANTRO_STRATEGY`);
-      } else if (category === 'QUANTRO_INDICATOR') {
-        router.replace(`/board/${boardId}?state=community&category=QUANTRO_INDICATOR`);
+      } else if (getBoardDone?.category === 'CERTIFIED_STRATEGY') {
+        router.replace(`/board/${boardId}?state=strategy&category=CERTIFIED_STRATEGY`);
+      } else if (getBoardDone?.category === 'USER_STRATEGY') {
+        router.replace(`/board/${boardId}?state=strategy&category=USER_STRATEGY`);
+      } else if (getBoardDone?.category === 'QUANTRO_STRATEGY') {
+        router.replace(`/board/${boardId}?state=strategy&category=QUANTRO_STRATEGY`);
+      } else if (getBoardDone?.category === 'QUANTRO_INDICATOR') {
+        router.replace(`/board/${boardId}?state=strategy&category=QUANTRO_INDICATOR`);
       }
     }
-  }, [router, category]);
+  }, [router, getBoardDone?.category]);
   //** !--board detail router */
 
   // collection, likes
-  const { collectors, likes } = getBoardDone;
   //collection
   useEffect(() => {
-    if (collectors && likes) {
+    if (getBoardDone?.collectors && getBoardDone?.likes) {
+      const { collectors, likes } = getBoardDone;
+
       if (collectors.length != 0) {
         dispatch(boardsActions.isCollectors());
       }
@@ -108,7 +110,8 @@ const BoardIndex = () => {
         dispatch(boardsActions.isLikes());
       }
     }
-  }, [collectors, likes]);
+  }, [getBoardDone]);
+
   const handleSetBoardCollection = () => {
     dispatch(boardsActions.setBoardCollection({ boardId, isCollect: !isCollect }));
   };
@@ -137,6 +140,17 @@ const BoardIndex = () => {
     setModalOpen(false);
   };
 
+  //strategy user info
+  useEffect(() => {
+    if (router.query.state) {
+      if (router.query.state === 'strategy') {
+        if (getBoardDone) {
+          dispatch(boardsActions.getUserByNickname({ nickname: getBoardDone?.user?.nickname }));
+        }
+      }
+    }
+  }, [router, getBoardDone]);
+
   return (
     <>
       <UserLayout>
@@ -156,7 +170,7 @@ const BoardIndex = () => {
               handleSetBoardCollection={handleSetBoardCollection}
             />
           )}
-          {router.query.category === 'CERTIFIED_STRATEGY' && <div>인증전략</div>}
+          {router.query.category === 'CERTIFIED_STRATEGY' && <BoardCertifiedPage />}
           {router.query.category === 'USER_STRATEGY' && <div>사용자 전략</div>}
           {router.query.category === 'QUANTRO_STRATEGY' && <div>공개 전략</div>}
           {router.query.category === 'QUANTRO_INDICATOR' && <div>공개 지표</div>}

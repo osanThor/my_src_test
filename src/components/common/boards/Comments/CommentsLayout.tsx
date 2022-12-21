@@ -17,8 +17,6 @@ const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: ()
     parentCommentId: boards.parentCommentId,
     commentId: boards.commentId,
   }));
-  const { comments } = getBoardDone;
-
   const handleChangeParentsIdZero = () => {
     dispatch(boardsActions.initialCommentState());
     dispatch(boardsActions.changeCommentId({ commentId: 0 }));
@@ -39,7 +37,7 @@ const CommentsLayout = ({ handleOpenDleteComment }: { handleOpenDleteComment: ()
       <span className="board_spacer" />
       <div className="comments_area">
         <div className="comments_title">댓글</div>
-        {comments.length !== 0 && <CommentsList handleOpenDleteComment={handleOpenDleteComment} />}
+        {getBoardDone?.comments.length !== 0 && <CommentsList handleOpenDleteComment={handleOpenDleteComment} />}
         {isAddComment ? <CommentEditor /> : <DummyEditor onClick={handleChangeParentsIdZero} />}
       </div>
     </CommentsLayoutBlock>

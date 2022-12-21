@@ -16,10 +16,9 @@ const CommentsList = ({ handleOpenDleteComment }: { handleOpenDleteComment: () =
   const { getBoardDone } = useSelector(({ boards }: RootState) => ({
     getBoardDone: boards.getBoardDone,
   }));
-  const { comments } = getBoardDone;
   return (
     <CommentsListBlock>
-      {comments.map((cm) => (
+      {getBoardDone?.comments?.map((cm) => (
         <CommentItem key={cm.id} cm={cm} handleOpenDleteComment={handleOpenDleteComment} />
       ))}
     </CommentsListBlock>
