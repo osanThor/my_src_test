@@ -147,6 +147,7 @@ import TelegramIcon from 'public/assets/common/community/telegram.svg';
 import CrownIcon from 'public/assets/common/rank/Crown.svg';
 import SecndIcon from 'public/assets/common/rank/sec.svg';
 import ThrndIcon from 'public/assets/common/rank/thr.svg';
+import RankTemIcon from 'public/assets/common/rank/rank_tem.svg';
 
 ///*** !----Export----- */
 //로고
@@ -265,3 +266,4 @@ export const Telegram = TelegramIcon;
 
 //ranking
 export const Rank = [CrownIcon, SecndIcon, ThrndIcon];
+export const RankTemplete = RankTemIcon;

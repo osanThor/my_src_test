@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { Profile1, Rank } from '@/src/assets/Images';
+import { Profile1, Rank, RankTemplete } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
@@ -55,11 +55,11 @@ const RankLayout = () => {
                   <div className="startegy_title" onClick={() => router.push(`/board/${strategy?.board?.id}`)}>
                     {strategy?.board?.title}
                   </div>
-                  <div className="count">
-                    <span>{strategy?.board?._count?.likes}</span> / <span>{strategy?.board?._count?.collectors}</span>
-                  </div>
                 </div>
               ))}
+              <div className="rank_tem">
+                <Image src={RankTemplete} alt="tem" />
+              </div>
             </div>
           </div>
           <div className="right">
@@ -117,11 +117,11 @@ const RankLayout = () => {
                   >
                     {strategy?.board?.title}
                   </div>
-                  <div className="count">
-                    <span>{strategy?.profitPct}</span>
-                  </div>
                 </div>
               ))}
+              <div className="rank_tem">
+                <Image src={RankTemplete} alt="tem" />
+              </div>
             </div>
           </div>
           <div className="right">
@@ -172,11 +172,14 @@ const RankLayout = () => {
                     </div>
                     <div className="nickname">{td?.user?.nickname}</div>
                   </div>
-                  <div className="count">
-                    <span>{td?.totalProfit}</span>
+                  <div className="count td">
+                    <span>수익률: {td?.totalProfit}</span>
                   </div>
                 </div>
               ))}
+              <div className="rank_tem">
+                <Image src={RankTemplete} alt="tem" />
+              </div>
             </div>
           </div>
           <div className="right">
@@ -234,11 +237,14 @@ const RankLayout = () => {
                     </div>
                     <div className="nickname">{td?.user?.nickname}</div>
                   </div>
-                  <div className="count">
-                    <span>{td?.profit}</span>
+                  <div className="count td">
+                    <span>수익금: {td?.profit}</span>
                   </div>
                 </div>
               ))}
+              <div className="rank_tem">
+                <Image src={RankTemplete} alt="tem" />
+              </div>
             </div>
           </div>
           <div className="right">
@@ -321,7 +327,6 @@ const RankLayoutBlock = styled.div`
           .user {
             cursor: pointer;
             width: 100%;
-            margin-bottom: 7px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -353,11 +358,15 @@ const RankLayoutBlock = styled.div`
             font-size: 12px;
             color: ${colors.blue[2]};
             text-align: center;
+            &.td {
+              font-size: 1rem;
+            }
           }
           &:nth-child(1) {
             top: 0;
             left: 50%;
             transform: translateX(-50%);
+            z-index: 7;
             .user {
               .photo {
                 max-width: 100px;
@@ -382,8 +391,8 @@ const RankLayoutBlock = styled.div`
           }
           &:nth-child(2) {
             top: 50%;
-            left: 10%;
-            transform: translateY(-50%);
+            left: 35%;
+            transform: translate(-100%, -50%);
             &::before {
               content: '';
               width: 35px;
@@ -400,8 +409,8 @@ const RankLayoutBlock = styled.div`
           }
           &:nth-child(3) {
             top: 50%;
-            right: 10%;
-            transform: translateY(-50%);
+            right: 35%;
+            transform: translate(100%, -50%);
             &::before {
               content: '';
               width: 35px;
@@ -427,6 +436,7 @@ const RankLayoutBlock = styled.div`
         max-height: 244px;
         overflow-y: auto;
         background-color: ${colors.gray[0]};
+        border-radius: 8px;
         overflow: -moz-scrollbars-none;
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
@@ -494,12 +504,29 @@ const RankLayoutBlock = styled.div`
         }
       }
     }
+    .rank_tem {
+      width: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
   }
   ${media.tablet} {
     .rankArea {
       flex-direction: column;
       .left {
         width: 100%;
+        .topThree {
+          .rankItem {
+            &:nth-child(2) {
+              left: 40%;
+            }
+            &:nth-child(3) {
+              right: 40%;
+            }
+          }
+        }
       }
       .right {
         width: 100%;
@@ -518,10 +545,10 @@ const RankLayoutBlock = styled.div`
           min-height: 200px;
           .rankItem {
             &:nth-child(2) {
-              left: 0;
+              left: 38%;
             }
             &:nth-child(3) {
-              right: 0;
+              right: 38%;
             }
           }
         }
@@ -539,6 +566,30 @@ const RankLayoutBlock = styled.div`
               span + span {
                 margin: 0;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${media.custom(460)} {
+    .rankArea {
+      flex-direction: column;
+      .left {
+        width: 100%;
+        .topThree {
+          display: flex;
+          justify-content: center;
+          position: relative;
+          min-height: 200px;
+          .rankItem {
+            &:nth-child(2) {
+              left: 1%;
+              transform: translate(0, -50%);
+            }
+            &:nth-child(3) {
+              right: 1%;
+              transform: translate(0, -50%);
             }
           }
         }
