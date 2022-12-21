@@ -37,9 +37,7 @@ const UserStrategyTable = () => {
               {loadGetUserStrategyDone.boards.map((board) => (
                 <div className="tr" key={board.id}>
                   <div className="td">
-                    <div className="icon">
-                      <Image src={Lock[0]} alt="lock" />
-                    </div>
+                    <div className="icon">{board.id}</div>
                   </div>
                   <div className="td title dark_gray pointer" onClick={() => router.push(`/board/${board.id}`)}>
                     <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>

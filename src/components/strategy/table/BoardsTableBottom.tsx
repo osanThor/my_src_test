@@ -38,8 +38,16 @@ const BoardsTableBottom = ({ total }: { total: number }) => {
           <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
         </BoardSearchLayout>
         <div className="btn">
-          {strategyCertifiedStrategy && <StyledButton lightBlue>전략 인증신청</StyledButton>}
-          {strategyUserStrategy && <StyledButton lightBlue>전략등록</StyledButton>}
+          {strategyCertifiedStrategy && (
+            <StyledButton lightBlue onClick={() => router.push('/strategy/certified/write')}>
+              전략 인증신청
+            </StyledButton>
+          )}
+          {strategyUserStrategy && (
+            <StyledButton lightBlue onClick={() => router.push('/strategy/user/write')}>
+              전략등록
+            </StyledButton>
+          )}
         </div>
       </div>
     </BoardsTableBottomBlock>
