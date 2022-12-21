@@ -99,6 +99,7 @@ export type BoardsStateType = {
           user: {
             nickname: string;
             styles: Array<{ name: string }> | null;
+            photoUrl: string | null;
           };
           strategy: {
             calcMdd: number | null;
