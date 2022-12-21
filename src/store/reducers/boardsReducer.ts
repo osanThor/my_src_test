@@ -38,6 +38,7 @@ import {
   getUserInquiryResult,
   getUserByNicknamePayload,
   getUserByNicknameResult,
+  updateUserInquiruesPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -97,7 +98,15 @@ export type BoardsStateType = {
           deletedAt: string | null;
           user: {
             nickname: string;
+            styles: Array<{ name: string }> | null;
+            photoUrl: string | null;
           };
+          strategy: {
+            calcMdd: number | null;
+            calcProfitPct: number | null;
+            calcWinningPct: number | null;
+            communities: Array<{ channel: string | null; url: string | null }> | null;
+          } | null;
           _count: {
             comments: number;
           };
@@ -195,6 +204,7 @@ export type BoardsStateType = {
       content: string | null;
       id: number | null;
       board: {
+        id: number | null;
         createdAt: string;
         deletedAt: string | null;
         hits: number | null;
@@ -246,22 +256,20 @@ export type BoardsStateType = {
         }>
       | [];
   };
-  getNoticesDone:
-    | Array<{
-        targetCategory: string | null;
-        board: {
-          id: number;
-          title: string;
-          hits: number;
-          createdAt: string;
-          deletedAt: string | null;
-          user: {
-            nickname: string;
-          } | null;
-          _count: { comments: number };
-        };
-      }>
-    | [];
+  getNoticesDone: Array<{
+    targetCategory: string | null;
+    board: {
+      id: number;
+      title: string;
+      hits: number;
+      createdAt: string;
+      deletedAt: string | null;
+      user: {
+        nickname: string;
+      } | null;
+      _count: { comments: number };
+    };
+  }> | null;
   boardId: number | null;
   parentCommentId: number | null;
   getBoardDone: {
@@ -310,7 +318,7 @@ export type BoardsStateType = {
   inquiryId: number | null;
   getInquiryResult: {
     user: { nickname: string; styles: Array<{ name: string }> };
-    answer: null;
+    answer: { content: string | null; createdAt: string | null } | null;
     content: string | null;
     createdAt: string | null;
     files: Array<{ url: string }> | [];
@@ -355,7 +363,7 @@ const initialState: BoardsStateType = {
   getUserCollectionsResult: { total: 0, collections: [] },
   getUserLikesResult: { total: 0, likes: [] },
   getUserInquiriesDone: { total: 0, inquiries: [] },
-  getNoticesDone: [],
+  getNoticesDone: null,
   boardId: 0,
   parentCommentId: 0,
   getBoardDone: {
@@ -383,14 +391,7 @@ const initialState: BoardsStateType = {
   isCollect: false,
   isLike: false,
   inquiryId: 0,
-  getInquiryResult: {
-    user: { nickname: '', styles: [{ name: '' }] },
-    answer: null,
-    content: '',
-    createdAt: '',
-    files: [{ url: '' }],
-    title: '',
-  },
+  getInquiryResult: null,
   nickname: '',
   getUserInfo: {
     email: '',
@@ -463,6 +464,7 @@ const boardsSlice = createSlice({
     getNotices(state, action: PayloadAction<getNoticePayload>) {
       state.loadBoardsLoading = true;
       state.category = action.payload.category;
+      state.getNoticesDone = null;
     },
     getNoticesResult(state, action: PayloadAction<getNoticeResult>) {
       state.loadBoardsLoading = false;
@@ -576,6 +578,13 @@ const boardsSlice = createSlice({
     },
     createInquiries(state, action: PayloadAction<CreateUserInquiruesPayload>) {
       state.loadBoardsLoading = true;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+    },
+    updateInquiries(state, action: PayloadAction<updateUserInquiruesPayload>) {
+      state.loadBoardsLoading = true;
+      state.inquiryId = action.payload.inquiryId;
       state.title = action.payload.title;
       state.content = action.payload.content;
       state.fileUrls = action.payload.fileUrls;

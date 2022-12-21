@@ -8,6 +8,7 @@ import BoardsTableBottom from './BoardsTableBottom';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import NoBoards from '../../common/NoBoards';
+import CertifiedItem from './CertifiedItem';
 
 const CertifiedBoardsTable = () => {
   const router = useRouter();
@@ -17,21 +18,22 @@ const CertifiedBoardsTable = () => {
     getNoticesDone: boards.getNoticesDone,
   }));
   const { total } = loadGetCertifiedDone;
-
   return (
     <>
       <BoardsTableBlock>
-        <div className="thead">
-          <div className="th">
-            <div className="td">번호</div>
-            <div className="td title">제목</div>
-            <div className="td dark_gray">작성자</div>
-            <div className="td">조회수</div>
-            <div className="td">작성일</div>
+        {/* {getNoticesDone?.length != 0 && (
+          <div className="thead">
+            <div className="th">
+              <div className="td">번호</div>
+              <div className="td title">제목</div>
+              <div className="td dark_gray">작성자</div>
+              <div className="td">조회수</div>
+              <div className="td">작성일</div>
+            </div>
           </div>
-        </div>
+        )} */}
         <div className="tbody">
-          {getNoticesDone.map((notice) => (
+          {getNoticesDone?.map((notice) => (
             <div className="tr notice" key={notice.board.id}>
               <div className="td">
                 <NoticeCon />
@@ -56,32 +58,11 @@ const CertifiedBoardsTable = () => {
             </div>
           ))}
           {total != 0 ? (
-            <>
+            <div className="certified_list">
               {loadGetCertifiedDone.boards.map((board) => (
-                <div className="tr" key={board.id}>
-                  <div className="td">{board.id}</div>
-                  <div
-                    className="td title dark_gray pointer"
-                    onClick={() => router.push(`/board/${board.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
-                  >
-                    <span className="tit">{board.title}</span> <span className="comments">{board._count.comments}</span>
-                  </div>
-                  <div
-                    className="td dark_gray pointer"
-                    onClick={() => router.push(`/strategy/strategist?user=${board.user.nickname}&category=user`)}
-                  >
-                    {(board.user && board.user.nickname) || ''}
-                  </div>
-                  <div className="td">
-                    <span className="ver_m">조회수</span>
-                    {board.hits}
-                  </div>
-                  <div className="td">
-                    <Moment format="YYYY.MM.DD">{board.createdAt}</Moment>
-                  </div>
-                </div>
+                <CertifiedItem board={board} key={board.id} />
               ))}
-            </>
+            </div>
           ) : (
             <NoBoards />
           )}
@@ -107,6 +88,20 @@ const BoardsTableBlock = styled.div`
   margin-bottom: 20px;
   .ver_m {
     display: none;
+  }
+  .certified_list {
+    width: 100%;
+    display: grid;
+    transition: all 0.2s;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    column-gap: 20px;
+    grid-row-gap: 20px;
+    row-gap: 20px;
+    word-break: keep-all;
+    text-align: center;
   }
   .td {
     font-size: 14px;
@@ -179,6 +174,7 @@ const BoardsTableBlock = styled.div`
 
   .tbody {
     width: 100%;
+    min-height: 300px;
     .tr {
       width: 100%;
       height: 60px;

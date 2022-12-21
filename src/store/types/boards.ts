@@ -9,6 +9,12 @@ export type CreateUserInquiruesPayload = {
   content: string | null;
   fileUrls: Array<string> | [];
 };
+export type updateUserInquiruesPayload = {
+  inquiryId: number | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string> | [];
+};
 
 export type getBoardsPayload = {
   category: string | null;
@@ -37,30 +43,36 @@ export type getBoardsResult = {
     deletedAt: string | null;
     user: {
       nickname: string;
+      styles: Array<{ name: string }> | null;
+      photoUrl: string | null;
+    };
+    strategy: {
+      calcMdd: number | null;
+      calcProfitPct: number | null;
+      calcWinningPct: number | null;
+      communities: Array<{ channel: string | null; url: string | null }> | null;
     };
     _count: {
       comments: number;
     };
   }>;
 };
-export type getNoticeResult =
-  | Array<{
-      targetCategory: string | null;
-      board: {
-        id: number;
-        title: string;
-        hits: number;
-        createdAt: string;
-        deletedAt: string | null;
-        user: {
-          nickname: string;
-        } | null;
-        _count: {
-          comments: number;
-        };
-      };
-    }>
-  | [];
+export type getNoticeResult = Array<{
+  targetCategory: string | null;
+  board: {
+    id: number;
+    title: string;
+    hits: number;
+    createdAt: string;
+    deletedAt: string | null;
+    user: {
+      nickname: string;
+    } | null;
+    _count: {
+      comments: number;
+    };
+  };
+}> | null;
 export type getUserBoardsResult = {
   total: number | null;
   boards: Array<{
@@ -80,6 +92,7 @@ export type getUserCommentsResult = {
     content: string | null;
     id: number | null;
     board: {
+      id: number | null;
       createdAt: string;
       deletedAt: string | null;
       hits: number | null;

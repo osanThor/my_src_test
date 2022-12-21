@@ -18,9 +18,18 @@ export type IndexStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
+            styles: Array<{ name: string }> | null;
+            photoUrl: string | null;
           };
+          strategy: {
+            calcMdd: number | null;
+            calcProfitPct: number | null;
+            calcWinningPct: number | null;
+            communities: Array<{ channel: string | null; url: string | null }> | null;
+          } | null;
           _count: {
             comments: number;
           };

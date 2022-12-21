@@ -129,8 +129,19 @@ import WebHook1 from 'public/assets/description/api-link-info1.jpg';
 import WebHook2 from 'public/assets/description/api-link-info2.jpg';
 import WebHook3 from 'public/assets/description/api-link-info3.jpg';
 
-//modal
+// modal
 import DisplayIllustFile from 'public/assets/common/modal/display_illust.svg';
+
+// community
+import FacebookIcon from 'public/assets/common/community/facebook.svg';
+import NaverblogIcon from 'public/assets/common/community/naverblog.svg';
+import NavercafeIcon from 'public/assets/common/community/navercafe.svg';
+import DaumcafeIcon from 'public/assets/common/community/daumcafe.svg';
+import TwitterIcon from 'public/assets/common/community/twitter.svg';
+import YoutubeIcon from 'public/assets/common/community/youtube.svg';
+import TistoryIcon from 'public/assets/common/community/tistory.svg';
+import KakaotalkIcon from 'public/assets/common/community/kakaotalk.svg';
+import TelegramIcon from 'public/assets/common/community/telegram.svg';
 
 ///*** !----Export----- */
 //로고
@@ -235,3 +246,14 @@ export const WebHook = [WebHook1, WebHook2, WebHook3];
 
 //modal
 export const DisplayIllust = DisplayIllustFile;
+
+// communities
+export const Facebook = FacebookIcon;
+export const Naverblog = NaverblogIcon;
+export const Navercafe = NavercafeIcon;
+export const Daumcafe = DaumcafeIcon;
+export const Twitter = TwitterIcon;
+export const Youtube = YoutubeIcon;
+export const Tistory = TistoryIcon;
+export const Kakaotalk = KakaotalkIcon;
+export const Telegram = TelegramIcon;

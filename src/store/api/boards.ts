@@ -16,6 +16,7 @@ import {
   setBoardLikePayload,
   updateBoardPayload,
   updateCommentPayload,
+  updateUserInquiruesPayload,
 } from '../types';
 
 // get board
@@ -56,6 +57,9 @@ export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoard
 // create user Inquiries
 export const apiCreateUserInquiries = ({ title, content, fileUrls }: CreateUserInquiruesPayload) =>
   axiosInstance.post<LoadBoardsResponse>(`/users/inquiries`, { title, content, fileUrls });
+// update user Inquiry
+export const apiUpdateUserInquiry = ({ inquiryId, title, content, fileUrls }: updateUserInquiruesPayload) =>
+  axiosInstance.put(`/users/inquiries/${inquiryId}`, { title, content, fileUrls });
 
 // get read board
 export const apiGetBoard = ({ boardId }: getBoardPayload) => axiosInstance.get(`/boards/${boardId}`);

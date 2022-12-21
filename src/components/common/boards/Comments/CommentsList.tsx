@@ -1,5 +1,5 @@
 import colors from '@/src/assets/Colors';
-import { MoreInfoIcon, Profile, Profile1 } from '@/src/assets/Images';
+import { MoreInfoIcon, Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -189,7 +189,7 @@ const CommentItem = ({
               </div>
             </div>
           )}
-          {updateComment && <UpdateCommentEditor file={file.url} />}
+          {updateComment && <UpdateCommentEditor file={file?.url} />}
           <div className="children_comments">
             <span className="comments_spacer" />
             <div className="comments_con">

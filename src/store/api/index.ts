@@ -59,6 +59,7 @@ export {
   apiSetBoardLike,
   apiGetUserInquiry,
   apiGetUserByNickname,
+  apiUpdateUserInquiry,
 } from './boards';
 
 //admin

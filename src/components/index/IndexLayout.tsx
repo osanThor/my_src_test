@@ -9,6 +9,7 @@ import React from 'react';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import CertifiedItem from '../strategy/table/CertifiedItem';
 
 const IndexLayout = () => {
   const router = useRouter();
@@ -51,13 +52,17 @@ const IndexLayout = () => {
               <div className="main_tit">
                 퀀트로 인증전략 <span className="dis_p">퀀트로에서 인증한 전략을 확인해보세요. </span>
               </div>
-
               <Link href="/strategy?category=certified">
                 <a>
                   더보기 <Image src={ArrowRightBlue} alt="arrow" />
                 </a>
               </Link>
               <span className="description dis_m">사용자들의 전략을 확인해보세요</span>
+            </div>
+            <div className="main_certified_list">
+              {loadGetCertifiedDone?.boards.slice(0, 3).map((board) => (
+                <CertifiedItem board={board} key={board.id} />
+              ))}
             </div>
           </div>
           <div className="lank">
@@ -86,7 +91,7 @@ const IndexLayout = () => {
               <span className="description">사용자들의 전략을 확인해보세요</span>
             </div>
             <div className="main_bottom_con">
-              {loadGetUserStrategyDone.boards.slice(0, 3).map((board) => (
+              {loadGetUserStrategyDone?.boards.slice(0, 3).map((board) => (
                 <div className="item" key={board.id}>
                   <div className="title">
                     {board.title}
@@ -301,6 +306,21 @@ const IndexLayoutBlock = styled.div`
         margin-right: 0;
       }
     }
+  }
+  .main_certified_list {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    transition: all 0.2s;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    column-gap: 20px;
+    grid-row-gap: 20px;
+    row-gap: 20px;
+    word-break: keep-all;
+    text-align: center;
   }
 
   ${media.tablet} {
