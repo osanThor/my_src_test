@@ -12,7 +12,6 @@ const CustomSelect = ({
   place: string;
   setSearchName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const router = useRouter();
   const [currentValue, setCurrentValue] = useState(place);
   const [showOptions, setShowOptions] = useState(false);
   const [placeHold, setPlaceHoder] = useState(Boolean);
@@ -23,10 +22,6 @@ const CustomSelect = ({
     { value: 'M1', txt: '30일' },
     { value: 'M3', txt: '90일' },
   ];
-
-  useEffect(() => {
-    setCurrentValue('선택');
-  }, [router]);
 
   const handleOnChangeSelectValue = (e: any) => {
     const { innerText } = e.target;

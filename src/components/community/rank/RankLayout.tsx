@@ -4,25 +4,31 @@ import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Loading from '../../common/Loading';
 import CustomSelect from './item/CustomSelect';
 
 const RankLayout = () => {
   const router = useRouter();
-  const { getRankingResult, loadBoardsLoading } = useSelector(({ boards }: RootState) => ({
+  const { getRankingResult } = useSelector(({ boards }: RootState) => ({
     getRankingResult: boards.getRankingResult,
     loadBoardsLoading: boards.loadBoardsLoading,
   }));
 
   const [period, setPeriod] = useState('ALL');
+  // useEffect(()=>{
+  //   if(router.)
+  // },[router])
+  useEffect(() => {
+    router.push(`/community?category=rank&period=${period}`);
+  }, [period]);
+
   return (
     <>
       <RankLayoutBlock>
         <div className="title">
-          <h2>랭킹 Area</h2>
+          <h2>퀀트로 랭킹</h2>
           <CustomSelect place={period} setSearchName={setPeriod} />
         </div>
         <div className="rankArea">
@@ -90,7 +96,12 @@ const RankLayout = () => {
             <div className="topThree">
               {getRankingResult?.profitPctStrategies?.slice(0, 3).map((strategy) => (
                 <div className="rankItem" key={strategy?.board?.id}>
-                  <div className="user">
+                  <div
+                    className="user"
+                    onClick={() =>
+                      router.push(`/strategy/strategist?user=${strategy?.board?.user?.nickname}&category=discussion`)
+                    }
+                  >
                     <div className="photo">
                       <Image
                         src={strategy?.board?.user?.photoUrl ? strategy?.board?.user?.photoUrl : Profile1[1]}
@@ -100,7 +111,12 @@ const RankLayout = () => {
                     </div>
                     <div className="nickname">{strategy?.board?.user?.nickname}</div>
                   </div>
-                  <div className="startegy_title">{strategy?.board?.title}</div>
+                  <div
+                    className="startegy_title"
+                    onClick={() => router.push(`/board/${strategy?.board?.id}&category=discussion`)}
+                  >
+                    {strategy?.board?.title}
+                  </div>
                   <div className="count">
                     <span>{strategy?.profitPct}</span>
                   </div>
@@ -113,8 +129,15 @@ const RankLayout = () => {
               {getRankingResult?.profitPctStrategies?.map((li, idx) => (
                 <div className="listItem" key={li?.board?.id}>
                   <div className="num">{idx + 1}</div>
-                  <div className="tit">{li?.board?.title}</div>
-                  <div className="user">
+                  <div className="tit" onClick={() => router.push(`/board/${li?.board?.id}`)}>
+                    {li?.board?.title}
+                  </div>
+                  <div
+                    className="user"
+                    onClick={() =>
+                      router.push(`/strategy/strategist?user=${li?.board?.user?.nickname}&category=discussion`)
+                    }
+                  >
                     <div className="photo">
                       <Image src={li?.board?.user?.photoUrl} alt="profile" layout="fill" />
                     </div>
@@ -134,7 +157,10 @@ const RankLayout = () => {
             <div className="topThree">
               {getRankingResult?.profitPctTraders?.slice(0, 3).map((td, idx) => (
                 <div className="rankItem" key={idx}>
-                  <div className="user">
+                  <div
+                    className="user"
+                    onClick={() => router.push(`/strategy/strategist?user=${td?.user?.nickname}&category=discussion`)}
+                  >
                     <div className="photo">
                       <Image
                         src={
@@ -158,8 +184,16 @@ const RankLayout = () => {
               {getRankingResult?.profitPctTraders?.map((li, idx) => (
                 <div className="listItem" key={idx}>
                   <div className="num">{idx + 1}</div>
-                  <div className="tit">{li?.user?.nickname}</div>
-                  <div className="user">
+                  <div
+                    className="tit"
+                    onClick={() => router.push(`/strategy/strategist?user=${li?.user?.nickname}&category=discussion`)}
+                  >
+                    {li?.user?.nickname}
+                  </div>
+                  <div
+                    className="user"
+                    onClick={() => router.push(`/strategy/strategist?user=${li?.user?.nickname}&category=discussion`)}
+                  >
                     <div className="photo">
                       <Image
                         src={
@@ -185,7 +219,10 @@ const RankLayout = () => {
             <div className="topThree">
               {getRankingResult?.profitTraders?.slice(0, 3).map((td, idx) => (
                 <div className="rankItem" key={idx}>
-                  <div className="user">
+                  <div
+                    className="user"
+                    onClick={() => router.push(`/strategy/strategist?user=${td?.user?.nickname}&category=discussion`)}
+                  >
                     <div className="photo">
                       <Image
                         src={
@@ -209,8 +246,16 @@ const RankLayout = () => {
               {getRankingResult?.profitTraders?.map((li, idx) => (
                 <div className="listItem" key={idx}>
                   <div className="num">{idx + 1}</div>
-                  <div className="tit">{li?.user?.nickname}</div>
-                  <div className="user">
+                  <div
+                    className="tit"
+                    onClick={() => router.push(`/strategy/strategist?user=${li?.user?.nickname}&category=discussion`)}
+                  >
+                    {li?.user?.nickname}
+                  </div>
+                  <div
+                    className="user"
+                    onClick={() => router.push(`/strategy/strategist?user=${li?.user?.nickname}&category=discussion`)}
+                  >
                     <div className="photo">
                       <Image
                         src={
@@ -245,6 +290,7 @@ const RankLayoutBlock = styled.div`
     align-items: center;
     margin-bottom: 20px;
     h2 {
+      font-family: 'GmarketSansBold';
       font-size: 1.125rem;
     }
   }

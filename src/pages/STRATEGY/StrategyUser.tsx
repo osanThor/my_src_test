@@ -17,6 +17,13 @@ const StrategyUser: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, []);
+
+  useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
   const { communityDiscussion, strategyUserStrategy } = useSelector(({ local }: RootState) => ({

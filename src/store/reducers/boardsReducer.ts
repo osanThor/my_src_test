@@ -404,7 +404,7 @@ const initialState: BoardsStateType = {
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: null,
   boardId: 0,
-  period: 'ALL',
+  period: '',
   getRankingResult: null,
   parentCommentId: 0,
   getBoardDone: {
@@ -590,6 +590,9 @@ const boardsSlice = createSlice({
     },
     changeParentCommentId(state, action: PayloadAction<changeParentCommentId>) {
       state.parentCommentId = action.payload.parentCommentId;
+    },
+    changePeriod(state, action: PayloadAction<getRankingPayload>) {
+      state.period = action.payload.period;
     },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {

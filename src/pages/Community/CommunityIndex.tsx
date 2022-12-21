@@ -28,12 +28,13 @@ const CommunityIndex: NextPage = () => {
     loadAuthLoading: auth.loadAuthLoading,
     loadAuthDone: auth.loadAuthDone,
   }));
-  const { category, page, user, title, comment } = useSelector(({ boards }: RootState) => ({
+  const { category, page, user, title, comment, period } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
     page: boards.page,
     user: boards.user,
     title: boards.title,
     comment: boards.comment,
+    period: boards.period,
   }));
 
   const [isUser, setUser] = useState(false);
@@ -77,7 +78,7 @@ const CommunityIndex: NextPage = () => {
         dispatch(boardsActions.getNotices({ category: 'COMMISSION' }));
       }
     } else if (communityRank) {
-      dispatch(boardsActions.getUserRanking({ period: 'ALL' }));
+      dispatch(boardsActions.getUserRanking({ period }));
     } else if (communityNotice) {
       dispatch(boardsActions.getBoards({ category: 'NOTICE', page, user, title, comment }));
       if (isUser) {
@@ -99,6 +100,11 @@ const CommunityIndex: NextPage = () => {
     } else {
       dispatch(boardsActions.changeComment({ comment: '' }));
     }
+    if (router.query.period) {
+      dispatch(boardsActions.changePeriod({ period: router.query.period as string }));
+    } else {
+      dispatch(boardsActions.changePeriod({ period: 'ALL' }));
+    }
     if (router.query.page) {
       dispatch(boardsActions.changePage({ page: parseInt(router.query.page as string) }));
     } else {
@@ -112,6 +118,7 @@ const CommunityIndex: NextPage = () => {
     page,
     user,
     title,
+    period,
     comment,
     communityDiscussion,
     communityCommission,
