@@ -50,7 +50,6 @@ const CertifiedItem = ({
 
   const [ele, setEle] = useState<HTMLDivElement>();
   let pos = { top: 0, left: 0, x: 0, y: 0 };
-  console.log(ele);
   useEffect(() => {
     const ele = scrollRef.current;
     if (!ele) {

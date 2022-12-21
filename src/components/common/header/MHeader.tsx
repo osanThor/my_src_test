@@ -193,16 +193,25 @@ const MHeader = () => {
   const handleOnClose = () => {
     setModalOpen(false);
   };
-  const handleCommission = () => {
-    if (router.pathname === '/community' && router.query.category === 'commission') {
-      if (!license || license?.package === 'BASIC') {
-        setModalOpen(true);
-        return;
+  const handleGotoWrite = () => {
+    if (router.pathname === '/community') {
+      if (router.query.category === 'commission') {
+        if (!license || license?.package === 'BASIC') {
+          setModalOpen(true);
+          return;
+        } else {
+          router.push('/community/write');
+        }
       } else {
         router.push('/community/write');
       }
-    } else {
-      router.push('/community/write');
+    }
+    if (router.pathname === '/strategy') {
+      if (router.query.category === 'certified') {
+        router.push('/strategy/certified/write');
+      } else {
+        router.push('/strategy/user/write');
+      }
     }
   };
   return (
@@ -230,7 +239,17 @@ const MHeader = () => {
                 <Image src={AlramIcon[0]} alt="reset" />
               </div>
               {community && (
-                <div className="write" onClick={handleCommission}>
+                <div className="write" onClick={handleGotoWrite}>
+                  <Image src={PencilIcon} alt="reset" />
+                </div>
+              )}
+              {strategy && router.query.category === 'certified' && (
+                <div className="write" onClick={handleGotoWrite}>
+                  <Image src={PencilIcon} alt="reset" />
+                </div>
+              )}
+              {strategy && router.query.category === 'user' && (
+                <div className="write" onClick={handleGotoWrite}>
                   <Image src={PencilIcon} alt="reset" />
                 </div>
               )}
