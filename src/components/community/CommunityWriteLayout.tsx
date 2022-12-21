@@ -2,9 +2,10 @@ import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { localActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import Modal from '../common/modals/Modal';
 
 const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
@@ -12,28 +13,48 @@ const CommunityWriteLayout = ({ children }: { children: React.ReactNode }) => {
     communityDiscussion: local.communityDiscussion,
     communityCommission: local.communityCommission,
   }));
-
+  const { license } = useSelector(({ user }: RootState) => ({
+    license: user.license,
+  }));
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOnClose = () => {
+    setModalOpen(false);
+  };
+  console.log(license);
+  const handleCommission = () => {
+    if (!license || license?.package === 'BASIC') {
+      setModalOpen(true);
+      return;
+    } else {
+      dispatch(localActions.gotoComCommission());
+    }
+  };
   return (
-    <CommunityLayoutBlock className="container">
-      <h2 className="write_title">게시판</h2>
-      <div className="community_top">
-        <div className="community_tab">
-          <div
-            className={communityDiscussion ? 'button on' : 'button'}
-            onClick={() => dispatch(localActions.gotoComDiscussion())}
-          >
-            전략토론
-          </div>
-          <div
-            className={communityCommission ? 'button on' : 'button'}
-            onClick={() => dispatch(localActions.gotoComCommission())}
-          >
-            전략 개발 의뢰
+    <>
+      <CommunityLayoutBlock className="container">
+        <h2 className="write_title">게시판</h2>
+        <div className="community_top">
+          <div className="community_tab">
+            <div
+              className={communityDiscussion ? 'button on' : 'button'}
+              onClick={() => dispatch(localActions.gotoComDiscussion())}
+            >
+              전략토론
+            </div>
+            <div className={communityCommission ? 'button on' : 'button'} onClick={handleCommission}>
+              전략 개발 의뢰
+            </div>
           </div>
         </div>
-      </div>
-      {children}
-    </CommunityLayoutBlock>
+        {children}
+      </CommunityLayoutBlock>
+      <Modal
+        open={modalOpen}
+        close={handleOnClose}
+        message={'전략 개발 의뢰는 레귤러 패키지 이상부터 가능해요'}
+        error={true}
+      />
+    </>
   );
 };
 

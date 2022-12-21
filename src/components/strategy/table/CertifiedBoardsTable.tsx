@@ -1,7 +1,7 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BoardsTableBottom from './BoardsTableBottom';

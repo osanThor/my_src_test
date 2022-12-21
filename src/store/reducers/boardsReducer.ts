@@ -39,6 +39,9 @@ import {
   getUserByNicknamePayload,
   getUserByNicknameResult,
   updateUserInquiruesPayload,
+  getRankingPayload,
+  getRankingResult,
+  getGuidesResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -99,6 +102,7 @@ export type BoardsStateType = {
           user: {
             nickname: string;
             styles: Array<{ name: string }> | null;
+            photoUrl: string | null;
           };
           strategy: {
             calcMdd: number | null;
@@ -269,6 +273,7 @@ export type BoardsStateType = {
       _count: { comments: number };
     };
   }> | null;
+  period: string | null;
   boardId: number | null;
   parentCommentId: number | null;
   getBoardDone: {
@@ -310,7 +315,14 @@ export type BoardsStateType = {
     _count: {
       likes: number | null;
     };
-  };
+    strategy: {
+      chartCycle: string | null;
+      confirmStatus: string | null;
+      platform: string | null;
+      symbol: string | null;
+      profitPct: number | null;
+    };
+  } | null;
   commentId: number | null;
   isCollect: boolean;
   isLike: boolean;
@@ -334,6 +346,49 @@ export type BoardsStateType = {
     styles: Array<{ name: string }> | [];
     _count: { boards: number | null; comments: number | null };
   };
+  getRankingResult: {
+    message: string | null;
+    popularityStrategies: Array<{
+      board: {
+        id: number | null;
+        title: string | null;
+        user: { nickname: string | null; photoUrl: string | null } | null;
+        _count: {
+          likes: number | null;
+          collectors: number | null;
+        };
+      };
+    }> | null;
+    profitPctStrategies: Array<{
+      board: {
+        id: number | null;
+        title: string | null;
+        user: { nickname: string | null; photoUrl: string | null } | null;
+      };
+      profitPct: number | null;
+    }>;
+    profitPctTraders: Array<{
+      user: {
+        nickname: string | null;
+        photoUrl: string | null;
+      };
+      totalProfit: number | null;
+    }> | null;
+    profitTraders: Array<{
+      user: {
+        nickname: string | null;
+        photoUrl: string | null;
+      };
+      profit: number | null;
+    }> | null;
+  } | null;
+  getGuidesResult: Array<{
+    id: number | null;
+    group: string | null;
+    title: string | null;
+    content: string | null;
+    createdAt: string | null;
+  }> | null;
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -364,28 +419,11 @@ const initialState: BoardsStateType = {
   getUserInquiriesDone: { total: 0, inquiries: [] },
   getNoticesDone: null,
   boardId: 0,
+  period: '',
+  getRankingResult: null,
+  getGuidesResult: null,
   parentCommentId: 0,
-  getBoardDone: {
-    category: '',
-    id: 0,
-    title: '',
-    collectors: null,
-    likes: null,
-    user: {
-      photoUrl: '',
-      nickname: '',
-      styles: [],
-    },
-    createdAt: '',
-    deletedAt: '',
-    hits: 0,
-    content: '',
-    files: [],
-    comments: [],
-    _count: {
-      likes: 0,
-    },
-  },
+  getBoardDone: null,
   commentId: 0,
   isCollect: false,
   isLike: false,
@@ -549,6 +587,9 @@ const boardsSlice = createSlice({
     changeParentCommentId(state, action: PayloadAction<changeParentCommentId>) {
       state.parentCommentId = action.payload.parentCommentId;
     },
+    changePeriod(state, action: PayloadAction<getRankingPayload>) {
+      state.period = action.payload.period;
+    },
     //board
     getBoard(state, action: PayloadAction<getBoardPayload>) {
       state.loadBoardsLoading = true;
@@ -649,8 +690,25 @@ const boardsSlice = createSlice({
       state.nickname = action.payload.nickname;
     },
     getUserByNicknameResult(state, action: PayloadAction<getUserByNicknameResult>) {
-      state.loadBoardsLoading = true;
+      state.loadBoardsLoading = false;
       state.getUserInfo = action.payload;
+    },
+    //get ranking
+    getUserRanking(state, action: PayloadAction<getRankingPayload>) {
+      state.loadBoardsLoading = true;
+      state.period = action.payload.period;
+    },
+    getUserRankingResult(state, action: PayloadAction<getRankingResult>) {
+      state.loadBoardsLoading = false;
+      state.getRankingResult = action.payload;
+    },
+    //get Guides
+    getUserGuides(state) {
+      state.loadBoardsLoading = true;
+    },
+    getUserGuidesResult(state, action: PayloadAction<getGuidesResult>) {
+      state.loadBoardsLoading = false;
+      state.getGuidesResult = action.payload;
     },
     //api res req
     loadBoardsRequest(state) {

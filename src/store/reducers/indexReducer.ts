@@ -9,6 +9,10 @@ export type IndexStateType = {
   user: string | null;
   comment: string | null;
   title: string | null;
+  rankIsPopStr: boolean;
+  rankIsProStr: boolean;
+  rankIsPctTra: boolean;
+  rankIsProTra: boolean;
   fileUrls: Array<string> | [];
   loadGetCertifiedDone: {
     total: number | null;
@@ -18,9 +22,18 @@ export type IndexStateType = {
           title: string;
           hits: number;
           createdAt: string;
+          deletedAt: string | null;
           user: {
             nickname: string;
+            styles: Array<{ name: string }> | null;
+            photoUrl: string | null;
           };
+          strategy: {
+            calcMdd: number | null;
+            calcProfitPct: number | null;
+            calcWinningPct: number | null;
+            communities: Array<{ channel: string | null; url: string | null }> | null;
+          } | null;
           _count: {
             comments: number;
           };
@@ -124,6 +137,10 @@ const initialState: IndexStateType = {
   DiscussionDone: false,
   loadGetQuantroStrategyDone: { total: 0, boards: [] },
   QuantroStrategyDone: false,
+  rankIsPopStr: false,
+  rankIsProStr: false,
+  rankIsPctTra: false,
+  rankIsProTra: false,
   loadBoardsLoading: false,
   loadBoardsDone: null,
   loadBoardsError: null,
@@ -222,7 +239,31 @@ const indexSlice = createSlice({
     QuantroStrategyDone(state) {
       state.QuantroStrategyDone = true;
     },
-
+    //rank
+    isRankPopStra(state) {
+      state.rankIsPopStr = true;
+      state.rankIsProStr = false;
+      state.rankIsPctTra = false;
+      state.rankIsProTra = false;
+    },
+    isRankProStra(state) {
+      state.rankIsPopStr = false;
+      state.rankIsProStr = true;
+      state.rankIsPctTra = false;
+      state.rankIsProTra = false;
+    },
+    isRankPctTra(state) {
+      state.rankIsPopStr = false;
+      state.rankIsProStr = false;
+      state.rankIsPctTra = true;
+      state.rankIsProTra = false;
+    },
+    isRankProTra(state) {
+      state.rankIsPopStr = false;
+      state.rankIsProStr = false;
+      state.rankIsPctTra = false;
+      state.rankIsProTra = true;
+    },
     //api res req
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;

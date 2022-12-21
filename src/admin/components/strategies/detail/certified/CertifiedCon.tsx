@@ -1,9 +1,21 @@
 import colors from '@/src/assets/Colors';
-import { Close } from '@/src/assets/Images';
+import {
+  Close,
+  Daumcafe,
+  Facebook,
+  Kakaotalk,
+  Naverblog,
+  Navercafe,
+  Telegram,
+  Tistory,
+  Twitter,
+  Youtube,
+} from '@/src/assets/Images';
 import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { Input } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -70,6 +82,7 @@ const CertifiedCon = ({
   handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileUrl: string | null;
 }) => {
+  const router = useRouter();
   const { content, getAdminStrategyDetailResult, certifiedStrategyPayload } = useSelector(
     ({ adminStrategies }: RootState) => ({
       content: adminStrategies.content,
@@ -135,7 +148,17 @@ const CertifiedCon = ({
             <div className="comu_list">
               {commuArr.map((commu) => (
                 <div className="community" key={commu.url}>
-                  <div className="icon"></div>
+                  <div className="icon">
+                    {commu.channel === 'NAVER_BLOG' && <Image src={Naverblog} alt="naver_blog" />}
+                    {commu.channel === 'NAVER_CAFE' && <Image src={Navercafe} alt="naver_cafe" />}
+                    {commu.channel === 'DAUM_CAFE' && <Image src={Daumcafe} alt="DAUM_CAFE" />}
+                    {commu.channel === 'TISTORY' && <Image src={Tistory} alt="TISTORY" />}
+                    {commu.channel === 'KAKAOTALK' && <Image src={Kakaotalk} alt="KAKAOTALK" />}
+                    {commu.channel === 'YOUTUBE' && <Image src={Youtube} alt="YOUTUBE" />}
+                    {commu.channel === 'TELEGRAM' && <Image src={Telegram} alt="TELEGRAM" />}
+                    {commu.channel === 'TWITTER' && <Image src={Twitter} alt="TWITTER" />}
+                    {commu.channel === 'FACEBOOK' && <Image src={Facebook} alt="FACEBOOK" />}
+                  </div>
                   {commu.url}
                   <div className="close_btn" onClick={() => handleCloseCommunity(commu.url)}>
                     <Image src={Close} alt="close_btn" />
@@ -179,6 +202,11 @@ const CertifiedCon = ({
         <div className="file">
           <div className="file_label">파일 업로드</div>
           <label>
+            {router.query.category === 'CERTIFIED_STRATEGY' ? (
+              <input type="file" onChange={handleChangeImage} accept={'.csv'} />
+            ) : (
+              <input type="file" onChange={handleChangeImage} />
+            )}
             <input type="file" onChange={handleChangeImage} />
             <span className="button">파일 업로드</span>
           </label>
@@ -299,7 +327,6 @@ const CertifiedConBlock = styled.div`
             min-width: 24px;
             margin-right: 1rem;
             height: 24px;
-            border: 1px solid;
             position: relative;
           }
           .close_btn {

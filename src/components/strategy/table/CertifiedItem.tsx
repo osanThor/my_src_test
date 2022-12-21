@@ -13,7 +13,8 @@ import {
 } from '@/src/assets/Images';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -31,6 +32,7 @@ const CertifiedItem = ({
       styles: Array<{
         name: string;
       }> | null;
+      photoUrl: string | null;
     };
     strategy: {
       calcMdd: number;
@@ -43,10 +45,19 @@ const CertifiedItem = ({
     };
   };
 }) => {
+  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const ele = scrollRef.current;
+  const [ele, setEle] = useState<HTMLDivElement>();
   let pos = { top: 0, left: 0, x: 0, y: 0 };
+  console.log(ele);
+  useEffect(() => {
+    const ele = scrollRef.current;
+    if (!ele) {
+      return;
+    }
+    setEle(ele);
+  }, [scrollRef]);
 
   const mouseDownHandler = function (e: any) {
     if (!ele) {
@@ -81,17 +92,16 @@ const CertifiedItem = ({
     ele.style.removeProperty('user-select');
   };
   return (
-    <CertifiedItemBlock className="certified_box">
+    <CertifiedItemBlock
+      className="certified_box"
+      onClick={() => router.push(`/board/${board?.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
+    >
       <div className="top">
         <div className="user">
           <div className="photo">
-            <Image src={Profile1[1]} alt="profile" layout="fill" />
+            <Image src={board?.user?.photoUrl ? board?.user?.photoUrl : Profile1[1]} alt="profile" layout="fill" />
           </div>
           <div className="nickname">{board.user?.nickname}</div>
-        </div>
-        <div className="count">
-          전략개수
-          <span>20</span>
         </div>
       </div>
       <div className="mid">
@@ -132,11 +142,6 @@ const CertifiedItem = ({
             },
           }}
         />
-        <div className="description">
-          전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략
-          전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략
-          전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략전략
-        </div>
       </div>
       <div className="styles" onMouseDown={mouseDownHandler} ref={scrollRef}>
         {board?.user?.styles.map((st) => {
@@ -220,6 +225,8 @@ const CertifiedItemBlock = styled.div`
           min-width: 20px;
           height: 20px;
           margin-right: 8px;
+          border-radius: 50%;
+          overflow: hidden;
         }
         .nickname {
           transform: translateY(1px);
