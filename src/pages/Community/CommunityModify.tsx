@@ -86,7 +86,6 @@ const CommunityModify: NextPage = () => {
       setModalErr(true);
       return;
     }
-    console.log('애 되냐');
     dispatch(
       boardsActions.updateBoard({
         boardId,

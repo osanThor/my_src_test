@@ -34,6 +34,7 @@ import StrategyMenu from './mobileHeaderAdded/StrategyMenu';
 import LicensesMenu from './mobileHeaderAdded/LicensesMenu';
 import MLicenseHeader from './MLicenseHeader';
 import { adminAuthActions } from '@/src/store/reducers';
+import Modal from '../modals/Modal';
 
 const MHeader = () => {
   const authService = new AuthService();
@@ -188,102 +189,126 @@ const MHeader = () => {
     }
   }, [router]);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOnClose = () => {
+    setModalOpen(false);
+  };
+  const handleCommission = () => {
+    if (router.pathname === '/community' && router.query.category === 'commission') {
+      if (!license || license?.package === 'BASIC') {
+        setModalOpen(true);
+        return;
+      } else {
+        router.push('/community/write');
+      }
+    } else {
+      router.push('/community/write');
+    }
+  };
   return (
-    <MHeaderBlock>
-      {isWrite || isBoard || licenseSt || (
-        <MHeaderMain>
-          <div className="menu_bar">
-            <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
-          </div>
-          <div className="main_logo">
-            <Link href="/">
-              <a>
-                <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
-              </a>
-            </Link>
-          </div>
-          <div className="menu_right">
-            {dashBoard && (
-              <div className="reset">
-                <Image src={ResetIcon[0]} alt="reset" />
-              </div>
-            )}
-            <div className="alram" onClick={handleOpenAlram}>
-              <Image src={AlramIcon[0]} alt="reset" />
+    <>
+      <MHeaderBlock>
+        {isWrite || isBoard || licenseSt || (
+          <MHeaderMain>
+            <div className="menu_bar">
+              <Image src={MMenuBar} alt="menu" onClick={handleOpenGnbMenu} />
             </div>
-            {community && (
-              <div className="write" onClick={() => router.push('/community/write')}>
-                <Image src={PencilIcon} alt="reset" />
-              </div>
-            )}
-          </div>
-          {dashBoard && <DashBoardMenu />}
-          {writeQuant && <WriteQuantMenu />}
-          {licenseIndex && <LicensesMenu />}
-          {message && <MessageMenu />}
-          {myPage && <MyPageMenu />}
-          {strategy && <StrategyMenu />}
-          {community && <CommunityMenu />}
-        </MHeaderMain>
-      )}
-      {isWrite && <MWriteHeader />}
-      {isBoard && <MBoardHeader />}
-      {licenseSt && <MLicenseHeader />}
-      <MHeaderTopSpacer />
-      {openGnbMenu && (
-        <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
-          <div className={openGnbMenuEvent ? 'm_silde_menu on' : 'm_silde_menu'}>
-            <div className="menu_top">
-              <div className="profile">
-                <div className="profile_image">
-                  <Image
-                    src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]}
-                    alt="profile"
-                    layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
-                  />
+            <div className="main_logo">
+              <Link href="/">
+                <a>
+                  <Image src={isDark ? Logo[1] : Logo[0]} alt="main_logo" />
+                </a>
+              </Link>
+            </div>
+            <div className="menu_right">
+              {dashBoard && (
+                <div className="reset">
+                  <Image src={ResetIcon[0]} alt="reset" />
                 </div>
-                <div className="profile_info">
-                  <div className="nickName">
-                    {isAdmin ? <>'관리자'</> : <>{nickname ? nickname : '로그인 해주세요'}</>}
+              )}
+              <div className="alram" onClick={handleOpenAlram}>
+                <Image src={AlramIcon[0]} alt="reset" />
+              </div>
+              {community && (
+                <div className="write" onClick={handleCommission}>
+                  <Image src={PencilIcon} alt="reset" />
+                </div>
+              )}
+            </div>
+            {dashBoard && <DashBoardMenu />}
+            {writeQuant && <WriteQuantMenu />}
+            {licenseIndex && <LicensesMenu />}
+            {message && <MessageMenu />}
+            {myPage && <MyPageMenu />}
+            {strategy && <StrategyMenu />}
+            {community && <CommunityMenu />}
+          </MHeaderMain>
+        )}
+        {isWrite && <MWriteHeader />}
+        {isBoard && <MBoardHeader />}
+        {licenseSt && <MLicenseHeader />}
+        <MHeaderTopSpacer />
+        {openGnbMenu && (
+          <MHeaderSideBlock ref={gnbMenuRef} onClick={handleClickMenuBack}>
+            <div className={openGnbMenuEvent ? 'm_silde_menu on' : 'm_silde_menu'}>
+              <div className="menu_top">
+                <div className="profile">
+                  <div className="profile_image">
+                    <Image
+                      src={photoUrl && photoUrl != 'default.com' ? photoUrl : Profile1[1]}
+                      alt="profile"
+                      layout={photoUrl && photoUrl != 'default.com' ? 'fill' : 'intrinsic'}
+                    />
                   </div>
-                  <div className="api_key">
-                    {!license && '이용권을 등록해주세요'}
-                    {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
+                  <div className="profile_info">
+                    <div className="nickName">
+                      {isAdmin ? <>'관리자'</> : <>{nickname ? nickname : '로그인 해주세요'}</>}
+                    </div>
+                    <div className="api_key">
+                      {!license && '이용권을 등록해주세요'}
+                      {license && <>{Array.isArray(license) ? '' : 'Quantro Basic Package'}</>}
+                    </div>
                   </div>
                 </div>
+                <div className="close_btn" onClick={handleCloseGnbMenu}>
+                  <Image src={ArrowLeft} alt="back button" />
+                </div>
               </div>
-              <div className="close_btn" onClick={handleCloseGnbMenu}>
-                <Image src={ArrowLeft} alt="back button" />
+              <div className="gnb">
+                <GnbMenu />
+                <div className="moreInfoBox">
+                  <Image src={isDark ? MApiKeyMenu[1] : MApiKeyMenu[0]} alt="menu box" />
+                  <Link href="/">
+                    <a className="cbksrh">More</a>
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="gnb">
-              <GnbMenu />
-              <div className="moreInfoBox">
-                <Image src={isDark ? MApiKeyMenu[1] : MApiKeyMenu[0]} alt="menu box" />
-                <Link href="/">
-                  <a className="cbksrh">More</a>
-                </Link>
-              </div>
-            </div>
-            {btnWord != '로그인' && (
-              <div className="menu profile_edit" onClick={handleOpenMenu}>
+              {btnWord != '로그인' && (
+                <div className="menu profile_edit" onClick={handleOpenMenu}>
+                  <div className="icon">
+                    <Image src={ProfileEditIcon} alt="edit" />
+                  </div>
+                  설정
+                </div>
+              )}
+              <div className="menu logOut" onClick={onClickHandler}>
                 <div className="icon">
-                  <Image src={ProfileEditIcon} alt="edit" />
+                  <Image src={LogOutIcon} alt="logOut" />
                 </div>
-                설정
+                {btnWord}
               </div>
-            )}
-            <div className="menu logOut" onClick={onClickHandler}>
-              <div className="icon">
-                <Image src={LogOutIcon} alt="logOut" />
-              </div>
-              {btnWord}
             </div>
-          </div>
-        </MHeaderSideBlock>
-      )}
-      {openMenu && <MMenuWindow handleCloseMenu={handleCloseMenu} />}
-    </MHeaderBlock>
+          </MHeaderSideBlock>
+        )}
+        {openMenu && <MMenuWindow handleCloseMenu={handleCloseMenu} />}
+      </MHeaderBlock>
+      <Modal
+        open={modalOpen}
+        close={handleOnClose}
+        message={'전략 개발 의뢰는 레귤러 패키지 이상부터 가능해요'}
+        error={true}
+      />
+    </>
   );
 };
 

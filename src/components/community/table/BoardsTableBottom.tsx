@@ -8,6 +8,7 @@ import BoardSearchLayout from '../../common/boards/BoardSearch/BoardSearchLayout
 import CustomSelect from '../../common/boards/BoardSearch/CustomSelect';
 import SearchInput from '../../common/boards/BoardSearch/SearchInput';
 import Button from '../../common/Button';
+import Modal from '../../common/modals/Modal';
 import Pagination from '../../common/Pagination';
 
 const BoardsTableBottom = ({ total }: { total: number }) => {
@@ -15,6 +16,9 @@ const BoardsTableBottom = ({ total }: { total: number }) => {
   const { communityDiscussion, communityCommission } = useSelector(({ local }: RootState) => ({
     communityDiscussion: local.communityDiscussion,
     communityCommission: local.communityCommission,
+  }));
+  const { license } = useSelector(({ user }: RootState) => ({
+    license: user.license,
   }));
   const { category, page, user, title, comment } = useSelector(({ boards }: RootState) => ({
     category: boards.category,
@@ -28,30 +32,51 @@ const BoardsTableBottom = ({ total }: { total: number }) => {
   const [searchName, setSearchName] = useState('');
   const [searchVal, setSearchVal] = useState('');
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOnClose = () => {
+    setModalOpen(false);
+  };
+  console.log(license);
+  const handleCommission = () => {
+    if (!license || license?.package === 'BASIC') {
+      setModalOpen(true);
+      return;
+    } else {
+      router.push('/community/write');
+    }
+  };
   return (
-    <BoardsTableBottomBlock>
-      <div className="first">
-        <Pagination total={total} page={page} />
-      </div>
-      <div className="second">
-        <BoardSearchLayout category={category} name={searchName} value={searchVal}>
-          <CustomSelect place="선택" setSearchName={setSearchName} />
-          <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
-        </BoardSearchLayout>
-        <div className="btn">
-          {communityDiscussion && (
-            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
-              글쓰기
-            </StyledButton>
-          )}
-          {communityCommission && (
-            <StyledButton lightBlue onClick={() => router.push('/community/write')}>
-              의뢰하기
-            </StyledButton>
-          )}
+    <>
+      <BoardsTableBottomBlock>
+        <div className="first">
+          <Pagination total={total} page={page} />
         </div>
-      </div>
-    </BoardsTableBottomBlock>
+        <div className="second">
+          <BoardSearchLayout category={category} name={searchName} value={searchVal}>
+            <CustomSelect place="선택" setSearchName={setSearchName} />
+            <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
+          </BoardSearchLayout>
+          <div className="btn">
+            {communityDiscussion && (
+              <StyledButton lightBlue onClick={() => router.push('/community/write')}>
+                글쓰기
+              </StyledButton>
+            )}
+            {communityCommission && (
+              <StyledButton lightBlue onClick={handleCommission}>
+                의뢰하기
+              </StyledButton>
+            )}
+          </div>
+        </div>
+      </BoardsTableBottomBlock>
+      <Modal
+        open={modalOpen}
+        close={handleOnClose}
+        message={'전략 개발 의뢰는 레귤러 패키지 이상부터 가능해요'}
+        error={true}
+      />
+    </>
   );
 };
 const BoardsTableBottomBlock = styled.div`

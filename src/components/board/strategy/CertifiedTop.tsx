@@ -3,6 +3,7 @@ import { Profile1 } from '@/src/assets/Images';
 import { RootState } from '@/src/store/configureStore';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -65,15 +66,67 @@ const CertifiedTop = () => {
 };
 
 const CertifiedMenu = () => {
+  const router = useRouter();
+  const { getBoardDone } = useSelector(({ boards }: RootState) => ({
+    getBoardDone: boards.getBoardDone,
+  }));
+
   return (
     <CertifiedMenuBlock>
-      <div className="button">오버뷰</div>
-      <div className="button">거래목록</div>
+      <div
+        className={!router.query.opt ? 'button on' : 'button'}
+        onClick={() => router.push(`/board/${getBoardDone?.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
+      >
+        오버뷰
+      </div>
+      <div
+        className={router.query.opt === 'list' ? 'button on' : 'button'}
+        onClick={() => router.push(`/board/${getBoardDone?.id}?state=strategy&category=CERTIFIED_STRATEGY&opt=list`)}
+      >
+        거래목록
+      </div>
     </CertifiedMenuBlock>
   );
 };
 
-const CertifiedMenuBlock = styled.div``;
+const CertifiedMenuBlock = styled.div`
+  width: 100%;
+  display: flex;
+  margin-bottom: 24px;
+  .button {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    border-radius: 20px;
+    background-color: ${colors.gray[1]};
+    color: ${colors.gray[5]};
+    margin-right: 1rem;
+    transition: all 0.2s;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      background-color: ${colors.gray[2]};
+    }
+
+    &.on {
+      background-color: ${colors.blue[2]};
+      color: white;
+      &:hover {
+        background-color: ${colors.blue[1]};
+      }
+    }
+    &.error {
+      background-color: ${colors.red[2]};
+      color: white;
+      &:hover {
+        background-color: ${colors.red[1]};
+      }
+    }
+  }
+`;
 
 const CertifiedTopBlock = styled.div`
   width: 100%;
