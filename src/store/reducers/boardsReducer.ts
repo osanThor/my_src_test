@@ -41,6 +41,7 @@ import {
   updateUserInquiruesPayload,
   getRankingPayload,
   getRankingResult,
+  getGuidesResult,
 } from '../types';
 
 export type BoardsStateType = {
@@ -374,6 +375,13 @@ export type BoardsStateType = {
       profit: number | null;
     }> | null;
   } | null;
+  getGuidesResult: Array<{
+    id: number | null;
+    group: string | null;
+    title: string | null;
+    content: string | null;
+    createdAt: string | null;
+  }> | null;
   loadBoardsDone: {
     message: string | undefined;
   } | null;
@@ -406,6 +414,7 @@ const initialState: BoardsStateType = {
   boardId: 0,
   period: '',
   getRankingResult: null,
+  getGuidesResult: null,
   parentCommentId: 0,
   getBoardDone: {
     category: '',
@@ -705,6 +714,14 @@ const boardsSlice = createSlice({
     getUserRankingResult(state, action: PayloadAction<getRankingResult>) {
       state.loadBoardsLoading = false;
       state.getRankingResult = action.payload;
+    },
+    //get Guides
+    getUserGuides(state) {
+      state.loadBoardsLoading = true;
+    },
+    getUserGuidesResult(state, action: PayloadAction<getGuidesResult>) {
+      state.loadBoardsLoading = false;
+      state.getGuidesResult = action.payload;
     },
     //api res req
     loadBoardsRequest(state) {

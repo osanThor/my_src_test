@@ -315,6 +315,14 @@ export type getUserByNicknameResult = {
   styles: Array<{ name: string }> | [];
   _count: { boards: number | null; comments: number | null };
 };
+
+export type getGuidesResult = Array<{
+  id: number | null;
+  group: string | null;
+  title: string | null;
+  content: string | null;
+  createdAt: string | null;
+}> | null;
 export type LoadBoardsResponse = {
   message: string | null;
 };

@@ -86,6 +86,7 @@ export type {
   updateUserInquiruesPayload,
   getRankingPayload,
   getRankingResult,
+  getGuidesResult,
 } from './boards';
 
 //admin

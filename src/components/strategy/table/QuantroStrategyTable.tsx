@@ -166,7 +166,6 @@ const BoardsTableBlock = styled.div`
     span.tit {
       overflow: hidden;
       text-overflow: ellipsis;
-      color: ${colors.blue[2]};
     }
     &.pointer {
       cursor: pointer;

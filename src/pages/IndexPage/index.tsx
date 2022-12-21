@@ -33,8 +33,6 @@ const IndexPage: NextPage = () => {
         comment: '',
       }),
     );
-
-    dispatch(boardsActions.getUserRanking({ period: 'ALL' }));
   }, []);
   useEffect(() => {
     if (CertifiedDone) {
@@ -73,6 +71,7 @@ const IndexPage: NextPage = () => {
           comment: '',
         }),
       );
+      dispatch(boardsActions.getUserRanking({ period: 'ALL' }));
     }
   }, [DiscussionDone]);
 

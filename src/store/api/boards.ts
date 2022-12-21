@@ -52,6 +52,8 @@ export const apiGetUserInquiry = ({ inquiryId }: getUserInquiryPayload) =>
   axiosInstance.get(`/users/inquiries/${inquiryId}`);
 //get rank
 export const apiGetRank = ({ period }: getRankingPayload) => axiosInstance.get(`/boards/ranking?period=${period}`);
+//get guides
+export const apiGetGuides = () => axiosInstance.get(`/boards/guides`);
 
 // create board
 export const apiCreateBoard = ({ category, title, content, fileUrls }: LoadBoardsPayload) =>

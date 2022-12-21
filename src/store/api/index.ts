@@ -60,6 +60,7 @@ export {
   apiGetUserInquiry,
   apiGetUserByNickname,
   apiUpdateUserInquiry,
+  apiGetGuides,
 } from './boards';
 
 //admin
