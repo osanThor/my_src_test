@@ -8,7 +8,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const CertifiedTop = () => {
+const StrategistBox = () => {
+  const router = useRouter();
   const { getUserInfo } = useSelector(({ boards }: RootState) => ({
     getUserInfo: boards.getUserInfo,
   }));
@@ -16,7 +17,7 @@ const CertifiedTop = () => {
   const { introduction, nickname, photoUrl, styles } = getUserInfo;
   return (
     <>
-      <CertifiedTopBlock>
+      <StrategistBoxBlock>
         <div className="profile_image">
           <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
         </div>
@@ -59,8 +60,8 @@ const CertifiedTop = () => {
           </div>
         </div>
         <div className="intro">{introduction}</div>
-      </CertifiedTopBlock>
-      <CertifiedMenu />
+      </StrategistBoxBlock>
+      {router.query.category === 'CERTIFIED_STRATEGY' && <CertifiedMenu />}
     </>
   );
 };
@@ -128,7 +129,7 @@ const CertifiedMenuBlock = styled.div`
   }
 `;
 
-const CertifiedTopBlock = styled.div`
+const StrategistBoxBlock = styled.div`
   width: 100%;
   background-color: ${colors.gray[1]};
   display: flex;
@@ -214,4 +215,4 @@ const CertifiedTopBlock = styled.div`
   }
 `;
 
-export default CertifiedTop;
+export default StrategistBox;

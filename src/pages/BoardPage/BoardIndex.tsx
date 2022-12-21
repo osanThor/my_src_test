@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import BoardCertifiedPage from './BoardCertifiedPage';
 import BoardDiscussionPage from './BoardDiscussionPage';
 import BoardNoticePage from './BoardNoticePage';
+import BoardUserStrategyPage from './BoardUserStrategyPage';
 
 const BoardIndex: NextPage = () => {
   const router = useRouter();
@@ -144,8 +145,10 @@ const BoardIndex: NextPage = () => {
   useEffect(() => {
     if (router.query.state) {
       if (router.query.state === 'strategy') {
-        if (getBoardDone) {
-          dispatch(boardsActions.getUserByNickname({ nickname: getBoardDone?.user?.nickname }));
+        if (router.query.category === 'CERTIFIED_STRATEGY' || router.query.category === 'USER_STRATEGY') {
+          if (getBoardDone) {
+            dispatch(boardsActions.getUserByNickname({ nickname: getBoardDone?.user?.nickname }));
+          }
         }
       }
     }
@@ -171,7 +174,7 @@ const BoardIndex: NextPage = () => {
             />
           )}
           {router.query.category === 'CERTIFIED_STRATEGY' && <BoardCertifiedPage />}
-          {router.query.category === 'USER_STRATEGY' && <div>사용자 전략</div>}
+          {router.query.category === 'USER_STRATEGY' && <BoardUserStrategyPage />}
           {router.query.category === 'QUANTRO_STRATEGY' && <div>공개 전략</div>}
           {router.query.category === 'QUANTRO_INDICATOR' && <div>공개 지표</div>}
         </BoardDetailLayout>
