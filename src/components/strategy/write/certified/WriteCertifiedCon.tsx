@@ -12,9 +12,12 @@ import {
   Close,
 } from '@/src/assets/Images';
 import Button from '@/src/components/common/Button';
+import { RootState } from '@/src/store/configureStore';
+import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CustomSelect from '../item/CustomSelect';
 import CertifiedGuide from './CertifiedGuide';
@@ -47,12 +50,48 @@ const communityOptions = [
   { txt: 'YOUTUBE', value: 'YOUTUBE' },
   { txt: 'TELEGRAM', value: 'TELEGRAM' },
 ];
-const WriteCertifiedCon = () => {
-  const [platform, setPlatform] = useState('선택');
-  const [chartCycle, setChartCycle] = useState('선택');
+const WriteCertifiedCon = ({
+  handleChangeStrategyField,
+  fileUrl,
+  handleChangeFileUrls,
+  handleCreateStrategy,
+}: {
+  handleChangeStrategyField: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+  fileUrl: string | null;
+  handleChangeFileUrls: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  handleCreateStrategy: () => void;
+}) => {
+  const dispatch = useDispatch();
+  const { title, content, symbol, fileUrls, profitPct, communities } = useSelector(({ boards }: RootState) => ({
+    title: boards.title,
+    content: boards.content,
+    symbol: boards.symbol,
+    profitPct: boards.profitPct,
+    communities: boards.communities,
+    fileUrls: boards.fileUrls,
+  }));
+  const [platform, setPlatform] = useState('');
+  const [chartCycle, setChartCycle] = useState('');
   const [commuArr, setCommuArr] = useState<Array<{ channel: string; url: string }>>([]);
   const [commuSt, setCommuSt] = useState('');
   const [commuUrlSt, setCommuUrlSt] = useState('');
+
+  useEffect(() => {
+    dispatch(
+      boardsActions.changeCreateStrategyField({
+        category: 'CERTIFIED_STRATEGY',
+        title,
+        content,
+        fileUrls,
+        platform: platform,
+        symbol,
+        chartCycle: chartCycle,
+        profitPct,
+        communities: commuArr,
+      }),
+    );
+  }, [platform, chartCycle, commuArr]);
+
   //add community
   const handleAddCommunity = () => {
     if (!commuSt) {
@@ -80,12 +119,21 @@ const WriteCertifiedCon = () => {
     }
   }
   //file
-  const [fileUrl, setFileUrl] = useState('');
   return (
     <WriteCertifiedConBlock>
       <CertifiedGuide />
-      <StyledInput placeholder="전략 제목을 입력해주세요" />
-      <StyledTextarea placeholder="전략 내용을 입력해주세요.(설명은 자세할 수록 좋아요!)" />
+      <StyledInput
+        placeholder="전략 제목을 입력해주세요"
+        name="title"
+        value={title}
+        onChange={handleChangeStrategyField}
+      />
+      <StyledTextarea
+        placeholder="전략 내용을 입력해주세요.(설명은 자세할 수록 좋아요!)"
+        name="content"
+        value={content}
+        onChange={handleChangeStrategyField}
+      />
       <div className="strategy_input_box">
         <div className="title">전략 입력</div>
         <div className="strategy_inputs">
@@ -95,7 +143,12 @@ const WriteCertifiedCon = () => {
           </div>
           <div className="input">
             <div className="label">대상종목</div>
-            <input placeholder="대상종목을 입력해주세요" />
+            <input
+              placeholder="대상종목을 입력해주세요"
+              name="symbol"
+              value={symbol || ''}
+              onChange={handleChangeStrategyField}
+            />
           </div>
           <div className="input">
             <div className="label">차트주기</div>
@@ -103,7 +156,13 @@ const WriteCertifiedCon = () => {
           </div>
           <div className="input">
             <div className="label">누적 수익률</div>
-            <input type="number" placeholder="누적 수익률을 입력해주세요" />
+            <input
+              type="number"
+              placeholder="누적 수익률을 입력해주세요"
+              name="profitPct"
+              value={profitPct || ''}
+              onChange={handleChangeStrategyField}
+            />
           </div>
         </div>
       </div>
@@ -149,13 +208,15 @@ const WriteCertifiedCon = () => {
         <div className="add_file">
           <div className="label">파일 추가</div>
           <label>
-            <input type="file" />
+            <input type="file" onChange={handleChangeFileUrls} />
             <span>첨부파일</span>
             <div className="file_name">{fileUrl ? fileUrl : '선택된 파일 없음'}</div>
           </label>
         </div>
       </div>
-      <StyledButton blue>인증 요청하기</StyledButton>
+      <StyledButton blue onClick={handleCreateStrategy}>
+        인증 요청하기
+      </StyledButton>
     </WriteCertifiedConBlock>
   );
 };
@@ -246,11 +307,13 @@ const WriteCertifiedConBlock = styled.div`
       white-space: nowrap;
       font-size: 14px;
       color: ${colors.gray[3]};
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .add_comu,
   .add_file {
-    width: 50%;
+    width: calc(50% - 10px);
     display: flex;
     flex-wrap: wrap;
     padding: 1rem 0;
