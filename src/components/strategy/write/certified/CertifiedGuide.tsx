@@ -1,4 +1,5 @@
 import colors from '@/src/assets/Colors';
+import { media } from '@/styles/theme';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -65,6 +66,28 @@ const CertifiedGuideBlock = styled.div`
     font-size: 12px;
     margin-left: 7px;
     color: ${colors.red[2]};
+  }
+
+  ${media.pc} {
+    padding: 1rem;
+    flex-wrap: wrap;
+    ul {
+      padding-left: 20px;
+      white-space: nowrap;
+    }
+  }
+  ${media.tablet} {
+    flex-direction: column;
+    .left {
+      width: 100%;
+      margin: 0;
+      margin-bottom: 20px;
+    }
+    ul {
+      width: 100%;
+      padding-left: 20px;
+      white-space: nowrap;
+    }
   }
 `;
 
