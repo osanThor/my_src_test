@@ -160,8 +160,8 @@ const BoardIndex: NextPage = () => {
         <BoardDetailLayout>
           {router.query.category === 'DISCUSSION' && (
             <BoardDiscussionPage
-              handleSetBoardLike={handleSetBoardLike}
               copyURL={copyURL}
+              handleSetBoardLike={handleSetBoardLike}
               handleSetBoardCollection={handleSetBoardCollection}
             />
           )}
@@ -173,8 +173,18 @@ const BoardIndex: NextPage = () => {
               handleSetBoardCollection={handleSetBoardCollection}
             />
           )}
-          {router.query.category === 'CERTIFIED_STRATEGY' && <BoardCertifiedPage />}
-          {router.query.category === 'USER_STRATEGY' && <BoardUserStrategyPage />}
+          {router.query.category === 'CERTIFIED_STRATEGY' && (
+            <BoardCertifiedPage
+              handleSetBoardLike={handleSetBoardLike}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
+          {router.query.category === 'USER_STRATEGY' && (
+            <BoardUserStrategyPage
+              handleSetBoardLike={handleSetBoardLike}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
           {router.query.category === 'QUANTRO_STRATEGY' && <div>공개 전략</div>}
           {router.query.category === 'QUANTRO_INDICATOR' && <div>공개 지표</div>}
         </BoardDetailLayout>
