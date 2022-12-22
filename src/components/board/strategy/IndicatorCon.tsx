@@ -8,13 +8,7 @@ import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const IndicatorCon = ({
-  handleSetBoardLike,
-  handleSetBoardCollection,
-}: {
-  handleSetBoardLike: () => void;
-  handleSetBoardCollection: () => void;
-}) => {
+const IndicatorCon = () => {
   const router = useRouter();
   const { getUserInfo } = useSelector(({ boards }: RootState) => ({
     getUserInfo: boards.getUserInfo,
@@ -22,7 +16,7 @@ const IndicatorCon = ({
 
   const ViewRef = useRef<HTMLDialogElement>(null);
 
-  return <div ref={} />;
+  return <div />;
 };
 
 const CertifiedMenu = ({
