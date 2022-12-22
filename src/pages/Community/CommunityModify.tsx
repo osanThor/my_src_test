@@ -131,6 +131,7 @@ const CommunityModify: NextPage = () => {
           handleChangeCreateBoardsField={handleChangeCreateBoardsField}
           handleChangeContent={handleChangeContent}
           handleCreateBoards={handleUpdateBoards}
+          handleSelectRefCommission={null}
         />
       </CommunityWriteLayout>
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />
