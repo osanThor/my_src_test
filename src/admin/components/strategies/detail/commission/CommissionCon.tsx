@@ -1,6 +1,8 @@
 import colors from '@/src/assets/Colors';
 import { RootState } from '@/src/store/configureStore';
 import { Input } from '@mui/material';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -10,8 +12,10 @@ const CommissionCon = ({
 }: {
   handleChangeCommisssionField: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) => {
-  const { content, getAdminCommissionDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
+  const router = useRouter();
+  const { content, answer, getAdminCommissionDetailResult } = useSelector(({ adminStrategies }: RootState) => ({
     content: adminStrategies.content,
+    answer: adminStrategies.answer,
     getAdminCommissionDetailResult: adminStrategies.getAdminCommissionDetailResult,
   }));
 
@@ -40,6 +44,18 @@ const CommissionCon = ({
           </div>
         </div>
         <div className="ViewContent" ref={ViewContentsRef} />
+        {getAdminCommissionDetailResult?.commission?.refBoardId && (
+          <div className="refCommission">
+            <div className="label">연관 전략개발의뢰</div>
+            <Link
+              href={`/admin/strategies/strategy?id=${getAdminCommissionDetailResult?.commission?.refBoardId}&category=COMMISSION&edit=true`}
+            >
+              <a className="link" target="_blank" rel="noreferrer noopener">
+                바로가기
+              </a>
+            </Link>
+          </div>
+        )}
         <div className="file_zone">
           <div className="label">첨부파일</div>
           <div className="files">
@@ -57,12 +73,17 @@ const CommissionCon = ({
       </div>
       <div className="answer">
         <div className="answer_top">
-          <div className={getAdminCommissionDetailResult?.commission ? 'status on' : 'status'}>
-            {getAdminCommissionDetailResult?.commission ? '답변' : '대기'}
+          <div className={getAdminCommissionDetailResult?.commission?.answer ? 'status on' : 'status'}>
+            {getAdminCommissionDetailResult?.commission?.answer ? '답변' : '대기'}
           </div>
         </div>
         <div className="answer_con">
-          <textarea name="answer" placeholder="개발전략을 입력해주세요" onChange={handleChangeCommisssionField} />
+          <textarea
+            name="answer"
+            placeholder="개발전략을 입력해주세요"
+            value={answer || ''}
+            onChange={handleChangeCommisssionField}
+          />
         </div>
       </div>
     </CommissionConBlock>
@@ -182,6 +203,27 @@ const CommissionConBlock = styled.div`
         top: -10%;
         left: 180px;
         transform: translateY(-100%);
+      }
+    }
+  }
+  .refCommission {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .label {
+      color: ${colors.gray[5]};
+      margin-bottom: 8px;
+    }
+    .link {
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: underline;
+      color: ${colors.blue[2]};
+
+      &:hover {
+        color: ${colors.gray[5]};
       }
     }
   }

@@ -66,6 +66,7 @@ export type getAdminCommissionDetailResult = {
   files: Array<{ url: string }> | [];
   commission: {
     answer: string | null;
+    refBoardId: number | null;
   };
   title: string | null;
   user: { nickname: string | null };
