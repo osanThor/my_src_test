@@ -330,6 +330,30 @@ export type getGuidesResult = Array<{
   content: string | null;
   createdAt: string | null;
 }> | null;
+
+export type createStrategyPayload = {
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string | null>;
+  platform: string | null;
+  symbol: string | null;
+  chartCycle: string | null;
+  profitPct: number | null;
+  communities: Array<{
+    channel: string | null;
+    url: string | null;
+  }> | null;
+} | null;
+
+export type createCommissionPayload = {
+  category: string | null;
+  title: string | null;
+  content: string | null;
+  fileUrls: Array<string | null>;
+  refBoardId: number | null;
+};
+
 export type LoadBoardsResponse = {
   message: string | null;
 };

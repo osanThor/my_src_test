@@ -7,6 +7,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 // types
 import {
   createCommentPayload,
+  createCommissionPayload,
+  createStrategyPayload,
   CreateUserInquiruesPayload,
   deleteCommentPayload,
   getBoardPayload,
@@ -56,8 +58,11 @@ import {
   apiGetUserInquiry,
   apiGetUserByNickname,
   apiUpdateUserInquiry,
+  apiCreateStrategy,
+  apiGetGuides,
+  apiGetRank,
+  apiCreateCommission,
 } from '../api';
-import { apiGetGuides, apiGetRank } from '../api/boards';
 
 // get boards
 function* getBoardsSaga(action: PayloadAction<getBoardsPayload>) {
@@ -465,6 +470,42 @@ function* getUserGuidesSaga() {
     yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
   }
 }
+// create strategy
+function* createStrategySaga(action: PayloadAction<createStrategyPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadBoardsResponse> = yield call(apiCreateStrategy, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createStrategySaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
+// create Commission
+function* createCommissionSaga(action: PayloadAction<createCommissionPayload>) {
+  yield put(boardsActions.loadBoardsRequest());
+  try {
+    const { data }: AxiosResponse<LoadBoardsResponse> = yield call(apiCreateCommission, action.payload);
+    console.log(data);
+
+    yield put(boardsActions.loadBoardsSuccess(data));
+  } catch (error: any) {
+    console.error('boardsSaga createCommissionSaga >> ', error);
+
+    const message =
+      error?.name === 'AxiosError' ? error.response.data.message : '서버측 에러입니다. \n잠시후에 다시 시도해주세요';
+
+    // 실패한 액션 디스패치
+    yield put(boardsActions.loadBoardsFailure({ status: { ok: false }, message }));
+  }
+}
 
 function* watchLoadfile() {
   yield takeLatest(boardsActions.createBoards, createBoardsSaga);
@@ -489,6 +530,8 @@ function* watchLoadfile() {
   yield takeLatest(boardsActions.updateInquiries, updateInquiry);
   yield takeLatest(boardsActions.getUserRanking, getRankingSaga);
   yield takeLatest(boardsActions.getUserGuides, getUserGuidesSaga);
+  yield takeLatest(boardsActions.CreateStrategyField, createStrategySaga);
+  yield takeLatest(boardsActions.CreateCommissionField, createCommissionSaga);
 }
 
 export default function* boardsSaga() {

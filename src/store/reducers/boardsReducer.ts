@@ -42,6 +42,8 @@ import {
   getRankingPayload,
   getRankingResult,
   getGuidesResult,
+  createStrategyPayload,
+  createCommissionPayload,
 } from '../types';
 
 export type BoardsStateType = {
@@ -382,6 +384,12 @@ export type BoardsStateType = {
       profit: number | null;
     }> | null;
   } | null;
+  platform: string | null;
+  symbol: string | null;
+  chartCycle: string | null;
+  profitPct: number | null;
+  communities: Array<{ channel: string; url: string }> | null;
+  refBoardId: number | null;
   getGuidesResult: Array<{
     id: number | null;
     group: string | null;
@@ -440,6 +448,12 @@ const initialState: BoardsStateType = {
     styles: [],
     _count: { boards: 0, comments: 0 },
   },
+  platform: null,
+  symbol: null,
+  chartCycle: null,
+  profitPct: 0,
+  communities: null,
+  refBoardId: null,
   loadBoardsDone: null,
   loadBoardsError: null,
 };
@@ -710,6 +724,47 @@ const boardsSlice = createSlice({
       state.loadBoardsLoading = false;
       state.getGuidesResult = action.payload;
     },
+    // create strategy
+    changeCreateStrategyField(state, action: PayloadAction<createStrategyPayload>) {
+      state.category = action.payload.category;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+      state.platform = action.payload.platform;
+      state.symbol = action.payload.symbol;
+      state.chartCycle = action.payload.chartCycle;
+      state.profitPct = action.payload.profitPct;
+      state.communities = action.payload.communities;
+    },
+    CreateStrategyField(state, action: PayloadAction<createStrategyPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+      state.platform = action.payload.platform;
+      state.symbol = action.payload.symbol;
+      state.chartCycle = action.payload.chartCycle;
+      state.profitPct = action.payload.profitPct;
+      state.communities = action.payload.communities;
+    },
+    //create commission
+    changeCreateCommissionField(state, action: PayloadAction<createCommissionPayload>) {
+      state.category = action.payload.category;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+      state.refBoardId = action.payload.refBoardId;
+    },
+    CreateCommissionField(state, action: PayloadAction<createCommissionPayload>) {
+      state.loadBoardsLoading = true;
+      state.category = action.payload.category;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.fileUrls = action.payload.fileUrls;
+      state.refBoardId = action.payload.refBoardId;
+    },
+
     //api res req
     loadBoardsRequest(state) {
       state.loadBoardsLoading = true;

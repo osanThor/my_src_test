@@ -87,6 +87,8 @@ export type {
   getRankingPayload,
   getRankingResult,
   getGuidesResult,
+  createStrategyPayload,
+  createCommissionPayload,
 } from './boards';
 
 //admin
