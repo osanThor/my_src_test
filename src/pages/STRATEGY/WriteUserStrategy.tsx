@@ -1,7 +1,7 @@
 import Modal from '@/src/components/common/modals/Modal';
 import UserLayout from '@/src/components/layout/UserLayout';
 import StrategistLayout from '@/src/components/strategy/user/StrategistLayout';
-import WriteCertifiedCon from '@/src/components/strategy/write/certified/WriteCertifiedCon';
+import WriteUserStrategyCon from '@/src/components/strategy/write/user/WriteUserStrategyCon';
 import { axiosInstance } from '@/src/store/api';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const WriteCertified: NextPage = () => {
+const WriteUserStrategy: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -24,6 +24,7 @@ const WriteCertified: NextPage = () => {
   useEffect(() => {
     dispatch(boardsActions.initializeBoardsForm());
   }, [dispatch]);
+
   const {
     title,
     content,
@@ -56,7 +57,7 @@ const WriteCertified: NextPage = () => {
     if (name === 'title') {
       dispatch(
         boardsActions.changeCreateStrategyField({
-          category: 'CERTIFIED_STRATEGY',
+          category: 'USER_STRATEGY',
           title: value,
           content,
           fileUrls,
@@ -70,7 +71,7 @@ const WriteCertified: NextPage = () => {
     } else if (name === 'content') {
       dispatch(
         boardsActions.changeCreateStrategyField({
-          category: 'CERTIFIED_STRATEGY',
+          category: 'USER_STRATEGY',
           title,
           content: value,
           fileUrls,
@@ -84,7 +85,7 @@ const WriteCertified: NextPage = () => {
     } else if (name === 'symbol') {
       dispatch(
         boardsActions.changeCreateStrategyField({
-          category: 'CERTIFIED_STRATEGY',
+          category: 'USER_STRATEGY',
           title,
           content,
           fileUrls,
@@ -98,7 +99,7 @@ const WriteCertified: NextPage = () => {
     } else if (name === 'profitPct') {
       dispatch(
         boardsActions.changeCreateStrategyField({
-          category: 'CERTIFIED_STRATEGY',
+          category: 'USER_STRATEGY',
           title,
           content,
           fileUrls,
@@ -133,7 +134,7 @@ const WriteCertified: NextPage = () => {
     if (res) {
       dispatch(
         boardsActions.changeCreateStrategyField({
-          category: 'CERTIFIED_STRATEGY',
+          category: 'USER_STRATEGY',
           title,
           content,
           fileUrls: [res.data.urls[0]],
@@ -170,7 +171,7 @@ const WriteCertified: NextPage = () => {
     }
     dispatch(
       boardsActions.CreateStrategyField({
-        category: 'CERTIFIED_STRATEGY',
+        category: 'USER_STRATEGY',
         title,
         content,
         fileUrls,
@@ -204,7 +205,7 @@ const WriteCertified: NextPage = () => {
         setModalOpen(true);
         setModalMessage('전략 등록이 완료되었어요!');
         setModalError(false);
-        router.push('/strategy?category=certified');
+        router.push('/strategy?category=user');
       }
     }
   }, [loadBoardsDone, loadBoardsError]);
@@ -213,7 +214,7 @@ const WriteCertified: NextPage = () => {
     <>
       <UserLayout>
         <StrategistLayout>
-          <WriteCertifiedCon
+          <WriteUserStrategyCon
             handleChangeStrategyField={handleChangeStrategyField}
             fileUrl={fileUrl}
             handleChangeFileUrls={handleChangeFileUrls}
@@ -226,4 +227,4 @@ const WriteCertified: NextPage = () => {
   );
 };
 
-export default WriteCertified;
+export default WriteUserStrategy;
