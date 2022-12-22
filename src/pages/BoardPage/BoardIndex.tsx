@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import BoardCertifiedPage from './BoardCertifiedPage';
 import BoardDiscussionPage from './BoardDiscussionPage';
 import BoardNoticePage from './BoardNoticePage';
+import BoardQuantroIndicatorPage from './BoardQuantroIndicatorPage';
+import BoardQuantroStrategyPage from './BoardQuantroStrategyPage';
 import BoardUserStrategyPage from './BoardUserStrategyPage';
 
 const BoardIndex: NextPage = () => {
@@ -185,8 +187,18 @@ const BoardIndex: NextPage = () => {
               handleSetBoardCollection={handleSetBoardCollection}
             />
           )}
-          {router.query.category === 'QUANTRO_STRATEGY' && <div>공개 전략</div>}
-          {router.query.category === 'QUANTRO_INDICATOR' && <div>공개 지표</div>}
+          {router.query.category === 'QUANTRO_STRATEGY' && (
+            <BoardQuantroStrategyPage
+              handleSetBoardLike={handleSetBoardLike}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
+          {router.query.category === 'QUANTRO_INDICATOR' && (
+            <BoardQuantroIndicatorPage
+              handleSetBoardLike={handleSetBoardLike}
+              handleSetBoardCollection={handleSetBoardCollection}
+            />
+          )}
         </BoardDetailLayout>
         {loadBoardsLoading && <Loading />}
       </UserLayout>

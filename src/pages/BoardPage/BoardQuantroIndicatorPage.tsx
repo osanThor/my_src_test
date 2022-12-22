@@ -1,12 +1,11 @@
-import StrategistBox from '@/src/components/board/strategy/StrategistBox';
-import StrategyCon from '@/src/components/board/strategy/StrategyCon';
+import IndicatorTop from '@/src/components/board/strategy/IndicatorTop';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
 import router from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const BoardUserStrategyPage = ({
+const BoardQuantroIndicatorPage = ({
   handleSetBoardLike,
   handleSetBoardCollection,
 }: {
@@ -46,10 +45,9 @@ const BoardUserStrategyPage = ({
   }, [loadBoardsDone, loadBoardsError]);
   return (
     <>
-      <StrategistBox handleSetBoardLike={handleSetBoardLike} handleSetBoardCollection={handleSetBoardCollection} />
-      <StrategyCon />
+      <IndicatorTop handleSetBoardLike={handleSetBoardLike} handleSetBoardCollection={handleSetBoardCollection} />
     </>
   );
 };
 
-export default BoardUserStrategyPage;
+export default BoardQuantroIndicatorPage;
