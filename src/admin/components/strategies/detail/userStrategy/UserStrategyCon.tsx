@@ -76,9 +76,11 @@ const UserStrategyCon = ({
           <div className="files">
             {getAdminStrategyDetailResult?.files.length != 0 ? (
               <>
-                <a className="file" href="#" download={true}>
-                  첨부파일1
-                </a>
+                {getAdminStrategyDetailResult?.files.map((file) => (
+                  <a className="file" href={file.url} download={true}>
+                    첨부파일1
+                  </a>
+                ))}
               </>
             ) : (
               <div className="no_file">파일이 없습니다.</div>

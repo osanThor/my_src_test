@@ -17,12 +17,13 @@ const CommunityWrite: NextPage = () => {
     communityDiscussion: local.communityDiscussion,
     communityCommission: local.communityCommission,
   }));
-  const { content, category, title, fileUrls, loadBoardsDone, loadBoardsError } = useSelector(
+  const { content, category, title, fileUrls, refBoardId, loadBoardsDone, loadBoardsError } = useSelector(
     ({ boards }: RootState) => ({
       content: boards.content,
       category: boards.category,
       title: boards.title,
       fileUrls: boards.fileUrls,
+      refBoardId: boards.refBoardId,
       loadBoardsDone: boards.loadBoardsDone,
       loadBoardsError: boards.loadBoardsError,
     }),
@@ -49,11 +50,12 @@ const CommunityWrite: NextPage = () => {
       );
     } else if (communityCommission) {
       dispatch(
-        boardsActions.changeBoardsField({
+        boardsActions.changeCreateCommissionField({
           content,
           category: 'COMMISSION',
           title,
           fileUrls,
+          refBoardId,
         }),
       );
     } else {
@@ -95,6 +97,22 @@ const CommunityWrite: NextPage = () => {
     );
   };
 
+  //refCommissionBoard
+  const handleSelectRefCommission = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'refBoardId') {
+      dispatch(
+        boardsActions.changeCreateCommissionField({
+          content,
+          category: 'COMMISSION',
+          title,
+          fileUrls,
+          refBoardId: Number(value),
+        }),
+      );
+    }
+  };
+
   //submit
   const handleCreateBoards = () => {
     if (!category) {
@@ -113,14 +131,26 @@ const CommunityWrite: NextPage = () => {
       setModalErr(true);
       return;
     }
-    dispatch(
-      boardsActions.createBoards({
-        content,
-        category,
-        title,
-        fileUrls,
-      }),
-    );
+    if (communityDiscussion) {
+      dispatch(
+        boardsActions.createBoards({
+          content,
+          category,
+          title,
+          fileUrls,
+        }),
+      );
+    } else if (communityCommission) {
+      dispatch(
+        boardsActions.CreateCommissionField({
+          content,
+          category,
+          title,
+          fileUrls,
+          refBoardId,
+        }),
+      );
+    }
   };
 
   useEffect(() => {
@@ -152,6 +182,7 @@ const CommunityWrite: NextPage = () => {
           handleChangeCreateBoardsField={handleChangeCreateBoardsField}
           handleChangeContent={handleChangeContent}
           handleCreateBoards={handleCreateBoards}
+          handleSelectRefCommission={handleSelectRefCommission}
         />
       </CommunityWriteLayout>
       <Modal open={modalOpen} close={handleCloseModal} message={modalMessage} error={modalErr} />

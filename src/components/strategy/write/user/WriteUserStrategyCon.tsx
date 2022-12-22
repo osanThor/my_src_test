@@ -1,26 +1,13 @@
 import colors from '@/src/assets/Colors';
-import {
-  Naverblog,
-  Navercafe,
-  Daumcafe,
-  Tistory,
-  Kakaotalk,
-  Youtube,
-  Telegram,
-  Twitter,
-  Facebook,
-  Close,
-} from '@/src/assets/Images';
+
 import Button from '@/src/components/common/Button';
 import { RootState } from '@/src/store/configureStore';
 import { boardsActions } from '@/src/store/reducers';
 import { media } from '@/styles/theme';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CustomSelect from '../item/CustomSelect';
-import CertifiedGuide from './CertifiedGuide';
 
 const exchangeOptions = [
   { txt: 'BYBIT', value: 'BYBIT' },
@@ -41,16 +28,8 @@ const chartCycleOptions = [
   { txt: 'D1', value: 'D1' },
   { txt: 'W1', value: 'W1' },
 ];
-const communityOptions = [
-  { txt: 'NAVER_CAFE', value: 'NAVER_CAFE' },
-  { txt: 'NAVER_BLOG', value: 'NAVER_BLOG' },
-  { txt: 'DAUM_CAFE', value: 'DAUM_CAFE' },
-  { txt: 'TISTORY', value: 'TISTORY' },
-  { txt: 'KAKAOTALK', value: 'KAKAOTALK' },
-  { txt: 'YOUTUBE', value: 'YOUTUBE' },
-  { txt: 'TELEGRAM', value: 'TELEGRAM' },
-];
-const WriteCertifiedCon = ({
+
+const WriteUserStrategyCon = ({
   handleChangeStrategyField,
   fileUrl,
   handleChangeFileUrls,
@@ -62,23 +41,21 @@ const WriteCertifiedCon = ({
   handleCreateStrategy: () => void;
 }) => {
   const dispatch = useDispatch();
-  const { title, content, symbol, fileUrls, profitPct } = useSelector(({ boards }: RootState) => ({
+  const { title, content, symbol, fileUrls, profitPct, communities } = useSelector(({ boards }: RootState) => ({
     title: boards.title,
     content: boards.content,
     symbol: boards.symbol,
     profitPct: boards.profitPct,
     fileUrls: boards.fileUrls,
+    communities: boards.communities,
   }));
   const [platform, setPlatform] = useState('');
   const [chartCycle, setChartCycle] = useState('');
-  const [commuArr, setCommuArr] = useState<Array<{ channel: string; url: string }>>([]);
-  const [commuSt, setCommuSt] = useState('');
-  const [commuUrlSt, setCommuUrlSt] = useState('');
 
   useEffect(() => {
     dispatch(
       boardsActions.changeCreateStrategyField({
-        category: 'CERTIFIED_STRATEGY',
+        category: 'USER_STRATEGY',
         title,
         content,
         fileUrls,
@@ -86,41 +63,13 @@ const WriteCertifiedCon = ({
         symbol,
         chartCycle: chartCycle,
         profitPct,
-        communities: commuArr,
+        communities,
       }),
     );
-  }, [platform, chartCycle, commuArr]);
+  }, [platform, chartCycle]);
 
-  //add community
-  const handleAddCommunity = () => {
-    if (!commuSt) {
-      alert('커뮤니티 채널을 선택해주세요');
-      return;
-    } else if (commuArr.find(handleFindSameCommunity)) {
-      alert('동일한 채널을 선택할 수 없습니다.');
-      return;
-    } else if (!commuUrlSt) {
-      alert('채널URL을 입력해주세요.');
-      return;
-    }
-    setCommuArr((cm) => [...cm, { channel: commuSt, url: commuUrlSt }]);
-    setCommuUrlSt('');
-    setCommuSt('');
-  };
-  //close community
-  const handleCloseCommunity = (url: string) => {
-    setCommuArr(commuArr.filter((cm) => cm.url != url));
-  };
-
-  function handleFindSameCommunity(el: { channel: string; url: string }) {
-    if (el.channel === commuSt) {
-      return true;
-    }
-  }
-  //file
   return (
-    <WriteCertifiedConBlock>
-      <CertifiedGuide />
+    <WriteUserStrategyConBlock>
       <StyledInput
         placeholder="전략 제목을 입력해주세요"
         name="title"
@@ -166,44 +115,6 @@ const WriteCertifiedCon = ({
         </div>
       </div>
       <div className="certified_ex">
-        <div className="add_comu">
-          <div className="label">커뮤니티 추가</div>
-          <div className="add_box">
-            <CustomSelect options={communityOptions} place={commuSt} setSearchName={setCommuSt} />
-            <StyledInput
-              name="url"
-              value={commuUrlSt}
-              placeholder="커뮤니티 URL을 입력해주세요"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCommuUrlSt(e.target.value)}
-            />
-            <Button blue onClick={handleAddCommunity}>
-              등록
-            </Button>
-          </div>
-          {commuArr.length != 0 && (
-            <div className="comu_list">
-              {commuArr.map((commu) => (
-                <div className="community" key={commu.url}>
-                  <div className="icon">
-                    {commu.channel === 'NAVER_BLOG' && <Image src={Naverblog} alt="naver_blog" />}
-                    {commu.channel === 'NAVER_CAFE' && <Image src={Navercafe} alt="naver_cafe" />}
-                    {commu.channel === 'DAUM_CAFE' && <Image src={Daumcafe} alt="DAUM_CAFE" />}
-                    {commu.channel === 'TISTORY' && <Image src={Tistory} alt="TISTORY" />}
-                    {commu.channel === 'KAKAOTALK' && <Image src={Kakaotalk} alt="KAKAOTALK" />}
-                    {commu.channel === 'YOUTUBE' && <Image src={Youtube} alt="YOUTUBE" />}
-                    {commu.channel === 'TELEGRAM' && <Image src={Telegram} alt="TELEGRAM" />}
-                    {commu.channel === 'TWITTER' && <Image src={Twitter} alt="TWITTER" />}
-                    {commu.channel === 'FACEBOOK' && <Image src={Facebook} alt="FACEBOOK" />}
-                  </div>
-                  {commu.url}
-                  <div className="close_btn" onClick={() => handleCloseCommunity(commu.url)}>
-                    <Image src={Close} alt="close_btn" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
         <div className="add_file">
           <div className="label">파일 추가</div>
           <label>
@@ -214,13 +125,13 @@ const WriteCertifiedCon = ({
         </div>
       </div>
       <StyledButton blue onClick={handleCreateStrategy}>
-        인증 요청하기
+        전략등록하기
       </StyledButton>
-    </WriteCertifiedConBlock>
+    </WriteUserStrategyConBlock>
   );
 };
 
-const WriteCertifiedConBlock = styled.div`
+const WriteUserStrategyConBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -275,9 +186,9 @@ const WriteCertifiedConBlock = styled.div`
     width: 100%;
     display: flex;
     align-items: flex-start;
+    padding: 0 36px;
   }
   .add_file {
-    margin-left: 20px;
     label {
       width: calc(100% - 116px);
       display: flex;
@@ -389,10 +300,9 @@ const WriteCertifiedConBlock = styled.div`
     }
     .certified_ex {
       flex-direction: column;
+      padding: 1rem;
     }
-    .add_file {
-      margin: 0;
-    }
+
     .add_comu,
     .add_file {
       width: 100%;
@@ -410,6 +320,15 @@ const WriteCertifiedConBlock = styled.div`
           width: 100%;
           padding-left: 178px;
         }
+      }
+    }
+    .add_file {
+      padding: 0;
+      margin: 0;
+      flex-direction: row;
+      align-items: center;
+      .label {
+        margin-bottom: 0;
       }
     }
   }
@@ -458,11 +377,7 @@ const WriteCertifiedConBlock = styled.div`
     }
     .add_comu,
     .add_file {
-      padding: 1rem;
-      flex-direction: column;
-      align-items: flex-start;
       & > .label {
-        margin-bottom: 1rem;
       }
       .add_box {
         width: 100%;
@@ -537,4 +452,5 @@ const StyledButton = styled(Button)`
     margin-top: 20px;
   }
 `;
-export default WriteCertifiedCon;
+
+export default WriteUserStrategyCon;

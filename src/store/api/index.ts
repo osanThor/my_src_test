@@ -61,6 +61,9 @@ export {
   apiGetUserByNickname,
   apiUpdateUserInquiry,
   apiGetGuides,
+  apiCreateCommission,
+  apiCreateStrategy,
+  apiGetRank,
 } from './boards';
 
 //admin

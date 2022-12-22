@@ -6,7 +6,7 @@ import router from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const BoardUserStrategyPage = ({
+const BoardQuantroStrategyPage = ({
   handleSetBoardLike,
   handleSetBoardCollection,
 }: {
@@ -52,4 +52,4 @@ const BoardUserStrategyPage = ({
   );
 };
 
-export default BoardUserStrategyPage;
+export default BoardQuantroStrategyPage;

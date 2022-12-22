@@ -8,7 +8,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-const StrategistBox = ({
+const IndicatorTop = ({
   handleSetBoardLike,
   handleSetBoardCollection,
 }: {
@@ -24,7 +24,7 @@ const StrategistBox = ({
   return (
     <>
       {router.query.category != 'QUANTRO_STRATEGY' && router.query.category != 'QUANTRO_INDICATOR' && (
-        <StrategistBoxBlock>
+        <IndicatorTopBlock>
           <div className="profile_image">
             <Image src={photoUrl ? photoUrl : Profile1[1]} alt="profile" layout="fill" />
           </div>
@@ -67,7 +67,7 @@ const StrategistBox = ({
             </div>
           </div>
           <div className="intro">{introduction}</div>
-        </StrategistBoxBlock>
+        </IndicatorTopBlock>
       )}
       <CertifiedMenu handleSetBoardLike={handleSetBoardLike} handleSetBoardCollection={handleSetBoardCollection} />
     </>
@@ -90,41 +90,21 @@ const CertifiedMenu = ({
 
   return (
     <CertifiedMenuBlock>
-      {router.query.category === 'CERTIFIED_STRATEGY' ? (
-        <div className="menus">
-          <div
-            className={!router.query.opt ? 'button on' : 'button'}
-            onClick={() => router.push(`/board/${getBoardDone?.id}?state=strategy&category=CERTIFIED_STRATEGY`)}
-          >
-            오버뷰
-          </div>
-          <div
-            className={router.query.opt === 'list' ? 'button on' : 'button'}
-            onClick={() =>
-              router.push(`/board/${getBoardDone?.id}?state=strategy&category=CERTIFIED_STRATEGY&opt=list`)
-            }
-          >
-            거래목록
-          </div>
+      <div className="top_area">
+        <div className="state">
+          {getBoardDone?.category === 'NOTICE' ? <div className="notice">공지</div> : getBoardDone?.id}
         </div>
-      ) : (
-        <>
-          {router.query.category === 'USER_STRATEGY' ? (
-            <div />
-          ) : (
-            <div>{router.query.category === 'QUANTRO_STRATEGY' ? '퀀트로 공개 전략' : '퀀트로 공개 지표'}</div>
-          )}
-        </>
-      )}
-      <div className="btns">
-        <div className="button" onClick={handleSetBoardLike}>
-          <div className="icon">
-            <Image src={isLike ? Like[1] : Like[0]} alt="like" />
+        <div className="title">{getBoardDone?.title}</div>
+        <div className="btns">
+          <div className="button" onClick={handleSetBoardLike}>
+            <div className="icon">
+              <Image src={isLike ? Like[1] : Like[0]} alt="like" />
+            </div>
           </div>
-        </div>
-        <div className="button" onClick={handleSetBoardCollection}>
-          <div className="icon">
-            <Image src={isCollect ? Menu7[1] : Menu7[0]} alt="like" />
+          <div className="button" onClick={handleSetBoardCollection}>
+            <div className="icon">
+              <Image src={isCollect ? Menu7[1] : Menu7[0]} alt="like" />
+            </div>
           </div>
         </div>
       </div>
@@ -138,71 +118,64 @@ const CertifiedMenuBlock = styled.div`
   margin-bottom: 24px;
   justify-content: space-between;
   align-items: center;
-
-  .menus {
+  .top_area {
+    width: 100%;
     display: flex;
-    .button {
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 20px;
-      border-radius: 20px;
-      background-color: ${colors.gray[1]};
-      color: ${colors.gray[5]};
-      margin-right: 1rem;
-      transition: all 0.2s;
-      &:last-child {
-        margin-right: 0;
-      }
-      &:hover {
-        background-color: ${colors.gray[2]};
-      }
-
-      &.on {
-        background-color: ${colors.blue[2]};
-        color: white;
-        &:hover {
-          background-color: ${colors.blue[1]};
-        }
-      }
-      &.error {
-        background-color: ${colors.red[2]};
-        color: white;
-        &:hover {
-          background-color: ${colors.red[1]};
-        }
-      }
-    }
-  }
-  .btns {
-    display: flex;
-    .button {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      background-color: ${colors.gray[0]};
-      border-radius: 50%;
-      transition: all 0.2s;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid ${colors.gray[5]};
+    .state {
+      width: 20%;
+      max-width: 64px;
+      text-align: center;
+      color: ${colors.gray[4]};
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-right: 1rem;
-      &:last-child {
-        margin-right: 0;
+      .notice {
+        background-color: ${colors.blue[0]};
+        color: ${colors.blue[2]};
+        border-radius: 24px;
+        padding: 4px 8px;
       }
-      .icon {
-        width: 24px;
-        height: 24px;
-      }
-      &:hover {
-        background-color: ${colors.gray[2]};
+    }
+    .title {
+      width: 90%;
+      flex: 1;
+      word-break: keep-all;
+      font-size: 24px;
+    }
+
+    .btns {
+      display: flex;
+      .button {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        background-color: ${colors.gray[0]};
+        border-radius: 50%;
+        transition: all 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1rem;
+        &:last-child {
+          margin-right: 0;
+        }
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+        &:hover {
+          background-color: ${colors.gray[2]};
+        }
       }
     }
   }
 `;
 
-const StrategistBoxBlock = styled.div`
+const IndicatorTopBlock = styled.div`
   width: 100%;
   background-color: ${colors.gray[1]};
   display: flex;
@@ -288,4 +261,4 @@ const StrategistBoxBlock = styled.div`
   }
 `;
 
-export default StrategistBox;
+export default IndicatorTop;

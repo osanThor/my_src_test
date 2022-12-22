@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store/configureStore';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import CommissionList from './CommissionList';
 
 const Editor = dynamic(() => import('@/src/components/common/boards/Editor/Editor'), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
@@ -16,14 +17,19 @@ const CommunityEditor = ({
   handleChangeCreateBoardsField,
   handleChangeContent,
   handleCreateBoards,
+  handleSelectRefCommission,
 }: {
   handleChangeCreateBoardsField: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeContent: (val: string) => void;
   handleCreateBoards: () => void;
+  handleSelectRefCommission: (e: React.ChangeEvent<HTMLInputElement>) => void | null;
 }) => {
   const router = useRouter();
   const { title } = useSelector(({ boards }: RootState) => ({
     title: boards.title,
+  }));
+  const { communityCommission } = useSelector(({ local }: RootState) => ({
+    communityCommission: local.communityCommission,
   }));
 
   const pathname = router.pathname;
@@ -46,6 +52,7 @@ const CommunityEditor = ({
         onChange={handleChangeCreateBoardsField}
       />
       <Editor onChange={handleChangeContent} />
+      {communityCommission && <CommissionList handleSelectRefCommission={handleSelectRefCommission} />}
       <div className="bottom_btn">
         <StyledButton lightBlue onClick={handleCreateBoards}>
           {isWrite ? '등록' : '수정'}

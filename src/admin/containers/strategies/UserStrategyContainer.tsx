@@ -32,18 +32,6 @@ const UserStrategyContainer = () => {
     } else {
       setChartCycle('선택');
     }
-    //초기 세팅 + 사용자 전략 수정 추가 시
-    // dispatch(
-    //   adminStrategiesActions.changeCertifiedStarteField({
-    //     id: parseInt(router.query.id as string),
-    //     comminities: getAdminStrategyDetailResult?.strategy?.communities,
-    //     platform: getAdminStrategyDetailResult?.strategy?.platform,
-    //     symbol: getAdminStrategyDetailResult?.strategy?.symbol,
-    //     chartCycle: getAdminStrategyDetailResult?.strategy?.chartCycle,
-    //     profitPct: getAdminStrategyDetailResult?.strategy?.profitPct,
-    //     confirmStatus: getAdminStrategyDetailResult?.strategy?.confirmStatus,
-    //   }),
-    // );
   }, [getAdminStrategyDetailResult]);
   useEffect(() => {
     if (certifiedStrategyPayload) {

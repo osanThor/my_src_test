@@ -1,6 +1,8 @@
 import { axiosInstance } from '.';
 import {
   createCommentPayload,
+  createCommissionPayload,
+  createStrategyPayload,
   CreateUserInquiruesPayload,
   deleteCommentPayload,
   getBoardPayload,
@@ -93,3 +95,31 @@ export const apiSetBoardLike = ({ boardId, isLike }: setBoardLikePayload) =>
   axiosInstance.post(`/boards/${boardId}/likes?isLike=${isLike}`);
 
 export const apiGetUserByNickname = ({ nickname }: getUserByNicknamePayload) => axiosInstance.get(`/users/${nickname}`);
+
+// create certified, user strategy
+export const apiCreateStrategy = ({
+  category,
+  title,
+  content,
+  fileUrls,
+  platform,
+  symbol,
+  chartCycle,
+  profitPct,
+  communities,
+}: createStrategyPayload) =>
+  axiosInstance.post(`/boards/strategy`, {
+    category,
+    title,
+    content,
+    fileUrls,
+    platform,
+    symbol,
+    chartCycle,
+    profitPct,
+    communities,
+  });
+
+// create commission
+export const apiCreateCommission = ({ category, title, content, fileUrls, refBoardId }: createCommissionPayload) =>
+  axiosInstance.post(`/boards/commission`, { category, title, content, fileUrls, refBoardId });
