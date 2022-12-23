@@ -113,6 +113,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - admin: 관리자 페이지
 - api: next-auth로 Google OAuth 인증를 위한 폴더
+- board: 전략, 커뮤니티 상세페이지 API가 구분 되어있지 않아 상세페이지를 board로 통일 후 API 내 category 값으로 구분
 - 404.tsx: 404 Error handler page
 - \_app.tsx: next application
 - \_document.tsx: SEO, redux store, styled-components Provider를, MUI Provider를 위한 document 설정 파일
@@ -145,7 +146,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 #### 작업 리스트(남은 부분)
 
-[ ] 전략 상세 페이지 데이터 노출
-[ ] exchange API 구현(DASHBOARD, QUANT, LICENSE, MESSAGE 페이지)
-[ ] 테마 색상 변경 디테일 수정
-[ ] 언어 변경 구현
+- 전략 상세 페이지 데이터 노출
+- exchange API 구현(DASHBOARD, QUANT, LICENSE, MESSAGE 페이지)
+- 테마 색상 변경 디테일 수정
+- 언어 변경 구현
