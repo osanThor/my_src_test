@@ -74,7 +74,6 @@ const Pagination = ({ total, page }: { total: number; page: number }) => {
               () => {
                 router.replace({ query: { ...router.query, page: i + 1 } });
               }
-              // dispatch(boardsActions.changePage({ page: i + 1 }))
             }
           >
             {i + 1}
